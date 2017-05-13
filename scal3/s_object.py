@@ -13,7 +13,7 @@ import bson
 
 from scal3.os_utils import makeDir
 from scal3.json_utils import *
-from scal3.utils import myRaise
+from scal3.utils import myRaise, jsonifyData
 
 dataToJson = dataToPrettyJson
 #from scal3.core import dataToJson## FIXME
@@ -237,6 +237,7 @@ class BsonHistObj(SObj):
 	canSetDataMultipleTimes = False
 	skipLoadExceptions = False
 	skipLoadNoFile = False
+	enableParamsMtime = False
 	file = ""
 	lastHash = None
 	## basicParams or noHistParams ? FIXME
@@ -299,6 +300,26 @@ class BsonHistObj(SObj):
 		jsonStr = dataToJson(basicData)
 		open(self.file, "w").write(jsonStr)
 
+	def loadParamsMtime(self, history, tm):
+		n = len(history)
+		paramsMtime = {}
+		for i in range(min(10, n-1)):
+			tm1, hash1 = history[n-i-2]
+			tm2, hash2 = history[n-i-1]
+			data1 = loadBsonObject(hash1)
+			data2 = loadBsonObject(hash2)
+			for param, value2 in data2.items():
+				if param in paramsMtime:
+					continue
+				value1 = data1.get(param)
+				if value2 != value1:
+					paramsMtime[param] = tm
+		oldestTm = history[0][0]
+		for param in self.params:
+			if param not in paramsMtime:
+				paramsMtime[param] = oldestTm
+		return paramsMtime
+
 	def save(self, *histArgs):
 		"""
 			returns last history record: (lastEpoch, lastHash, **args)
@@ -309,7 +330,9 @@ class BsonHistObj(SObj):
 				" while file is not set"
 			)
 		data = self.getData()
-		basicData = {}
+		###
+		basicData = self.loadBasicData()
+		###
 		for param in self.basicParams:
 			if param not in data:
 				continue
@@ -318,19 +341,46 @@ class BsonHistObj(SObj):
 			del data["modified"]
 		_hash = saveBsonObject(data)
 		###
-		history = self.loadHistory()
-		###
+		try:
+			history = basicData["history"]
+		except KeyError:
+			if basicData:
+				print("no \"history\" in json file \"%s\"" % self.file)
+			history = []
 		try:
 			lastHash = history[0][1]
 		except IndexError:
 			lastHash = None
-		if _hash != lastHash:## or lastHistArgs != histArgs:## FIXME
-			tm = now()
-			history.insert(0, [tm, _hash] + list(histArgs))
-			self.modified = tm
+
+		if _hash == lastHash:## or lastHistArgs != histArgs:## FIXME
+			# FIXME: should we still save the file?
+			return _hash
+
+		tm = now()
+
+		if self.enableParamsMtime:
+			try:
+				paramsMtime = basicData["paramsMtime"]
+			except KeyError:
+				paramsMtime = self.loadParamsMtime(history, tm)
+			lastData = loadBsonObject(lastHash)
+			for param, value in data.items():
+				if param not in lastData:
+					paramsMtime[param] = tm
+					continue
+				lastValue = lastData[param]
+				value = jsonifyData(value)
+				if value != lastValue:
+					paramsMtime[param] = tm
+			basicData["paramsMtime"] = paramsMtime
+
+		history.insert(0, [tm, _hash] + list(histArgs))
 		basicData["history"] = history
+		self.modified = tm
+
+		###
 		self.saveBasicData(basicData)
-		return history[0]
+		return _hash
 
 	def getRevision(self, revHash, *args):
 		cls = self.__class__

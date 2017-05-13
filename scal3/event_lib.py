@@ -1762,6 +1762,7 @@ def fixIconInObj(self):
 ## Should not be registered, or instantiate directly
 @classes.event.setMain
 class Event(BsonHistEventObj, RuleContainer):
+	enableParamsMtime = True # override BsonHistObj
 	name = "custom"  # or "event" or "" FIXME
 	desc = _("Custom Event")
 	iconName = ""
@@ -3487,7 +3488,6 @@ class EventGroup(EventContainer):
 		"uuid",
 		#"remoteIds", user edits the value  # FIXME
 		"remoteSyncData",
-		#"eventIdByRemoteIds",
 		"deletedRemoteEvents",
 	)
 	params = EventContainer.params + (
@@ -3507,7 +3507,6 @@ class EventGroup(EventContainer):
 		"remoteSyncEnable",
 		"remoteSyncDuration",
 		"remoteSyncData",
-		#"eventIdByRemoteIds",
 		"deletedRemoteEvents",
 		## "defaultEventType"
 	)
@@ -3535,7 +3534,6 @@ class EventGroup(EventContainer):
 		"remoteSyncEnable",
 		"remoteSyncDuration",
 		"remoteSyncData",
-		#"eventIdByRemoteIds",
 		"deletedRemoteEvents",
 		"idList",
 	)
@@ -3544,7 +3542,6 @@ class EventGroup(EventContainer):
 		"remoteSyncEnable",
 		"remoteSyncDuration",
 		"remoteSyncData",
-		#"eventIdByRemoteIds",
 		"deletedRemoteEvents",
 	)
 	simpleFilters = {
@@ -3737,7 +3734,6 @@ class EventGroup(EventContainer):
 		# remoteSyncDuration (value, unit) where value and unit are both ints
 		self.remoteSyncData = {}
 		# remoteSyncData is a dict {remoteIds => (syncStartEpoch, syncEndEpoch)}
-		#self.eventIdByRemoteIds = {}
 		self.deletedRemoteEvents = {}
 
 	def setReadOnly(self, readOnly):
@@ -3805,7 +3801,6 @@ class EventGroup(EventContainer):
 		data["type"] = self.name
 		for attr in (
 			"remoteSyncData",
-			#"eventIdByRemoteIds",
 			"deletedRemoteEvents",
 		):
 			if isinstance(data[attr], dict):
@@ -3822,7 +3817,6 @@ class EventGroup(EventContainer):
 			self.remoteIds = tuple(self.remoteIds)
 		for attr in (
 			"remoteSyncData",
-			#"eventIdByRemoteIds",
 			"deletedRemoteEvents",
 		):
 			value = getattr(self, attr)
@@ -3892,10 +3886,6 @@ class EventGroup(EventContainer):
 			pass
 		if event.remoteIds:
 			self.deletedRemoteEvents[event.id] = (now(),) + event.remoteIds
-		#try:
-		#	del self.eventIdByRemoteIds[event.remoteIds]
-		#except:
-		#	pass
 		self.occurCount -= self.occur.delete(event.id)
 		return index
 
@@ -3912,8 +3902,6 @@ class EventGroup(EventContainer):
 		EventContainer.postAdd(self, event)
 		if len(self.eventCache) < self.eventCacheSize:
 			self.eventCache[event.id] = event
-		#if event.remoteIds:
-		#	self.eventIdByRemoteIds[event.remoteIds] = event.id
 		# need to update self.occur?
 		# its done in event.afterModify() right?
 		# not when moving event from another group
