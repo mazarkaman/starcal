@@ -49,7 +49,7 @@ recommends_str=$(printf "Recommends: %s\n" "${recommends[@]}")
 echo "Name: $pkgName
 Version: $version
 Release: 1
-Summary: A full-featured international calendar writen in Python
+Summary: A full-featured international calendar written in Python
 
 Group: User Interface/Desktops
 License: GPLv3+
@@ -61,9 +61,9 @@ $recommends_str
 BuildArch: noarch
 
 %description
-StarCalendar is a full-featured international calendar writen in Python,
+StarCalendar is a full-featured international calendar written in Python,
 using Gtk3-based interface, that supports Jalai(Iranian), Hijri(Islamic),
-and Indian National calendars, as well as common english(Gregorian) calendar
+and Indian National calendars, as well as common English(Gregorian) calendar
 
 %install
 \"$sourceDir/install\" \"%{buildroot}\" --for-pkg --prefix=%{_prefix}
@@ -109,5 +109,5 @@ zypper install -f "$pkgPath"
 #    yum install --nogpgcheck "$pkgPath"
 #fi
 
-#rpm -U --force "$pkgPath" ## its OK when requiered packages are installed!
+#rpm -U --force "$pkgPath" ## its OK when required packages are installed!
 
