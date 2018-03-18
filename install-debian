@@ -24,7 +24,7 @@ fi
 pkgName=starcal2
 sourceDir="`dirname \"$myPath\"`"
 "$sourceDir/scripts/assert_python2"
-version=`$sourceDir/scal2/get_version.py`
+version=`"$sourceDir/scal2/get_version.py"`
 
 
 tmpDir=/tmp/starcal2-install-deb
