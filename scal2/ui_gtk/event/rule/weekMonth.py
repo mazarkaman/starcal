@@ -38,8 +38,8 @@ class WidgetClass(gtk.HBox):
 		self.nthCombo.set_active(self.rule.wmIndex)
 		self.weekDayCombo.setValue(self.rule.weekDay)
 		self.monthCombo.setValue(self.rule.month)
-	def changeMode(self, newMode):
-		self.monthCombo.build(newMode)
 
-
-
+	def changeMode(self, mode):
+		if mode == self.rule.getMode():
+			return
+		self.monthCombo.build(mode)

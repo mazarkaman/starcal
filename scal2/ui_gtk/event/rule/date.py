@@ -16,7 +16,8 @@ class WidgetClass(DateButton):
 	def updateVars(self):
 		self.rule.date = self.get_value()
 	def changeMode(self, mode):
-		curMode = self.rule.getMode()
-		if mode!=curMode:
-			y, m, d = self.get_value()
-			self.set_value(core.convert(y, m, d, curMode, mode))
+		if mode == self.rule.getMode():
+			return
+		self.updateVars()
+		self.rule.changeMode(mode)
+		self.updateWidget()
