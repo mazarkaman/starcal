@@ -1,7 +1,7 @@
 __all__ = [
-    'rules',
-    'notifiers',
-    'occurrenceViews',
+	'rules',
+	'notifiers',
+	'occurrenceViews',
 ]
 
 ############################################
@@ -14,36 +14,36 @@ modPrefix = 'scal2.ui_gtk.event'
 
 
 def makeWidget(obj):## obj is an instance of Event, EventRule, EventNotifier or EventGroup
-    cls = obj.__class__
-    try:
-        WidgetClass = cls.WidgetClass
-    except AttributeError:
-        try:
-            module = __import__(
-                '.'.join([
-                    modPrefix,
-                    cls.tname,
-                    cls.name,
-                ]),
-                fromlist=['WidgetClass'],
-            )
-            WidgetClass = cls.WidgetClass = module.WidgetClass
-        except:
-            myRaise()
-            return
-    widget = WidgetClass(obj)
-    try:
-        widget.show_all()
-    except AttributeError:
-        widget.show()
-    widget.updateWidget()## FIXME
-    return widget
+	cls = obj.__class__
+	try:
+		WidgetClass = cls.WidgetClass
+	except AttributeError:
+		try:
+			module = __import__(
+				'.'.join([
+					modPrefix,
+					cls.tname,
+					cls.name,
+				]),
+				fromlist=['WidgetClass'],
+			)
+			WidgetClass = cls.WidgetClass = module.WidgetClass
+		except:
+			myRaise()
+			return
+	widget = WidgetClass(obj)
+	try:
+		widget.show_all()
+	except AttributeError:
+		widget.show()
+	widget.updateWidget()## FIXME
+	return widget
 
 
 ### Load accounts, groups and trash? FIXME
 from os.path import join, isfile
 from scal2.path import confDir
 if isfile(join(confDir, 'customday.xml')):
-    import scal2.ui_gtk.event.import_customday ## opens a dialog if neccessery
+	import scal2.ui_gtk.event.import_customday ## opens a dialog if neccessery
 
 

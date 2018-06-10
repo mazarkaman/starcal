@@ -18,30 +18,30 @@
 # or /usr/share/licenses/common/GPL3/license.txt on ArchLinux
 
 def getSeasonValueFromJd(jd):
-    jd0 = 2456372.4597222223
-    yearLen = 365.24219
-    return ((jd-jd0) % yearLen) / yearLen * 4.0
+	jd0 = 2456372.4597222223
+	yearLen = 365.24219
+	return ((jd-jd0) % yearLen) / yearLen * 4.0
 
 def getSeasonNamePercentFromJd(jd):
-    d, m = divmod(getSeasonValueFromJd(jd), 1)
-    name = [
-        'Spring',
-        'Summer',
-        'Autumn',
-        'Winter',
-    ][int(d)]
-    return name, m
+	d, m = divmod(getSeasonValueFromJd(jd), 1)
+	name = [
+		'Spring',
+		'Summer',
+		'Autumn',
+		'Winter',
+	][int(d)]
+	return name, m
 
 
 def test():
-    from scal2.cal_types.jalali import to_jd as jalali_to_jd
-    for year in range(1390, 1400):
-        #for month in (1, 4, 7, 10):
-        for month in (1,):
-            s = getSeasonFromJd(jalali_to_jd(year, month, 1))
-            print('%.4d/%.2d/01\t%.5f'%(year, month, s))
-        #print
+	from scal2.cal_types.jalali import to_jd as jalali_to_jd
+	for year in range(1390, 1400):
+		#for month in (1, 4, 7, 10):
+		for month in (1,):
+			s = getSeasonFromJd(jalali_to_jd(year, month, 1))
+			print('%.4d/%.2d/01\t%.5f'%(year, month, s))
+		#print
 
 
 if __name__=='__main__':
-    test()
+	test()

@@ -32,151 +32,151 @@ import gnomeapplet
 ## import gnomeapplet module AFTRE scal2.* modules, to prevent crash on first run (after boot up)
 
 #class MyApplet(gnomeapplet.Applet):
-#    def __init__(self, applet):
-#        applet.__init__(self)
+#	def __init__(self, applet):
+#		applet.__init__(self)
 
 
 def getattribute(obj, atrib):
-    if atrib not in ('lastGDate', '__class__'):
-        print('getattribute', obj.__class__.__name__, atrib)
-    return object.__getattribute__(obj, atrib)
+	if atrib not in ('lastGDate', '__class__'):
+		print('getattribute', obj.__class__.__name__, atrib)
+	return object.__getattribute__(obj, atrib)
 
 #@registerType
 class StarCalApplet(MainWin):
-    #__getattribute__ = getattribute
-    def __init__(self, applet, iid):
-        self.applet = applet
-        #self.applet.__getattribute__ = getattribute
-        #self.applet = MyApplet(applet)
-        #self.applet.get_property('popup')
-        applet.connect('change_background', self.onChangeBg)
-        MainWin.__init__(self, statusIconMode=1)
-        timeout_add_seconds(self.timeout, self.statusIconUpdate)
-        ##self.menu = self.menu_get_for_attach_widget()##????????
-        self.connect('unmap', lambda w: self.sicon.set_active(False))##???????
-        #self.__getattribute__ = getattribute
-    def dialogClose(self, *args):
-        self.sicon.set_active(False)
-        self.hide()
-        return True
-    def dialogEsc(self):
-        self.sicon.set_active(False)
-        self.hide()
-        return True
-    def statusIconInit(self):
-        self.image = gtk.Image()
-        self.tooltips = gtk.Tooltips()
-        ## self.sicon = gtk.EventBox()
-        self.sicon = gtk.ToggleButton()
-        #self.sicon.__getattribute__ = getattribute
-        self.sicon.set_from_pixbuf = self.image.set_from_pixbuf
-        self.sicon.set_relief(gtk.RELIEF_NONE)
-        self.sicon.connect('toggled', self.statusIconClicked)
-        self.sicon.connect('button_press_event', self.appletButtonPress)
-        menuData = (
-            ('copyTime', _('Copy _Time'), 'copy'),
-            ('copyDateToday', _('Copy _Date'), 'copy'),
-            ('adjustTime', _('Ad_just System Time'), 'preferences'),
-            #('addEvent', _('Add Event'), 'add'),
-            ('prefShow', _('_Preferences'), 'preferences'),
-            ('exportClickedStatusIcon', _('_Export to %s')%'HTML', 'convert'),
-            ('aboutShow', _('_About'), 'about'),
-        )
-        xml = '<popup name="button3">'
-        funcList = []
-        for funcName, label, icon in menuData:
-            xml += '<menuitem name="%s" verb="%s" label="%s" pixtype="stock" pixname="gtk-%s"/>'%(
-                funcName,
-                funcName,
-                label,
-                icon,
-            )
-            funcList.append((funcName, getattr(self, funcName)))
-        self.applet.setup_menu(xml, funcList, None)
-        ###################################
-        #popup = self.applet.get_popup_component()
-        #print(type(popup))
-        ###################################
-        hbox = gtk.HBox()
-        hbox.set_direction(gtk.TEXT_DIR_LTR)
-        pack(hbox, self.image)
-        if ui.showDigClockTr:
-            #if self.is_composited
-            self.clockTr = FClockLabel(preferences.clockFormat)##?????????????
-            pack(hbox, self.clockTr)
-        self.sicon.add(hbox)
-        self.applet.add(self.sicon)
-        self.statusIconHbox = hbox
-        #######
-        self.applet.show_all()
-        #self.applet.set_background_widget(self.applet)#????????
-        self.statusIconPix = gdk.Pixbuf(gdk.COLORSPACE_RGB, True, 8, ui.statusIconSize, ui.statusIconSize)
-    def statusIconClicked(self, toggle):
-        if toggle.get_active():
-            if (ui.winX, ui.winY) == (-1, -1):
-                try:
-                    x0, y0 = self.applet.get_window().get_origin()
-                    width, height = self.applet.size_request()
-                    ui.winX = x0 + (width-ui.winWidth)/2
-                    ui.winY = y0 + height - 3
-                except:
-                    core.myRaise(__file__)
-            self.move(ui.winX, ui.winY)
-            ## every calling of .hide() and .present(), makes dialog not on top (forgets being on top)
-            act = self.checkAbove.get_active()
-            self.set_keep_above(act)
-            if self.checkSticky.get_active():
-                self.stick()
-            self.deiconify()
-            self.present()
-        else:
-            ui.winX, ui.winY = self.get_position()
-            self.hide()
-    def appletButtonPress(self, widget, gevent):
-        if gevent.button != 1:
-            widget.stop_emission('button_press_event')
-        return False
-    def statusIconUpdate(self, gdate=None):
-        return MainWin.statusIconUpdate(self, gdate=gdate, checkStatusIconMode=False)
-    def onChangeBg(self, applet, typ, color, pixmap):
-        applet.set_style(None)
-        rc_style = gtk.RcStyle()
-        applet.modify_style(rc_style)
-        if (typ == gnomeapplet.COLOR_BACKGROUND):
-            applet.modify_bg(gtk.STATE_NORMAL, color)
-        elif (typ == gnomeapplet.PIXMAP_BACKGROUND):
-            style = applet.style
-            style.bg_pixmap[gtk.STATE_NORMAL] = pixmap
-            applet.set_style(style)
-    def quit(self, widget=None, event=None):
-        ui.saveLiveConf()
-        sys.exit(0)
-    ## FIXME
-    #def restart(self):
-    #    self.quit()
+	#__getattribute__ = getattribute
+	def __init__(self, applet, iid):
+		self.applet = applet
+		#self.applet.__getattribute__ = getattribute
+		#self.applet = MyApplet(applet)
+		#self.applet.get_property('popup')
+		applet.connect('change_background', self.onChangeBg)
+		MainWin.__init__(self, statusIconMode=1)
+		timeout_add_seconds(self.timeout, self.statusIconUpdate)
+		##self.menu = self.menu_get_for_attach_widget()##????????
+		self.connect('unmap', lambda w: self.sicon.set_active(False))##???????
+		#self.__getattribute__ = getattribute
+	def dialogClose(self, *args):
+		self.sicon.set_active(False)
+		self.hide()
+		return True
+	def dialogEsc(self):
+		self.sicon.set_active(False)
+		self.hide()
+		return True
+	def statusIconInit(self):
+		self.image = gtk.Image()
+		self.tooltips = gtk.Tooltips()
+		## self.sicon = gtk.EventBox()
+		self.sicon = gtk.ToggleButton()
+		#self.sicon.__getattribute__ = getattribute
+		self.sicon.set_from_pixbuf = self.image.set_from_pixbuf
+		self.sicon.set_relief(gtk.RELIEF_NONE)
+		self.sicon.connect('toggled', self.statusIconClicked)
+		self.sicon.connect('button_press_event', self.appletButtonPress)
+		menuData = (
+			('copyTime', _('Copy _Time'), 'copy'),
+			('copyDateToday', _('Copy _Date'), 'copy'),
+			('adjustTime', _('Ad_just System Time'), 'preferences'),
+			#('addEvent', _('Add Event'), 'add'),
+			('prefShow', _('_Preferences'), 'preferences'),
+			('exportClickedStatusIcon', _('_Export to %s')%'HTML', 'convert'),
+			('aboutShow', _('_About'), 'about'),
+		)
+		xml = '<popup name="button3">'
+		funcList = []
+		for funcName, label, icon in menuData:
+			xml += '<menuitem name="%s" verb="%s" label="%s" pixtype="stock" pixname="gtk-%s"/>'%(
+				funcName,
+				funcName,
+				label,
+				icon,
+			)
+			funcList.append((funcName, getattr(self, funcName)))
+		self.applet.setup_menu(xml, funcList, None)
+		###################################
+		#popup = self.applet.get_popup_component()
+		#print(type(popup))
+		###################################
+		hbox = gtk.HBox()
+		hbox.set_direction(gtk.TEXT_DIR_LTR)
+		pack(hbox, self.image)
+		if ui.showDigClockTr:
+			#if self.is_composited
+			self.clockTr = FClockLabel(preferences.clockFormat)##?????????????
+			pack(hbox, self.clockTr)
+		self.sicon.add(hbox)
+		self.applet.add(self.sicon)
+		self.statusIconHbox = hbox
+		#######
+		self.applet.show_all()
+		#self.applet.set_background_widget(self.applet)#????????
+		self.statusIconPix = gdk.Pixbuf(gdk.COLORSPACE_RGB, True, 8, ui.statusIconSize, ui.statusIconSize)
+	def statusIconClicked(self, toggle):
+		if toggle.get_active():
+			if (ui.winX, ui.winY) == (-1, -1):
+				try:
+					x0, y0 = self.applet.get_window().get_origin()
+					width, height = self.applet.size_request()
+					ui.winX = x0 + (width-ui.winWidth)/2
+					ui.winY = y0 + height - 3
+				except:
+					core.myRaise(__file__)
+			self.move(ui.winX, ui.winY)
+			## every calling of .hide() and .present(), makes dialog not on top (forgets being on top)
+			act = self.checkAbove.get_active()
+			self.set_keep_above(act)
+			if self.checkSticky.get_active():
+				self.stick()
+			self.deiconify()
+			self.present()
+		else:
+			ui.winX, ui.winY = self.get_position()
+			self.hide()
+	def appletButtonPress(self, widget, gevent):
+		if gevent.button != 1:
+			widget.stop_emission('button_press_event')
+		return False
+	def statusIconUpdate(self, gdate=None):
+		return MainWin.statusIconUpdate(self, gdate=gdate, checkStatusIconMode=False)
+	def onChangeBg(self, applet, typ, color, pixmap):
+		applet.set_style(None)
+		rc_style = gtk.RcStyle()
+		applet.modify_style(rc_style)
+		if (typ == gnomeapplet.COLOR_BACKGROUND):
+			applet.modify_bg(gtk.STATE_NORMAL, color)
+		elif (typ == gnomeapplet.PIXMAP_BACKGROUND):
+			style = applet.style
+			style.bg_pixmap[gtk.STATE_NORMAL] = pixmap
+			applet.set_style(style)
+	def quit(self, widget=None, event=None):
+		ui.saveLiveConf()
+		sys.exit(0)
+	## FIXME
+	#def restart(self):
+	#	self.quit()
 
 def starcalAppletFactory(applet, iid):
-    scal = StarCalApplet(applet, iid)
-    return True
+	scal = StarCalApplet(applet, iid)
+	return True
 
 
 if len(sys.argv)>1 and sys.argv[1] in ('-w', '--window'):
-    main_window = gtk.Window(gtk.WINDOW_TOPLEVEL)
-    main_window.set_title(core.APP_DESC+' Gnome Applet')
-    main_window.connect('destroy', gtk.main_quit)
-    app = gnomeapplet.Applet()
-    starcalAppletFactory(app, None)
-    app.reparent(main_window)
-    main_window.show_all()
-    sys.exit(gtk.main())
+	main_window = gtk.Window(gtk.WINDOW_TOPLEVEL)
+	main_window.set_title(core.APP_DESC+' Gnome Applet')
+	main_window.connect('destroy', gtk.main_quit)
+	app = gnomeapplet.Applet()
+	starcalAppletFactory(app, None)
+	app.reparent(main_window)
+	main_window.show_all()
+	sys.exit(gtk.main())
 
 if __name__ == '__main__':
-    gnomeapplet.bonobo_factory(
-        'OAFIID:GNOME_Starcal2Applet_Factory',
-         gnomeapplet.Applet.__gtype__,
-         core.APP_DESC,
-         '0',
-         starcalAppletFactory,
-     )
+	gnomeapplet.bonobo_factory(
+		'OAFIID:GNOME_Starcal2Applet_Factory',
+		 gnomeapplet.Applet.__gtype__,
+		 core.APP_DESC,
+		 '0',
+		 starcalAppletFactory,
+	 )
 
 

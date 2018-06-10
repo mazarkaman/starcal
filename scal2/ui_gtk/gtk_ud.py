@@ -40,84 +40,84 @@ from scal2.ui_gtk.font_utils import gfontDecode, pfontEncode
 
 @registerSignals
 class BaseCalObj(Object):
-    _name = ''
-    desc = ''
-    loaded = True
-    customizable = False
-    signals = [
-        ('config-change', []),
-        ('date-change', []),
-    ]
-    def initVars(self):
-        self.items = []
-        self.enable = True
-    def onConfigChange(self, sender=None, emit=True):
-        if emit:
-            self.emit('config-change')
-        for item in self.items:
-            if item.enable and item is not sender:
-                item.onConfigChange(emit=False)
-    def onDateChange(self, sender=None, emit=True):
-        if emit:
-            self.emit('date-change')
-        for item in self.items:
-            if item.enable and item is not sender:
-                item.onDateChange(emit=False)
-    def __getitem__(self, key):
-        for item in self.items:
-            if item._name == key:
-                return item
-    def connectItem(self, item):
-        item.connect('config-change', self.onConfigChange)
-        item.connect('date-change', self.onDateChange)
-    #def insertItem(self, index, item):
-    #    self.items.insert(index, item)
-    #    self.connectItem(item)
-    def appendItem(self, item):
-        self.items.append(item)
-        self.connectItem(item)
-    def replaceItem(self, itemIndex, item):
-        self.items[itemIndex] = item
-        self.connectItem(item)
-    def moveItemUp(self, i):
-        self.items.insert(i-1, self.items.pop(i))
-    def addItemWidget(self, i):
-        pass
-    def showHide(self):
-        try:
-            func = self.show if self.enable else self.hide
-        except AttributeError:
-            try:
-                self.set_visible(self.enable)
-            except AttributeError:
-                pass
-        else:
-            func()
-        for item in self.items:
-            item.showHide()
+	_name = ''
+	desc = ''
+	loaded = True
+	customizable = False
+	signals = [
+		('config-change', []),
+		('date-change', []),
+	]
+	def initVars(self):
+		self.items = []
+		self.enable = True
+	def onConfigChange(self, sender=None, emit=True):
+		if emit:
+			self.emit('config-change')
+		for item in self.items:
+			if item.enable and item is not sender:
+				item.onConfigChange(emit=False)
+	def onDateChange(self, sender=None, emit=True):
+		if emit:
+			self.emit('date-change')
+		for item in self.items:
+			if item.enable and item is not sender:
+				item.onDateChange(emit=False)
+	def __getitem__(self, key):
+		for item in self.items:
+			if item._name == key:
+				return item
+	def connectItem(self, item):
+		item.connect('config-change', self.onConfigChange)
+		item.connect('date-change', self.onDateChange)
+	#def insertItem(self, index, item):
+	#	self.items.insert(index, item)
+	#	self.connectItem(item)
+	def appendItem(self, item):
+		self.items.append(item)
+		self.connectItem(item)
+	def replaceItem(self, itemIndex, item):
+		self.items[itemIndex] = item
+		self.connectItem(item)
+	def moveItemUp(self, i):
+		self.items.insert(i-1, self.items.pop(i))
+	def addItemWidget(self, i):
+		pass
+	def showHide(self):
+		try:
+			func = self.show if self.enable else self.hide
+		except AttributeError:
+			try:
+				self.set_visible(self.enable)
+			except AttributeError:
+				pass
+		else:
+			func()
+		for item in self.items:
+			item.showHide()
 
 
 class IntegatedWindowList(BaseCalObj):
-    _name = 'windowList'
-    desc = 'Window List'
-    def __init__(self):
-        Object.__init__(self)
-        self.initVars()
-    def onConfigChange(self, *a, **ka):
-        ui.cellCache.clear()
-        settings.set_property(
-            'gtk-font-name',
-            pfontEncode(ui.getFont()),
-        )
-        ####
-        BaseCalObj.onConfigChange(self, *a, **ka)
-        self.onDateChange()
+	_name = 'windowList'
+	desc = 'Window List'
+	def __init__(self):
+		Object.__init__(self)
+		self.initVars()
+	def onConfigChange(self, *a, **ka):
+		ui.cellCache.clear()
+		settings.set_property(
+			'gtk-font-name',
+			pfontEncode(ui.getFont()),
+		)
+		####
+		BaseCalObj.onConfigChange(self, *a, **ka)
+		self.onDateChange()
 
 def getGtkDefaultFont():
-    fontName = settings.get_property('gtk-font-name')
-    font = gfontDecode(fontName)
-    font[3] = max(5, font[3])
-    return font
+	fontName = settings.get_property('gtk-font-name')
+	font = gfontDecode(fontName)
+	font[3] = max(5, font[3])
+	return font
 
 ####################################################
 
@@ -126,7 +126,7 @@ windowList = IntegatedWindowList()
 ###########
 
 if rtl:
-    gtk.widget_set_default_direction(gtk.TEXT_DIR_RTL)
+	gtk.widget_set_default_direction(gtk.TEXT_DIR_RTL)
 
 gtk.window_set_default_icon_from_file(ui.logo)
 
@@ -141,25 +141,25 @@ ui.fontDefaultInit = ui.fontDefault
 
 ###########
 textDirDict = {
-    'ltr': gtk.TEXT_DIR_LTR,
-    'rtl': gtk.TEXT_DIR_RTL,
-    'auto': gtk.TEXT_DIR_NONE,
+	'ltr': gtk.TEXT_DIR_LTR,
+	'rtl': gtk.TEXT_DIR_RTL,
+	'auto': gtk.TEXT_DIR_NONE,
 }
 
 iconSizeList = [
-    ('Menu', gtk.ICON_SIZE_MENU),
-    ('Small Toolbar', gtk.ICON_SIZE_SMALL_TOOLBAR),
-    ('Button', gtk.ICON_SIZE_BUTTON),
-    ('Large Toolbar', gtk.ICON_SIZE_LARGE_TOOLBAR),
-    ('DND', gtk.ICON_SIZE_DND),
-    ('Dialog', gtk.ICON_SIZE_DIALOG),
+	('Menu', gtk.ICON_SIZE_MENU),
+	('Small Toolbar', gtk.ICON_SIZE_SMALL_TOOLBAR),
+	('Button', gtk.ICON_SIZE_BUTTON),
+	('Large Toolbar', gtk.ICON_SIZE_LARGE_TOOLBAR),
+	('DND', gtk.ICON_SIZE_DND),
+	('Dialog', gtk.ICON_SIZE_DIALOG),
 ] ## in size order
 iconSizeDict = dict(iconSizeList)
 
 ##############################
 
 #if ui.fontCustomEnable:## FIXME
-#    settings.set_property('gtk-font-name', fontCustom)
+#	settings.set_property('gtk-font-name', fontCustom)
 
 
 dateFormat = '%Y/%m/%d'
@@ -169,60 +169,60 @@ dateFormatBin = None
 clockFormatBin = None
 
 def updateFormatsBin():
-    global dateFormatBin, clockFormatBin
-    dateFormatBin = compileTmFormat(dateFormat)
-    clockFormatBin = compileTmFormat(clockFormat)
+	global dateFormatBin, clockFormatBin
+	dateFormatBin = compileTmFormat(dateFormat)
+	clockFormatBin = compileTmFormat(clockFormat)
 
 adjustTimeCmd = ''
 
 mainToolbarData = {
-    'items': [],
-    'iconSize': 'Large Toolbar',
-    'style': 'Icon',
-    'buttonsBorder': 0,
+	'items': [],
+	'iconSize': 'Large Toolbar',
+	'style': 'Icon',
+	'buttonsBorder': 0,
 }
 
 wcalToolbarData = {
-    'items': [
-        ('mainMenu', True),
-        ('backward4', False),
-        ('backward', True),
-        ('today', True),
-        ('forward', True),
-        ('forward4', False),
-    ],
-    'iconSize': 'Button',
-    'style': 'Icon',
-    'buttonsBorder': 0,
+	'items': [
+		('mainMenu', True),
+		('backward4', False),
+		('backward', True),
+		('today', True),
+		('forward', True),
+		('forward4', False),
+	],
+	'iconSize': 'Button',
+	'style': 'Icon',
+	'buttonsBorder': 0,
 }
 
 ############################################################
 
 sysConfPath = join(sysConfDir, 'ui-gtk.conf')
 if os.path.isfile(sysConfPath):
-    try:
-        exec(open(sysConfPath).read())
-    except:
-        myRaise(__file__)
+	try:
+		exec(open(sysConfPath).read())
+	except:
+		myRaise(__file__)
 
 confPath = join(confDir, 'ui-gtk.conf')
 if os.path.isfile(confPath):
-    try:
-        exec(open(confPath).read())
-    except:
-        myRaise(__file__)
+	try:
+		exec(open(confPath).read())
+	except:
+		myRaise(__file__)
 
 updateFormatsBin()
 
 #if adjustTimeCmd=='':## FIXME
 for cmd in ('gksudo', 'kdesudo', 'gksu', 'gnomesu', 'kdesu'):
-    if os.path.isfile('/usr/bin/%s'%cmd):
-        adjustTimeCmd = [
-            cmd,
-            join(rootDir, 'scripts', 'run'),
-            'scal2/ui_gtk/adjust_dtime.py'
-        ]
-        break
+	if os.path.isfile('/usr/bin/%s'%cmd):
+		adjustTimeCmd = [
+			cmd,
+			join(rootDir, 'scripts', 'run'),
+			'scal2/ui_gtk/adjust_dtime.py'
+		]
+		break
 
 ############################################################
 
