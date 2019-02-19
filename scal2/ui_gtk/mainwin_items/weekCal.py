@@ -219,15 +219,20 @@ class MainMenuToolbarItem(ToolbarItem):
 		self.connect('clicked', self.onClicked)
 		self.updateImage()
 	def optionsWidgetCreate(self):
+		from os.path import isabs
 		from scal2.ui_gtk.mywidgets.icon import IconSelectButton
 		if self.optionsWidget:
 			return
 		self.optionsWidget = gtk.VBox()
 		###
+		iconPath = ui.wcal_toolbar_mainMenu_icon
+		if not isabs(iconPath):
+			iconPath = join(pixDir, iconPath)
+		###
 		hbox = gtk.HBox()
 		pack(hbox, gtk.Label(_('Icon')+'  '))
 		self.iconSelect = IconSelectButton()
-		self.iconSelect.set_filename(ui.wcal_toolbar_mainMenu_icon)
+		self.iconSelect.set_filename(iconPath)
 		self.iconSelect.connect('changed', self.onIconChanged)
 		pack(hbox, self.iconSelect)
 		pack(hbox, gtk.Label(''), 1, 1)
@@ -254,11 +259,14 @@ class MainMenuToolbarItem(ToolbarItem):
 			x,
 			y,
 		)
-	def onIconChanged(self, widget, icon):
-		if not icon:
-			icon = ui.wcal_toolbar_mainMenu_icon_default
-			self.iconSelect.set_filename(icon)
-		ui.wcal_toolbar_mainMenu_icon = icon
+	def onIconChanged(self, widget, iconPath):
+		if not iconPath:
+			iconPath = ui.wcal_toolbar_mainMenu_icon_default
+			self.iconSelect.set_filename(iconPath)
+		direc = join(pixDir, "")
+		if iconPath.startswith(direc):
+			iconPath = iconPath[len(direc):]
+		ui.wcal_toolbar_mainMenu_icon = iconPath
 		self.updateImage()
 
 

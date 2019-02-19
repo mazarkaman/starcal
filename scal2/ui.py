@@ -605,7 +605,7 @@ wcalPadding = 10
 wcalGrid = False
 wcalGridColor = (255, 252, 0, 82)
 
-wcal_toolbar_mainMenu_icon = join(pixDir, 'starcal2-24.png')
+wcal_toolbar_mainMenu_icon = 'starcal2-24.png'
 wcal_toolbar_mainMenu_icon_default = wcal_toolbar_mainMenu_icon
 wcal_toolbar_weekNum_negative = False
 wcal_weekDays_width = 80
