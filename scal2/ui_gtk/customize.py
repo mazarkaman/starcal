@@ -122,26 +122,30 @@ class CustomizableCalObj(ud.BaseCalObj):
 	def optionsWidgetCreate(self):
 		pass
 
+
 class CustomizableCalBox(CustomizableCalObj):
-	## for GtkBox (HBox and VBox)
+	"""for GtkBox (HBox and VBox)"""
+
 	def appendItem(self, item):
 		CustomizableCalObj.appendItem(self, item)
 		if item.loaded:
 			pack(self, item, item.expand, item.expand)
 			item.showHide()
+
+	def repackAll(self):
+		for item in self.items:
+			if item.loaded:
+				self.remove(item)
+		for item in self.items:
+			if item.loaded:
+				pack(self, item, item.expand, item.expand)
+
+	# Disabled the old implementation (with reorder_child) because it was very buggy with Gtk3
+	# Removing all (active) items from gtk.Box and re-packing them all apears to be fast enough, so doing that instead
+
 	def moveItemUp(self, i):
-		if i > 0:
-			if self.items[i].loaded and self.items[i-1].loaded:
-				self.reorder_child(self.items[i], i-1)
 		CustomizableCalObj.moveItemUp(self, i)
+		self.repackAll()
+
 	def insertItemWidget(self, i):
-		item = self.items[i]
-		if not item.loaded:
-			return
-		pack(self, item, item.expand, item.expand)
-		self.reorder_child(item, i)
-
-
-
-
-
+		self.repackAll()
