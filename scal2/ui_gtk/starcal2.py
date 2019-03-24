@@ -821,9 +821,15 @@ class MainWin(gtk.Window, ud.BaseCalObj):
 		core.stopRunningThreads()
 		######
 		return gtk.main_quit()
+
 	def adjustTime(self, widget=None, event=None):
 		from subprocess import Popen
-		Popen(ud.adjustTimeCmd)
+		if not ud.adjustTimeCmd:
+			showError("Failed to find gksudo, kdesudo, gksu, gnomesu, kdesu or any askpass program to use with sudo")
+			return
+		Popen(ud.adjustTimeCmd, env=ud.adjustTimeEnv)
+
+
 	def aboutShow(self, obj=None, data=None):
 		if not self.aboutDialog:
 			from scal2.ui_gtk.about import AboutDialog

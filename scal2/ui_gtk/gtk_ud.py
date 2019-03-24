@@ -40,49 +40,60 @@ from scal2.ui_gtk.font_utils import gfontDecode, pfontEncode
 
 @registerSignals
 class BaseCalObj(Object):
-	_name = ''
-	desc = ''
+	_name = ""
+	desc = ""
 	loaded = True
 	customizable = False
 	signals = [
-		('config-change', []),
-		('date-change', []),
+		("config-change", []),
+		("date-change", []),
 	]
+
 	def initVars(self):
 		self.items = []
 		self.enable = True
+
 	def onConfigChange(self, sender=None, emit=True):
 		if emit:
-			self.emit('config-change')
+			self.emit("config-change")
 		for item in self.items:
 			if item.enable and item is not sender:
 				item.onConfigChange(emit=False)
+
 	def onDateChange(self, sender=None, emit=True):
 		if emit:
-			self.emit('date-change')
+			self.emit("date-change")
 		for item in self.items:
 			if item.enable and item is not sender:
 				item.onDateChange(emit=False)
+
 	def __getitem__(self, key):
 		for item in self.items:
 			if item._name == key:
 				return item
+
 	def connectItem(self, item):
-		item.connect('config-change', self.onConfigChange)
-		item.connect('date-change', self.onDateChange)
+		item.connect("config-change", self.onConfigChange)
+		item.connect("date-change", self.onDateChange)
+
 	#def insertItem(self, index, item):
 	#	self.items.insert(index, item)
 	#	self.connectItem(item)
+
 	def appendItem(self, item):
 		self.items.append(item)
 		self.connectItem(item)
+
 	def replaceItem(self, itemIndex, item):
 		self.items[itemIndex] = item
 		self.connectItem(item)
+
 	def moveItemUp(self, i):
-		self.items.insert(i-1, self.items.pop(i))
+		self.items.insert(i - 1, self.items.pop(i))
+
 	def addItemWidget(self, i):
 		pass
+
 	def showHide(self):
 		try:
 			func = self.show if self.enable else self.hide
@@ -98,23 +109,26 @@ class BaseCalObj(Object):
 
 
 class IntegatedWindowList(BaseCalObj):
-	_name = 'windowList'
-	desc = 'Window List'
+	_name = "windowList"
+	desc = "Window List"
+
 	def __init__(self):
 		Object.__init__(self)
 		self.initVars()
+
 	def onConfigChange(self, *a, **ka):
 		ui.cellCache.clear()
 		settings.set_property(
-			'gtk-font-name',
-			pfontEncode(ui.getFont()),
+			"gtk-font-name",
+			pfontEncode(ui.getFont()).to_string(),
 		)
 		####
 		BaseCalObj.onConfigChange(self, *a, **ka)
 		self.onDateChange()
 
+
 def getGtkDefaultFont():
-	fontName = settings.get_property('gtk-font-name')
+	fontName = settings.get_property("gtk-font-name")
 	font = gfontDecode(fontName)
 	font[3] = max(5, font[3])
 	return font
@@ -168,32 +182,73 @@ clockFormat = '%X' ## '%T', '%X' (local), '<b>%T</b>', '%m:%d'
 dateFormatBin = None
 clockFormatBin = None
 
+
 def updateFormatsBin():
 	global dateFormatBin, clockFormatBin
 	dateFormatBin = compileTmFormat(dateFormat)
 	clockFormatBin = compileTmFormat(clockFormat)
 
-adjustTimeCmd = ''
+##############################
+
+
+def setDefault_adjustTimeCmd():
+	global adjustTimeCmd
+	global adjustTimeEnv
+	from os.path import isfile
+	sudo = "/usr/bin/sudo"
+	if isfile(sudo):
+		for askpass in (
+			"/usr/lib/openssh/gnome-ssh-askpass",
+			"/usr/bin/ksshaskpass",
+			"/usr/bin/lxqt-openssh-askpass",
+			"/usr/libexec/openssh/lxqt-openssh-askpass",
+			"/usr/bin/ssh-askpass-fullscreen",
+			"/usr/lib/ssh/x11-ssh-askpass",
+		):
+			if isfile(askpass):
+				adjustTimeCmd = [
+					sudo,
+					"-A", # --askpass
+					join(rootDir, "scripts", "run"),
+					"scal2/ui_gtk/adjust_dtime.py"
+				]
+				adjustTimeEnv["SUDO_ASKPASS"] = askpass
+				return
+			print("Not found:", askpass)
+	for cmd in ("gksudo", "kdesudo", "gksu", "gnomesu", "kdesu"):
+		if isfile("/usr/bin/%s" % cmd):
+			adjustTimeCmd = [
+				cmd,
+				join(rootDir, "scripts", "run"),
+				"scal2/ui_gtk/adjust_dtime.py"
+			]
+			return
+
+# user should be able to configure this in Preferences
+adjustTimeCmd = ""
+adjustTimeEnv = os.environ
+
+##############################
 
 mainToolbarData = {
-	'items': [],
-	'iconSize': 'Large Toolbar',
-	'style': 'Icon',
-	'buttonsBorder': 0,
+	"items": [],
+	"iconSize": "Large Toolbar",
+	"style": "Icon",
+	"buttonsBorder": 0,
 }
 
 wcalToolbarData = {
-	'items': [
-		('mainMenu', True),
-		('backward4', False),
-		('backward', True),
-		('today', True),
-		('forward', True),
-		('forward4', False),
+	"items": [
+		("mainMenu", True),
+		("backward4", False),
+		("backward", True),
+		("today", True),
+		("forward", True),
+		("forward4", False),
 	],
-	'iconSize': 'Button',
-	'style': 'Icon',
-	'buttonsBorder': 0,
+	"iconSize": "Button",
+	"style": "Icon",
+	"buttonsBorder": 0,
 }
 
 ############################################################
@@ -214,15 +269,7 @@ if os.path.isfile(confPath):
 
 updateFormatsBin()
 
-#if adjustTimeCmd=='':## FIXME
-for cmd in ('gksudo', 'kdesudo', 'gksu', 'gnomesu', 'kdesu'):
-	if os.path.isfile('/usr/bin/%s'%cmd):
-		adjustTimeCmd = [
-			cmd,
-			join(rootDir, 'scripts', 'run'),
-			'scal2/ui_gtk/adjust_dtime.py'
-		]
-		break
+setDefault_adjustTimeCmd()
 
 ############################################################
 
