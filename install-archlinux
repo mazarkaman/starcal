@@ -31,6 +31,7 @@ optdepends+=('python2-dateutil')
 optdepends+=('python2-igraph')
 #optdepends+=('python2-gnomeapplet')
 optdepends+=('python2-gnomevfs')
+optdepends+=('lxqt-openssh-askpass')
 
 
 depends_str=$(printf " '%s'" "${depends[@]}") ; depends_str=${depends_str:1}

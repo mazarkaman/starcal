@@ -43,12 +43,20 @@ fi
 requires+=('python-dateutil')
 requires+=('python-igraph')
 ##requires+=('python-gnomeapplet')
-#requires+=('python-gnomevfs')
 
 
-requires_str=$(printf " %s" "${requires[@]}") ; requires_str=${requires_str:2}
-#recommends_str=$(printf ", %s" "${recommends[@]}") ; recommends_str=${recommends_str:2}
+recommends=()
+#recommends+=('python-igraph')
+#recommends+=('python-gnomevfs')
 
+recommends+=('lxqt-openssh-askpass')
+# I did not find openssh-askpass-gnome in Fedora repos
+
+requires_str="Requires: ${requires[@]}"
+recommends_str="Recommends: ${recommends[@]}"
+
+## about "Recommends":
+## https://docs.fedoraproject.org/en-US/packaging-guidelines/WeakDependencies/
 
 
 echo "Name:     $pkgName
@@ -59,13 +67,20 @@ Summary:        A full-featured international calendar written in Python
 Group:          User Interface/Desktops
 License:        GPLv3+
 URL:            http://ilius.github.io/starcal
-Requires:       $requires_str
+
+$requires_str
+$recommends_str
+
 BuildArch:      noarch
+BuildRequires:  python3 desktop-file-utils gettext git
 
 %description
 StarCalendar is a full-featured international calendar written in Python,
 using Gtk3-based interface, that supports Jalai(Iranian), Hijri(Islamic),
 and Indian National calendars, as well as common English(Gregorian) calendar
+
+# Turn off the brp-python-bytecompile automagic
+%global _python_bytecompile_extra 0
 
 %install
 \"$sourceDir/install\" \"%{buildroot}\" --for-pkg --prefix=%{_prefix}

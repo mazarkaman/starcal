@@ -54,6 +54,7 @@ recommends+=('python-dateutil')
 recommends+=('python-igraph')
 #recommends+=('python-gnomeapplet')
 recommends+=('python-gnomevfs')
+recommends+=('ssh-askpass-gnome')
 
 
 depends_str=$(printf ", %s" "${depends[@]}") ; depends_str=${depends_str:2}

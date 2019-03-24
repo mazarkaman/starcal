@@ -38,6 +38,7 @@ requires+=('python-httplib2')
 recommends=()
 recommends+=('python-dateutil')
 recommends+=('python-igraph')
+recommends+=('openssh-askpass-gnome')
 
 requires_str=$(printf "Requires: %s\n" "${requires[@]}")
 recommends_str=$(printf "Recommends: %s\n" "${recommends[@]}")
@@ -100,9 +101,7 @@ fi
 
 echo "Package created in \"$pkgPath\", installing"
 
-zypper install -f "$pkgPath"
-## Problem: nothing provides /usr needed by starcal2-1.9.0-3.noarch
-## Fixed with defining /usr as Provides
+zypper install -f --allow-unsigned-rpm "$pkgPath"
 
 #if [ -f /usr/bin/yum ] ; then
 #    yum remove -y $pkgName >/dev/null 2>&1
