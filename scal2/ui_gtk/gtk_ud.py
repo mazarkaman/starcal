@@ -214,7 +214,6 @@ def setDefault_adjustTimeCmd():
 				]
 				adjustTimeEnv["SUDO_ASKPASS"] = askpass
 				return
-			print("Not found:", askpass)
 	for cmd in ("gksudo", "kdesudo", "gksu", "gnomesu", "kdesu"):
 		if isfile("/usr/bin/%s" % cmd):
 			adjustTimeCmd = [
