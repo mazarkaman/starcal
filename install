@@ -25,7 +25,7 @@ fi
 
 pkgName=starcal2
 sourceDir="`dirname \"$myPath\"`"
-version=`$sourceDir/scal2/get_version.py`
+version=`"$sourceDir/scal2/get_version.py"`
 
 PY=python2
 "$sourceDir/scripts/assert_python2"
