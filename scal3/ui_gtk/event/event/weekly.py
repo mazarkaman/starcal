@@ -92,16 +92,16 @@ class WidgetClass(common.WidgetClass):
 
 	def updateWidget(self):## FIXME
 		common.WidgetClass.updateWidget(self)
-		mode = self.event.mode
+		calType = self.event.calType
 		###
-		self.startDateInput.set_value(jd_to(self.event.getStartJd(), mode))
+		self.startDateInput.set_value(jd_to(self.event.getStartJd(), calType))
 		###
 		cycleWeeks, ok = self.event["cycleWeeks"]
 		if not ok:
 			raise RuntimeError("no cycleWeeks rule")
 		self.weeksSpin.set_value(cycleWeeks.weeks)
 		###
-		self.endDateInput.set_value(jd_to(self.event.getEndJd(), mode))
+		self.endDateInput.set_value(jd_to(self.event.getEndJd(), calType))
 		###
 		dayTimeRange, ok = self.event["dayTimeRange"]
 		self.dayTimeStartInput.set_value(dayTimeRange.dayTimeStart)
@@ -133,9 +133,9 @@ class WidgetClass(common.WidgetClass):
 			self.dayTimeEndInput.get_value(),
 		)
 
-	def modeComboChanged(self, obj=None):
+	def calTypeComboChanged(self, obj=None):
 		# overwrite method from common.WidgetClass
-		newMode = self.modeCombo.get_active()
-		self.startDateInput.changeMode(self.event.mode, newMode)
-		self.endDateInput.changeMode(self.event.mode, newMode)
-		self.event.mode = newMode
+		newCalType = self.calTypeCombo.get_active()
+		self.startDateInput.changeCalType(self.event.calType, newCalType)
+		self.endDateInput.changeCalType(self.event.calType, newCalType)
+		self.event.calType = newCalType

@@ -12,7 +12,7 @@ from scal3.ui_gtk.mywidgets.multi_spin.day import DaySpinButton
 class YearMonthDayBox(gtk.HBox):
 	def __init__(self):
 		gtk.HBox.__init__(self, spacing=4)
-		self.mode = calTypes.primary
+		self.calType = calTypes.primary
 		####
 		pack(self, gtk.Label(_("Year")))
 		self.spinY = YearSpinButton()
@@ -20,9 +20,9 @@ class YearMonthDayBox(gtk.HBox):
 		####
 		pack(self, gtk.Label(_("Month")))
 		comboMonth = gtk.ComboBoxText()
-		module, ok = calTypes[self.mode]
+		module, ok = calTypes[self.calType]
 		if not ok:
-			raise RuntimeError("cal type %r not found" % self.mode)
+			raise RuntimeError("cal type %r not found" % self.calType)
 		for i in range(12):
 			comboMonth.append_text(_(module.getMonthName(
 				i + 1,
@@ -41,12 +41,12 @@ class YearMonthDayBox(gtk.HBox):
 		)
 		self.spinY.connect("changed", self.comboMonthChanged)
 
-	def set_mode(self, mode):
+	def setCalType(self, calType):
 		self.comboMonth.disconnect(self.comboMonthConn)
-		self.mode = mode
-		module, ok = calTypes[mode]
+		self.calType = calType
+		module, ok = calTypes[calType]
 		if not ok:
-			raise RuntimeError("cal type %r not found" % mode)
+			raise RuntimeError("cal type %r not found" % calType)
 		combo = self.comboMonth
 		combo.remove_all()
 		for i in range(12):
@@ -57,8 +57,8 @@ class YearMonthDayBox(gtk.HBox):
 			self.comboMonthChanged,
 		)
 
-	def changeMode(self, mode, newMode):## FIXME naming standard?
-		self.set_mode(newMode)
+	def changeCalType(self, calType, newCalType):## FIXME naming standard?
+		self.setCalType(newCalType)
 
 	def set_value(self, date):
 		y, m, d = date
@@ -80,5 +80,5 @@ class YearMonthDayBox(gtk.HBox):
 		self.spinD.set_range(1, getMonthLen(
 			self.spinY.get_value(),
 			monthIndex + 1,
-			self.mode,
+			self.calType,
 		))

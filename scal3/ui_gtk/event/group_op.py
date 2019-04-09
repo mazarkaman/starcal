@@ -102,10 +102,10 @@ class GroupConvertModeDialog(gtk.Dialog):
 		hbox = gtk.HBox()
 		pack(hbox, gtk.Label(_("Calendar Type") + ":"))
 		combo = CalTypeCombo()
-		combo.set_active(group.mode)
+		combo.set_active(group.calType)
 		pack(hbox, combo)
 		pack(hbox, gtk.Label(""), 1, 1)
-		self.modeCombo = combo
+		self.calTypeCombo = combo
 		pack(self.vbox, hbox)
 		####
 		self.vbox.show_all()
@@ -113,10 +113,10 @@ class GroupConvertModeDialog(gtk.Dialog):
 
 	def run(self):
 		if gtk.Dialog.run(self) == gtk.ResponseType.OK:
-			mode = self.modeCombo.get_active()
+			calType = self.calTypeCombo.get_active()
 			failedSummaryList = []
 			for event in self._group:
-				if event.changeMode(mode):
+				if event.changeCalType(calType):
 					event.save()
 				else:
 					failedSummaryList.append(event.summary)

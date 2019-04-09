@@ -73,7 +73,7 @@ class BasePlugin(SObj):
 	external = False
 	loaded = True
 	params = (
-		#"mode",
+		#"calType",
 		"title",  # previously "desc"
 		"enable",
 		"show_date",
@@ -105,7 +105,7 @@ class BasePlugin(SObj):
 	):
 		self.file = _file
 		######
-		self.mode = GREGORIAN
+		self.calType = GREGORIAN
 		self.title = ""
 		###
 		self.enable = False
@@ -122,7 +122,7 @@ class BasePlugin(SObj):
 
 	def getData(self):
 		data = JsonSObj.getData(self)
-		data["calType"] = calTypes.names[self.mode]
+		data["calType"] = calTypes.names[self.calType]
 		return data
 
 	def setData(self, data):
@@ -147,14 +147,14 @@ class BasePlugin(SObj):
 		if "calType" in data:
 			calType = data["calType"]
 			try:
-				self.mode = calTypes.names.index(calType)
+				self.calType = calTypes.names.index(calType)
 			except ValueError:
 				#raise ValueError("Invalid calType: %r"%calType)
 				log.error(
 					"Plugin \"%s\" needs calendar module " % _file +
-					"\"%s\" that is not loaded!\n" % mode
+					"\"%s\" that is not loaded!\n" % calType
 				)
-				self.mode = None
+				self.calType = None
 			del data["calType"]
 		#####
 		JsonSObj.setData(self, data)
@@ -169,18 +169,18 @@ class BasePlugin(SObj):
 		return ""
 
 	def updateCell(self, c):
-		module, ok = calTypes[self.mode]
+		module, ok = calTypes[self.calType]
 		if not ok:
-			raise RuntimeError("cal type %r not found" % self.mode)
+			raise RuntimeError("cal type %r not found" % self.calType)
 
-		y, m, d = c.dates[self.mode]
+		y, m, d = c.dates[self.calType]
 		text = ""
 		t = self.getText(y, m, d)
 		if t:
 			text += t
 		if self.lastDayMerge and d >= module.minMonthLen:
 			# and d <= module.maxMonthLen:
-			ny, nm, nd = jd_to(c.jd + 1, self.mode)
+			ny, nm, nd = jd_to(c.jd + 1, self.calType)
 			if nm > m or ny > y:
 				nt = self.getText(y, m, d + 1)
 				if nt:
@@ -196,10 +196,10 @@ class BasePlugin(SObj):
 	def exportToIcs(self, fileName, startJd, endJd):
 		currentTimeStamp = strftime(icsTmFormat)
 		self.load()  # FIXME
-		mode = self.mode
+		calType = self.calType
 		icsText = icsHeader
 		for jd in range(startJd, endJd):
-			myear, mmonth, mday = jd_to(jd, mode)
+			myear, mmonth, mday = jd_to(jd, calType)
 			dayText = self.getText(myear, mmonth, mday)
 			if dayText:
 				gyear, gmonth, gday = jd_to(jd, GREGORIAN)
@@ -260,7 +260,7 @@ def loadExternalPlugin(_file, **data):
 		return None  # FIXME
 		#plug = BaseJsonPlugin(
 		#	_file,
-		#	mode=0,
+		#	calType=0,
 		#	title="Failed to load plugin",
 		#	enable=enable,
 		#	show_date=show_date,
@@ -343,13 +343,13 @@ class HolidayPlugin(BaseJsonPlugin):
 
 	def setData(self, data):
 		if "holidays" in data:
-			for modeName in data["holidays"]:
+			for calTypeName in data["holidays"]:
 				try:
-					mode = calTypes.names.index(modeName)
+					calType = calTypes.names.index(calTypeName)
 				except ValueError:
 					continue
-				modeHolidays = []
-				for row in data["holidays"][modeName]:
+				calTypeHolidays = []
+				for row in data["holidays"][calTypeName]:
 					if isinstance(row, str):  # comment
 						continue
 					if not isinstance(row, (list, tuple)):
@@ -358,20 +358,20 @@ class HolidayPlugin(BaseJsonPlugin):
 					if len(row) not in (2, 3):
 						log.error("Bad length for holiday item %r" % row)
 						continue
-					modeHolidays.append(tuple(row))
-				self.holidays[mode] = modeHolidays
+					calTypeHolidays.append(tuple(row))
+				self.holidays[calType] = calTypeHolidays
 			del data["holidays"]
 		else:
 			log.error("no \"holidays\" key in holiday plugin \"%s\"" % self.file)
 		###
 		BaseJsonPlugin.setData(self, data)
 
-	def dateIsHoliday(self, mode, y, m, d, jd):
-		module, ok = calTypes[mode]
+	def dateIsHoliday(self, calType, y, m, d, jd):
+		module, ok = calTypes[calType]
 		if not ok:
-			raise RuntimeError("cal type %r not found" % mode)
+			raise RuntimeError("cal type %r not found" % calType)
 
-		for item in self.holidays[mode]:
+		for item in self.holidays[calType]:
 			if len(item) == 2:
 				hm, hd = item
 				hy = None
@@ -399,7 +399,7 @@ class HolidayPlugin(BaseJsonPlugin):
 				and
 				hd >= module.minMonthLen
 			):
-				ny, nm, nd = jd_to(jd + 1, mode)
+				ny, nm, nd = jd_to(jd + 1, calType)
 				if (ny, nm) > (y, m):
 					return True
 
@@ -407,9 +407,9 @@ class HolidayPlugin(BaseJsonPlugin):
 
 	def updateCell(self, c):
 		if not c.holiday:
-			for mode in self.holidays:
-				y, m, d = c.dates[mode]
-				if self.dateIsHoliday(mode, y, m, d, c.jd):
+			for calType in self.holidays:
+				y, m, d = c.dates[calType]
+				if self.dateIsHoliday(calType, y, m, d, c.jd):
 					c.holiday = True
 					return
 
@@ -418,12 +418,12 @@ class HolidayPlugin(BaseJsonPlugin):
 		icsText = icsHeader
 		for jd in range(startJd, endJd):
 			isHoliday = False
-			for mode in self.holidays.keys():
-				myear, mmonth, mday = jd_to(jd, mode)
-				if (mmonth, mday) in self.holidays[mode]:
+			for calType in self.holidays.keys():
+				myear, mmonth, mday = jd_to(jd, calType)
+				if (mmonth, mday) in self.holidays[calType]:
 					isHoliday = True
 					break
-				if (myear, mmonth, mday) in self.holidays[mode]:
+				if (myear, mmonth, mday) in self.holidays[calType]:
 					isHoliday = True
 					break
 			if isHoliday:
@@ -491,9 +491,9 @@ class YearlyTextPlugin(BaseJsonPlugin):
 	def load(self):
 		#print("YearlyTextPlugin(%s).load()"%self._file)
 		yearlyData = []
-		module, ok = calTypes[self.mode]
+		module, ok = calTypes[self.calType]
 		if not ok:
-			raise RuntimeError("cal type %r not found" % self.mode)
+			raise RuntimeError("cal type %r not found" % self.calType)
 		for j in range(12):
 			monthDb = []
 			for k in range(module.maxMonthLen):
@@ -543,9 +543,9 @@ class YearlyTextPlugin(BaseJsonPlugin):
 		yearlyData = self.yearlyData
 		if not yearlyData:
 			return ""
-		mode = self.mode
-		#if mode!=calTypes.primary:
-		#	year, month, day = convert(year, month, day, calTypes.primary, mode)
+		calType = self.calType
+		#if calType!=calTypes.primary:
+		#	year, month, day = convert(year, month, day, calTypes.primary, calType)
 		text = ""
 		item = yearlyData[month - 1]
 		if len(item) > day - 1:
@@ -553,7 +553,7 @@ class YearlyTextPlugin(BaseJsonPlugin):
 		if self.show_date and text:
 			text = "%s %s: %s" % (
 				_(day),
-				getMonthName(mode, month),
+				getMonthName(calType, month),
 				text,
 			)
 		if len(yearlyData) > 12:
@@ -564,7 +564,7 @@ class YearlyTextPlugin(BaseJsonPlugin):
 				if self.show_date:
 					text2 = "%s %s %s: %s" % (
 						_(day),
-						getMonthName(mode, month, year),
+						getMonthName(calType, month, year),
 						_(year),
 						text2,
 					)
@@ -585,7 +585,7 @@ class IcsTextPlugin(BasePlugin):
 			self,
 			_file,
 		)
-		self.mode = GREGORIAN
+		self.calType = GREGORIAN
 		self.title = title
 		self.enable = enable
 		self.show_date = show_date
@@ -738,7 +738,7 @@ class IcsTextPlugin(BasePlugin):
 				if self.show_date:
 					return "%s %s %s: %s" % (
 						_(d),
-						getMonthName(self.mode, m),
+						getMonthName(self.calType, m),
 						_(y),
 						self.ymd[(y, m, d)],
 					)
@@ -749,7 +749,7 @@ class IcsTextPlugin(BasePlugin):
 				if self.show_date:
 					return "%s %s %s: %s" % (
 						_(d),
-						getMonthName(self.mode, m),
+						getMonthName(self.calType, m),
 						_(y),
 						self.ymd[(y, m, d)],
 					)

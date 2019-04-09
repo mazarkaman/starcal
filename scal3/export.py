@@ -152,14 +152,14 @@ CELLPADDING=4 CELLSPACING=0>
 				text += "                <P DIR=\"LTR\" ALIGN=CENTER>\n"
 				for (calTypeIndex, calTypeTag) in calTypesFormat:
 					try:
-						mode = calTypes.active[calTypeIndex]
+						calType = calTypes.active[calTypeIndex]
 					except IndexError:
 						continue
 					try:
 						params = ui.mcalTypeParams[calTypeIndex]
 					except IndexError:
 						continue
-					day = _(cell.dates[mode][2], mode)## , 2
+					day = _(cell.dates[calType][2], calType)## , 2
 					font = params["font"]
 					face = font[0]
 					if font[1]:

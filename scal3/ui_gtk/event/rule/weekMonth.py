@@ -29,7 +29,7 @@ class WidgetClass(gtk.HBox):
 		pack(self, gtk.Label(_(" of ")))
 		###
 		combo = MonthComboBox(True)
-		combo.build(rule.getMode())
+		combo.build(rule.getCalType())
 		pack(self, combo)
 		self.monthCombo = combo
 
@@ -43,7 +43,7 @@ class WidgetClass(gtk.HBox):
 		self.weekDayCombo.setValue(self.rule.weekDay)
 		self.monthCombo.setValue(self.rule.month)
 
-	def changeMode(self, mode):
-		if mode == self.rule.getMode():
+	def changeCalType(self, calType):
+		if calType == self.rule.getCalType():
 			return
-		self.monthCombo.build(mode)
+		self.monthCombo.build(calType)

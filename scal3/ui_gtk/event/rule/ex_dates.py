@@ -148,8 +148,8 @@ class WidgetClass(gtk.HBox):
 
 	def addClicked(self, button):
 		index = self.getSelectedIndex()
-		mode = self.rule.getMode()## FIXME
-		row = [encode(core.getSysDate(mode))]
+		calType = self.rule.getCalType()## FIXME
+		row = [encode(core.getSysDate(calType))]
 		if index is None:
 			newIter = self.trees.append(row)
 		else:

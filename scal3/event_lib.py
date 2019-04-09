@@ -488,10 +488,10 @@ class EventRule(SObj):
 	def __init__(self, parent):  # parent can be an event or group
 		self.parent = parent
 
-	def getMode(self):
-		return self.parent.mode
+	def getCalType(self):
+		return self.parent.calType
 
-	def changeMode(self, mode):
+	def changeCalType(self, calType):
 		return True
 
 	def calcOccurrence(self, startJd, endJd, event):
@@ -567,7 +567,7 @@ class MultiValueAllDayEventRule(AllDayEventRule):
 	def setValuesPlain(self, values):
 		self.values = simplifyNumList(values)
 
-	def changeMode(self, mode):
+	def changeCalType(self, calType):
 		return False
 
 
@@ -581,16 +581,16 @@ class YearEventRule(MultiValueAllDayEventRule):
 
 	def __init__(self, parent):
 		MultiValueAllDayEventRule.__init__(self, parent)
-		self.values = [getSysDate(self.getMode())[0]]
+		self.values = [getSysDate(self.getCalType())[0]]
 
 	def jdMatches(self, jd):
-		return self.hasValue(jd_to(jd, self.getMode())[0])
+		return self.hasValue(jd_to(jd, self.getCalType())[0])
 
-	def newModeValues(self, newMode):
+	def newCalTypeValues(self, newCalType):
 		def yearConv(year):
-			return convert(year, 7, 1, curMode, newMode)[0]
+			return convert(year, 7, 1, curCalType, newCalType)[0]
 
-		curMode = self.getMode()
+		curCalType = self.getCalType()
 		values2 = []
 		for item in self.values:
 			if isinstance(item, (tuple, list)):
@@ -602,8 +602,8 @@ class YearEventRule(MultiValueAllDayEventRule):
 				values2.append(yearConv(item))
 		return values2
 
-	def changeMode(self, mode):
-		self.values = self.newModeValues(mode)
+	def changeCalType(self, calType):
+		self.values = self.newCalTypeValues(calType)
 		return True
 
 
@@ -624,7 +624,7 @@ class MonthEventRule(MultiValueAllDayEventRule):
 		self.values = [1]
 
 	def jdMatches(self, jd):
-		return self.hasValue(jd_to(jd, self.getMode())[1])
+		return self.hasValue(jd_to(jd, self.getCalType())[1])
 
 	# overwrite __str__? FIXME
 
@@ -642,7 +642,7 @@ class DayOfMonthEventRule(MultiValueAllDayEventRule):
 		self.values = [1]
 
 	def jdMatches(self, jd):
-		return self.hasValue(jd_to(jd, self.getMode())[2])
+		return self.hasValue(jd_to(jd, self.getCalType())[2])
 
 
 @classes.rule.register
@@ -673,14 +673,14 @@ class WeekNumberModeEventRule(EventRule):
 	def getData(self):
 		return self.weekNumModeNames[self.weekNumMode]
 
-	def setData(self, modeName):
-		if modeName not in self.weekNumModeNames:
+	def setData(self, wnModeName):
+		if wnModeName not in self.weekNumModeNames:
 			raise BadEventFile(
-				"bad rule value weekNumMode=%r, " % modeName +
+				"bad rule value weekNumMode=%r, " % wnModeName +
 				"the value for weekNumMode must be " +
 				"one of %r" % self.weekNumModeNames
 			)
-		self.weekNumMode = self.weekNumModeNames.index(modeName)
+		self.weekNumMode = self.weekNumModeNames.index(wnModeName)
 
 	def calcOccurrence(self, startJd, endJd, event):
 		# improve performance FIXME
@@ -811,15 +811,15 @@ class WeekMonthEventRule(EventRule):
 	#def setJd(self, jd):  # usefull? FIXME
 	#	self.month, self.wmIndex, self.weekDay = core.getMonthWeekNth(
 	#	jd,
-	#	self.getMode(),
+	#	self.getCalType(),
 	#)
 
 	#def getJd(self):
 
 	def calcOccurrence(self, startJd, endJd, event):
-		mode = self.getMode()
-		startYear, startMonth, startDay = jd_to(startJd, mode)
-		endYear, endMonth, endDay = jd_to(endJd, mode)
+		calType = self.getCalType()
+		startYear, startMonth, startDay = jd_to(startJd, calType)
+		endYear, endMonth, endDay = jd_to(endJd, calType)
 		jds = set()
 		monthList = range(1, 13) if self.month == 0 else [self.month]
 		for year in range(startYear, endYear):
@@ -828,11 +828,11 @@ class WeekMonthEventRule(EventRule):
 					year,
 					month,
 					7 * self.wmIndex + 1,
-					mode,
+					calType,
 				)
 				jd += (self.weekDay - jwday(jd)) % 7
 				if self.wmIndex == 4:  # Last (Fouth or Fifth)
-					if jd_to(jd, mode)[1] != month:
+					if jd_to(jd, calType)[1] != month:
 						jd -= 7
 				if startJd <= jd < endJd:
 					jds.add(jd)
@@ -868,7 +868,7 @@ class DateEventRule(EventRule):
 
 	def __init__(self, parent):
 		EventRule.__init__(self, parent)
-		self.date = getSysDate(self.getMode())
+		self.date = getSysDate(self.getCalType())
 
 	def getData(self):
 		return str(self)
@@ -878,13 +878,13 @@ class DateEventRule(EventRule):
 
 	def getJd(self):
 		year, month, day = self.date
-		return to_jd(year, month, day, self.getMode())
+		return to_jd(year, month, day, self.getCalType())
 
 	def getEpoch(self):
 		return self.getEpochFromJd(self.getJd())
 
 	def setJd(self, jd):
-		self.date = jd_to(jd, self.getMode())
+		self.date = jd_to(jd, self.getCalType())
 
 	def calcOccurrence(self, startJd, endJd, event):
 		myJd = self.getJd()
@@ -893,8 +893,8 @@ class DateEventRule(EventRule):
 		else:
 			return JdOccurSet()
 
-	def changeMode(self, mode):
-		self.date = jd_to(self.getJd(), mode)
+	def changeCalType(self, calType):
+		self.date = jd_to(self.getJd(), calType)
 		return True
 
 
@@ -937,13 +937,13 @@ class DateAndTimeEventRule(DateEventRule):
 		self.date = date
 		self.time = (0, 0, 0)
 
-	def getDate(self, mode):
+	def getDate(self, calType):
 		return convert(
 			self.date[0],
 			self.date[1],
 			self.date[2],
-			self.getMode(),
-			mode,
+			self.getCalType(),
+			calType,
 		)
 
 	def getData(self):
@@ -1411,7 +1411,7 @@ class ExDatesEventRule(EventRule):
 
 	def setDates(self, dates):
 		self.dates = dates
-		self.jdList = [to_jd(y, m, d, self.getMode()) for y, m, d in dates]
+		self.jdList = [to_jd(y, m, d, self.getCalType()) for y, m, d in dates]
 
 	def calcOccurrence(self, startJd, endJd, event):
 		# improve performance # FIXME
@@ -1439,10 +1439,10 @@ class ExDatesEventRule(EventRule):
 				dates.append(date)
 		self.setDates(dates)
 
-	def changeMode(self, mode):
+	def changeCalType(self, calType):
 		dates = []
 		for jd in self.jdList:
-			dates.append(jd_to(jd, mode))
+			dates.append(jd_to(jd, calType))
 		self.dates = dates
 
 
@@ -1479,8 +1479,8 @@ class EventNotifier(SObj):
 	def __init__(self, event):
 		self.event = event
 
-	def getMode(self):
-		return self.event.mode
+	def getCalType(self):
+		return self.event.calType
 
 	def notify(self, finishFunc):
 		pass
@@ -1837,9 +1837,9 @@ class Event(BsonHistEventObj, RuleContainer):
 		self.uuid = None
 		self.parent = parent
 		if parent is not None:
-			self.mode = parent.mode
+			self.calType = parent.calType
 		else:
-			self.mode = calTypes.primary
+			self.calType = calTypes.primary
 		self.icon = self.__class__.getDefaultIcon()
 		self.summary = self.desc  # + " (" + _(self.id) + ")"  # FIXME
 		self.description = ""
@@ -1911,10 +1911,10 @@ class Event(BsonHistEventObj, RuleContainer):
 			self.icon = group.icon
 
 	def getInfo(self):
-		mode = self.mode
-		calType, ok = calTypes[mode]
+		calType = self.calType
+		calType, ok = calTypes[calType]
 		if not ok:
-			raise RuntimeError("cal type %r not found" % mode)
+			raise RuntimeError("cal type %r not found" % calType)
 		lines = []
 		lines.append(_("Type") + ": " + self.desc)
 		lines.append(_("Calendar Type") + ": " + calType.desc)
@@ -2010,7 +2010,7 @@ class Event(BsonHistEventObj, RuleContainer):
 
 	def copyFrom(self, other, exact=False):  # FIXME
 		BsonHistEventObj.copyFrom(self, other)
-		self.mode = other.mode
+		self.calType = other.calType
 		self.notifyBefore = other.notifyBefore[:]
 		#self.files = other.files[:]
 		self.notifiers = other.notifiers[:]  # FIXME
@@ -2029,7 +2029,7 @@ class Event(BsonHistEventObj, RuleContainer):
 		data = BsonHistEventObj.getData(self)
 		data.update({
 			"type": self.name,
-			"calType": calTypes.names[self.mode],
+			"calType": calTypes.names[self.calType],
 			"rules": self.getRulesData(),
 			"notifiers": self.getNotifiersData(),
 			"notifyBefore": durationEncode(*self.notifyBefore),
@@ -2046,7 +2046,7 @@ class Event(BsonHistEventObj, RuleContainer):
 		if "calType" in data:
 			calType = data["calType"]
 			try:
-				self.mode = calTypes.names.index(calType)
+				self.calType = calTypes.names.index(calType)
 			except ValueError:
 				raise ValueError("Invalid calType: %r" % calType)
 		self.clearRules()
@@ -2130,8 +2130,8 @@ class Event(BsonHistEventObj, RuleContainer):
 		if "RRULE" in data:
 			rrule = dict(ics.splitIcsValue(data["RRULE"]))
 			if rrule["FREQ"] == "YEARLY":
-				y0, m0, d0 = jd_to(startJd, self.mode)
-				y1, m1, d1 = jd_to(endJd, self.mode)
+				y0, m0, d0 = jd_to(startJd, self.calType)
+				y1, m1, d1 = jd_to(endJd, self.calType)
 				if y0 != y1:## FIXME
 					return False
 				yr = self.getAddRule("year")
@@ -2144,14 +2144,14 @@ class Event(BsonHistEventObj, RuleContainer):
 		"""
 		return False
 
-	def changeMode(self, mode):
+	def changeCalType(self, calType):
 		backupRulesOd = self.rulesOd.copy()## is it deep copy? FIXME
-		if mode != self.mode:
+		if calType != self.calType:
 			for rule in self.rulesOd.values():
-				if not rule.changeMode(mode):
+				if not rule.changeCalType(calType):
 					self.rulesOd = backupRulesOd
 					return False
-			self.mode = mode
+			self.calType = calType
 		return True
 
 	def getStartJd(self):## FIXME
@@ -2203,7 +2203,7 @@ class Event(BsonHistEventObj, RuleContainer):
 		data = {
 			"summary": self.getSummary(),
 			"description": self.getDescription(),
-			"calType": calTypes.names[self.mode],
+			"calType": calTypes.names[self.calType],
 			"icon": self.icon,
 			"timeZone": self.timeZone,
 			"timeZoneEnable": self.timeZoneEnable,
@@ -2311,7 +2311,7 @@ class TaskEvent(SingleStartEndEvent):
 
 	def setDefaults(self):
 		self.setStart(
-			getSysDate(self.mode),
+			getSysDate(self.calType),
 			tuple(localtime()[3:6]),
 		)
 		self.setEnd("duration", 1, 3600)
@@ -2621,7 +2621,7 @@ class DailyNoteEvent(Event):
 			return rule.setJd(jd)
 
 	def setDefaults(self):
-		self.setDate(*getSysDate(self.mode))
+		self.setDate(*getSysDate(self.calType))
 
 	def calcOccurrence(self, startJd, endJd):## float jd
 		jd = self.getJd()
@@ -2687,42 +2687,42 @@ class YearlyEvent(Event):
 		return self.getAddRule("day").setData(day)
 
 	def setDefaults(self):
-		y, m, d = getSysDate(self.mode)
+		y, m, d = getSysDate(self.calType)
 		self.setMonth(m)
 		self.setDay(d)
 
 	def getJd(self):## used only for copyFrom
 		startRule, ok = self["start"]
 		if ok:
-			y = startRule.getDate(self.mode)[0]
+			y = startRule.getDate(self.calType)[0]
 		else:
-			y = getSysDate(self.mode)[0]
+			y = getSysDate(self.calType)[0]
 		m = self.getMonth()
 		d = self.getDay()
-		return to_jd(y, m, d, self.mode)
+		return to_jd(y, m, d, self.calType)
 
 	def setJd(self, jd):## used only for copyFrom
-		y, m, d = jd_to(jd, self.mode)
+		y, m, d = jd_to(jd, self.calType)
 		self.setMonth(m)
 		self.setDay(d)
 		self.getAddRule("start").date = (y, 1, 1)
 
 	def calcOccurrence(self, startJd, endJd):## float jd
-		mode = self.mode
+		calType = self.calType
 		month = self.getMonth()
 		day = self.getDay()
 		startRule, ok = self["start"]
 		if ok:
 			startJd = max(startJd, startRule.getJd())
-		startYear = jd_to(ifloor(startJd), mode)[0]
-		endYear = jd_to(iceil(endJd), mode)[0]
+		startYear = jd_to(ifloor(startJd), calType)[0]
+		endYear = jd_to(iceil(endJd), calType)[0]
 		jds = set()
 		for year in (startYear, endYear + 1):
-			jd = to_jd(year, month, day, mode)
+			jd = to_jd(year, month, day, calType)
 			if startJd <= jd < endJd:
 				jds.add(jd)
 		for year in range(startYear + 1, endYear):
-			jds.add(to_jd(year, month, day, mode))
+			jds.add(to_jd(year, month, day, calType))
 		return JdOccurSet(jds)
 
 	def getData(self):
@@ -2763,7 +2763,7 @@ class YearlyEvent(Event):
 			startJd = self.parent.startJd
 		except:
 			startJd = core.getCurrentJd()
-		return jd_to(startJd, self.mode)[0]
+		return jd_to(startJd, self.calType)[0]
 
 	def getSummary(self):
 		summary = Event.getSummary(self)
@@ -2774,7 +2774,7 @@ class YearlyEvent(Event):
 		if showDate:
 			newParts = [
 				_(self.getDay()),
-				getMonthName(self.mode, self.getMonth()),
+				getMonthName(self.calType, self.getMonth()),
 			]
 			startRule, ok = self["start"]
 			if ok:
@@ -2783,7 +2783,7 @@ class YearlyEvent(Event):
 		return summary
 
 	def getIcsData(self, prettyDateTime=False):
-		if self.mode != GREGORIAN:
+		if self.calType != GREGORIAN:
 			return None
 		month = self.getMonth()
 		day = self.getDay()
@@ -2822,7 +2822,7 @@ class YearlyEvent(Event):
 			return False
 		self.setMonth(month)
 		self.setDay(day)
-		self.mode = GREGORIAN
+		self.calType = GREGORIAN
 		return True
 
 
@@ -2853,7 +2853,7 @@ class MonthlyEvent(Event):
 		return data
 
 	def setJd(self, jd):
-		year, month, day = jd_to(jd, self.mode)
+		year, month, day = jd_to(jd, self.calType)
 		start, ok = self["start"]
 		if ok:
 			start.setDate((year, month, 1))
@@ -3251,24 +3251,24 @@ class LargeScaleEvent(Event):  # or MegaEvent? FIXME
 			self.start * self.scale,
 			1,
 			1,
-			self.mode,
+			self.calType,
 		)
 
 	def setJd(self, jd):
-		self.start = jd_to(jd, self.mode)[0] // self.scale
+		self.start = jd_to(jd, self.calType)[0] // self.scale
 
 	def calcOccurrence(self, startJd, endJd):
 		myStartJd = iceil(to_jd(
 			int(self.scale * self.start),
 			1,
 			1,
-			self.mode,
+			self.calType,
 		))
 		myEndJd = ifloor(to_jd(
 			int(self.scale * self.getEnd()),
 			1,
 			1,
-			self.mode,
+			self.calType,
 		))
 		return IntervalOccurSet.newFromStartEnd(
 			max(
@@ -3350,7 +3350,7 @@ class EventContainer(BsonHistEventObj):
 		self.parent = None
 		self.timeZoneEnable = False
 		self.timeZone = ""
-		self.mode = calTypes.primary
+		self.calType = calTypes.primary
 		self.idList = []
 		self.title = title
 		self.icon = ""
@@ -3442,11 +3442,11 @@ class EventContainer(BsonHistEventObj):
 
 	def copyFrom(self, other):
 		BsonHistEventObj.copyFrom(self, other)
-		self.mode = other.mode
+		self.calType = other.calType
 
 	def getData(self):
 		data = BsonHistEventObj.getData(self)
-		data["calType"] = calTypes.names[self.mode]
+		data["calType"] = calTypes.names[self.calType]
 		fixIconInData(data)
 		return data
 
@@ -3455,7 +3455,7 @@ class EventContainer(BsonHistEventObj):
 		if "calType" in data:
 			calType = data["calType"]
 			try:
-				self.mode = calTypes.names.index(calType)
+				self.calType = calTypes.names.index(calType)
 			except ValueError:
 				raise ValueError("Invalid calType: %r" % calType)
 		###
@@ -3483,7 +3483,7 @@ class EventGroup(EventContainer):
 	eventActions = []  # FIXME
 	sortBys = (
 		## name, description, is_type_dependent
-		("mode", _("Calendar Type"), False),
+		("calType", _("Calendar Type"), False),
 		("summary", _("Summary"), False),
 		("description", _("Description"), False),
 		("icon", _("Icon"), False),
@@ -3707,18 +3707,18 @@ class EventGroup(EventContainer):
 		###
 		self.eventCache = {}  # from eid to event object
 		###
-		year, month, day = getSysDate(self.mode)
+		year, month, day = getSysDate(self.calType)
 		self.startJd = to_jd(
 			year - 10,
 			1,
 			1,
-			self.mode,
+			self.calType,
 		)
 		self.endJd = to_jd(
 			year + 5,
 			1,
 			1,
-			self.mode,
+			self.calType,
 		)
 		##
 		self.initOccurrence()
@@ -3879,7 +3879,7 @@ class EventGroup(EventContainer):
 	def copyEventWithType(self, event, eventType):## FIXME
 		newEvent = self.createEvent(eventType)
 		###
-		newEvent.changeMode(event.mode)
+		newEvent.changeCalType(event.calType)
 		newEvent.copyFrom(event)
 		###
 		newEvent.setId(event.id)
@@ -3958,7 +3958,7 @@ class EventGroup(EventContainer):
 		newGroup.enable = False  # to prevent per-event node update
 		for event in self:
 			newEvent = newGroup.createEvent(newEventType)
-			newEvent.changeMode(event.mode)## FIXME needed?
+			newEvent.changeCalType(event.calType)## FIXME needed?
 			newEvent.copyFrom(event, True)
 			newEvent.setId(event.id)
 			newEvent.save()
@@ -4359,7 +4359,7 @@ class UniversityTerm(EventGroup):
 
 	def __init__(self, _id=None):
 		EventGroup.__init__(self, _id)
-		self.classesEndDate = getSysDate(self.mode)## FIXME
+		self.classesEndDate = getSysDate(self.calType)## FIXME
 		self.setCourses([])  # list of (courseId, courseName, courseUnits)
 		self.classTimeBounds = [
 			(8, 0),
@@ -4472,27 +4472,27 @@ class UniversityTerm(EventGroup):
 		return _("Deleted Course")
 
 	def setDefaults(self):
-		calType = calTypes.names[self.mode]
+		calType = calTypes.names[self.calType]
 		## FIXME
 		## odd term or even term?
 		jd = core.getCurrentJd()
-		year, month, day = jd_to(jd, self.mode)
+		year, month, day = jd_to(jd, self.calType)
 		md = (month, day)
 		if calType == "jalali":
 			## 0/07/01 to 0/11/01
 			## 0/11/15 to 1/03/20
 			if (1, 1) <= md < (4, 1):
-				self.startJd = to_jd(year - 1, 11, 15, self.mode)
+				self.startJd = to_jd(year - 1, 11, 15, self.calType)
 				self.classesEndDate = (year, 3, 20)
-				self.endJd = to_jd(year, 4, 10, self.mode)
+				self.endJd = to_jd(year, 4, 10, self.calType)
 			elif (4, 1) <= md < (10, 1):
-				self.startJd = to_jd(year, 7, 1, self.mode)
+				self.startJd = to_jd(year, 7, 1, self.calType)
 				self.classesEndDate = (year, 11, 1)
-				self.endJd = to_jd(year, 11, 1, self.mode)
+				self.endJd = to_jd(year, 11, 1, self.calType)
 			else:## md >= (10, 1)
-				self.startJd = to_jd(year, 11, 15, self.mode)
+				self.startJd = to_jd(year, 11, 15, self.calType)
 				self.classesEndDate = (year + 1, 3, 1)
-				self.endJd = to_jd(year + 1, 3, 20, self.mode)
+				self.endJd = to_jd(year + 1, 3, 20, self.calType)
 		#elif calType=="gregorian":
 		#	pass
 	#def getNewCourseID(self):
@@ -4622,17 +4622,17 @@ class LargeScaleGroup(EventGroup):
 			pass
 
 	def getStartValue(self):
-		return jd_to(self.startJd, self.mode)[0] // self.scale
+		return jd_to(self.startJd, self.calType)[0] // self.scale
 
 	def getEndValue(self):
-		return jd_to(self.endJd, self.mode)[0] // self.scale
+		return jd_to(self.endJd, self.calType)[0] // self.scale
 
 	def setStartValue(self, start):
 		self.startJd = int(to_jd(
 			start * self.scale,
 			1,
 			1,
-			self.mode,
+			self.calType,
 		))
 
 	def setEndValue(self, end):
@@ -4640,7 +4640,7 @@ class LargeScaleGroup(EventGroup):
 			end * self.scale,
 			1,
 			1,
-			self.mode,
+			self.calType,
 		))
 
 
@@ -4819,7 +4819,7 @@ class VcsEpochBaseEventGroup(VcsBaseEventGroup):
 			for vcsId in self.vcsIds:
 				event = self.getEvent(vcsId)
 				newEvent = newGroup.createEvent(newEventType)
-				newEvent.changeMode(event.mode)## FIXME needed?
+				newEvent.changeCalType(event.calType)## FIXME needed?
 				newEvent.copyFrom(event, True)
 				newEvent.setStartEpoch(event.epoch)
 				newEvent.setEnd("duration", 0, 1)

@@ -84,16 +84,16 @@ class WidgetClass(common.WidgetClass):
 
 	def updateWidget(self):## FIXME
 		common.WidgetClass.updateWidget(self)
-		mode = self.event.mode
+		calType = self.event.calType
 		###
 		startJd = self.event.getJd()
-		self.startDateInput.set_value(jd_to(startJd, mode))
+		self.startDateInput.set_value(jd_to(startJd, calType))
 		###
 		endType, endValue = self.event.getEnd()
 		if endType == "duration":
 			self.endTypeCombo.set_active(0)
 			self.durationSpin.set_value(endValue)
-			self.endDateInput.set_value(jd_to(self.event.getEndJd(), mode))
+			self.endDateInput.set_value(jd_to(self.event.getEndJd(), calType))
 			# ^ FIXME
 		elif endType == "date":
 			self.endTypeCombo.set_active(1)
@@ -115,9 +115,9 @@ class WidgetClass(common.WidgetClass):
 				self.endDateInput.get_value(),
 			)
 
-	def modeComboChanged(self, obj=None):
+	def calTypeComboChanged(self, obj=None):
 		# overwrite method from common.WidgetClass
-		newMode = self.modeCombo.get_active()
-		self.startDateInput.changeMode(self.event.mode, newMode)
-		self.endDateInput.changeMode(self.event.mode, newMode)
-		self.event.mode = newMode
+		newCalType = self.calTypeCombo.get_active()
+		self.startDateInput.changeCalType(self.event.calType, newCalType)
+		self.endDateInput.changeCalType(self.event.calType, newCalType)
+		self.event.calType = newCalType

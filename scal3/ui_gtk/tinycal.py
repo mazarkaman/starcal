@@ -95,51 +95,51 @@ class YearObject(TextObject):
 	def __init__(
 		self,
 		parent,
-		mode,
+		calType,
 		x=0,
 		y=0,
 		color=(0, 0, 0),
 		font=None,
 	):
 		TextObject.__init__(self, parent, x, y, color, font)
-		self.mode = mode
+		self.calType = calType
 
 	def getText(self):
-		return _(self.parent.dates[self.mode][2], self.mode)
+		return _(self.parent.dates[self.calType][2], self.calType)
 
 
 class MonthObject(TextObject):
 	def __init__(
 		self,
 		parent,
-		mode,
+		calType,
 		x=0,
 		y=0,
 		color=(0, 0, 0),
 		font=None,
 	):
 		TextObject.__init__(self, parent, x, y, color, font)
-		self.mode = mode
+		self.calType = calType
 
 	def getText(self):
-		return _(self.parent.dates[self.mode][1], self.mode)
+		return _(self.parent.dates[self.calType][1], self.calType)
 
 
 class MonthNameObject(TextObject):
 	def __init__(
 		self,
 		parent,
-		mode,
+		calType,
 		x=0,
 		y=0,
 		color=(0, 0, 0),
 		font=None,
 	):
 		TextObject.__init__(self, parent, x, y, color, font)
-		self.mode = mode
+		self.calType = calType
 
 	def getText(self):
-		return getMonthName(self.mode, self.parent.dates[self.mode][1])
+		return getMonthName(self.calType, self.parent.dates[self.calType][1])
 
 
 class PlainStrObject(TextObject):

@@ -84,7 +84,7 @@ def encodeIcsStartEnd(value):
 
 
 def exportEvent(event):
-	if not event.changeMode(GREGORIAN):
+	if not event.changeCalType(GREGORIAN):
 		return
 	icsData = event.getIcsData(True)
 	if not icsData:
@@ -150,7 +150,7 @@ def importEvent(gevent, group):
 			eventType = "task"
 
 	event = group.createEvent(eventType)
-	event.mode = GREGORIAN  # FIXME
+	event.calType = GREGORIAN  # FIXME
 	if not event.setIcsData(dict(icsData)):
 		return
 	event.summary = toBytes(gevent["summary"])

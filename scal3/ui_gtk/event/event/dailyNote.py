@@ -34,8 +34,8 @@ class WidgetClass(common.WidgetClass):
 		common.WidgetClass.updateVars(self)
 		self.event.setDate(*self.dateInput.get_value())
 
-	def modeComboChanged(self, obj=None):
+	def calTypeComboChanged(self, obj=None):
 		# overwrite method from common.WidgetClass
-		newMode = self.modeCombo.get_active()
-		self.dateInput.changeMode(self.event.mode, newMode)
-		self.event.mode = newMode
+		newCalType = self.calTypeCombo.get_active()
+		self.dateInput.changeCalType(self.event.calType, newCalType)
+		self.event.calType = newCalType

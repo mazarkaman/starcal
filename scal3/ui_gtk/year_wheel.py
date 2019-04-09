@@ -126,8 +126,8 @@ class YearWheel(gtk.DrawingArea, ud.BaseCalObj):
 		####
 		calsN = len(calTypes.active)
 		deltaR = (maxR - minR) / float(calsN)
-		mode0 = calTypes.active[0]
-		jd0 = to_jd(ui.todayCell.year, 1, 1, mode0)
+		calType0 = calTypes.active[0]
+		jd0 = to_jd(ui.todayCell.year, 1, 1, calType0)
 		yearLen = calTypes.primaryModule().avgYearLen
 		angle0 = self.angleOffset * pi / 180 - pi / 2
 		avgDeltaAngle = 2 * pi / 12
@@ -174,7 +174,7 @@ class YearWheel(gtk.DrawingArea, ud.BaseCalObj):
 			)
 			fillColor(cr, color)
 		####
-		for index, mode in enumerate(calTypes.active):
+		for index, calType in enumerate(calTypes.active):
 			dr = index * deltaR
 			r = maxR - dr
 			cx0 = x0 + dr
@@ -183,12 +183,12 @@ class YearWheel(gtk.DrawingArea, ud.BaseCalObj):
 			drawCircleOutline(cr, cx, cy, r, self.lineWidth)
 			fillColor(cr, self.lineColor)
 			####
-			year0, month0, day0 = jd_to(jd0, mode)
+			year0, month0, day0 = jd_to(jd0, calType)
 			ym0 = year0 * 12 + (month0 - 1)
 			cr.set_line_width(self.lineWidth)
 			for ym in range(ym0, ym0 + 12):
 				year, month = divmod(ym, 12); month += 1
-				jd = to_jd(year, month, 1, mode)
+				jd = to_jd(year, month, 1, calType)
 				angle = angle0 + 2 * pi * (jd - jd0) / yearLen  # radians
 				#angleD = angle * 180 / pi
 				d = self.lineWidth
@@ -215,7 +215,7 @@ class YearWheel(gtk.DrawingArea, ud.BaseCalObj):
 				layoutMaxH = deltaR
 				layout = newTextLayout(
 					self,
-					text=getMonthName(mode, month, year),
+					text=getMonthName(calType, month, year),
 					maxSize=(layoutMaxW, layoutMaxH),
 					maximizeScale=0.6,
 					truncate=False,

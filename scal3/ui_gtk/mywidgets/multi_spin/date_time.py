@@ -39,10 +39,10 @@ class DateTimeButton(MultiSpinButton):
 			date_time = localtime()[:6]
 		self.set_value(date_time)
 
-	def get_epoch(self, mode):
+	def get_epoch(self, calType):
 		from scal3.time_utils import getEpochFromJhms
 		date, hms = self.get_value()
 		return getEpochFromJhms(
-			to_jd(date[0], date[1], date[2], mode),
+			to_jd(date[0], date[1], date[2], calType),
 			*hms
 		)

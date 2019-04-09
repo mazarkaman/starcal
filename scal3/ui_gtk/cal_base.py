@@ -70,8 +70,8 @@ class CalBase(CustomizableCalObj):
 		ui.jdPlus(p)
 		self.onDateChange()
 
-	def changeDate(self, year, month, day, mode=None):
-		ui.changeDate(year, month, day, mode)
+	def changeDate(self, year, month, day, calType=None):
+		ui.changeDate(year, month, day, calType)
 		self.onDateChange()
 
 	def onCurrentDateChange(self, gdate):
@@ -110,9 +110,9 @@ class CalBase(CustomizableCalObj):
 
 	def dragDataGet(self, obj, context, selection, target_id, etime):
 		## context is instance of gi.repository.Gdk.DragContext
-		text = "%.2d/%.2d/%.2d" % ui.cell.dates[ui.dragGetMode]
+		text = "%.2d/%.2d/%.2d" % ui.cell.dates[ui.dragGetCalType]
 		selection.set_text(text, len(text))
-		#pbuf = newDndDatePixbuf(ui.cell.dates[ui.dragGetMode])
+		#pbuf = newDndDatePixbuf(ui.cell.dates[ui.dragGetCalType])
 		#selection.set_pixbuf(pbuf)
 		return True
 
@@ -154,7 +154,7 @@ class CalBase(CustomizableCalObj):
 		## context is instance of gi.repository.Gdk.DragContext
 		#win = context.get_source_window()
 		#print("dragBegin", id(win), win.get_geometry())
-		pbuf = newDndDatePixbuf(ui.cell.dates[ui.dragGetMode])
+		pbuf = newDndDatePixbuf(ui.cell.dates[ui.dragGetCalType])
 		w = pbuf.get_width()
 		#print(dir(context))
 		gtk.drag_set_icon_pixbuf(

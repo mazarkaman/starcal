@@ -35,9 +35,9 @@ class CalObj(gtk.HBox, CustomizableCalObj):
 		for label in self.labelBox.get_children():
 			label.destroy()
 		###
-		for mode in calTypes.active:
+		for calType in calTypes.active:
 			label = DateLabel(None)
-			label.mode = mode
+			label.calType = calType
 			pack(self.labelBox, label, 1)
 		self.show_all()
 		###
@@ -46,7 +46,7 @@ class CalObj(gtk.HBox, CustomizableCalObj):
 	def onDateChange(self, *a, **kw):
 		CustomizableCalObj.onDateChange(self, *a, **kw)
 		for i, label in enumerate(self.labelBox.get_children()):
-			text = ui.cell.format(ud.dateFormatBin, label.mode)
+			text = ui.cell.format(ud.dateFormatBin, label.calType)
 			if i == 0:
 				text = "<b>%s</b>" % text
 			label.set_label(text)

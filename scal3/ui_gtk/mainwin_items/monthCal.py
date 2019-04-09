@@ -48,17 +48,17 @@ class MonthCalTypeParamBox(gtk.Frame):
 	def getCellPagePlus(self, cell, plus):
 		return ui.getMonthPlus(cell, plus)
 
-	def __init__(self, cal, index, mode, params, sgroupLabel):
+	def __init__(self, cal, index, calType, params, sgroupLabel):
 		from scal3.ui_gtk.mywidgets.multi_spin.float_num import FloatSpinButton
 		from scal3.ui_gtk.mywidgets import MyFontButton, MyColorButton
 		gtk.Frame.__init__(self)
 		self.cal = cal
 		self.index = index
-		self.mode = mode
+		self.calType = calType
 		####
-		module, ok = calTypes[mode]
+		module, ok = calTypes[calType]
 		if not ok:
-			raise RuntimeError("cal type %r not found" % mode)
+			raise RuntimeError("cal type %r not found" % calType)
 		####
 		self.set_label(_(module.desc))
 		####
@@ -167,7 +167,7 @@ class CalObj(gtk.DrawingArea, CalBase):
 				"color": ui.textColor,
 			})
 		sgroupLabel = gtk.SizeGroup(gtk.SizeGroupMode.HORIZONTAL)
-		for i, mode in enumerate(calTypes.active):
+		for i, calType in enumerate(calTypes.active):
 			#try:
 			params = ui.mcalTypeParams[i]
 			#except IndexError:
@@ -175,7 +175,7 @@ class CalObj(gtk.DrawingArea, CalBase):
 			hbox = MonthCalTypeParamBox(
 				self,
 				i,
-				mode,
+				calType,
 				params,
 				sgroupLabel,
 			)
@@ -390,11 +390,11 @@ class CalObj(gtk.DrawingArea, CalBase):
 				#	self.dx-1,
 				#	self.dy-1,
 				#)
-				mode = calTypes.primary
+				calType = calTypes.primary
 				params = ui.mcalTypeParams[0]
 				daynum = newTextLayout(
 					self,
-					_(c.dates[mode][2], mode),
+					_(c.dates[calType][2], calType),
 					params["font"],
 				)
 				fontw, fonth = daynum.get_pixel_size()
@@ -410,10 +410,10 @@ class CalObj(gtk.DrawingArea, CalBase):
 				)
 				show_layout(cr, daynum)
 				if not cellInactive:
-					for mode, params in ui.getActiveMonthCalParams()[1:]:
+					for calType, params in ui.getActiveMonthCalParams()[1:]:
 						daynum = newTextLayout(
 							self,
-							_(c.dates[mode][2], mode),
+							_(c.dates[calType][2], calType),
 							params["font"],
 						)
 						fontw, fonth = daynum.get_pixel_size()

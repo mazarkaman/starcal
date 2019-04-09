@@ -84,7 +84,7 @@ class WidgetClass(gtk.VBox):
 		combo.set_active(calTypes.primary)## overwritten in updateWidget()
 		pack(hbox, combo)
 		pack(hbox, gtk.Label(""), 1, 1)
-		self.modeCombo = combo
+		self.calTypeCombo = combo
 		###
 		pack(self, hbox)
 		###########
@@ -130,9 +130,9 @@ class WidgetClass(gtk.VBox):
 		pack(hbox, gtk.Label(""), 1, 1)
 		pack(self, hbox)
 		##########
-		self.modeCombo.connect(
+		self.calTypeCombo.connect(
 			"changed",
-			self.modeComboChanged,
+			self.calTypeComboChanged,
 		)  # right place? before updateWidget? FIXME
 
 	def focusSummary(self):
@@ -141,7 +141,7 @@ class WidgetClass(gtk.VBox):
 
 	def updateWidget(self):
 		#print("updateWidget", self.event.files)
-		self.modeCombo.set_active(self.event.mode)
+		self.calTypeCombo.set_active(self.event.calType)
 		if self.tzCheck:
 			if self.event.timeZone:
 				self.tzCheck.set_active(self.event.timeZoneEnable)
@@ -161,10 +161,10 @@ class WidgetClass(gtk.VBox):
 			except AttributeError:
 				pass
 		#####
-		self.modeComboChanged()
+		self.calTypeComboChanged()
 
 	def updateVars(self):
-		self.event.mode = self.modeCombo.get_active()
+		self.event.calType = self.calTypeCombo.get_active()
 		if self.tzCheck:
 			self.event.timeZoneEnable = self.tzCheck.get_active()
 			self.event.timeZone = self.tzCombo.get_text()
@@ -181,7 +181,7 @@ class WidgetClass(gtk.VBox):
 				pass
 		#####
 
-	def modeComboChanged(self, obj=None):## FIXME
+	def calTypeComboChanged(self, obj=None):## FIXME
 		pass
 
 

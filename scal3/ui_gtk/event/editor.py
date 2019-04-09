@@ -105,7 +105,7 @@ class EventEditorDialog(gtk.Dialog):
 		if self.isNew:
 			self.activeWidget.focusSummary()
 		pack(self.vbox, self.activeWidget, 1, 1)
-		#self.activeWidget.modeComboChanged()## apearantly not needed
+		#self.activeWidget.calTypeComboChanged()## apearantly not needed
 
 	def run(self):
 		#if not self.activeWidget:

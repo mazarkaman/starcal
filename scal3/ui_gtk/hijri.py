@@ -202,14 +202,14 @@ class EditDbDialog(gtk.Dialog):
 	def updateWidget(self):
 		#for index, module in calTypes.iterIndexModule():
 		#	if module.name != "hijri":
-		for mode in calTypes.active:
-			module, ok = calTypes[mode]
+		for calType in calTypes.active:
+			module, ok = calTypes[calType]
 			if not ok:
-				raise RuntimeError("cal type %r not found" % mode)
-			modeDesc = module.desc
-			if "hijri" not in modeDesc.lower():
-				self.altMode = mode
-				self.altModeDesc = modeDesc
+				raise RuntimeError("cal type %r not found" % calType)
+			calTypeDesc = module.desc
+			if "hijri" not in calTypeDesc.lower():
+				self.altMode = calType
+				self.altModeDesc = calTypeDesc
 				break
 		self.topLabel.set_label(
 			_("Start") +

@@ -876,10 +876,10 @@ class MainWin(gtk.Window, ud.BaseCalObj):
 		ui.saveLiveConf()
 
 	def copyDate(self, calType: int):
-		setClipboard(ui.cell.format(ud.dateFormatBin, mode=calType))
+		setClipboard(ui.cell.format(ud.dateFormatBin, calType=calType))
 
 	def copyDateGetCallback(self, calType: int):
-		return lambda obj=None, event=None: setClipboard(ui.cell.format(ud.dateFormatBin, mode=calType))
+		return lambda obj=None, event=None: setClipboard(ui.cell.format(ud.dateFormatBin, calType=calType))
 
 	def copyDateToday(self, obj=None, event=None):
 		setClipboard(ui.todayCell.format(ud.dateFormatBin))
@@ -1075,12 +1075,12 @@ class MainWin(gtk.Window, ud.BaseCalObj):
 		#	sep = _(",")+" "
 		#else:
 		sep = "\n"
-		for mode in calTypes.active:
-			y, m, d = ui.todayCell.dates[mode]
+		for calType in calTypes.active:
+			y, m, d = ui.todayCell.dates[calType]
 			tt += "%s%s %s %s" % (
 				sep,
 				_(d),
-				locale_man.getMonthName(mode, m, y),
+				locale_man.getMonthName(calType, m, y),
 				_(y),
 			)
 		if ui.pluginsTextStatusIcon:
@@ -1115,7 +1115,7 @@ class MainWin(gtk.Window, ud.BaseCalObj):
 		if ext == "svg":
 			dayNum = locale_man.numEncode(
 				ddate[2],
-				mode=calTypes.primary,  # FIXME
+				localeMode=calTypes.primary,  # FIXME
 			)
 			if ui.statusIconFontFamilyEnable:
 				if ui.statusIconFontFamily:
