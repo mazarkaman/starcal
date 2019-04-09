@@ -274,9 +274,9 @@ def getPywPath():  # remove FIXME
 
 def dayOpenEvolution(arg=None):
 	from subprocess import Popen
-	# y, m, d = jd_to(cell.jd-1, core.DATE_GREG)
+	# y, m, d = jd_to(cell.jd-1, core.GREGORIAN)
 	# in gnome-cal opens prev day! why??
-	y, m, d = cell.dates[core.DATE_GREG]
+	y, m, d = cell.dates[core.GREGORIAN]
 	Popen(
 		"LANG=en_US.UTF-8 evolution calendar:///?startdate=%.4d%.2d%.2d"
 		% (y, m, d),
@@ -293,7 +293,7 @@ def dayOpenSunbird(arg=None):
 	# does not work on latest version of Sunbird, FIXME
 	# and Sunbird seems to be a dead project
 	# Opens previous day in older version
-	y, m, d = cell.dates[core.DATE_GREG]
+	y, m, d = cell.dates[core.GREGORIAN]
 	Popen(
 		"LANG=en_US.UTF-8 sunbird -showdate %.4d/%.2d/%.2d"
 		% (y, m, d),
@@ -910,9 +910,9 @@ pluginsTextInsideExpander = True
 pluginsTextIsExpanded = True  # effects only if pluginsTextInsideExpander
 eventViewMaxHeight = 200
 ####################
-dragGetMode = core.DATE_GREG   # apply in Pref FIXME
+dragGetMode = core.GREGORIAN   # apply in Pref FIXME
 # dragGetDateFormat = "%Y/%m/%d"
-dragRecMode = core.DATE_GREG   # apply in Pref FIXME
+dragRecMode = core.GREGORIAN   # apply in Pref FIXME
 ####################
 monthRMenuNum = True
 # monthRMenu

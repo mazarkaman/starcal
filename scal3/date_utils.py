@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 import math
-from scal3.cal_types import calTypes, to_jd, DATE_GREG
+from scal3.cal_types import calTypes, to_jd, GREGORIAN
 from scal3.time_utils import getEpochFromJd
 
 
@@ -137,7 +137,7 @@ def ymdRange(date1, date2, mode=None):
 		for d in range(d1, d2):
 			yield y1, m1, d
 	if mode is None:
-		mode = DATE_GREG
+		mode = GREGORIAN
 	module, ok = calTypes[mode]
 	if not ok:
 		raise RuntimeError("cal type %r not found" % mode)

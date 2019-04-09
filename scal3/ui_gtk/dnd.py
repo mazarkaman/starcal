@@ -11,7 +11,7 @@ def processDroppedDate(text, dtype):
 			else:
 				y, m, d = localtime(t)[:3]
 				#print("Dropped file "%s", modification time: %s/%s/%s"%(path, y, m, d))
-				return (y, m, d, core.DATE_GREG)
+				return (y, m, d, core.GREGORIAN)
 		else:
 			date = ui.parseDroppedDate(text)
 			if date:
@@ -35,4 +35,4 @@ def processDroppedDate(text, dtype):
 			print("Dropped invalid uri \"%s\"" % path)
 			return True
 		else:
-			return localtime(t)[:3] + (core.DATE_GREG,)
+			return localtime(t)[:3] + (core.GREGORIAN,)
