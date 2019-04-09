@@ -386,7 +386,7 @@ def inputDateJd(msg):
 	date = inputDate(msg)
 	if date:
 		y, m, d = date
-		return to_jd(y, m, d, DATE_GREG)
+		return to_jd(y, m, d, GREGORIAN)
 
 
 #if __name__=="__main__":

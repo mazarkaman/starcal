@@ -277,7 +277,7 @@ def compileTmFormat(format, hasTime=True):
 		elif c1 == "z":
 			def tz(cell, mode, tm):
 				m = int(
-					getUtcOffsetByGDate(*cell.dates[core.DATE_GREG]) / 60
+					getUtcOffsetByGDate(*cell.dates[core.GREGORIAN]) / 60
 				)
 				return _(m // 60, fillZero=2) + _(m % 60, fillZero=2)
 			funcs.append(tz)
@@ -290,7 +290,7 @@ def compileTmFormat(format, hasTime=True):
 			if c2 == "z":  # %:z
 				def tz(cell, mode, tm):
 					m = int(
-						getUtcOffsetByGDate(*cell.dates[core.DATE_GREG]) / 60
+						getUtcOffsetByGDate(*cell.dates[core.GREGORIAN]) / 60
 					)
 					return _(m // 60, fillZero=2) + ":" + _(m % 60, fillZero=2)
 				funcs.append(tz)
@@ -438,7 +438,7 @@ def testSpeed():
 	n = 1
 	########
 	binFmt = compileTmFormat(format)
-	mode = core.DATE_GREG
+	mode = core.GREGORIAN
 	tm = list(time.localtime())
 	jd = to_jd(tm[0], tm[1], tm[2], mode)
 	########
@@ -469,9 +469,9 @@ def testOutput():
 	year = 2010
 	month = 1
 	day = 4
-	jd = to_jd(year, month, day, core.DATE_GREG)
+	jd = to_jd(year, month, day, core.GREGORIAN)
 	tm = (year, month, day, 12, 10, 0, 15, 1, 1)
-	print(formatTime(binFmt, core.DATE_GREG, jd, tm))
+	print(formatTime(binFmt, core.GREGORIAN, jd, tm))
 	print(strftime("%OY/%Om/%Od", tm))
 
 

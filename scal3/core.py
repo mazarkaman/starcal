@@ -37,7 +37,7 @@ from scal3.json_utils import *
 from scal3.utils import *
 
 from scal3 import logger
-from scal3.cal_types import calTypes, DATE_GREG, getSysDate
+from scal3.cal_types import calTypes, GREGORIAN, getSysDate
 from scal3 import locale_man
 from scal3.locale_man import tr as _
 from scal3.locale_man import localTz
@@ -201,9 +201,9 @@ def jd_to_primary(jd):
 
 def getCurrentJd():
 	# time.time() and mktime(localtime()) both return GMT, not local
-	module, ok = calTypes[DATE_GREG]
+	module, ok = calTypes[GREGORIAN]
 	if not ok:
-		raise RuntimeError("cal type %r not found" % DATE_GREG)
+		raise RuntimeError("cal type %r not found" % GREGORIAN)
 	y, m, d = localtime()[:3]
 	return module.to_jd(y, m, d)
 
@@ -429,9 +429,9 @@ def getDeletedPluginsTable():
 
 
 def convertAllPluginsToIcs(startYear, endYear):
-	module, ok = calTypes[DATE_GREG]
+	module, ok = calTypes[GREGORIAN]
 	if not ok:
-		raise RuntimeError("cal type %r not found" % DATE_GREG)
+		raise RuntimeError("cal type %r not found" % GREGORIAN)
 	startJd = module.to_jd(startYear, 1, 1)
 	endJd = module.to_jd(endYear + 1, 1, 1)
 	namePostfix = "-%d-%d" % (startYear, endYear)
@@ -458,10 +458,10 @@ def restart():
 
 def mylocaltime(sec=None, mode=None):
 	from scal3.cal_types import convert
-	if mode is None:  # DATE_GREG
+	if mode is None:  # GREGORIAN
 		return list(localtime(sec))
 	t = list(localtime(sec))
-	t[:3] = convert(t[0], t[1], t[2], DATE_GREG, mode)
+	t[:3] = convert(t[0], t[1], t[2], GREGORIAN, mode)
 	return t
 
 

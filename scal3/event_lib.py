@@ -55,7 +55,7 @@ from scal3.cal_types import (
 	jd_to,
 	to_jd,
 	convert,
-	DATE_GREG,
+	GREGORIAN,
 	getSysDate,
 )
 from scal3 import ics
@@ -2783,24 +2783,24 @@ class YearlyEvent(Event):
 		return summary
 
 	def getIcsData(self, prettyDateTime=False):
-		if self.mode != DATE_GREG:
+		if self.mode != GREGORIAN:
 			return None
 		month = self.getMonth()
 		day = self.getDay()
 		startYear = icsMinStartYear
 		startRule, ok = self["start"]
 		if ok:
-			startYear = startRule.getDate(DATE_GREG)[0]
+			startYear = startRule.getDate(GREGORIAN)[0]
 		else:
 			try:
-				startYear = jd_to(self.parent.startJd, DATE_GREG)[0]
+				startYear = jd_to(self.parent.startJd, GREGORIAN)[0]
 			except AttributeError:
 				pass
 		jd = to_jd(
 			startYear,
 			month,
 			day,
-			DATE_GREG,
+			GREGORIAN,
 		)
 		return [
 			("DTSTART", ics.getIcsDateByJd(jd, prettyDateTime)),
@@ -2822,7 +2822,7 @@ class YearlyEvent(Event):
 			return False
 		self.setMonth(month)
 		self.setDay(day)
-		self.mode = DATE_GREG
+		self.mode = GREGORIAN
 		return True
 
 
@@ -4065,7 +4065,7 @@ class EventGroup(EventContainer):
 			return
 
 		def formatJd(jd):
-			return "%.4d%.2d%.2d" % jd_to(jd, DATE_GREG)
+			return "%.4d%.2d%.2d" % jd_to(jd, GREGORIAN)
 
 		occur = event.calcOccurrenceAll()
 		if not occur:

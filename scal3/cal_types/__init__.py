@@ -7,7 +7,7 @@ from scal3.cal_types import gregorian
 from scal3.path import *
 from scal3.utils import printError
 
-DATE_GREG = 0  # Gregorian (common calendar)
+GREGORIAN = 0  # Gregorian (common calendar)
 modules = [gregorian]
 
 
@@ -197,8 +197,8 @@ def convert(y, m, d, source, target):
 
 
 def getSysDate(mode):
-	if mode == DATE_GREG:
+	if mode == GREGORIAN:
 		return localtime()[:3]
 	else:
 		gy, gm, gd = localtime()[:3]
-		return convert(gy, gm, gd, DATE_GREG, mode)
+		return convert(gy, gm, gd, GREGORIAN, mode)

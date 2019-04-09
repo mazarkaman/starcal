@@ -25,7 +25,7 @@ from os.path import join, split, splitext
 
 from scal3.path import *
 from scal3.time_utils import getJhmsFromEpoch
-from scal3.cal_types import jd_to, to_jd, DATE_GREG
+from scal3.cal_types import jd_to, to_jd, GREGORIAN
 
 
 icsTmFormat = "%Y%m%dT%H%M%S"
@@ -54,7 +54,7 @@ def getIcsTimeByEpoch(epoch, pretty=False):
 	)
 	#format = icsTmFormatPretty if pretty else icsTmFormat
 	#jd, hour, minute, second = getJhmsFromEpoch(epoch)
-	#year, month, day = jd_to(jd, DATE_GREG)
+	#year, month, day = jd_to(jd, GREGORIAN)
 	#return strftime(format, (year, month, day, hour, minute, second, 0, 0, 0))
 
 
@@ -63,13 +63,13 @@ def getIcsDate(y, m, d, pretty=False):
 
 
 def getIcsDateByJd(jd, pretty=False):
-	y, m, d = jd_to(jd, DATE_GREG)
+	y, m, d = jd_to(jd, GREGORIAN)
 	return getIcsDate(y, m, d, pretty)
 
 
 def getJdByIcsDate(dateStr):
 	tm = strptime(dateStr, "%Y%m%d")
-	return to_jd(tm.tm_year, tm.tm_mon, tm.tm_mday, DATE_GREG)
+	return to_jd(tm.tm_year, tm.tm_mon, tm.tm_mday, GREGORIAN)
 
 
 def getEpochByIcsTime(tmStr):
@@ -126,8 +126,8 @@ def convertBuiltinTextPlugToIcs(plug, startJd, endJd, namePostfix=""):
 		myear, mmonth, mday = jd_to(jd, mode)
 		dayText = plug.getText(myear, mmonth, mday)
 		if dayText:
-			gyear, gmonth, gday = jd_to(jd, DATE_GREG)
-			gyear_next, gmonth_next, gday_next = jd_to(jd + 1, DATE_GREG)
+			gyear, gmonth, gday = jd_to(jd, GREGORIAN)
+			gyear_next, gmonth_next, gday_next = jd_to(jd + 1, GREGORIAN)
 			#######
 			icsText += "\n".join([
 				"BEGIN:VEVEN",

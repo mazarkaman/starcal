@@ -44,7 +44,7 @@ sys.path.append(join(rootDir, "oauth2client"))  # FIXME
 from scal3.utils import toBytes, toStr
 
 from scal3.ics import *
-from scal3.cal_types import to_jd, jd_to, DATE_GREG
+from scal3.cal_types import to_jd, jd_to, GREGORIAN
 from scal3.locale_man import tr as _
 from scal3 import core
 
@@ -84,7 +84,7 @@ def encodeIcsStartEnd(value):
 
 
 def exportEvent(event):
-	if not event.changeMode(DATE_GREG):
+	if not event.changeMode(GREGORIAN):
 		return
 	icsData = event.getIcsData(True)
 	if not icsData:
@@ -150,7 +150,7 @@ def importEvent(gevent, group):
 			eventType = "task"
 
 	event = group.createEvent(eventType)
-	event.mode = DATE_GREG  # FIXME
+	event.mode = GREGORIAN  # FIXME
 	if not event.setIcsData(dict(icsData)):
 		return
 	event.summary = toBytes(gevent["summary"])

@@ -1146,14 +1146,14 @@ class MainWin(gtk.Window, ud.BaseCalObj):
 			return
 		if gdate is None:
 			gdate = localtime()[:3]
-		if calTypes.primary == core.DATE_GREG:
+		if calTypes.primary == core.GREGORIAN:
 			ddate = gdate
 		else:
 			ddate = core.convert(
 				gdate[0],
 				gdate[1],
 				gdate[2],
-				core.DATE_GREG,
+				core.GREGORIAN,
 				calTypes.primary,
 			)
 		#######

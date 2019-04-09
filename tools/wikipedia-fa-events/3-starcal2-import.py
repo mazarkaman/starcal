@@ -13,7 +13,7 @@ from scal3 import ui
 
 dataToPrettyJson = lambda data: json.dumps(data, sort_keys=True, indent=2)
 
-DATE_GREG = moduleNames.index("gregorian")
+GREGORIAN = moduleNames.index("gregorian")
 DATE_JALALI = moduleNames.index("jalali")
 
 ui.eventGroups.load()

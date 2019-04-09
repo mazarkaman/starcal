@@ -27,7 +27,7 @@ from os.path import isfile, dirname, join, split, splitext, isabs
 from scal3.path import *
 from scal3.utils import myRaiseTback
 from scal3.json_utils import *
-from scal3.cal_types import calTypes, jd_to, to_jd, convert, DATE_GREG
+from scal3.cal_types import calTypes, jd_to, to_jd, convert, GREGORIAN
 from scal3.date_utils import ymdRange
 from scal3.locale_man import tr as _
 from scal3.locale_man import getMonthName
@@ -105,7 +105,7 @@ class BasePlugin(SObj):
 	):
 		self.file = _file
 		######
-		self.mode = DATE_GREG
+		self.mode = GREGORIAN
 		self.title = ""
 		###
 		self.enable = False
@@ -202,8 +202,8 @@ class BasePlugin(SObj):
 			myear, mmonth, mday = jd_to(jd, mode)
 			dayText = self.getText(myear, mmonth, mday)
 			if dayText:
-				gyear, gmonth, gday = jd_to(jd, DATE_GREG)
-				gyear_next, gmonth_next, gday_next = jd_to(jd + 1, DATE_GREG)
+				gyear, gmonth, gday = jd_to(jd, GREGORIAN)
+				gyear_next, gmonth_next, gday_next = jd_to(jd + 1, GREGORIAN)
 				#######
 				icsText += "\n".join([
 					"BEGIN:VEVENT",
@@ -427,8 +427,8 @@ class HolidayPlugin(BaseJsonPlugin):
 					isHoliday = True
 					break
 			if isHoliday:
-				gyear, gmonth, gday = jd_to(jd, DATE_GREG)
-				gyear_next, gmonth_next, gday_next = jd_to(jd + 1, DATE_GREG)
+				gyear, gmonth, gday = jd_to(jd, GREGORIAN)
+				gyear_next, gmonth_next, gday_next = jd_to(jd + 1, GREGORIAN)
 				#######
 				icsText += "\n".join([
 					"BEGIN:VEVENT"
@@ -585,7 +585,7 @@ class IcsTextPlugin(BasePlugin):
 			self,
 			_file,
 		)
-		self.mode = DATE_GREG
+		self.mode = GREGORIAN
 		self.title = title
 		self.enable = enable
 		self.show_date = show_date
