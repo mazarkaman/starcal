@@ -92,11 +92,11 @@ class MonthLabel(BaseLabel, ud.BaseCalObj):
 	#def getActiveStr(self, s):
 	#	return "<b>%s</b>"%s
 
-	def __init__(self, mode, active=0):
+	def __init__(self, calType, active=0):
 		BaseLabel.__init__(self)
 		#self.set_border_width(1)#???????????
 		self.initVars()
-		self.mode = mode
+		self.calType = calType
 		self.label = gtk.Label()
 		self.label.set_use_markup(True)
 		self.add(self.label)
@@ -114,10 +114,10 @@ class MonthLabel(BaseLabel, ud.BaseCalObj):
 			if ui.monthRMenuNum:
 				text = "%s: %s" % (
 					self.getItemStr(i),
-					_(getMonthName(self.mode, i + 1)),
+					_(getMonthName(self.calType, i + 1)),
 				)
 			else:
-				text = _(getMonthName(self.mode, i + 1))
+				text = _(getMonthName(self.calType, i + 1))
 			if i == self.active:
 				text = self.getActiveStr(text)
 			item = MenuItem()
@@ -135,8 +135,8 @@ class MonthLabel(BaseLabel, ud.BaseCalObj):
 	def setActive(self, active):
 		# (Performance) update menu here, or make menu entirly
 		# before popup?
-		s = getMonthName(self.mode, active + 1)
-		s2 = getMonthName(self.mode, self.active + 1)
+		s = getMonthName(self.calType, active + 1)
+		s2 = getMonthName(self.calType, self.active + 1)
 		if self.menuLabels:
 			if ui.monthRMenuNum:
 				self.menuLabels[self.active].set_label(
@@ -160,19 +160,19 @@ class MonthLabel(BaseLabel, ud.BaseCalObj):
 			self.label.set_label(s)
 		self.active = active
 
-	def changeMode(self, mode):
-		self.mode = mode
+	def changeCalType(self, calType):
+		self.calType = calType
 		if ui.boldYmLabel:
 			self.label.set_label(
 				"<b>%s</b>" % getMonthName(
-					self.mode,
+					self.calType,
 					self.active + 1,
 				)
 			)
 		else:
 			self.label.set_label(
 				getMonthName(
-					self.mode,
+					self.calType,
 					self.active + 1,
 				),
 			)
@@ -180,18 +180,18 @@ class MonthLabel(BaseLabel, ud.BaseCalObj):
 			if ui.monthRMenuNum:
 				s = "%s: %s" % (
 					self.getItemStr(i),
-					getMonthName(self.mode, i + 1),
+					getMonthName(self.calType, i + 1),
 				)
 			else:
-				s = getMonthName(self.mode, i + 1)
+				s = getMonthName(self.calType, i + 1)
 			if i == self.active:
 				s = self.getActiveStr(s)
 			self.menuLabels[i].set_label(s)
 
 	def itemActivate(self, item, index):
-		y, m, d = ui.cell.dates[self.mode]
+		y, m, d = ui.cell.dates[self.calType]
 		m = index + 1
-		ui.changeDate(y, m, d, self.mode)
+		ui.changeDate(y, m, d, self.calType)
 		self.onDateChange()
 
 	def buttonPress(self, widget, gevent):
@@ -225,7 +225,7 @@ class MonthLabel(BaseLabel, ud.BaseCalObj):
 
 	def onDateChange(self, *a, **ka):
 		ud.BaseCalObj.onDateChange(self, *a, **ka)
-		self.setActive(ui.cell.dates[self.mode][1] - 1)
+		self.setActive(ui.cell.dates[self.calType][1] - 1)
 
 
 @registerSignals
@@ -396,25 +396,25 @@ class IntLabel(BaseLabel):
 class YearLabel(IntLabel, ud.BaseCalObj):
 	signals = ud.BaseCalObj.signals
 
-	def __init__(self, mode, **kwargs):
+	def __init__(self, calType, **kwargs):
 		IntLabel.__init__(self, **kwargs)
 		self.initVars()
-		self.mode = mode
+		self.calType = calType
 		self.connect("changed", self.onChanged)
 
 	def onChanged(self, label, item):
-		mode = self.mode
-		y, m, d = ui.cell.dates[mode]
-		ui.changeDate(item, m, d, mode)
+		calType = self.calType
+		y, m, d = ui.cell.dates[calType]
+		ui.changeDate(item, m, d, calType)
 		self.onDateChange()
 
-	def changeMode(self, mode):
-		self.mode = mode
+	def changeCalType(self, calType):
+		self.calType = calType
 		#self.onDateChange()
 
 	def onDateChange(self, *a, **ka):
 		ud.BaseCalObj.onDateChange(self, *a, **ka)
-		self.setActive(ui.cell.dates[self.mode][0])
+		self.setActive(ui.cell.dates[self.calType][0])
 
 
 def newSmallNoFocusButton(stock, func, tooltip=""):
@@ -432,7 +432,7 @@ def newSmallNoFocusButton(stock, func, tooltip=""):
 
 
 class YearLabelButtonBox(gtk.HBox, ud.BaseCalObj):
-	def __init__(self, mode, **kwargs):
+	def __init__(self, calType, **kwargs):
 		gtk.HBox.__init__(self)
 		self.initVars()
 		###
@@ -448,7 +448,7 @@ class YearLabelButtonBox(gtk.HBox, ud.BaseCalObj):
 			0,
 		)
 		###
-		self.label = YearLabel(mode, **kwargs)
+		self.label = YearLabel(calType, **kwargs)
 		pack(self, self.label)
 		###
 		pack(
@@ -471,12 +471,12 @@ class YearLabelButtonBox(gtk.HBox, ud.BaseCalObj):
 		ui.yearPlus(1)
 		self.label.onDateChange()
 
-	def changeMode(self, mode):
-		return self.label.changeMode(mode)
+	def changeCalType(self, calType):
+		return self.label.changeCalType(calType)
 
 
 class MonthLabelButtonBox(gtk.HBox, ud.BaseCalObj):
-	def __init__(self, mode, **kwargs):
+	def __init__(self, calType, **kwargs):
 		gtk.HBox.__init__(self)
 		self.initVars()
 		###
@@ -492,7 +492,7 @@ class MonthLabelButtonBox(gtk.HBox, ud.BaseCalObj):
 			0,
 		)
 		###
-		self.label = MonthLabel(mode, **kwargs)
+		self.label = MonthLabel(calType, **kwargs)
 		pack(self, self.label)
 		###
 		pack(
@@ -515,8 +515,8 @@ class MonthLabelButtonBox(gtk.HBox, ud.BaseCalObj):
 		ui.monthPlus(1)
 		self.label.onDateChange()
 
-	def changeMode(self, mode):
-		return self.label.changeMode(mode)
+	def changeCalType(self, calType):
+		return self.label.changeCalType(calType)
 
 
 @registerSignals
@@ -536,22 +536,22 @@ class CalObj(gtk.HBox, CustomizableCalObj):
 			child.destroy()
 		###
 		monthLabels = []
-		mode = calTypes.primary
+		calType = calTypes.primary
 		##
-		box = YearLabelButtonBox(mode)
+		box = YearLabelButtonBox(calType)
 		pack(self, box)
 		self.appendItem(box.label)
 		##
 		pack(self, gtk.VSeparator(), 1, 1)
 		##
-		box = MonthLabelButtonBox(mode)
+		box = MonthLabelButtonBox(calType)
 		pack(self, box)
 		self.appendItem(box.label)
 		monthLabels.append(box.label)
 		####
-		for i, mode in list(enumerate(calTypes.active))[1:]:
+		for i, calType in list(enumerate(calTypes.active))[1:]:
 			pack(self, gtk.VSeparator(), 1, 1)
-			label = YearLabel(mode)
+			label = YearLabel(calType)
 			pack(self, label)
 			self.appendItem(label)
 			###############
@@ -559,7 +559,7 @@ class CalObj(gtk.HBox, CustomizableCalObj):
 			label.set_property("width-request", 5)
 			pack(self, label)
 			###############
-			label = MonthLabel(mode)
+			label = MonthLabel(calType)
 			pack(self, label)
 			monthLabels.append(label)
 			self.appendItem(label)
@@ -569,7 +569,7 @@ class CalObj(gtk.HBox, CustomizableCalObj):
 		for label in monthLabels:
 			wm = 0
 			for m in range(12):
-				name = getMonthName(label.mode, m)
+				name = getMonthName(label.calType, m)
 				if ui.boldYmLabel:
 					lay.set_markup("<b>%s</b>" % name)
 				else:

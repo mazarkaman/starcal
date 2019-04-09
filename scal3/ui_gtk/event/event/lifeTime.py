@@ -86,9 +86,9 @@ class WidgetClass(common.WidgetClass):
 		start.setDate(self.startDateInput.get_value())
 		end.setDate(self.endDateInput.get_value())
 
-	def modeComboChanged(self, obj=None):
+	def calTypeComboChanged(self, obj=None):
 		# overwrite method from common.WidgetClass
-		newMode = self.modeCombo.get_active()
-		self.startDateInput.changeMode(self.event.mode, newMode)
-		self.endDateInput.changeMode(self.event.mode, newMode)
-		self.event.mode = newMode
+		newCalType = self.calTypeCombo.get_active()
+		self.startDateInput.changeCalType(self.event.calType, newCalType)
+		self.endDateInput.changeCalType(self.event.calType, newCalType)
+		self.event.calType = newCalType

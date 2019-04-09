@@ -214,10 +214,10 @@ def getWeekDateHmsFromEpoch(epoch):
 	return (absWeekNumber, weekDay, hour, minute, sec)
 
 
-def getMonthWeekNth(jd, mode):
-	module, ok = calTypes[mode]
+def getMonthWeekNth(jd, calType):
+	module, ok = calTypes[calType]
 	if not ok:
-		raise RuntimeError("cal type %r not found" % mode)
+		raise RuntimeError("cal type %r not found" % calType)
 	year, month, day = module.jd_to(jd)
 	absWeekNumber, weekDay = getWeekDateFromJd(jd)
 	##
@@ -456,12 +456,12 @@ def restart():
 # _____________________________________________________ #
 
 
-def mylocaltime(sec=None, mode=None):
+def mylocaltime(sec=None, calType=None):
 	from scal3.cal_types import convert
-	if mode is None:  # GREGORIAN
+	if calType is None:  # GREGORIAN
 		return list(localtime(sec))
 	t = list(localtime(sec))
-	t[:3] = convert(t[0], t[1], t[2], GREGORIAN, mode)
+	t[:3] = convert(t[0], t[1], t[2], GREGORIAN, calType)
 	return t
 
 
@@ -481,11 +481,11 @@ def getCompactTime(maxDays=1000, minSec=0.1):
 	)
 
 
-def floatJdEncode(jd, mode):
+def floatJdEncode(jd, calType):
 	jd, hour, minute, second = getJhmsFromEpoch(getEpochFromJd(jd))
-	module, ok = calTypes[mode]
+	module, ok = calTypes[calType]
 	if not ok:
-		raise RuntimeError("cal type %r not found" % mode)
+		raise RuntimeError("cal type %r not found" % calType)
 	return "%s %s" % (
 		dateEncode(module.jd_to(jd)),
 		timeEncode((hour, minute, second)),

@@ -47,7 +47,7 @@ class SelectDateDialog(gtk.Dialog):
 		#self.set_has_separator(False)
 		#self.set_skip_taskbar_hint(True)
 		self.connect("delete-event", self.hideMe)
-		self.mode = calTypes.primary
+		self.calType = calTypes.primary
 		###### Reciving dropped day!
 		self.drag_dest_set(
 			gtk.DestDefaults.ALL,
@@ -60,7 +60,7 @@ class SelectDateDialog(gtk.Dialog):
 		hb0 = gtk.HBox(spacing=4)
 		pack(hb0, gtk.Label(_("Date Mode")))
 		combo = CalTypeCombo()
-		combo.set_active(self.mode)
+		combo.set_active(self.calType)
 		pack(hb0, combo)
 		pack(self.vbox, hb0)
 		#######################
@@ -99,13 +99,13 @@ class SelectDateDialog(gtk.Dialog):
 			self.ok,
 		)
 		#######
-		self.comboMode = combo
+		self.calTypeCombo = combo
 		self.dateInput = dateInput
 		self.radio1 = rb1
 		self.radio2 = rb2
 		self.hbox2 = hb2
 		#######
-		combo.connect("changed", self.comboModeChanged)
+		combo.connect("changed", self.calTypeComboChanged)
 		rb1.connect_after("clicked", self.radioChanged)
 		rb2.connect_after("clicked", self.radioChanged)
 		dateInput.connect("activate", self.ok)
@@ -123,14 +123,14 @@ class SelectDateDialog(gtk.Dialog):
 			print("selectDateDialog: dropped text \"%s\"" % text)
 			return
 		print("selectDateDialog: dropped date: %d/%d/%d" % date)
-		mode = self.comboMode.get_active()
-		if mode != ui.dragGetMode:
+		calType = self.calTypeCombo.get_active()
+		if calType != ui.dragGetCalType:
 			date = convert(
 				date[0],
 				date[1],
 				date[2],
-				ui.dragGetMode,
-				mode,
+				ui.dragGetCalType,
+				calType,
 			)
 		self.dateInput.set_value(date)
 		self.dateInput.add_history()
@@ -138,9 +138,9 @@ class SelectDateDialog(gtk.Dialog):
 
 	def show(self):
 		## Show a window that ask the date and set on the calendar
-		mode = calTypes.primary
-		y, m, d = ui.cell.dates[mode]
-		self.set_mode(mode)
+		calType = calTypes.primary
+		y, m, d = ui.cell.dates[calType]
+		self.setCalType(calType)
 		self.set(y, m, d)
 		openWindow(self)
 
@@ -153,34 +153,34 @@ class SelectDateDialog(gtk.Dialog):
 		self.dateInput.set_value((y, m, d))
 		self.dateInput.add_history()
 
-	def set_mode(self, mode):
-		self.mode = mode
-		module, ok = calTypes[mode]
+	def setCalType(self, calType):
+		self.calType = calType
+		module, ok = calTypes[calType]
 		if not ok:
-			raise RuntimeError("cal type %r not found" % mode)
-		self.comboMode.set_active(mode)
-		self.ymdBox.set_mode(mode)
+			raise RuntimeError("cal type %r not found" % calType)
+		self.calTypeCombo.set_active(calType)
+		self.ymdBox.setCalType(calType)
 		self.dateInput.setMaxDay(module.maxMonthLen)
 
-	def comboModeChanged(self, widget=None):
-		pMode = self.mode
-		pDate = self.get()
-		mode = self.comboMode.get_active()
-		module, ok = calTypes[mode]
+	def calTypeComboChanged(self, widget=None):
+		prevCalType = self.calType
+		prevDate = self.get()
+		calType = self.calTypeCombo.get_active()
+		module, ok = calTypes[calType]
 		if not ok:
-			raise RuntimeError("cal type %r not found" % mode)
-		if pDate is None:
-			y, m, d = ui.cell.dates[mode]
+			raise RuntimeError("cal type %r not found" % calType)
+		if prevDate is None:
+			y, m, d = ui.cell.dates[calType]
 		else:
-			y0, m0, d0 = pDate
-			y, m, d = convert(y0, m0, d0, pMode, mode)
-		self.ymdBox.set_mode(mode)
+			y0, m0, d0 = prevDate
+			y, m, d = convert(y0, m0, d0, prevCalType, calType)
+		self.ymdBox.setCalType(calType)
 		self.dateInput.setMaxDay(module.maxMonthLen)
 		self.set(y, m, d)
-		self.mode = mode
+		self.calType = calType
 
 	def get(self):
-		mode = self.comboMode.get_active()
+		calType = self.calTypeCombo.get_active()
 		if self.radio1.get_active():
 			y0, m0, d0 = self.ymdBox.get_value()
 		elif self.radio2.get_active():
@@ -188,19 +188,19 @@ class SelectDateDialog(gtk.Dialog):
 		return (y0, m0, d0)
 
 	def ok(self, widget):
-		mode = self.comboMode.get_active()
-		if mode is None:
+		calType = self.calTypeCombo.get_active()
+		if calType is None:
 			return
 		date = self.get()
 		if date is None:
 			return
 		y0, m0, d0 = date
-		if mode == calTypes.primary:
+		if calType == calTypes.primary:
 			y, m, d = (y0, m0, d0)
 		else:
-			y, m, d = convert(y0, m0, d0, mode, calTypes.primary)
-		#if not core.validDate(mode, y, m, d):
-		#	print("bad date", mode, y, m, d)
+			y, m, d = convert(y0, m0, d0, calType, calTypes.primary)
+		#if not core.validDate(calType, y, m, d):
+		#	print("bad date", calType, y, m, d)
 		#	return
 		self.emit("response-date", y, m, d)
 		self.hide()

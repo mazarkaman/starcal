@@ -45,17 +45,17 @@ from scal3.ui_gtk.cal_base import CalBase
 
 
 class DayCalTypeParamBox(gtk.HBox):
-	def __init__(self, cal, index, mode, params, sgroupLabel, sgroupFont):
+	def __init__(self, cal, index, calType, params, sgroupLabel, sgroupFont):
 		from scal3.ui_gtk.mywidgets.multi_spin.float_num import FloatSpinButton
 		from scal3.ui_gtk.mywidgets import MyFontButton, MyColorButton
 		gtk.HBox.__init__(self)
 		self.cal = cal
 		self.index = index
-		self.mode = mode
+		self.calType = calType
 		######
-		module, ok = calTypes[mode]
+		module, ok = calTypes[calType]
 		if not ok:
-			raise RuntimeError("cal type %r not found" % mode)
+			raise RuntimeError("cal type %r not found" % calType)
 		label = gtk.Label(_(module.desc) + "  ")
 		label.set_alignment(0, 0.5)
 		pack(self, label)
@@ -144,12 +144,12 @@ class CalObj(gtk.DrawingArea, CalBase):
 			})
 		sgroupLabel = gtk.SizeGroup(gtk.SizeGroupMode.HORIZONTAL)
 		sgroupFont = gtk.SizeGroup(gtk.SizeGroupMode.HORIZONTAL)
-		for i, mode in enumerate(calTypes.active):
+		for i, calType in enumerate(calTypes.active):
 			#try:
 			params = ui.dcalTypeParams[i]
 			#except IndexError:
 			##
-			hbox = DayCalTypeParamBox(self, i, mode, params, sgroupLabel, sgroupFont)
+			hbox = DayCalTypeParamBox(self, i, calType, params, sgroupLabel, sgroupFont)
 			pack(vbox, hbox)
 		###
 		vbox.show_all()
@@ -237,11 +237,11 @@ class CalObj(gtk.DrawingArea, CalBase):
 		#	dx-1,
 		#	dy-1,
 		#)
-		mode = calTypes.primary
+		calType = calTypes.primary
 		params = ui.dcalTypeParams[0]
 		daynum = newTextLayout(
 			self,
-			_(c.dates[mode][2], mode),
+			_(c.dates[calType][2], calType),
 			params["font"],
 		)
 		fontw, fonth = daynum.get_pixel_size()
@@ -255,8 +255,8 @@ class CalObj(gtk.DrawingArea, CalBase):
 		)
 		show_layout(cr, daynum)
 		####
-		for mode, params in ui.getActiveDayCalParams()[1:]:
-			daynum = newTextLayout(self, _(c.dates[mode][2], mode), params["font"])
+		for calType, params in ui.getActiveDayCalParams()[1:]:
+			daynum = newTextLayout(self, _(c.dates[calType][2], calType), params["font"])
 			fontw, fonth = daynum.get_pixel_size()
 			setColor(cr, params["color"])
 			cr.move_to(

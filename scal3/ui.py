@@ -329,15 +329,15 @@ class Cell:
 		self.holiday = (self.weekDay in core.holidayWeekDays)
 		###################
 		self.dates = [
-			date if mode == calTypes.primary else jd_to(jd, mode)
-			for mode in range(len(calTypes))
+			date if calType == calTypes.primary else jd_to(jd, calType)
+			for calType in range(len(calTypes))
 		]
 		"""
 		self.dates = dict([
 			(
-				mode, date if mode==calTypes.primary else jd_to(jd, mode)
+				calType, date if calType==calTypes.primary else jd_to(jd, calType)
 			)
-			for mode in calTypes.active
+			for calType in calTypes.active
 		])
 		"""
 		###################
@@ -372,11 +372,11 @@ class Cell:
 		# Cell.ocTimeCount += 1
 		# Cell.ocTimeMax = max(Cell.ocTimeMax, dt)
 
-	def format(self, binFmt, mode=None, tm=null):  # FIXME
-		if mode is None:
-			mode = calTypes.primary
+	def format(self, binFmt, calType=None, tm=null):  # FIXME
+		if calType is None:
+			calType = calTypes.primary
 		pyFmt, funcs = binFmt
-		return pyFmt % tuple(f(self, mode, tm) for f in funcs)
+		return pyFmt % tuple(f(self, calType, tm) for f in funcs)
 
 	def inSameMonth(self, other):
 		return self.dates[calTypes.primary][:2] == \
@@ -473,11 +473,11 @@ class CellCache:
 	# def getMonthData(self, year, month):  # needed? FIXME
 
 
-def changeDate(year, month, day, mode=None):
+def changeDate(year, month, day, calType=None):
 	global cell
-	if mode is None:
-		mode = calTypes.primary
-	cell = cellCache.getCell(core.to_jd(year, month, day, mode))
+	if calType is None:
+		calType = calTypes.primary
+	cell = cellCache.getCell(core.to_jd(year, month, day, calType))
 
 
 def gotoJd(jd):
@@ -910,7 +910,7 @@ pluginsTextInsideExpander = True
 pluginsTextIsExpanded = True  # effects only if pluginsTextInsideExpander
 eventViewMaxHeight = 200
 ####################
-dragGetMode = core.GREGORIAN   # apply in Pref FIXME
+dragGetCalType = core.GREGORIAN   # apply in Pref FIXME
 # dragGetDateFormat = "%Y/%m/%d"
 dragRecMode = core.GREGORIAN   # apply in Pref FIXME
 ####################

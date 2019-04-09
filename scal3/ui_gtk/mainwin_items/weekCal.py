@@ -740,17 +740,17 @@ class EventsBoxColumn(Column):
 
 
 class WcalTypeParamBox(gtk.HBox):
-	def __init__(self, wcal, index, mode, params, sgroupLabel, sgroupFont):
+	def __init__(self, wcal, index, calType, params, sgroupLabel, sgroupFont):
 		from scal3.ui_gtk.mywidgets import MyFontButton
 		gtk.HBox.__init__(self)
 		self.wcal = wcal
 		self._parent = wcal
 		self.index = index
-		self.mode = mode
+		self.calType = calType
 		######
-		module, ok = calTypes[mode]
+		module, ok = calTypes[calType]
 		if not ok:
-			raise RuntimeError("cal type %r not found" % mode)
+			raise RuntimeError("cal type %r not found" % calType)
 		label = gtk.Label(_(module.desc) + "  ")
 		label.set_alignment(0, 0.5)
 		pack(self, label)
@@ -795,10 +795,10 @@ class DaysOfMonthColumn(Column):
 	colorizeHolidayText = True
 	showCursor = True
 
-	def __init__(self, wcal, cgroup, mode, index):
+	def __init__(self, wcal, cgroup, calType, index):
 		Column.__init__(self, wcal)
 		self.cgroup = cgroup
-		self.mode = mode
+		self.calType = calType
 		self.index = index
 		###
 		self.connect("draw", self.onExposeEvent)
@@ -815,7 +815,7 @@ class DaysOfMonthColumn(Column):
 			[
 				[
 					(
-						_(self.wcal.status[i].dates[self.mode][2], self.mode),
+						_(self.wcal.status[i].dates[self.calType][2], self.calType),
 						"",
 					)
 				]
@@ -906,9 +906,9 @@ class DaysOfMonthColumnGroup(gtk.HBox, CustomizableCalBox, ColumnBase):
 				col._parent = self
 				pack(self, col)
 				columns.append(col)
-		for i, mode in enumerate(calTypes.active):
+		for i, calType in enumerate(calTypes.active):
 			col = columns[i]
-			col.mode = mode
+			col.calType = calType
 			col.show()
 			col.set_property("width-request", width)
 
@@ -927,12 +927,12 @@ class DaysOfMonthColumnGroup(gtk.HBox, CustomizableCalBox, ColumnBase):
 			})
 		sgroupLabel = gtk.SizeGroup(gtk.SizeGroupMode.HORIZONTAL)
 		sgroupFont = gtk.SizeGroup(gtk.SizeGroupMode.HORIZONTAL)
-		for i, mode in enumerate(calTypes.active):
+		for i, calType in enumerate(calTypes.active):
 			#try:
 			params = ui.wcalTypeParams[i]
 			#except IndexError:
 			##
-			hbox = WcalTypeParamBox(self.wcal, i, mode, params, sgroupLabel, sgroupFont)
+			hbox = WcalTypeParamBox(self.wcal, i, calType, params, sgroupLabel, sgroupFont)
 			pack(vbox, hbox)
 		###
 		vbox.show_all()

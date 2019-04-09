@@ -978,13 +978,13 @@ class PrefDialog(gtk.Dialog):
 			core.firstWeekDayAuto = False
 			core.firstWeekDay = first
 		######
-		mode = self.comboWeekYear.get_active()
-		if mode == 8:
+		weekNumberMode = self.comboWeekYear.get_active()
+		if weekNumberMode == 8:
 			core.weekNumberModeAuto = True
 			core.weekNumberMode = core.getLocaleweekNumberMode()
 		else:
 			core.weekNumberModeAuto = False
-			core.weekNumberMode = mode
+			core.weekNumberMode = weekNumberMode
 		######
 		ui.cellCache.clear()  # Very important
 		# ^ specially when calTypes.primary will be changed

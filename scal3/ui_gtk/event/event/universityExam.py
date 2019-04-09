@@ -181,8 +181,8 @@ class WidgetClass(gtk.VBox):
 		self.notificationBox.updateVars()
 		self.event.updateSummary()
 
-	def modeComboChanged(self, obj=None):
+	def calTypeComboChanged(self, obj=None):
 		# overwrite method from common.WidgetClass
-		newMode = self.modeCombo.get_active()
-		self.dateInput.changeMode(self.event.mode, newMode)
-		self.event.mode = newMode
+		newCalType = self.calTypeCombo.get_active()
+		self.dateInput.changeCalType(self.event.calType, newCalType)
+		self.event.calType = newCalType

@@ -39,10 +39,6 @@ from scal3.json_utils import *
 from scal3.s_object import JsonSObj
 from scal3.cal_types import calTypes
 
-#import codecs
-#def open (filename, mode="r"):
-#	return codecs.open(filename, mode=mode, encoding="utf-8")
-
 ##########################################################
 
 localTz = natz.gettz()
@@ -313,10 +309,10 @@ def rtlSgn():
 	return 1 if rtl else -1
 
 
-def getMonthName(mode, month, year=None):
-	module, ok = calTypes[mode]
+def getMonthName(calType, month, year=None):
+	module, ok = calTypes[calType]
 	if not ok:
-		raise RuntimeError("cal type %r not found" % mode)
+		raise RuntimeError("cal type %r not found" % calType)
 	return tr(module.getMonthName(month, year))
 
 
@@ -341,27 +337,27 @@ def getAvailableDigitKeys():
 	return keys
 
 
-def numEncode(num, mode=None, fillZero=0, negEnd=False):
+def numEncode(num, localeMode=None, fillZero=0, negEnd=False):
 	if not enableNumLocale:
-		mode = "en"
-	if mode is None:
-		mode = langSh
-	elif isinstance(mode, int):
+		localeMode = "en"
+	if localeMode is None:
+		localeMode = langSh
+	elif isinstance(localeMode, int):
 		if langSh != "en":
-			module, ok = calTypes[mode]
+			module, ok = calTypes[localeMode]
 			if not ok:
-				raise RuntimeError("cal type %r not found" % mode)
+				raise RuntimeError("cal type %r not found" % localeMode)
 			try:
-				mode = module.origLang
+				localeMode = module.origLang
 			except AttributeError:
-				mode = langSh
-	if mode == "en" or mode not in digits:
+				localeMode = langSh
+	if localeMode == "en" or localeMode not in digits:
 		if fillZero:
 			return "%.*d" % (fillZero, num)
 		else:
 			return "%d" % num
 	neg = (num < 0)
-	dig = getLangDigits(mode)
+	dig = getLangDigits(localeMode)
 	res = ""
 	for c in str(abs(num)):
 		if c == ".":
@@ -380,21 +376,21 @@ def numEncode(num, mode=None, fillZero=0, negEnd=False):
 	return res
 
 
-def textNumEncode(st, mode=None, changeSpecialChars=True, changeDot=False):
+def textNumEncode(st, localeMode=None, changeSpecialChars=True, changeDot=False):
 	if not enableNumLocale:
-		mode = "en"
-	if mode is None:
-		mode = langSh
-	elif isinstance(mode, int):
+		localeMode = "en"
+	if localeMode is None:
+		localeMode = langSh
+	elif isinstance(localeMode, int):
 		if langSh != "en":
-			module, ok = calTypes[mode]
+			module, ok = calTypes[localeMode]
 			if not ok:
-				raise RuntimeError("cal type %r not found" % mode)
+				raise RuntimeError("cal type %r not found" % localeMode)
 			try:
-				mode = module.origLang
+				localeMode = module.origLang
 			except AttributeError:
-				mode = langSh
-	dig = getLangDigits(mode)
+				localeMode = langSh
+	dig = getLangDigits(localeMode)
 	res = ""
 	for c in toStr(st):
 		try:
@@ -413,8 +409,8 @@ def textNumEncode(st, mode=None, changeSpecialChars=True, changeDot=False):
 	return res ## .encode("utf8")
 
 
-def floatEncode(st, mode=None):
-	return textNumEncode(st, mode, changeSpecialChars=False, changeDot=True)
+def floatEncode(st, localeMode=None):
+	return textNumEncode(st, localeMode, changeSpecialChars=False, changeDot=True)
 
 
 def numDecode(numSt):

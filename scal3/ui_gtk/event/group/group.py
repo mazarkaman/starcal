@@ -78,11 +78,11 @@ class WidgetClass(BaseWidgetClass):
 		BaseWidgetClass.updateWidget(self)
 		self.startDateInput.set_value(jd_to(
 			self.group.startJd,
-			self.group.mode,
+			self.group.calType,
 		))
 		self.endDateInput.set_value(jd_to(
 			self.group.endJd,
-			self.group.mode,
+			self.group.calType,
 		))
 		###
 		if self.group.remoteIds:
@@ -99,8 +99,8 @@ class WidgetClass(BaseWidgetClass):
 
 	def updateVars(self):
 		BaseWidgetClass.updateVars(self)
-		self.group.startJd = self.startDateInput.get_jd(self.group.mode)
-		self.group.endJd = self.endDateInput.get_jd(self.group.mode)
+		self.group.startJd = self.startDateInput.get_jd(self.group.calType)
+		self.group.endJd = self.endDateInput.get_jd(self.group.calType)
 		###
 		aid = self.accountCombo.get_active()
 		if aid:
@@ -111,8 +111,8 @@ class WidgetClass(BaseWidgetClass):
 		self.group.remoteSyncEnable = self.syncCheck.get_active()
 		self.group.remoteSyncDuration = self.syncIntervalInput.getDuration()
 
-	def modeComboChanged(self, obj=None):
-		newMode = self.modeCombo.get_active()
-		self.startDateInput.changeMode(self.group.mode, newMode)
-		self.endDateInput.changeMode(self.group.mode, newMode)
-		self.group.mode = newMode
+	def calTypeComboChanged(self, obj=None):
+		newCalType = self.calTypeCombo.get_active()
+		self.startDateInput.changeCalType(self.group.calType, newCalType)
+		self.endDateInput.changeCalType(self.group.calType, newCalType)
+		self.group.calType = newCalType

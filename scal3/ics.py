@@ -119,11 +119,11 @@ def convertHolidayPlugToIcs(plug, startJd, endJd, namePostfix=""):
 
 def convertBuiltinTextPlugToIcs(plug, startJd, endJd, namePostfix=""):
 	plug.load() ## FIXME
-	mode = plug.mode
+	calType = plug.calType
 	icsText = icsHeader
 	currentTimeStamp = strftime(icsTmFormat)
 	for jd in range(startJd, endJd):
-		myear, mmonth, mday = jd_to(jd, mode)
+		myear, mmonth, mday = jd_to(jd, calType)
 		dayText = plug.getText(myear, mmonth, mday)
 		if dayText:
 			gyear, gmonth, gday = jd_to(jd, GREGORIAN)

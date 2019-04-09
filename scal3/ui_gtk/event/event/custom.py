@@ -156,14 +156,14 @@ class WidgetClass(common.WidgetClass):
 		self.updateRules()
 		self.notificationBox.updateVars()
 
-	def modeComboChanged(self, obj=None):
+	def calTypeComboChanged(self, obj=None):
 		# overwrite method from common.WidgetClass
-		newMode = self.modeCombo.get_active()
+		newCalType = self.calTypeCombo.get_active()
 		for hbox in self.rulesBox.get_children():
 			widget = hbox.inputWidget
-			if hasattr(widget, "changeMode"):
-				widget.changeMode(newMode)
-		self.event.mode = newMode
+			if hasattr(widget, "changeCalType"):
+				widget.changeCalType(newCalType)
+		self.event.calType = newCalType
 
 	def removeButtonClicked(self, button, hbox):
 		rule = hbox.inputWidget.rule

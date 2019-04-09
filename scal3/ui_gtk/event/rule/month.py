@@ -18,10 +18,10 @@ class WidgetClass(gtk.HBox):
 		gtk.HBox.__init__(self)
 		###
 		self.buttons = []
-		mode = self.rule.getMode()
+		calType = self.rule.getCalType()
 		for i in range(12):
 			b = gtk.ToggleButton(_(i + 1))
-			set_tooltip(b, locale_man.getMonthName(mode, i + 1))
+			set_tooltip(b, locale_man.getMonthName(calType, i + 1))
 			pack(self, b)
 			self.buttons.append(b)
 
@@ -37,11 +37,11 @@ class WidgetClass(gtk.HBox):
 				monthList.append(i + 1)
 		self.rule.setValuesPlain(monthList)
 
-	def changeMode(self, mode):
-		if mode == self.rule.getMode():
+	def changeCalType(self, calType):
+		if calType == self.rule.getCalType():
 			return
 		for i in range(12):
 			set_tooltip(
 				self.buttons[i],
-				locale_man.getMonthName(mode, i + 1),
+				locale_man.getMonthName(calType, i + 1),
 			)

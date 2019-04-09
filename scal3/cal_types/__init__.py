@@ -196,9 +196,9 @@ def convert(y, m, d, source, target):
 	)
 
 
-def getSysDate(mode):
-	if mode == GREGORIAN:
+def getSysDate(calType):
+	if calType == GREGORIAN:
 		return localtime()[:3]
 	else:
 		gy, gm, gd = localtime()[:3]
-		return convert(gy, gm, gd, GREGORIAN, mode)
+		return convert(gy, gm, gd, GREGORIAN, calType)

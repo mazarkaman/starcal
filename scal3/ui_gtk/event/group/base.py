@@ -74,7 +74,7 @@ class BaseWidgetClass(gtk.VBox):
 		combo = CalTypeCombo()
 		pack(hbox, combo)
 		pack(hbox, gtk.Label(""), 1, 1)
-		self.modeCombo = combo
+		self.calTypeCombo = combo
 		pack(self, hbox)
 		#####
 		hbox = gtk.HBox()
@@ -150,16 +150,16 @@ class BaseWidgetClass(gtk.VBox):
 		#pack(hbox, self.showFullEventDescCheck, 1, 1)
 		#pack(self, hbox)
 		###
-		self.modeCombo.connect(
+		self.calTypeCombo.connect(
 			"changed",
-			self.modeComboChanged,
+			self.calTypeComboChanged,
 		)  # right place? before updateWidget? FIXME
 
 	def updateWidget(self):
 		self.titleEntry.set_text(self.group.title)
 		self.colorButton.set_color(self.group.color)
 		self.iconSelect.set_filename(self.group.icon)
-		self.modeCombo.set_active(self.group.mode)
+		self.calTypeCombo.set_active(self.group.calType)
 		##
 		self.tzCheck.set_active(self.group.timeZoneEnable)
 		self.tzCombo.set_sensitive(self.group.timeZoneEnable)
@@ -179,7 +179,7 @@ class BaseWidgetClass(gtk.VBox):
 		self.group.title = self.titleEntry.get_text()
 		self.group.color = self.colorButton.get_color()
 		self.group.icon = self.iconSelect.get_filename()
-		self.group.mode = self.modeCombo.get_active()
+		self.group.calType = self.calTypeCombo.get_active()
 		##
 		self.group.timeZoneEnable = self.tzCheck.get_active()
 		self.group.timeZone = self.tzCombo.get_text()
@@ -193,5 +193,5 @@ class BaseWidgetClass(gtk.VBox):
 		self.group.eventTextSep = self.sepInput.get_text()
 		#self.group.showFullEventDesc = self.showFullEventDescCheck.get_active()
 
-	def modeComboChanged(self, obj=None):
+	def calTypeComboChanged(self, obj=None):
 		pass
