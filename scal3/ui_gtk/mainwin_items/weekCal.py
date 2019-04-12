@@ -1221,6 +1221,7 @@ class CalObj(gtk.HBox, CustomizableCalBox, ColumnBase, CalBase):
 		return False
 
 	def buttonPress(self, widget, gevent):
+		# gevent is Gdk.EventButton
 		col_win = gevent.get_window()
 		col = None
 		for item in self.items:
@@ -1232,17 +1233,17 @@ class CalObj(gtk.HBox, CustomizableCalBox, ColumnBase, CalBase):
 		if not col.autoButtonPressHandler:
 			return False
 		###
-		b = gevent.button
-		#x, y, mask = col_win.get_pointer()
-		x, y = self.get_pointer()
-		#y += 10
+		x_col, y_col = gevent.get_coords()
+		# x_col is relative to the column, not to the weekCal
+		# y_col is relative to the column, but also to the weekCal, because we have nothing above columns
 		###
-		i = int(gevent.y * 7.0 / self.get_allocation().height)
+		i = int(y_col * 7.0 / self.get_allocation().height)
 		cell = self.status[i]
 		self.gotoJd(cell.jd)
 		if gevent.type == TWO_BUTTON_PRESS:
 			self.emit("2button-press")
-		if b == 3:
+		if gevent.button == 3:
+			x, y = col.translate_coordinates(self, x_col, y_col)
 			self.emit("popup-cell-menu", gevent.time, x, y)
 		return True
 
