@@ -195,7 +195,6 @@ class Column(gtk.DrawingArea, ColumnBase):
 		rowH = h / 7
 		for i in range(7):
 			c = self.wcal.status[i]
-			y0 = i * rowH
 			if c.jd == ui.todayCell.jd:
 				cr.rectangle(
 					0,
@@ -207,10 +206,10 @@ class Column(gtk.DrawingArea, ColumnBase):
 			if self.showCursor and c.jd == ui.cell.jd:
 				drawCursorBg(
 					cr,
-					0,
-					y0,
-					w,
-					rowH,
+					0, # x0
+					i * rowH, # y0
+					w, # width
+					rowH, # height
 				)
 				fillColor(cr, ui.cursorBgColor)
 		if ui.wcalGrid:
@@ -234,22 +233,25 @@ class Column(gtk.DrawingArea, ColumnBase):
 				cr.fill()
 
 	def drawCursorFg(self, cr):
+		if not self.showCursor:
+			return
 		alloc = self.get_allocation()
 		w = alloc.width
 		h = alloc.height
 		rowH = h / 7
-		for i in range(7):
-			c = self.wcal.status[i]
-			y0 = i * rowH
-			if self.showCursor and c.jd == ui.cell.jd:
-				drawCursorOutline(
-					cr,
-					0,
-					y0,
-					w,
-					rowH,
-				)
-				fillColor(cr, ui.cursorOutColor)
+		index = ui.cell.jd - self.wcal.status[0].jd
+		if index > 6:
+			print("warning: drawCursorFg: index = ", index)
+			return
+		drawCursorOutline(
+			cr,
+			0, # x0
+			index * rowH, # y0
+			w, # width
+			rowH, # height
+		)
+		fillColor(cr, ui.cursorOutColor)
+		return
 
 	def drawTextList(self, cr, textData, font=None):
 		alloc = self.get_allocation()
