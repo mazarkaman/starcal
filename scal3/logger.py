@@ -4,6 +4,7 @@ log = None
 def init():
 	global log
 	import os
+	import warnings
 	from io import StringIO
 	from os.path import join, isdir
 	from scal3.path import confDir, rootDir, APP_NAME
@@ -32,6 +33,10 @@ def init():
 		print("failed to setup logger:", e)
 		from scal3.utils import FallbackLogger
 		log = FallbackLogger()
+
+	# can set env var WARNINGS to: "error", "ignore", "always", "default", "module", "once"
+	if os.getenv("WARNINGS"):
+		warnings.filterwarnings(os.getenv("WARNINGS"))
 
 def get():
 	if log is None:
