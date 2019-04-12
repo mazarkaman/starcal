@@ -239,14 +239,10 @@ class Column(gtk.DrawingArea, ColumnBase):
 		w = alloc.width
 		h = alloc.height
 		rowH = h / 7
-		index = ui.cell.jd - self.wcal.status[0].jd
-		if index > 6:
-			print("warning: drawCursorFg: index = ", index)
-			return
 		drawCursorOutline(
 			cr,
 			0, # x0
-			index * rowH, # y0
+			self.wcal.cellIndex * rowH, # y0
 			w, # width
 			rowH, # height
 		)
@@ -1113,6 +1109,10 @@ class CalObj(gtk.HBox, CustomizableCalBox, ColumnBase, CalBase):
 		###
 		self.connect("button-press-event", self.buttonPress)
 		#####
+		# set in self.updateStatus
+		self.status = None
+		self.cellIndex = 0
+		#####
 		defaultItems = [
 			ToolbarColumn(self),
 			WeekDaysColumn(self),
@@ -1181,6 +1181,11 @@ class CalObj(gtk.HBox, CustomizableCalBox, ColumnBase, CalBase):
 	def updateStatus(self):
 		from scal3.weekcal import getCurrentWeekStatus
 		self.status = getCurrentWeekStatus()
+		index = ui.cell.jd - self.status[0].jd
+		if index > 6:
+			print("warning: drawCursorFg: index = ", index)
+			return
+		self.cellIndex = index
 
 	def onConfigChange(self, *a, **kw):
 		self.updateStatus()
