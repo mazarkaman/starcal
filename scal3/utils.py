@@ -22,10 +22,10 @@ import sys
 import os
 from math import floor, ceil
 
-from collections import (
+from collections import OrderedDict
+from collections.abc import (
 	Iterable,
 	Iterator,
-	OrderedDict,
 )
 
 

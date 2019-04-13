@@ -81,7 +81,8 @@ def saveJsonConf(module, confPath, params, encoders={}):
 	###
 	text = dataToPrettyJson(data, sort_keys=True)
 	try:
-		open(confPath, "w").write(text)
+		with open(confPath, "w") as fp:
+			fp.write(text)
 	except Exception as e:
 		print("failed to save file \"%s\": %s" % (confPath, e))
 		return

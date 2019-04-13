@@ -173,7 +173,8 @@ class JsonSObj(SObj):
 	def save(self):
 		if self.file:
 			jstr = self.getJson()
-			open(self.file, "w").write(jstr)
+			with open(self.file, "w") as fp:
+				fp.write(jstr)
 		else:
 			print(
 				"save method called for object %r" % self +
