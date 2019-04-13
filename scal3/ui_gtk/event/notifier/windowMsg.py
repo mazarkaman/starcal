@@ -48,11 +48,11 @@ def notify(notifier, finishFunc):  # FIXME
 	pack(hbox, label, 1, 1)
 	pack(dialog.vbox, hbox)
 	####
-	okB = dialog.add_button(gtk.STOCK_OK, 3)
+	okB = dialog.add_button("gtk-ok", 3)
 	okB.connect("clicked", hideWindow, dialog)
 	if ui.autoLocale:
 		okB.set_label(_("_OK"))
-		okB.set_image(gtk.Image.new_from_stock(gtk.STOCK_OK, gtk.IconSize.BUTTON))
+		okB.set_image(gtk.Image.new_from_icon_name("gtk-ok", gtk.IconSize.BUTTON))
 	####
 	dialog.vbox.show_all()
 	dialog.connect("response", lambda w, e: finishFunc())

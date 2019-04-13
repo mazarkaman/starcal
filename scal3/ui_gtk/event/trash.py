@@ -19,13 +19,13 @@ class TrashEditorDialog(gtk.Dialog):
 		###
 		dialog_add_button(
 			self,
-			gtk.STOCK_CANCEL,
+			"gtk-cancel",
 			_("_Cancel"),
 			gtk.ResponseType.CANCEL,
 		)
 		dialog_add_button(
 			self,
-			gtk.STOCK_OK,
+			"gtk-ok",
 			_("_OK"),
 			gtk.ResponseType.OK,
 		)

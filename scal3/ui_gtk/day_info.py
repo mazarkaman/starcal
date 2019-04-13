@@ -125,7 +125,7 @@ class DayInfoDialog(gtk.Dialog, ud.BaseCalObj):
 		self.connect("delete-event", self.onClose)
 		self.vbox.set_spacing(15)
 		###
-		dialog_add_button(self, gtk.STOCK_CLOSE, _("Close"), 0, self.onClose)
+		dialog_add_button(self, "gtk-close", _("Close"), 0, self.onClose)
 		dialog_add_button(self, "", _("Previous"), 1, self.goBack)
 		dialog_add_button(self, "", _("Today"), 2, self.goToday)
 		dialog_add_button(self, "", _("Next"), 3, self.goNext)

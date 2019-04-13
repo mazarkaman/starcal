@@ -36,12 +36,10 @@ from gi.repository import GdkPixbuf
 
 from scal3.ui_gtk import *
 from scal3.ui_gtk.utils import (
-	toolButtonFromStock,
+	toolButtonFromIcon,
 	set_tooltip,
-	labelStockMenuItem,
 )
 from scal3.ui_gtk.utils import (
-	dialog_add_button,
 	getStyleColor,
 )
 from scal3.ui_gtk.drawing import newColorCheckPixbuf
@@ -195,8 +193,8 @@ class FilesBox(gtk.VBox):
 		pack(hbox, gtk.Label(""), 1, 1)
 		addButton = gtk.Button()
 		addButton.set_label(_("_Add File"))
-		addButton.set_image(gtk.Image.new_from_stock(
-			gtk.STOCK_ADD,
+		addButton.set_image(gtk.Image.new_from_icon_name(
+			"gtk-add",
 			gtk.IconSize.BUTTON,
 		))
 		addButton.connect("clicked", self.addClicked)
@@ -215,8 +213,8 @@ class FilesBox(gtk.VBox):
 		pack(hbox, gtk.Label(""), 1, 1)
 		delButton = gtk.Button()
 		delButton.set_label(_("_Delete"))
-		delButton.set_image(gtk.Image.new_from_stock(
-			gtk.STOCK_DELETE,
+		delButton.set_image(gtk.Image.new_from_icon_name(
+			"gtk-delete",
 			gtk.IconSize.BUTTON,
 		))
 		delButton.fname = fname
@@ -394,20 +392,20 @@ class StrListEditor(gtk.HBox):
 		#except:
 		#	pass
 		size = gtk.IconSize.SMALL_TOOLBAR
-		##no different(argument2 to image_new_from_stock does not affect) ?????????
+		##no different(argument2 to image_new_from_icon_name does not affect) ?????????
 		#### gtk.IconSize.SMALL_TOOLBAR or gtk.IconSize.MENU
-		tb = toolButtonFromStock(gtk.STOCK_ADD, size)
+		tb = toolButtonFromIcon("gtk-add", size)
 		set_tooltip(tb, _("Add"))
 		tb.connect("clicked", self.addClicked)
 		toolbar.insert(tb, -1)
 		#self.buttonAdd = tb
 		####
-		tb = toolButtonFromStock(gtk.STOCK_GO_UP, size)
+		tb = toolButtonFromIcon("gtk-go-up", size)
 		set_tooltip(tb, _("Move up"))
 		tb.connect("clicked", self.moveUpClicked)
 		toolbar.insert(tb, -1)
 		####
-		tb = toolButtonFromStock(gtk.STOCK_GO_DOWN, size)
+		tb = toolButtonFromIcon("gtk-go-down", size)
 		set_tooltip(tb, _("Move down"))
 		tb.connect("clicked", self.moveDownClicked)
 		toolbar.insert(tb, -1)

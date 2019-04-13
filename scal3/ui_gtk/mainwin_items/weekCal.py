@@ -407,11 +407,11 @@ class ToolbarColumn(CustomizableToolbar, ColumnBase):
 	defaultItems = [
 		MainMenuToolbarItem(),
 		WeekNumToolbarItem(),
-		ToolbarItem("backward4", "goto_top", "goBackward4", "Backward 4 Weeks"),
-		ToolbarItem("backward", "go_up", "goBackward", "Previous Week"),
-		ToolbarItem("today", "home", "goToday", "Today"),
-		ToolbarItem("forward", "go_down", "goForward", "Next Week"),
-		ToolbarItem("forward4", "goto_bottom", "goForward4", "Forward 4 Weeks"),
+		ToolbarItem("backward4", "gtk-goto-top", "goBackward4", "Backward 4 Weeks"),
+		ToolbarItem("backward", "gtk-go-up", "goBackward", "Previous Week"),
+		ToolbarItem("today", "gtk-home", "goToday", "Today"),
+		ToolbarItem("forward", "gtk-go-down", "goForward", "Next Week"),
+		ToolbarItem("forward4", "gtk-goto-bottom", "goForward4", "Forward 4 Weeks"),
 	]
 	defaultItemsDict = {
 		item._name: item for item in defaultItems

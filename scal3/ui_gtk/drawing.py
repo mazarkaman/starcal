@@ -502,11 +502,18 @@ def drawArcOutline(cr, xc, yc, r, d, a0, a1):
 
 
 class Button:
-	def __init__(self, imageName, func, x, y, autoDir=True):
-		self.imageName = imageName
-		if imageName.startswith("gtk-"):
-			self.pixbuf = GdkPixbuf.Pixbuf.new_from_stock(imageName)
+	def __init__(self, imageName, func, x, y, autoDir=True, iconName=""):
+		if iconName:
+			# GdkPixbuf.Pixbuf.new_from_stock is removed
+			# gtk.Widget.render_icon_pixbuf: Deprecated since version 3.10: Use Gtk.IconTheme.load_icon()
+			self.pixbuf = gtk.IconTheme.get_default().load_icon(
+				iconName,
+				gtk.IconSize.BUTTON, # FIXME: take as argument?
+				0, # Gtk.IconLookupFlags
+			)
+			self.imageName = iconName
 		else:
+			self.imageName = imageName
 			self.pixbuf = GdkPixbuf.Pixbuf.new_from_file(join(pixDir, imageName))
 		self.func = func
 		self.width = self.pixbuf.get_width()

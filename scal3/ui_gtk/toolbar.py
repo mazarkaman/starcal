@@ -18,13 +18,13 @@ class ToolbarItem(gtk.ToolButton, CustomizableCalObj):
 	def __init__(
 		self,
 		name,
-		stockName,
+		iconName,
 		method,
 		desc="",
 		shortDesc="",
 		enableTooltip=True,
 	):
-		#print("ToolbarItem", name, stockName, method, desc, text)
+		#print("ToolbarItem", name, iconName, method, desc, text)
 		self.method = method
 		######
 		if not desc:
@@ -38,10 +38,10 @@ class ToolbarItem(gtk.ToolButton, CustomizableCalObj):
 		######
 		gtk.ToolButton.__init__(self)
 		self.set_icon_widget(
-			gtk.Image.new_from_stock(
-				getattr(gtk, "STOCK_%s" % (stockName.upper())),
+			gtk.Image.new_from_icon_name(
+				iconName,
 				gtk.IconSize.DIALOG,
-			) if stockName else None,
+			) if iconName else None,
 			#shortDesc,
 		)
 		self.set_label(shortDesc)

@@ -29,7 +29,7 @@ from scal3.locale_man import numDecode
 
 from scal3.ui_gtk import *
 from scal3.ui_gtk.decorators import *
-from scal3.ui_gtk.utils import toolButtonFromStock, set_tooltip
+from scal3.ui_gtk.utils import toolButtonFromIcon, set_tooltip
 from scal3.ui_gtk.drawing import *
 from scal3.ui_gtk.event.group.group import WidgetClass as NormalWidgetClass
 
@@ -82,26 +82,26 @@ class CourseListEditor(gtk.HBox):
 		#except:
 		#	pass
 		size = gtk.IconSize.SMALL_TOOLBAR
-		# no different(argument2 to image_new_from_stock has no effect)
+		# no different(argument2 to image_new_from_icon_name has no effect)
 		# gtk.IconSize.SMALL_TOOLBAR or gtk.IconSize.MENU
-		tb = toolButtonFromStock(gtk.STOCK_ADD, size)
+		tb = toolButtonFromIcon("gtk-add", size)
 		set_tooltip(tb, _("Add"))
 		tb.connect("clicked", self.addClicked)
 		toolbar.insert(tb, -1)
 		#self.buttonAdd = tb
 		####
-		tb = toolButtonFromStock(gtk.STOCK_DELETE, size)
+		tb = toolButtonFromIcon("gtk-delete", size)
 		set_tooltip(tb, _("Delete"))
 		tb.connect("clicked", self.deleteClicked)
 		toolbar.insert(tb, -1)
 		#self.buttonDel = tb
 		####
-		tb = toolButtonFromStock(gtk.STOCK_GO_UP, size)
+		tb = toolButtonFromIcon("gtk-go-up", size)
 		set_tooltip(tb, _("Move up"))
 		tb.connect("clicked", self.moveUpClicked)
 		toolbar.insert(tb, -1)
 		####
-		tb = toolButtonFromStock(gtk.STOCK_GO_DOWN, size)
+		tb = toolButtonFromIcon("gtk-go-down", size)
 		set_tooltip(tb, _("Move down"))
 		tb.connect("clicked", self.moveDownClicked)
 		toolbar.insert(tb, -1)
@@ -215,15 +215,15 @@ class ClassTimeBoundsEditor(gtk.HBox):
 		#except:
 		#	pass
 		size = gtk.IconSize.SMALL_TOOLBAR
-		##no different(argument2 to image_new_from_stock has no effect) ?????????
+		##no different(argument2 to image_new_from_icon_name has no effect) ?????????
 		#### gtk.IconSize.SMALL_TOOLBAR or gtk.IconSize.MENU
-		tb = toolButtonFromStock(gtk.STOCK_ADD, size)
+		tb = toolButtonFromIcon("gtk-add", size)
 		set_tooltip(tb, _("Add"))
 		tb.connect("clicked", self.addClicked)
 		toolbar.insert(tb, -1)
 		#self.buttonAdd = tb
 		####
-		tb = toolButtonFromStock(gtk.STOCK_DELETE, size)
+		tb = toolButtonFromIcon("gtk-delete", size)
 		set_tooltip(tb, _("Delete"))
 		tb.connect("clicked", self.deleteClicked)
 		toolbar.insert(tb, -1)
@@ -525,17 +525,17 @@ class WeeklyScheduleWindow(gtk.Dialog):
 		fcd = gtk.FileChooserDialog(parent=self, action=gtk.FileChooserAction.SAVE)
 		fcd.set_current_folder(deskDir)
 		fcd.set_current_name(self.term.title + ".svg")
-		canB = fcd.add_button(gtk.STOCK_CANCEL, gtk.ResponseType.CANCEL)
-		saveB = fcd.add_button(gtk.STOCK_SAVE, gtk.ResponseType.OK)
+		canB = fcd.add_button("gtk-cancel", gtk.ResponseType.CANCEL)
+		saveB = fcd.add_button("gtk-save", gtk.ResponseType.OK)
 		if ui.autoLocale:
 			canB.set_label(_("_Cancel"))
-			canB.set_image(gtk.Image.new_from_stock(
-				gtk.STOCK_CANCEL,
+			canB.set_image(gtk.Image.new_from_icon_name(
+				"gtk-cancel",
 				gtk.IconSize.BUTTON,
 			))
 			saveB.set_label(_("_Save"))
-			saveB.set_image(gtk.Image.new_from_stock(
-				gtk.STOCK_SAVE,
+			saveB.set_image(gtk.Image.new_from_icon_name(
+				"gtk-save",
 				gtk.IconSize.BUTTON,
 			))
 		if fcd.run() == gtk.ResponseType.OK:

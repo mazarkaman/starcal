@@ -95,9 +95,8 @@ class AccountGroupBox(gtk.HBox):
 		self.combo = AccountGroupCombo()
 		pack(self, self.combo)
 		##
-		button = gtk.Button(
-			#stock=gtk.STOCK_CONNECT,
-		)
+		button = gtk.Button()
+		# button.set_image(gtk.Image.new_from_icon_name("gtk-connect", gtk.IconSize.BUTTON))
 		button.set_label(_("Fetch"))
 		button.connect("clicked", self.fetchClicked)
 		pack(self, button)

@@ -263,16 +263,16 @@ class PlayerBox(gtk.HBox):
 		##self.toolbar.connect("key-press-event", self.toolbarKey)#??????????
 		##############
 		self.playPauseBut = gtk.Button()
-		self.playPauseBut.set_image(gtk.Image.new_from_stock(
-			gtk.STOCK_MEDIA_PLAY,
+		self.playPauseBut.set_image(gtk.Image.new_from_icon_name(
+			"gtk-media-play",
 			gtk.IconSize.SMALL_TOOLBAR,
 		))
 		self.playPauseBut.connect("clicked", self.playPause)
 		pack(self, self.playPauseBut)
 		#######
 		stopBut = gtk.Button()
-		stopBut.set_image(gtk.Image.new_from_stock(
-			gtk.STOCK_MEDIA_STOP,
+		stopBut.set_image(gtk.Image.new_from_icon_name(
+			"gtk-media-stop",
 			gtk.IconSize.SMALL_TOOLBAR,
 		))
 		stopBut.connect("clicked", self.stop)
@@ -337,8 +337,8 @@ class PlayerBox(gtk.HBox):
 			print("abc")
 			sleep(0.05)
 			self.seekAdj.value = 100
-			#self.playPauseBut.set_image(gtk.Image.new_from_stock(
-			#	gtk.STOCK_MEDIA_PLAY,
+			#self.playPauseBut.set_image(gtk.Image.new_from_icon_name(
+			#	"gtk-media-play",
 			#	gtk.IconSize.SMALL_TOOLBAR,
 			#))
 		else:
@@ -358,18 +358,18 @@ class PlayerBox(gtk.HBox):
 			self.mplayer.setVolume(self.vollevel0)
 
 	def playPause(self, button=None):
-		icon = gtk.STOCK_MEDIA_PLAY
+		icon = "gtk-media-play"
 		if self.mplayer.mplayerIn:
 			if not self.mplayer.paused:
-				icon = gtk.STOCK_MEDIA_PAUSE
+				icon = "gtk-media-pause"
 			self.mplayer.pause()
 		else:
-			icon = gtk.STOCK_MEDIA_PAUSE
+			icon = "gtk-media-pause"
 			path = self.fcb.get_filename()
 			if path is None:
 				return
 			self.mplayer.play(path)
-		self.playPauseBut.set_image(gtk.Image.new_from_stock(
+		self.playPauseBut.set_image(gtk.Image.new_from_icon_name(
 			icon,
 			gtk.IconSize.SMALL_TOOLBAR,
 		))
@@ -379,8 +379,8 @@ class PlayerBox(gtk.HBox):
 
 	def stop(self, button):# Stop mplayer if it's running
 		self.mplayer.close()
-		self.playPauseBut.set_image(gtk.Image.new_from_stock(
-			gtk.STOCK_MEDIA_PLAY,
+		self.playPauseBut.set_image(gtk.Image.new_from_icon_name(
+			"gtk-media-play",
 			gtk.IconSize.SMALL_TOOLBAR,
 		))
 		self.fcb.set_sensitive(self.mplayer.mplayerIn is None)
@@ -408,8 +408,8 @@ class PlayerBox(gtk.HBox):
 		if startPlaying:
 			self.playPause()
 		#self.mplayer.play(path)
-		#self.playPauseBut.set_image(gtk.Image.new_from_stock(
-		#	gtk.STOCK_MEDIA_PAUSE,
+		#self.playPauseBut.set_image(gtk.Image.new_from_icon_name(
+		#	"gtk-media-pause",
 		#	gtk.IconSize.SMALL_TOOLBAR,
 		#))
 		#self.fcb.set_sensitive(self.mplayer.mplayerIn==None)

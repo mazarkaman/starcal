@@ -80,8 +80,8 @@ class ExportDialog(gtk.Dialog, MyDialog):
 		self.vbox.show_all()
 		combo.connect("changed", self.comboChanged)
 		##
-		dialog_add_button(self, gtk.STOCK_CANCEL, _("_Cancel"), 1, self.onDelete)
-		dialog_add_button(self, gtk.STOCK_SAVE, _("_Save"), 2, self.save)
+		dialog_add_button(self, "gtk-cancel", _("_Cancel"), 1, self.onDelete)
+		dialog_add_button(self, "gtk-save", _("_Save"), 2, self.save)
 		##
 		self.connect("delete-event", self.onDelete)
 		self.fcw.set_current_folder(core.deskDir)
@@ -210,14 +210,14 @@ class ExportToIcsDialog(gtk.Dialog, MyDialog):
 		##
 		dialog_add_button(
 			self,
-			gtk.STOCK_CANCEL,
+			"gtk-cancel",
 			_("_Cancel"),
 			1,
 			self.onDelete,
 		)
 		dialog_add_button(
 			self,
-			gtk.STOCK_SAVE,
+			"gtk-save",
 			_("_Save"),
 			2,
 			self.save,

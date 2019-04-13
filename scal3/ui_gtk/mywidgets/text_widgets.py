@@ -6,7 +6,7 @@ from scal3 import ui
 
 from scal3.ui_gtk import *
 from scal3.ui_gtk.utils import (
-	labelStockMenuItem,
+	labelIconMenuItem,
 	setClipboard,
 	buffer_get_text,
 )
@@ -24,15 +24,15 @@ class ReadOnlyTextWidget:
 		for item in menu.get_children():
 			menu.remove(item)
 		####
-		menu.add(labelStockMenuItem(
+		menu.add(labelIconMenuItem(
 			"Copy _All",
-			gtk.STOCK_COPY,
+			"gtk-copy",
 			self.copyAll,
 		))
 		####
-		itemCopy = labelStockMenuItem(
+		itemCopy = labelIconMenuItem(
 			"_Copy",
-			gtk.STOCK_COPY,
+			"gtk-copy",
 			self.copy,
 		)
 		if not self.has_selection():

@@ -37,7 +37,7 @@ from scal3.timeline import *
 from scal3.ui_gtk import *
 from scal3.ui_gtk.decorators import *
 from scal3.ui_gtk.font_utils import pfontEncode
-from scal3.ui_gtk.utils import labelStockMenuItem, labelImageMenuItem
+from scal3.ui_gtk.utils import labelIconMenuItem, labelImageMenuItem
 from scal3.ui_gtk.drawing import setColor, fillColor, newTextLayout, Button
 from scal3.ui_gtk import gtk_ud as ud
 #from scal3.ui_gtk import preferences
@@ -83,10 +83,15 @@ class TimeLine(gtk.DrawingArea, ud.BaseCalObj):
 		self.currentTime = now()
 		self.timeWidth = dayLen
 		self.timeStart = self.currentTime - self.timeWidth / 2.0
+		# self.buttons = [
+		# 	Button("", self.centerToNowClicked, 1, -1, False, iconName="gtk-home"),
+		# 	Button("", self.startResize, -1, -1, False, iconName="sw-resize"),
+		# 	Button("", closeFunc, 35, -1, False, iconName="gtk-exit")
+		# ]
 		self.buttons = [
 			Button("home.png", self.centerToNowClicked, 1, -1, False),
 			Button("resize-small.png", self.startResize, -1, -1, False),
-			Button("exit.png", closeFunc, 35, -1, False)
+			Button("exit.png", closeFunc, 35, -1, False),
 		]
 		# zoom in and zoom out buttons FIXME
 		self.data = None
@@ -369,9 +374,9 @@ class TimeLine(gtk.DrawingArea, ud.BaseCalObj):
 				##
 				if not event.readOnly:
 					winTitle = _("Edit") + " " + event.desc
-					menu.add(labelStockMenuItem(
+					menu.add(labelIconMenuIteml(
 						winTitle,
-						gtk.STOCK_EDIT,
+						"gtk-edit",
 						self.editEventClicked,
 						winTitle,
 						event,
@@ -379,9 +384,9 @@ class TimeLine(gtk.DrawingArea, ud.BaseCalObj):
 					))
 				##
 				winTitle = _("Edit") + " " + group.desc
-				menu.add(labelStockMenuItem(
+				menu.add(labelIconMenuItem(
 					winTitle,
-					gtk.STOCK_EDIT,
+					"gtk-edit",
 					self.editGroupClicked,
 					winTitle,
 					group,

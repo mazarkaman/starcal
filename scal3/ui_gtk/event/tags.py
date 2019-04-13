@@ -262,13 +262,13 @@ class TagEditorDialog(gtk.Dialog):
 		####
 		dialog_add_button(
 			self,
-			gtk.STOCK_CANCEL,
+			"gtk-cancel",
 			_("_Cancel"),
 			gtk.ResponseType.CANCEL,
 		)
 		dialog_add_button(
 			self,
-			gtk.STOCK_OK,
+			"gtk-ok",
 			_("_OK"),
 			gtk.ResponseType.OK,
 		)
@@ -289,8 +289,8 @@ class ViewEditTagsHbox(gtk.HBox):
 		self.dialog.connect("response", self.dialogResponse)
 		self.editButton = gtk.Button()
 		self.editButton.set_label(_("_Edit"))
-		self.editButton.set_image(gtk.Image.new_from_stock(
-			gtk.STOCK_EDIT,
+		self.editButton.set_image(gtk.Image.new_from_icon_name(
+			"gtk-edit",
 			gtk.IconSize.BUTTON,
 		))
 		self.editButton.connect("clicked", self.editButtonClicked)

@@ -86,14 +86,14 @@ class SelectDateDialog(gtk.Dialog):
 		#######
 		dialog_add_button(
 			self,
-			gtk.STOCK_CANCEL,
+			"gtk-cancel",
 			_("_Cancel"),
 			2,
 			self.hideMe,
 		)
 		dialog_add_button(
 			self,
-			gtk.STOCK_OK,
+			"gtk-ok",
 			_("_OK"),
 			1,
 			self.ok,

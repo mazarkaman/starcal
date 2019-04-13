@@ -91,28 +91,31 @@ def pixbufFromFile(path):## the file may not exist
 		myRaise()
 		return None
 
-
-def toolButtonFromStock(stock, size):
+def toolButtonFromIcon(iconName, size):
 	tb = gtk.ToolButton()
-	tb.set_icon_widget(gtk.Image.new_from_stock(stock, size))
+	tb.set_icon_widget(gtk.Image.new_from_icon_name(iconName, size))
 	return tb
 
+def labelIconButton(label, iconName, size):
+	button = gtk.Button()
+	button.set_label(label)
+	button.set_image(gtk.Image.new_from_icon_name(iconName, size))
+	button.set_use_underline(True)
+	return button
 
 def toolButtonFromFile(fname):
 	tb = gtk.ToolButton()
 	tb.set_icon_widget(imageFromFile(fname))
 	return tb
 
-
-def labelStockMenuItem(label, stock=None, func=None, *args):
+def labelIconMenuItem(label, iconName="", func=None, *args):
 	item = ImageMenuItem(_(label))
 	item.set_use_underline(True)
-	if stock:
-		item.set_image(gtk.Image.new_from_stock(stock, gtk.IconSize.MENU))
+	if iconName:
+		item.set_image(gtk.Image.new_from_icon_name(iconName, gtk.IconSize.MENU))
 	if func:
 		item.connect("activate", func, *args)
 	return item
-
 
 def labelImageMenuItem(label, imageName, func=None, *args):
 	item = ImageMenuItem(_(label))
@@ -154,12 +157,12 @@ def rectangleContainsPoint(r, x, y):
 	)
 
 
-def dialog_add_button(dialog, stock, label, resId, onClicked=None, tooltip=""):
-	b = dialog.add_button(stock, resId)
+def dialog_add_button(dialog, iconName, label, resId, onClicked=None, tooltip=""):
+	b = dialog.add_button(label, resId)
 	if ui.autoLocale:
 		if label:
 			b.set_label(label)
-		b.set_image(gtk.Image.new_from_stock(stock, gtk.IconSize.BUTTON))
+		b.set_image(gtk.Image.new_from_icon_name(iconName, gtk.IconSize.BUTTON))
 	if onClicked:
 		b.connect("clicked", onClicked)
 	if tooltip:
@@ -177,13 +180,13 @@ def confirm(msg, parent=None):
 	)
 	dialog_add_button(
 		win,
-		gtk.STOCK_CANCEL,
+		"gtk-cancel",
 		_("_Cancel"),
 		gtk.ResponseType.CANCEL,
 	)
 	dialog_add_button(
 		win,
-		gtk.STOCK_OK,
+		"gtk-ok",
 		_("_OK"),
 		gtk.ResponseType.OK,
 	)
@@ -202,7 +205,7 @@ def showMsg(msg, parent, msg_type):
 	)
 	dialog_add_button(
 		win,
-		gtk.STOCK_CLOSE,
+		"gtk-close",
 		_("_Close"),
 		gtk.ResponseType.OK,
 	)

@@ -43,9 +43,9 @@ from scal3.ui_gtk.utils import (
 	confirm,
 )
 from scal3.ui_gtk.utils import (
-	toolButtonFromStock,
+	toolButtonFromIcon,
 	labelImageMenuItem,
-	labelStockMenuItem,
+	labelIconMenuItem,
 )
 from scal3.ui_gtk.utils import (
 	pixbufFromFile,
@@ -183,7 +183,7 @@ class EventManagerDialog(gtk.Dialog, MyDialog, ud.BaseCalObj):## FIXME
 		self.set_transient_for(None)
 		self.set_type_hint(gdk.WindowTypeHint.NORMAL)
 		##
-		dialog_add_button(self, gtk.STOCK_OK, _("_OK"), gtk.ResponseType.OK)
+		dialog_add_button(self, "gtk-ok", _("_OK"), gtk.ResponseType.OK)
 		#self.connect("response", lambda w, e: self.hide())
 		self.connect("response", self.onResponse)
 		self.connect("show", self.onShow)
@@ -329,17 +329,17 @@ class EventManagerDialog(gtk.Dialog, MyDialog, ud.BaseCalObj):## FIXME
 		toolbar.set_orientation(gtk.Orientation.VERTICAL)
 		size = gtk.IconSize.SMALL_TOOLBAR
 		###
-		tb = toolButtonFromStock(gtk.STOCK_GO_UP, size)
+		tb = toolButtonFromIcon("gtk-go-up", size)
 		set_tooltip(tb, _("Move up"))
 		tb.connect("clicked", self.moveUpByButton)
 		toolbar.insert(tb, -1)
 		###
-		tb = toolButtonFromStock(gtk.STOCK_GO_DOWN, size)
+		tb = toolButtonFromIcon("gtk-go-down", size)
 		set_tooltip(tb, _("Move down"))
 		tb.connect("clicked", self.moveDownByButton)
 		toolbar.insert(tb, -1)
 		###
-		tb = toolButtonFromStock(gtk.STOCK_COPY, size)
+		tb = toolButtonFromIcon("gtk-copy", size)
 		set_tooltip(tb, _("Duplicate"))
 		tb.connect("clicked", self.duplicateSelectedObj)
 		toolbar.insert(tb, -1)
@@ -536,25 +536,25 @@ class EventManagerDialog(gtk.Dialog, MyDialog, ud.BaseCalObj):## FIXME
 				#print("right click on trash", group.title)
 				menu.add(eventWriteMenuItem(
 					"Edit",
-					gtk.STOCK_EDIT,
+					"gtk-edit",
 					self.editTrash,
 				))
 				menu.add(eventWriteMenuItem(
 					"Empty Trash",## or use group.title FIXME
-					gtk.STOCK_CLEAR,
+					"gtk-clear",
 					self.emptyTrash,
 				))
 				#menu.add(gtk.SeparatorMenuItem())
 				#menu.add(eventWriteMenuItem(
 				#	"Add New Group",
-				#	gtk.STOCK_NEW,
+				#	"gtk-new",
 				#	self.addGroupBeforeSelection,
 				#))## FIXME
 			else:
 				#print("right click on group", group.title)
 				menu.add(eventWriteMenuItem(
 					"Edit",
-					gtk.STOCK_EDIT,
+					"gtk-edit",
 					self.editGroupFromMenu,
 					path,
 				))
@@ -564,7 +564,7 @@ class EventManagerDialog(gtk.Dialog, MyDialog, ud.BaseCalObj):## FIXME
 				if len(eventTypes) > 3:
 					menu.add(eventWriteMenuItem(
 						_("Add Event"),
-						gtk.STOCK_ADD,
+						"gtk-add",
 						self.addGenericEventToGroupFromMenu,
 						path,
 						group,
@@ -577,7 +577,7 @@ class EventManagerDialog(gtk.Dialog, MyDialog, ud.BaseCalObj):## FIXME
 						label = _("Add ") + event_lib.classes.event.byName[eventType].desc
 						menu.add(eventWriteMenuItem(
 							label,
-							gtk.STOCK_ADD,
+							"gtk-add",
 							self.addEventToGroupFromMenu,
 							path,
 							group,
@@ -586,7 +586,7 @@ class EventManagerDialog(gtk.Dialog, MyDialog, ud.BaseCalObj):## FIXME
 						))
 				pasteItem = eventWriteMenuItem(
 					"Paste Event",
-					gtk.STOCK_PASTE,
+					"gtk-paste",
 					self.pasteEventFromMenu,
 					path,
 				)
@@ -604,7 +604,7 @@ class EventManagerDialog(gtk.Dialog, MyDialog, ud.BaseCalObj):## FIXME
 							menu.add(gtk.SeparatorMenuItem())
 							menu.add(eventWriteMenuItem(
 								"Synchronize",
-								gtk.STOCK_CONNECT,## or gtk.STOCK_REFRESH FIXME
+								"gtk-connect", # or gtk-refresh ?
 								self.syncGroupFromMenu,
 								path,
 								account,
@@ -614,20 +614,20 @@ class EventManagerDialog(gtk.Dialog, MyDialog, ud.BaseCalObj):## FIXME
 				menu.add(gtk.SeparatorMenuItem())
 				#menu.add(eventWriteMenuItem(
 				#	"Add New Group",
-				#	gtk.STOCK_NEW,
+				#	"gtk-new",
 				#	self.addGroupBeforeGroup,
 				#	path,
 				#))## FIXME
 				menu.add(eventWriteMenuItem(
 					"Duplicate",
-					gtk.STOCK_COPY,
+					"gtk-copy",
 					self.duplicateGroupFromMenu,
 					path,
 				))
 				###
-				dupAllItem = labelStockMenuItem(
+				dupAllItem = labelIconMenuItem(
 					"Duplicate with All Events",
-					gtk.STOCK_COPY,
+					"gtk-copy",
 					self.duplicateGroupWithEventsFromMenu,
 					path,
 				)
@@ -640,7 +640,7 @@ class EventManagerDialog(gtk.Dialog, MyDialog, ud.BaseCalObj):## FIXME
 				menu.add(gtk.SeparatorMenuItem())
 				menu.add(eventWriteMenuItem(
 					"Delete Group",
-					gtk.STOCK_DELETE,
+					"gtk-delete",
 					self.deleteGroupFromMenu,
 					path,
 				))
@@ -648,27 +648,27 @@ class EventManagerDialog(gtk.Dialog, MyDialog, ud.BaseCalObj):## FIXME
 				##
 				#menu.add(eventWriteMenuItem(
 				#	"Move Up",
-				#	gtk.STOCK_GO_UP,
+				#	"gtk-go-up",
 				#	self.moveUpFromMenu,
 				#	path,
 				#))
 				#menu.add(eventWriteMenuItem(
 				#	"Move Down",
-				#	gtk.STOCK_GO_DOWN,
+				#	"gtk-go-down",
 				#	self.moveDownFromMenu,
 				#	path,
 				#))
 				##
-				menu.add(labelStockMenuItem(
+				menu.add(labelIconMenuItem(
 					_("Export"),
-					gtk.STOCK_CONVERT,
+					"gtk-convert",
 					self.groupExportFromMenu,
 					group,
 				))
 				###
-				sortItem = labelStockMenuItem(
+				sortItem = labelIconMenuItem(
 					_("Sort Events"),
-					gtk.STOCK_SORT_ASCENDING,
+					"gtk-sort-ascending",
 					self.groupSortFromMenu,
 					path,
 				)
@@ -678,9 +678,9 @@ class EventManagerDialog(gtk.Dialog, MyDialog, ud.BaseCalObj):## FIXME
 					and bool(group.idList)
 				)
 				###
-				convertItem = labelStockMenuItem(
+				convertItem = labelIconMenuItem(
 					_("Convert Calendar Type"),
-					gtk.STOCK_CONVERT,
+					"gtk-convert",
 					self.groupConvertModeFromMenu,
 					group,
 				)
@@ -695,15 +695,15 @@ class EventManagerDialog(gtk.Dialog, MyDialog, ud.BaseCalObj):## FIXME
 						_(
 							"Convert to %s"
 						) % event_lib.classes.group.byName[newGroupType].desc,
-						None,
+						"", # icon name
 						self.groupConvertTo,
 						group,
 						newGroupType,
 					))
 				###
-				bulkItem = labelStockMenuItem(
+				bulkItem = labelIconMenuItem(
 					_("Bulk Edit Events"),
-					gtk.STOCK_EDIT,
+					"gtk-edit",
 					self.groupBulkEditFromMenu,
 					group,
 					path,
@@ -717,7 +717,7 @@ class EventManagerDialog(gtk.Dialog, MyDialog, ud.BaseCalObj):## FIXME
 				for actionName, actionFuncName in group.actions:
 					menu.add(eventWriteMenuItem(
 						_(actionName),
-						None,
+						"", # icon name
 						self.groupActionClicked,
 						group,
 						actionFuncName,
@@ -728,7 +728,7 @@ class EventManagerDialog(gtk.Dialog, MyDialog, ud.BaseCalObj):## FIXME
 			if group.name != "trash":
 				menu.add(eventWriteMenuItem(
 					"Edit",
-					gtk.STOCK_EDIT,
+					"gtk-edit",
 					self.editEventFromMenu,
 					path,
 				))
@@ -742,7 +742,7 @@ class EventManagerDialog(gtk.Dialog, MyDialog, ud.BaseCalObj):## FIXME
 			####
 			moveToItem = eventWriteMenuItem(
 				_("Move to %s") % "...",
-				None,  # FIXME
+				"",  # FIXME: icon name
 			)
 			moveToMenu = gtk.Menu()
 			for new_group in ui.eventGroups:
@@ -774,13 +774,13 @@ class EventManagerDialog(gtk.Dialog, MyDialog, ud.BaseCalObj):## FIXME
 			####
 			menu.add(eventWriteMenuItem(
 				"Cut",
-				gtk.STOCK_CUT,
+				"gtk-cut",
 				self.cutEvent,
 				path,
 			))
 			menu.add(eventWriteMenuItem(
 				"Copy",
-				gtk.STOCK_COPY,
+				"gtk-copy",
 				self.copyEvent,
 				path,
 			))
@@ -789,14 +789,14 @@ class EventManagerDialog(gtk.Dialog, MyDialog, ud.BaseCalObj):## FIXME
 				menu.add(gtk.SeparatorMenuItem())
 				menu.add(eventWriteMenuItem(
 					"Delete",
-					gtk.STOCK_DELETE,
+					"gtk-delete",
 					self.deleteEventFromTrash,
 					path,
 				))
 			else:
 				pasteItem = eventWriteMenuItem(
 					"Paste",
-					gtk.STOCK_PASTE,
+					"gtk-paste",
 					self.pasteEventFromMenu,
 					path,
 				)

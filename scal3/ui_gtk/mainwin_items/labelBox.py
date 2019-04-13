@@ -417,12 +417,12 @@ class YearLabel(IntLabel, ud.BaseCalObj):
 		self.setActive(ui.cell.dates[self.calType][0])
 
 
-def newSmallNoFocusButton(stock, func, tooltip=""):
+def newSmallNoFocusButton(iconName, func, tooltip=""):
 	arrow = ConButton()
 	arrow.set_relief(2)
 	arrow.set_can_focus(False)
-	arrow.set_image(gtk.Image.new_from_stock(
-		stock,
+	arrow.set_image(gtk.Image.new_from_icon_name(
+		iconName,
 		gtk.IconSize.SMALL_TOOLBAR,
 	))
 	arrow.connect("con-clicked", func)
@@ -439,7 +439,7 @@ class YearLabelButtonBox(gtk.HBox, ud.BaseCalObj):
 		pack(
 			self,
 			newSmallNoFocusButton(
-				gtk.STOCK_REMOVE,
+				"gtk-remove",
 				self.prevClicked,
 				_("Previous Year"),
 			),
@@ -454,7 +454,7 @@ class YearLabelButtonBox(gtk.HBox, ud.BaseCalObj):
 		pack(
 			self,
 			newSmallNoFocusButton(
-				gtk.STOCK_ADD,
+				"gtk-add",
 				self.nextClicked,
 				_("Next Year"),
 			),
@@ -483,7 +483,7 @@ class MonthLabelButtonBox(gtk.HBox, ud.BaseCalObj):
 		pack(
 			self,
 			newSmallNoFocusButton(
-				gtk.STOCK_REMOVE,
+				"gtk-remove",
 				self.prevClicked,
 				_("Previous Month"),
 			),
@@ -498,7 +498,7 @@ class MonthLabelButtonBox(gtk.HBox, ud.BaseCalObj):
 		pack(
 			self,
 			newSmallNoFocusButton(
-				gtk.STOCK_ADD,
+				"gtk-add",
 				self.nextClicked,
 				_("Next Month"),
 			),

@@ -26,7 +26,7 @@ from scal3 import event_lib
 from scal3 import ui
 
 from scal3.ui_gtk import *
-from scal3.ui_gtk.utils import toolButtonFromStock, set_tooltip
+from scal3.ui_gtk.utils import toolButtonFromIcon, set_tooltip
 
 
 def encode(d):
@@ -53,8 +53,8 @@ class WidgetClass(gtk.HBox):
 		self.dialog = None
 		###
 		self.editButton = gtk.Button(_("Edit"))
-		self.editButton.set_image(gtk.Image.new_from_stock(
-			gtk.STOCK_EDIT,
+		self.editButton.set_image(gtk.Image.new_from_icon_name(
+			"gtk-edit",
 			gtk.IconSize.BUTTON,
 		))
 		self.editButton.connect("clicked", self.showDialog)
@@ -90,24 +90,24 @@ class WidgetClass(gtk.HBox):
 		toolbar.set_orientation(gtk.Orientation.VERTICAL)
 		size = gtk.IconSize.SMALL_TOOLBAR
 		##
-		tb = toolButtonFromStock(gtk.STOCK_ADD, size)
+		tb = toolButtonFromIcon("gtk-add", size)
 		set_tooltip(tb, _("Add"))
 		tb.connect("clicked", self.addClicked)
 		toolbar.insert(tb, -1)
 		#self.buttonAdd = tb
 		##
-		tb = toolButtonFromStock(gtk.STOCK_DELETE, size)
+		tb = toolButtonFromIcon("gtk-delete", size)
 		set_tooltip(tb, _("Delete"))
 		tb.connect("clicked", self.deleteClicked)
 		toolbar.insert(tb, -1)
 		#self.buttonDel = tb
 		##
-		tb = toolButtonFromStock(gtk.STOCK_GO_UP, size)
+		tb = toolButtonFromIcon("gtk-go-up", size)
 		set_tooltip(tb, _("Move up"))
 		tb.connect("clicked", self.moveUpClicked)
 		toolbar.insert(tb, -1)
 		##
-		tb = toolButtonFromStock(gtk.STOCK_GO_DOWN, size)
+		tb = toolButtonFromIcon("gtk-go-down", size)
 		set_tooltip(tb, _("Move down"))
 		tb.connect("clicked", self.moveDownClicked)
 		toolbar.insert(tb, -1)
@@ -120,11 +120,11 @@ class WidgetClass(gtk.HBox):
 		self.dialog.resize(200, 300)
 		self.dialog.connect("response", lambda w, e: self.dialog.hide())
 		##
-		okButton = self.dialog.add_button(gtk.STOCK_OK, gtk.ResponseType.CANCEL)
+		okButton = self.dialog.add_button("gtk-ok", gtk.ResponseType.CANCEL)
 		if ui.autoLocale:
 			okButton.set_label(_("_OK"))
-			okButton.set_image(gtk.Image.new_from_stock(
-				gtk.STOCK_OK,
+			okButton.set_image(gtk.Image.new_from_icon_name(
+				"gtk-ok",
 				gtk.IconSize.BUTTON,
 			))
 

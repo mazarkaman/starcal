@@ -18,8 +18,8 @@ class MultiValueRule(gtk.HBox):
 		pack(self, self.widgetsBox)
 		##
 		self.removeButton = gtk.Button()
-		self.removeButton.set_image(gtk.Image.new_from_stock(
-			gtk.STOCK_REMOVE,
+		self.removeButton.set_image(gtk.Image.new_from_icon_name(
+			"gtk-remove",
 			gtk.IconSize.MENU,
 		))
 		self.removeButton.connect("clicked", self.removeLastWidget)
