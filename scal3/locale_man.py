@@ -270,11 +270,11 @@ def loadTranslator(ui_is_qt=False):
 	#)
 	#else:  # for example on windows (what about mac?)
 	try:
-		fd = open(langDict[langActive].transPath, "rb")
+		with open(langDict[langActive].transPath, "rb") as fp:
+			transObj = gettext.GNUTranslations(fp)
 	except:
+		myRaise(__file__)
 		transObj = None
-	else:
-		transObj = gettext.GNUTranslations(fd)
 	if transObj:
 		def tr(s, *a, nums=False, **ka):
 			if isinstance(s, (int, float)):

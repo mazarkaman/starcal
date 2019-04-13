@@ -74,7 +74,8 @@ def checkAndSaveJsonLockFile(fpath):
 			("time", now()),
 		]))
 		try:
-			open(fpath, "w").write(my_text)
+			with open(fpath, "w") as fp:
+				fp.write(my_text)
 		except Exception as e:
 			print("failed to write lock file %s: %s" % (fpath, e))
 		else:
