@@ -53,7 +53,8 @@ def loadConf(confPath):
 	if not isfile(confPath):
 		return
 	try:
-		text = open(confPath).read()
+		with open(confPath) as fp:
+			text = fp.read()
 	except Exception as e:
 		print("failed to read file %r: %s" % (confPath, e))
 		return
@@ -72,7 +73,8 @@ def loadCoreConf():
 		return data
 
 	try:
-		text = open(confPath).read()
+		with open(confPath) as fp:
+			text = fp.read()
 	except Exception as e:
 		print("failed to read file %r: %s" % (confPath, e))
 		return
@@ -94,7 +96,8 @@ def loadUiCustomizeConf():
 		return
 	#####
 	try:
-		text = open(confPath).read()
+		with open(confPath) as fp:
+			text = fp.read()
 	except Exception as e:
 		print("failed to read file %r: %s" % (confPath, e))
 		return
@@ -142,7 +145,8 @@ def importEventsIter():
 			print("\"%s\": not such file" % jsonPath)
 			continue
 		try:
-			data = json.loads(open(jsonPath).read())
+			with open(jsonPath) as fp:
+				data = json.loads(fp.read())
 		except Exception as e:
 			print("error while loading json file \"%s\"" % jsonPath)
 			continue
@@ -195,7 +199,8 @@ def importGroupsIter():
 		except ValueError:
 			continue
 		try:
-			data = json.loads(open(jsonPath).read())
+			with open(jsonPath) as fp:
+				data = json.loads(fp.read())
 		except Exception as e:
 			print("error while loading json file \"%s\"" % jsonPath)
 			continue
@@ -237,7 +242,8 @@ def importGroupsIter():
 	oldGroupListFile = join(oldEventDir, "group_list.json")
 	newGroupListFile = join(newEventDir, "group_list.json")
 	try:
-		groupIds = json.loads(open(oldGroupListFile).read())
+		with open(oldGroupListFile) as fp:
+			groupIds = json.loads(fp.read())
 	except Exception as e:
 		print("error while loading %s: %s" % (oldGroupListFile, e))
 	else:
@@ -279,7 +285,8 @@ def importAccountsIter():
 		except ValueError:
 			continue
 		try:
-			data = json.loads(open(jsonPath).read())
+			with open(jsonPath) as fp:
+				data = json.loads(fp.read())
 		except Exception as e:
 			print("error while loading json file \"%s\"" % jsonPath)
 			continue
@@ -316,7 +323,8 @@ def importTrashIter():
 	jsonPath = join(oldEventDir, "trash.json")
 	newJsonPath = join(newEventDir, "trash.json")
 	try:
-		data = json.loads(open(jsonPath).read())
+		with open(jsonPath) as fp:
+			data = json.loads(fp.read())
 	except Exception as e:
 		print(e)
 		return

@@ -21,39 +21,40 @@ def myRaise():
 	))
 
 
-for name in open(join(modDir, "modules.list")).read().split("\n"):
-	name = name.strip()
-	if not name:
-		continue
-	if name.startswith("#"):
-		continue
-	#try:
-	mod = __import__("scal3.cal_types.%s" % name, fromlist=[name])
-	#mod = __import__(name) # Need to "sys.path.insert(0, modDir)" before
-	#except:
-	#	myRaise()
-	#	print("Could not load calendar modules "%s"" % name)
-	#	continue
-	for attr in (
-		"name",
-		"desc",
-		"origLang",
-		"getMonthName",
-		"getMonthNameAb",
-		"minMonthLen",
-		"maxMonthLen",
-		"getMonthLen",
-		"to_jd",
-		"jd_to",
-		"options",
-		"save",
-	):
-		if not hasattr(mod, attr):
-			printError(
-				"Invalid calendar module: " +
-				"module \"%s\" has no attribute \"%s\"\n" % (name, attr)
-			)
-	modules.append(mod)
+with open(join(modDir, "modules.list")) as fp:
+	for name in fp.read().split("\n"):
+		name = name.strip()
+		if not name:
+			continue
+		if name.startswith("#"):
+			continue
+		#try:
+		mod = __import__("scal3.cal_types.%s" % name, fromlist=[name])
+		#mod = __import__(name) # Need to "sys.path.insert(0, modDir)" before
+		#except:
+		#	myRaise()
+		#	print("Could not load calendar modules "%s"" % name)
+		#	continue
+		for attr in (
+			"name",
+			"desc",
+			"origLang",
+			"getMonthName",
+			"getMonthNameAb",
+			"minMonthLen",
+			"maxMonthLen",
+			"getMonthLen",
+			"to_jd",
+			"jd_to",
+			"options",
+			"save",
+		):
+			if not hasattr(mod, attr):
+				printError(
+					"Invalid calendar module: " +
+					"module \"%s\" has no attribute \"%s\"\n" % (name, attr)
+				)
+		modules.append(mod)
 
 
 class CalTypesHolder:

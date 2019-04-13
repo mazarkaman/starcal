@@ -290,7 +290,8 @@ def loadExternalPlugin(_file, **data):
 		"BaseJsonPlugin": BaseJsonPlugin,
 	}
 	try:
-		exec(open(mainFile, encoding="utf-8").read(), pyEnv)
+		with open(mainFile, encoding="utf-8") as fp:
+			exec(fp.read(), pyEnv)
 	except:
 		log.error("error while loading external plugin \"%s\"" % _file)
 		myRaiseTback()
@@ -504,7 +505,8 @@ class YearlyTextPlugin(BaseJsonPlugin):
 		ext = splitext(self.dataFile)[1].lower()
 		if ext == ".txt":
 			sep = "\t"
-			lines = open(self.dataFile, encoding="utf-8").read().split("\n")
+			with open(self.dataFile, encoding="utf-8") as fp:
+				lines = fp.read().split("\n")
 			for line in lines[1:]:
 				line = line.strip()
 				if not line:
@@ -595,7 +597,8 @@ class IcsTextPlugin(BasePlugin):
 		self.md = None
 
 	def load(self):
-		lines = open(self.file, encoding="utf-8").read().replace("\r", "").split("\n")
+		with open(self.file, encoding="utf-8") as fp:
+			lines = fp.read().replace("\r", "").split("\n")
 		n = len(lines)
 		i = 0
 		while True:
@@ -789,7 +792,8 @@ def loadPlugin(_file=None, **kwargs):
 		)
 		return
 	try:
-		text = open(_file, encoding="utf-8").read()
+		with open(_file, encoding="utf-8") as fp:
+			text = fp.read()
 	except Exception as e:
 		log.error(
 			"error while reading plugin file \"%s\"" % _file +

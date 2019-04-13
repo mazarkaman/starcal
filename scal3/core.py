@@ -634,14 +634,13 @@ eventTrashLastTop = True
 
 licenseText = _("licenseText")
 if licenseText in ("licenseText", ""):
-	licenseText = open(
-		"%s/license-dialog" % rootDir,
-		encoding="utf-8",
-	).read()
+	with open("%s/license-dialog" % rootDir, encoding="utf-8") as fp:
+		licenseText = fp.read()
 
 aboutText = _("aboutText")
 if aboutText in ("aboutText", ""):
-	aboutText = open("%s/about" % rootDir, encoding="utf-8").read()
+	with open("%s/about" % rootDir, encoding="utf-8") as fp:
+		aboutText = fp.read()
 
 
 weekDayName = (

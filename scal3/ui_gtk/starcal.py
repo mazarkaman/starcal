@@ -1111,7 +1111,8 @@ class MainWin(gtk.Window, ud.BaseCalObj):
 				loader.set_size(width, height)
 			except:
 				myRaise()
-		data = open(imagePath, "rb").read()
+		with open(imagePath, "rb") as fp:
+			data = fp.read()
 		if ext == "svg":
 			dayNum = locale_man.numEncode(
 				ddate[2],

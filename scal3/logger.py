@@ -23,7 +23,8 @@ def init():
 		import logging
 		import logging.config
 
-		logConfText = open(join(rootDir, "conf", "logging-user.conf")).read()
+		with open(join(rootDir, "conf", "logging-user.conf")) as fp:
+			logConfText = fp.read()
 		for varName in ("confDir", "APP_NAME"):
 			logConfText = logConfText.replace(varName, eval(varName))
 

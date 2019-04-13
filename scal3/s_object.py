@@ -136,18 +136,19 @@ class JsonSObj(SObj):
 
 	@classmethod
 	def load(cls, *args):
-		_file = cls.getFile(*args)
+		fpath = cls.getFile(*args)
 		data = {}
-		if isfile(_file):
+		if isfile(fpath):
 			try:
-				jsonStr = open(_file).read()
+				with open(fpath) as fp:
+					jsonStr = fp.read()
 				data = jsonToData(jsonStr)
 			except Exception as e:
 				if not cls.skipLoadExceptions:
 					raise e
 		else:
 			if not cls.skipLoadNoFile:
-				raise FileNotFoundError("%s : file not found" % _file)
+				raise FileNotFoundError("%s : file not found" % fpath)
 
 		# data is the result of json.loads, so probably can be just dict or list (or str)
 		_type = data.get("type") if isinstance(data, dict) else None
@@ -207,7 +208,8 @@ def saveBsonObject(data):
 
 def loadBsonObject(_hash):
 	fpath = join(objectDir, _hash[:2], _hash[2:])
-	bsonBytes = open(fpath, "rb").read()
+	with open(fpath, "rb") as fp:
+		bsonBytes = fp.read()
 	if _hash != sha1(bsonBytes).hexdigest():
 		raise IOError(
 			"sha1 diggest does not match for object file \"%s\"" % fpath
@@ -254,7 +256,8 @@ class BsonHistObj(SObj):
 		data = {}
 		lastEpoch, lastHash = None, None
 		try:
-			jsonStr = open(_file).read()
+			with open(_file) as fp:
+				jsonStr = fp.read()
 			data = jsonToData(jsonStr)
 		except FileNotFoundError:
 			if not cls.skipLoadNoFile:
@@ -285,7 +288,9 @@ class BsonHistObj(SObj):
 	def loadBasicData(self):
 		if not isfile(self.file):
 			return {}
-		return jsonToData(open(self.file).read())
+		with open(self.file) as fp:
+			jsonStr = fp.read()
+		return jsonToData(jsonStr)
 
 	def loadHistory(self):
 		lastBasicData = self.loadBasicData()
