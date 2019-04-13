@@ -27,7 +27,7 @@ from scal3.ui_gtk import *
 from scal3.ui_gtk.decorators import *
 from scal3.ui_gtk.utils import (
 	imageFromFile,
-	labelStockMenuItem,
+	labelIconMenuItem,
 	labelImageMenuItem,
 )
 from scal3.ui_gtk import gtk_ud as ud
@@ -167,16 +167,16 @@ class DayOccurrenceView(gtk.ScrolledWindow, ud.BaseCalObj):
 			menu.add(gtk.SeparatorMenuItem())
 			###
 			winTitle = _("Edit ") + event.desc
-			menu.add(labelStockMenuItem(
+			menu.add(labelIconMenuItem(
 				winTitle,
-				gtk.STOCK_EDIT,
+				"gtk-edit",
 				self.editEventClicked,
 				winTitle,
 				event,
 				groupId,
 			))
 			###
-			moveToItem = labelStockMenuItem(
+			moveToItem = labelIconMenuItem(
 				_("Move to %s") % "...",
 				None,  # FIXME
 			)
@@ -211,7 +211,7 @@ class DayOccurrenceView(gtk.ScrolledWindow, ud.BaseCalObj):
 			###
 			if not event.isSingleOccur:
 				newEventType = "allDayTask" if occurData["is_allday"] else "task"
-				copyOccurItem = labelStockMenuItem(
+				copyOccurItem = labelIconMenuItem(
 					_(  # FIXME
 						"Copy as %s to..."
 					) % event_lib.classes.event.byName[newEventType].desc,

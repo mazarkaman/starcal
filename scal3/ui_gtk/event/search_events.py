@@ -34,7 +34,7 @@ from scal3.ui_gtk import *
 from scal3.ui_gtk.decorators import *
 from scal3.ui_gtk.utils import (
 	pixbufFromFile,
-	labelStockMenuItem,
+	labelIconMenuItem,
 	labelImageMenuItem,
 )
 from scal3.ui_gtk.drawing import newColorCheckPixbuf
@@ -170,8 +170,8 @@ class EventSearchWindow(gtk.Window, MyDialog, ud.BaseCalObj):
 		bbox.set_border_width(5)
 		searchButton = gtk.Button()
 		searchButton.set_label(_("_Search"))
-		searchButton.set_image(gtk.Image.new_from_stock(
-			gtk.STOCK_FIND,
+		searchButton.set_image(gtk.Image.new_from_icon_name(
+			"gtk-find",
 			gtk.IconSize.BUTTON,
 		))
 		searchButton.connect("clicked", self.searchClicked)
@@ -298,8 +298,8 @@ class EventSearchWindow(gtk.Window, MyDialog, ud.BaseCalObj):
 		bbox2.set_border_width(10)
 		closeButton = gtk.Button()
 		closeButton.set_label(_("_Close"))
-		closeButton.set_image(gtk.Image.new_from_stock(
-			gtk.STOCK_CLOSE,
+		closeButton.set_image(gtk.Image.new_from_icon_name(
+			"gtk-close",
 			gtk.IconSize.BUTTON,
 		))
 		closeButton.connect("clicked", self.closed)
@@ -463,7 +463,7 @@ class EventSearchWindow(gtk.Window, MyDialog, ud.BaseCalObj):
 
 	def getMoveToGroupSubMenu(self, path, group, event):
 		## returns a MenuItem instance
-		item = labelStockMenuItem(
+		item = labelIconMenuItem(
 			_("Move to %s") % "...",
 			None,## FIXME
 		)
@@ -502,7 +502,7 @@ class EventSearchWindow(gtk.Window, MyDialog, ud.BaseCalObj):
 
 	def getCopyToGroupSubMenu(self, path, event):
 		## returns a MenuItem instance
-		item = labelStockMenuItem(
+		item = labelIconMenuItem(
 			_("Copy to %s") % "...",
 			None,## FIXME
 		)
@@ -540,9 +540,9 @@ class EventSearchWindow(gtk.Window, MyDialog, ud.BaseCalObj):
 		##
 		menu = gtk.Menu()
 		##
-		menu.add(labelStockMenuItem(
+		menu.add(labelIconMenuItem(
 			"Edit",
-			gtk.STOCK_EDIT,
+			"gtk-edit",
 			self.editEventFromMenu,
 			path,
 		))

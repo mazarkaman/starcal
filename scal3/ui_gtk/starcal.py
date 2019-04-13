@@ -107,10 +107,6 @@ def liveConfChanged():
 		ui.lastLiveConfChangeTime = tm
 
 
-# How to define icon of custom stock????????????
-#gtk.stock_add((
-#("gtk-evolution", "E_volution", gdk.ModifierType.BUTTON1_MASK, 0, "gtk20")
-
 
 @registerSignals
 class MainWinVbox(gtk.VBox, CustomizableCalBox):
@@ -512,7 +508,7 @@ class MainWin(gtk.Window, ud.BaseCalObj):
 
 	def getEventAddToMenuItem(self):
 		from scal3.ui_gtk.drawing import newColorCheckPixbuf
-		addToItem = labelStockMenuItem("_Add to", gtk.STOCK_ADD)
+		addToItem = labelIconMenuItem("_Add to", "gtk-add")
 		if event_lib.allReadOnly:
 			addToItem.set_sensitive(False)
 			return addToItem
@@ -588,7 +584,7 @@ class MainWin(gtk.Window, ud.BaseCalObj):
 				))
 		else:
 			subMenu = gtk.Menu()
-			subMenuItem = labelStockMenuItem("_Edit Event", gtk.STOCK_ADD)
+			subMenuItem = labelIconMenuItem("_Edit Event", "gtk-add")
 			for eData in eventsData:
 				groupId, eventId = eData["ids"]
 				subMenu.add(labelImageMenuItem(
@@ -606,37 +602,37 @@ class MainWin(gtk.Window, ud.BaseCalObj):
 		menu = gtk.Menu()
 		####
 		for calType in calTypes.active:
-			menu.add(labelStockMenuItem(
+			menu.add(labelIconMenuItem(
 				_("Copy %s Date") % _(calTypes.getDesc(calType)),
-				gtk.STOCK_COPY,
+				"gtk-copy",
 				self.copyDateGetCallback(calType),
 				calType,
 			))
-		menu.add(labelStockMenuItem(
+		menu.add(labelIconMenuItem(
 			"Day Info",
-			gtk.STOCK_INFO,
+			"gtk-info",
 			self.dayInfoShow,
 		))
 		menu.add(self.getEventAddToMenuItem())
 		self.addEditEventCellMenuItems(menu)
 		menu.add(gtk.SeparatorMenuItem())
-		menu.add(labelStockMenuItem(
+		menu.add(labelIconMenuItem(
 			"Select _Today",
-			gtk.STOCK_HOME,
+			"gtk-home",
 			self.goToday,
 		))
-		menu.add(labelStockMenuItem(
+		menu.add(labelIconMenuItem(
 			"Select _Date...",
-			gtk.STOCK_INDEX,
+			"gtk-index",
 			self.selectDateShow,
 		))
 		if calObjName in ("weekCal", "monthCal"):
-			menu.add(labelStockMenuItem(
+			menu.add(labelIconMenuItem(
 				"Switch to " + (
 					"Month Calendar" if calObjName == "weekCal"
 					else "Week Calendar"
 				),
-				gtk.STOCK_REDO,
+				"gtk-redo",
 				self.switchWcalMcal,
 			))
 		if os.path.isfile("/usr/bin/evolution"):  # FIXME
@@ -653,19 +649,19 @@ class MainWin(gtk.Window, ud.BaseCalObj):
 		#))
 		####
 		moreMenu = gtk.Menu()
-		moreMenu.add(labelStockMenuItem(
+		moreMenu.add(labelIconMenuItem(
 			"_Customize",
-			gtk.STOCK_EDIT,
+			"gtk-edit",
 			self.customizeShow,
 		))
-		moreMenu.add(labelStockMenuItem(
+		moreMenu.add(labelIconMenuItem(
 			"_Preferences",
-			gtk.STOCK_PREFERENCES,
+			"gtk-preferences",
 			self.prefShow,
 		))
-		moreMenu.add(labelStockMenuItem(
+		moreMenu.add(labelIconMenuItem(
 			"_Event Manager",
-			gtk.STOCK_ADD,
+			"gtk-add",
 			self.eventManShow,
 		))
 		moreMenu.add(labelImageMenuItem(
@@ -683,20 +679,20 @@ class MainWin(gtk.Window, ud.BaseCalObj):
 		#	"weekcal-18.png",
 		#	self.weekCalShow,
 		#))
-		moreMenu.add(labelStockMenuItem(
+		moreMenu.add(labelIconMenuItem(
 			_("Export to %s") % "HTML",
-			gtk.STOCK_CONVERT,
+			"gtk-convert",
 			self.exportClicked,
 		))
-		moreMenu.add(labelStockMenuItem(
+		moreMenu.add(labelIconMenuItem(
 			"_About",
-			gtk.STOCK_ABOUT,
+			"gtk-about",
 			self.aboutShow,
 		))
 		if self.statusIconMode != 1:
-			moreMenu.add(labelStockMenuItem(
+			moreMenu.add(labelIconMenuItem(
 				"_Quit",
-				gtk.STOCK_QUIT,
+				"gtk-quit",
 				self.quit,
 			))
 		##
@@ -742,39 +738,39 @@ class MainWin(gtk.Window, ud.BaseCalObj):
 		menu.add(self.checkAbove)
 		menu.add(self.checkSticky)
 		#######
-		menu.add(labelStockMenuItem(
+		menu.add(labelIconMenuItem(
 			"Select _Today",
-			gtk.STOCK_HOME,
+			"gtk-home",
 			self.goToday,
 		))
-		menu.add(labelStockMenuItem(
+		menu.add(labelIconMenuItem(
 			"Select _Date...",
-			gtk.STOCK_INDEX,
+			"gtk-index",
 			self.selectDateShow,
 		))
-		menu.add(labelStockMenuItem(
+		menu.add(labelIconMenuItem(
 			"Day Info",
-			gtk.STOCK_INFO,
+			"gtk-info",
 			self.dayInfoShow,
 		))
-		menu.add(labelStockMenuItem(
+		menu.add(labelIconMenuItem(
 			"_Customize",
-			gtk.STOCK_EDIT,
+			"gtk-edit",
 			self.customizeShow,
 		))
-		menu.add(labelStockMenuItem(
+		menu.add(labelIconMenuItem(
 			"_Preferences",
-			gtk.STOCK_PREFERENCES,
+			"gtk-preferences",
 			self.prefShow,
 		))
-		#menu.add(labelStockMenuItem(
+		#menu.add(labelIconMenuItem(
 		#	"_Add Event",
-		#	gtk.STOCK_ADD,
+		#	"gtk-add",
 		#	ui.addCustomEvent,
 		#))
-		#menu.add(labelStockMenuItem(
+		#menu.add(labelIconMenuItem(
 		#	"_Event Manager",
-		#	gtk.STOCK_ADD,
+		#	"gtk-add",
 		#	self.eventManShow,
 		#))
 		menu.add(labelImageMenuItem(
@@ -792,25 +788,25 @@ class MainWin(gtk.Window, ud.BaseCalObj):
 		#	"weekcal-18.png",
 		#	self.weekCalShow,
 		#))
-		menu.add(labelStockMenuItem(
+		menu.add(labelIconMenuItem(
 			_("Export to %s") % "HTML",
-			gtk.STOCK_CONVERT,
+			"gtk-convert",
 			self.exportClicked,
 		))
-		menu.add(labelStockMenuItem(
+		menu.add(labelIconMenuItem(
 			"Ad_just System Time",
-			gtk.STOCK_PREFERENCES,
+			"gtk-preferences",
 			self.adjustTime,
 		))
-		menu.add(labelStockMenuItem(
+		menu.add(labelIconMenuItem(
 			"_About",
-			gtk.STOCK_ABOUT,
+			"gtk-about",
 			self.aboutShow,
 		))
 		if self.statusIconMode != 1:
-			menu.add(labelStockMenuItem(
+			menu.add(labelIconMenuItem(
 				"_Quit",
-				gtk.STOCK_QUIT,
+				"gtk-quit",
 				self.quit,
 			))
 		menu.show_all()
@@ -958,7 +954,7 @@ class MainWin(gtk.Window, ud.BaseCalObj):
 				)
 				self.sicon.connect("activate", self.statusIconClicked)
 				self.sicon.connect("popup-menu", self.statusIconPopup)
-				#self.sicon.set_from_stock(gtk.STOCK_HOME)
+				#self.sicon.set_from_icon_name("gtk-home")
 		else:
 			self.sicon = None
 
@@ -967,44 +963,44 @@ class MainWin(gtk.Window, ud.BaseCalObj):
 
 	def getStatusIconPopupItems(self):
 		return [
-			labelStockMenuItem(
+			labelIconMenuItem(
 				"Copy _Time",
-				gtk.STOCK_COPY,
+				"gtk-copy",
 				self.copyTime,
 			),
-			labelStockMenuItem(
+			labelIconMenuItem(
 				"Copy _Date",
-				gtk.STOCK_COPY,
+				"gtk-copy",
 				self.copyDateToday,
 			),
-			labelStockMenuItem(
+			labelIconMenuItem(
 				"Ad_just System Time",
-				gtk.STOCK_PREFERENCES,
+				"gtk-preferences",
 				self.adjustTime,
 			),
-			#labelStockMenuItem(
+			#labelIconMenuItem(
 			#	"_Add Event",
-			#	gtk.STOCK_ADD,
+			#	"gtk-add",
 			#	ui.addCustomEvent,
 			#),  # FIXME
-			labelStockMenuItem(
+			labelIconMenuItem(
 				_("Export to %s") % "HTML",
-				gtk.STOCK_CONVERT,
+				"gtk-convert",
 				self.exportClickedStatusIcon,
 			),
-			labelStockMenuItem(
+			labelIconMenuItem(
 				"_Preferences",
-				gtk.STOCK_PREFERENCES,
+				"gtk-preferences",
 				self.prefShow,
 			),
-			labelStockMenuItem(
+			labelIconMenuItem(
 				"_Customize",
-				gtk.STOCK_EDIT,
+				"gtk-edit",
 				self.customizeShow,
 			),
-			labelStockMenuItem(
+			labelIconMenuItem(
 				"_Event Manager",
-				gtk.STOCK_ADD,
+				"gtk-add",
 				self.eventManShow,
 			),
 			labelImageMenuItem(
@@ -1017,15 +1013,15 @@ class MainWin(gtk.Window, ud.BaseCalObj):
 				"year-wheel-18.png",
 				self.yearWheelShow,
 			),  # icon? FIXME
-			labelStockMenuItem(
+			labelIconMenuItem(
 				"_About",
-				gtk.STOCK_ABOUT,
+				"gtk-about",
 				self.aboutShow,
 			),
 			gtk.SeparatorMenuItem(),
-			labelStockMenuItem(
+			labelIconMenuItem(
 				"_Quit",
-				gtk.STOCK_QUIT,
+				"gtk-quit",
 				self.quit,
 			),
 		]

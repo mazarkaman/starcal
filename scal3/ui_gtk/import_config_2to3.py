@@ -42,9 +42,9 @@ langCodeList = []
 win = gtk.Dialog(
 	title=APP_DESC + " 3.x - First Run",
 	buttons=(
-		gtk.STOCK_OK,
+		"gtk-ok",
 		gtk.ResponseType.OK,
-		gtk.STOCK_CANCEL,
+		"gtk-cancel",
 		gtk.ResponseType.CANCEL,
 	)
 )

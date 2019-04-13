@@ -50,21 +50,21 @@ class PrefDialog(gtk.Dialog):
 		###
 		dialog_add_button(
 			self,
-			gtk.STOCK_CANCEL,
+			"gtk-cancel",
 			_("_Cancel"),
 			1,
 			self.cancel,
 		)
 		dialog_add_button(
 			self,
-			gtk.STOCK_APPLY,
+			"gtk-apply",
 			_("_Apply"),
 			2,
 			self.apply,
 		)
 		okB = dialog_add_button(
 			self,
-			gtk.STOCK_OK,
+			"gtk-ok",
 			_("_OK"),
 			3,
 			self.ok,
@@ -570,7 +570,7 @@ class PrefDialog(gtk.Dialog):
 		treev.connect("row-activated", self.plugTreevRActivate)
 		treev.connect("button-press-event", self.plugTreevButtonPress)
 		###
-		#treev.drag_source_set_icon_stock(gtk.STOCK_CLOSE)
+		#treev.drag_source_set_icon_name("gtk-close")
 		#treev.drag_source_add_text_targets()
 		#treev.drag_source_add_uri_targets()
 		#treev.drag_source_unset()
@@ -635,8 +635,8 @@ class PrefDialog(gtk.Dialog):
 		hboxBut = gtk.HBox()
 		###
 		button = gtk.Button(_("_About Plugin"))
-		button.set_image(gtk.Image.new_from_stock(
-			gtk.STOCK_ABOUT,
+		button.set_image(gtk.Image.new_from_icon_name(
+			"gtk-about",
 			gtk.IconSize.BUTTON,
 		))
 		button.set_sensitive(False)
@@ -646,8 +646,8 @@ class PrefDialog(gtk.Dialog):
 		pack(hboxBut, gtk.Label(""), 1, 1)
 		###
 		button = gtk.Button(_("C_onfigure Plugin"))
-		button.set_image(gtk.Image.new_from_stock(
-			gtk.STOCK_PREFERENCES,
+		button.set_image(gtk.Image.new_from_icon_name(
+			"gtk-preferences",
 			gtk.IconSize.BUTTON,
 		))
 		button.set_sensitive(False)
@@ -667,29 +667,29 @@ class PrefDialog(gtk.Dialog):
 		#	pass
 		size = gtk.IconSize.SMALL_TOOLBAR
 		# no different
-		# argument 2 to image_new_from_stock has no affect FIXME
+		# argument 2 to image_new_from_icon_name has no affect FIXME
 		######## gtk.IconSize.SMALL_TOOLBAR or gtk.IconSize.MENU
-		tb = toolButtonFromStock(gtk.STOCK_GOTO_TOP, size)
+		tb = toolButtonFromIcon("gtk-goto-top", size)
 		set_tooltip(tb, _("Move to top"))
 		tb.connect("clicked", self.plugTreeviewTop)
 		toolbar.insert(tb, -1)
 		########
-		tb = toolButtonFromStock(gtk.STOCK_GO_UP, size)
+		tb = toolButtonFromIcon("gtk-go-up", size)
 		set_tooltip(tb, _("Move up"))
 		tb.connect("clicked", self.plugTreeviewUp)
 		toolbar.insert(tb, -1)
 		#########
-		tb = toolButtonFromStock(gtk.STOCK_GO_DOWN, size)
+		tb = toolButtonFromIcon("gtk-go-down", size)
 		set_tooltip(tb, _("Move down"))
 		tb.connect("clicked", self.plugTreeviewDown)
 		toolbar.insert(tb, -1)
 		########
-		tb = toolButtonFromStock(gtk.STOCK_GOTO_BOTTOM, size)
+		tb = toolButtonFromIcon("gtk-goto-bottom", size)
 		set_tooltip(tb, _("Move to bottom"))
 		tb.connect("clicked", self.plugTreeviewBottom)
 		toolbar.insert(tb, -1)
 		##########
-		tb = toolButtonFromStock(gtk.STOCK_ADD, size)
+		tb = toolButtonFromIcon("gtk-add", size)
 		set_tooltip(tb, _("Add"))
 		#tb.connect("clicked", lambda obj: self.plugAddDialog.run())
 		tb.connect("clicked", self.plugAddClicked)
@@ -698,7 +698,7 @@ class PrefDialog(gtk.Dialog):
 		toolbar.insert(tb, -1)
 		self.plugButtonAdd = tb
 		###########
-		tb = toolButtonFromStock(gtk.STOCK_DELETE, size)
+		tb = toolButtonFromIcon("gtk-delete", size)
 		set_tooltip(tb, _("Delete"))
 		tb.connect("clicked", self.plugTreeviewDel)
 		toolbar.insert(tb, -1)
@@ -729,14 +729,14 @@ class PrefDialog(gtk.Dialog):
 		###
 		dialog_add_button(
 			d,
-			gtk.STOCK_CANCEL,
+			"gtk-cancel",
 			_("_Cancel"),
 			1,
 			self.plugAddDialogClose,
 		)
 		dialog_add_button(
 			d,
-			gtk.STOCK_OK,
+			"gtk-ok",
 			_("_OK"),
 			2,
 			self.plugAddDialogOK,
@@ -835,34 +835,34 @@ class PrefDialog(gtk.Dialog):
 		#except:
 		#	pass
 		size = gtk.IconSize.SMALL_TOOLBAR
-		# argument 2 to image_new_from_stock has no effect FIXME
+		# argument 2 to image_new_from_icon_name has no effect FIXME
 		######## gtk.IconSize.SMALL_TOOLBAR or gtk.IconSize.MENU
 		tb = toolButtonFromFile("starcal-24.png")
 		set_tooltip(tb, _("Register at StarCalendar.net"))
 		tb.connect("clicked", self.accountsRegisterClicked)
 		toolbar.insert(tb, -1)
 		###########
-		tb = toolButtonFromStock(gtk.STOCK_ADD, size)
+		tb = toolButtonFromIcon("gtk-add", size)
 		set_tooltip(tb, _("Add"))
 		tb.connect("clicked", self.accountsAddClicked)
 		toolbar.insert(tb, -1)
 		###########
-		tb = toolButtonFromStock(gtk.STOCK_EDIT, size)
+		tb = toolButtonFromIcon("gtk-edit", size)
 		set_tooltip(tb, _("Edit"))
 		tb.connect("clicked", self.accountsEditClicked)
 		toolbar.insert(tb, -1)
 		###########
-		tb = toolButtonFromStock(gtk.STOCK_DELETE, size)
+		tb = toolButtonFromIcon("gtk-delete", size)
 		set_tooltip(tb, _("Delete"))
 		tb.connect("clicked", self.accountsDelClicked)
 		toolbar.insert(tb, -1)
 		##########
-		tb = toolButtonFromStock(gtk.STOCK_GO_UP, size)
+		tb = toolButtonFromIcon("gtk-go-up", size)
 		set_tooltip(tb, _("Move up"))
 		tb.connect("clicked", self.accountsUpClicked)
 		toolbar.insert(tb, -1)
 		#########
-		tb = toolButtonFromStock(gtk.STOCK_GO_DOWN, size)
+		tb = toolButtonFromIcon("gtk-go-down", size)
 		set_tooltip(tb, _("Move down"))
 		tb.connect("clicked", self.accountsDownClicked)
 		toolbar.insert(tb, -1)
@@ -1031,7 +1031,7 @@ class PrefDialog(gtk.Dialog):
 						gtk.DialogFlags.MODAL |
 						gtk.DialogFlags.DESTROY_WITH_PARENT
 					),
-					buttons=(gtk.STOCK_CANCEL, 0),
+					buttons=("gtk-cancel", 0),
 				)
 				d.set_keep_above(True)
 				label = gtk.Label(_(
@@ -1041,8 +1041,8 @@ class PrefDialog(gtk.Dialog):
 				label.set_line_wrap(True)
 				pack(d.vbox, label)
 				resBut = d.add_button(_("_Restart"), 1)
-				resBut.set_image(gtk.Image.new_from_stock(
-					gtk.STOCK_REFRESH,
+				resBut.set_image(gtk.Image.new_from_icon_name(
+					"gtk-refresh",
 					gtk.IconSize.BUTTON,
 				))
 				resBut.grab_default()
@@ -1156,17 +1156,17 @@ class PrefDialog(gtk.Dialog):
 				plug = core.allPlugList[j]
 				menu = gtk.Menu()
 				##
-				item = labelStockMenuItem(
+				item = labelIconMenuItem(
 					"_About",
-					gtk.STOCK_ABOUT,
+					"gtk-about",
 					self.plugAboutClicked,
 				)
 				item.set_sensitive(bool(plug.about))
 				menu.add(item)
 				##
-				item = labelStockMenuItem(
+				item = labelIconMenuItem(
 					"_Configure",
-					gtk.STOCK_PREFERENCES,
+					"gtk-preferences",
 					self.plugConfClicked,
 				)
 				item.set_sensitive(plug.hasConfig)

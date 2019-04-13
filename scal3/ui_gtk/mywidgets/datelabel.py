@@ -19,15 +19,15 @@ class DateLabel(gtk.Label):
 		self.connect("populate-popup", self.popupPopulate)
 	def popupPopulate(self, label, menu):
 		itemCopyAll = ImageMenuItem(_("Copy _All"))
-		itemCopyAll.set_image(gtk.Image.new_from_stock(
-			gtk.STOCK_COPY,
+		itemCopyAll.set_image(gtk.Image.new_from_icon_name(
+			"gtk-copy",
 			gtk.IconSize.MENU),
 		)
 		itemCopyAll.connect("activate", self.copyAll)
 		##
 		itemCopy = ImageMenuItem(_("_Copy"))
-		itemCopy.set_image(gtk.Image.new_from_stock(
-			gtk.STOCK_COPY,
+		itemCopy.set_image(gtk.Image.new_from_icon_name(
+			"gtk-copy",
 			gtk.IconSize.MENU,
 		))
 		itemCopy.connect("activate", self.copy)

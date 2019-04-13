@@ -70,7 +70,7 @@ class AdjusterDialog(gtk.Dialog):
 		# render_icon: Deprecated since version 3.0: Use Gtk.Widget.render_icon_pixbuf() instead.
 		# render_icon_pixbuf: Deprecated since version 3.10: Use Gtk.IconTheme.load_icon() instead.
 		#########
-		self.buttonCancel = self.add_button(gtk.STOCK_CANCEL, 0)
+		self.buttonCancel = self.add_button("gtk-cancel", 0)
 		#self.buttonCancel.connect("clicked", lambda w: sys.exit(0))
 		self.buttonSet = self.add_button(_("Set System Time"), 1)
 		#self.buttonSet.connect("clicked", self.setSysTimeClicked)

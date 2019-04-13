@@ -27,7 +27,7 @@ from scal3 import ui
 from scal3.ui_gtk import gtk_ud as ud
 from scal3.ui_gtk import *
 from scal3.ui_gtk.utils import (
-	toolButtonFromStock,
+	toolButtonFromIcon,
 	set_tooltip,
 	dialog_add_button,
 )
@@ -55,7 +55,7 @@ class CustomizeDialog(gtk.Dialog):
 		self.connect("delete-event", self.close)
 		dialog_add_button(
 			self,
-			gtk.STOCK_CLOSE,
+			"gtk-close",
 			_("_Close"),
 			0,
 			self.close,
@@ -105,12 +105,12 @@ class CustomizeDialog(gtk.Dialog):
 		toolbar.set_icon_size(size)
 		## argument2 to image_new_from_stock does not affect
 		###
-		tb = toolButtonFromStock(gtk.STOCK_GO_UP, size)
+		tb = toolButtonFromIcon("gtk-go-up", size)
 		set_tooltip(tb, _("Move up"))
 		tb.connect("clicked", self.upClicked)
 		toolbar.insert(tb, -1)
 		###
-		tb = toolButtonFromStock(gtk.STOCK_GO_DOWN, size)
+		tb = toolButtonFromIcon("gtk-go-down", size)
 		set_tooltip(tb, _("Move down"))
 		tb.connect("clicked", self.downClicked)
 		toolbar.insert(tb, -1)

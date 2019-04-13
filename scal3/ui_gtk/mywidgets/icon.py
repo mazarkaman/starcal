@@ -8,7 +8,7 @@ from scal3 import ui
 
 from scal3.ui_gtk import *
 from scal3.ui_gtk.decorators import *
-from scal3.ui_gtk.utils import labelStockMenuItem
+from scal3.ui_gtk.utils import labelIconMenuItem
 
 
 @registerSignals
@@ -25,29 +25,29 @@ class IconSelectButton(gtk.Button):
 			title=_("Select Icon File"),
 			action=gtk.FileChooserAction.OPEN,
 		)
-		okB = self.dialog.add_button(gtk.STOCK_OK, gtk.ResponseType.OK)
-		cancelB = self.dialog.add_button(gtk.STOCK_CANCEL, gtk.ResponseType.CANCEL)
-		clearB = self.dialog.add_button(gtk.STOCK_CLEAR, gtk.ResponseType.REJECT)
+		okB = self.dialog.add_button("gtk-ok", gtk.ResponseType.OK)
+		cancelB = self.dialog.add_button("gtk-cancel", gtk.ResponseType.CANCEL)
+		clearB = self.dialog.add_button("gtk-clear", gtk.ResponseType.REJECT)
 		if ui.autoLocale:
 			cancelB.set_label(_("_Cancel"))
-			cancelB.set_image(gtk.Image.new_from_stock(
-				gtk.STOCK_CANCEL,
+			cancelB.set_image(gtk.Image.new_from_icon_name(
+				"gtk-cancel",
 				gtk.IconSize.BUTTON,
 			))
 			okB.set_label(_("_OK"))
-			okB.set_image(gtk.Image.new_from_stock(
-				gtk.STOCK_OK,
+			okB.set_image(gtk.Image.new_from_icon_name(
+				"gtk-ok",
 				gtk.IconSize.BUTTON,
 			))
 			clearB.set_label(_("Clear"))
-			clearB.set_image(gtk.Image.new_from_stock(
-				gtk.STOCK_CLEAR,
+			clearB.set_image(gtk.Image.new_from_icon_name(
+				"gtk-clear",
 				gtk.IconSize.BUTTON,
 			))
 		###
 		menu = gtk.Menu()
 		self.menu = menu
-		menu.add(labelStockMenuItem(_("None"), None, self.menuItemActivate, ""))
+		menu.add(labelIconMenuItem(_("None"), "", self.menuItemActivate, ""))
 		for item in ui.eventTags:
 			icon = item.icon
 			if icon:

@@ -32,7 +32,7 @@ from scal3 import ui
 from gi.repository import GdkPixbuf
 
 from scal3.ui_gtk import *
-from scal3.ui_gtk.utils import set_tooltip, toolButtonFromStock
+from scal3.ui_gtk.utils import set_tooltip, toolButtonFromIcon
 
 
 from scal3.ui_gtk.pref_utils import PrefItem
@@ -337,12 +337,12 @@ class AICalsPrefItem(PrefItem):
 		tb.connect("clicked", self.leftRightClicked)
 		toolbar.insert(tb, -1)
 		####
-		tb = toolButtonFromStock(gtk.STOCK_GO_UP, size)
+		tb = toolButtonFromIcon("gtk-go-up", size)
 		set_tooltip(tb, _("Move up"))
 		tb.connect("clicked", self.upClicked)
 		toolbar.insert(tb, -1)
 		##
-		tb = toolButtonFromStock(gtk.STOCK_GO_DOWN, size)
+		tb = toolButtonFromIcon("gtk-go-down", size)
 		set_tooltip(tb, _("Move down"))
 		tb.connect("clicked", self.downClicked)
 		toolbar.insert(tb, -1)
@@ -370,10 +370,10 @@ class AICalsPrefItem(PrefItem):
 			tb.action = ""
 		else:
 			tb.set_label_widget(
-				gtk.Image.new_from_stock(
+				gtk.Image.new_from_icon_name(
 					(
-						gtk.STOCK_GO_FORWARD if isRight ^ rtl
-						else gtk.STOCK_GO_BACK
+						"gtk-go-forward" if isRight ^ rtl
+						else "gtk-go-back"
 					),
 					gtk.IconSize.SMALL_TOOLBAR,
 				)

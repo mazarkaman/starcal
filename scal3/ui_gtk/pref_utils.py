@@ -465,14 +465,14 @@ class FileChooserPrefItem(PrefItem):
 		)
 		dialog_add_button(
 			dialog,
-			gtk.STOCK_CANCEL,
+			"gtk-cancel",
 			_("_Cancel"),
 			gtk.ResponseType.CANCEL,
 			None,
 		)
 		dialog_add_button(
 			dialog,
-			gtk.STOCK_OK,
+			"gtk-ok",
 			_("_OK"),
 			gtk.ResponseType.OK,
 			None,
@@ -486,7 +486,7 @@ class FileChooserPrefItem(PrefItem):
 		if defaultVarName:
 			dialog_add_button(
 				dialog,
-				gtk.STOCK_UNDO,
+				"gtk-undo",
 				_("_Revert"),
 				gtk.ResponseType.NONE,
 				self.revertClicked,

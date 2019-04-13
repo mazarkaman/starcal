@@ -25,6 +25,7 @@ from scal3 import event_lib
 from scal3 import ui
 
 from scal3.ui_gtk import *
+from scal3.ui_gtk.utils import labelIconButton
 from scal3.ui_gtk.event import makeWidget
 from scal3.ui_gtk.event import common
 
@@ -74,13 +75,7 @@ class WidgetClass(common.WidgetClass):
 		pack(self.ruleAddBox, gtk.Label(_("Add Rule") + ":"))
 		pack(self.ruleAddBox, self.addRuleCombo)
 		pack(self.ruleAddBox, gtk.Label(""), 1, 1)
-		self.ruleAddButton = gtk.Button(stock=gtk.STOCK_ADD)
-		if ui.autoLocale:
-			self.ruleAddButton.set_label(_("_Add"))
-			self.ruleAddButton.set_image(gtk.Image.new_from_stock(
-				gtk.STOCK_ADD,
-				gtk.IconSize.BUTTON,
-			))
+		self.ruleAddButton = labelIconButton(_("_Add"), "gtk-add", gtk.IconSize.BUTTON)
 		pack(self.ruleAddBox, self.ruleAddButton)
 		#############
 		#self.filesBox = common.FilesBox(self.event)
@@ -106,13 +101,7 @@ class WidgetClass(common.WidgetClass):
 			pack(hbox, inputWidget)
 			pack(hbox, gtk.Label(""), 1, 1)
 		####
-		removeButton = gtk.Button(stock=gtk.STOCK_REMOVE)
-		if ui.autoLocale:
-			removeButton.set_label(_("_Remove"))
-			removeButton.set_image(gtk.Image.new_from_stock(
-				gtk.STOCK_REMOVE,
-				gtk.IconSize.BUTTON,
-			))
+		removeButton = labelIconButton(_("_Remove"), "gtk-remove", gtk.IconSize.BUTTON)
 		removeButton.connect("clicked", self.removeButtonClicked, hbox)## FIXME
 		pack(hbox, removeButton)
 		####

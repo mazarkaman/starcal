@@ -36,7 +36,7 @@ from scal3.ui_gtk import *
 from scal3.ui_gtk.mywidgets.multi_spin.date import DateButton
 from scal3.ui_gtk.utils import (
 	dialog_add_button,
-	toolButtonFromStock,
+	toolButtonFromIcon,
 	set_tooltip,
 )
 from scal3.ui_gtk import gtk_ud as ud
@@ -114,12 +114,12 @@ class EditDbDialog(gtk.Dialog):
 		toolbar.set_orientation(gtk.Orientation.VERTICAL)
 		size = gtk.IconSize.SMALL_TOOLBAR
 		###
-		tb = toolButtonFromStock(gtk.STOCK_ADD, size)
+		tb = toolButtonFromIcon("gtk-add", size)
 		set_tooltip(tb, _("Add"))
 		tb.connect("clicked", self.addClicked)
 		toolbar.insert(tb, -1)
 		###
-		tb = toolButtonFromStock(gtk.STOCK_DELETE, size)
+		tb = toolButtonFromIcon("gtk-delete", size)
 		set_tooltip(tb, _("Delete"))
 		tb.connect("clicked", self.delClicked)
 		toolbar.insert(tb, -1)
@@ -134,24 +134,24 @@ class EditDbDialog(gtk.Dialog):
 		######
 		dialog_add_button(
 			self,
-			gtk.STOCK_OK,
+			"gtk-ok",
 			_("_OK"),
 			gtk.ResponseType.OK,
 		)
 		dialog_add_button(
 			self,
-			gtk.STOCK_CANCEL,
+			"gtk-cancel",
 			_("_Cancel"),
 			gtk.ResponseType.CANCEL,
 		)
 		##
 		resetB = self.add_button(
-			gtk.STOCK_UNDO,
+			"gtk-undo",
 			gtk.ResponseType.NONE,
 		)
 		resetB.set_label(_("_Reset to Defaults"))
-		resetB.set_image(gtk.Image.new_from_stock(
-			gtk.STOCK_UNDO,
+		resetB.set_image(gtk.Image.new_from_icon_name(
+			"gtk-undo",
 			gtk.IconSize.BUTTON,
 		))
 		resetB.connect("clicked", self.resetToDefaults)
@@ -340,7 +340,7 @@ Otherwise, Hijri dates and Iranian official holidays would be incorrect.""")
 		###
 		dialog_add_button(
 			self,
-			gtk.STOCK_CLOSE,
+			"gtk-close",
 			_("_Close"),
 			gtk.ResponseType.OK,
 		)

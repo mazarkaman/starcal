@@ -70,7 +70,7 @@ class EventHistoryDialog(gtk.Dialog):
 
 		dialog_add_button(
 			self,
-			gtk.STOCK_CLOSE,
+			"gtk-close",
 			_("_Close"),
 			gtk.ResponseType.OK,
 		)
@@ -111,8 +111,8 @@ class EventHistoryDialog(gtk.Dialog):
 
 		# revertButton = gtk.Button()
 		# revertButton.set_label(_("Revert this vhange"))
-		# revertButton.set_image(gtk.Image.new_from_stock(
-		# 	gtk.STOCK_UNDO,
+		# revertButton.set_image(gtk.Image.new_from_icon_name(
+		# 	"gtk-undo",
 		# 	gtk.IconSize.BUTTON,
 		# ))
 		# revertButton.connect("clicked", self.revertClicked)
@@ -121,8 +121,8 @@ class EventHistoryDialog(gtk.Dialog):
 
 		checkoutAfterButton = gtk.Button()
 		checkoutAfterButton.set_label(_("Select revision after this change"))
-		checkoutAfterButton.set_image(gtk.Image.new_from_stock(
-			gtk.STOCK_UNDO,
+		checkoutAfterButton.set_image(gtk.Image.new_from_icon_name(
+			"gtk-undo",
 			gtk.IconSize.BUTTON,
 		))
 		checkoutAfterButton.connect("clicked", self.checkoutAfterClicked)
@@ -131,8 +131,8 @@ class EventHistoryDialog(gtk.Dialog):
 
 		checkoutBeforeButton = gtk.Button()
 		checkoutBeforeButton.set_label(_("Select revision before this change"))
-		checkoutBeforeButton.set_image(gtk.Image.new_from_stock(
-			gtk.STOCK_UNDO,
+		checkoutBeforeButton.set_image(gtk.Image.new_from_icon_name(
+			"gtk-undo",
 			gtk.IconSize.BUTTON,
 		))
 		checkoutBeforeButton.connect("clicked", self.checkoutBeforeClicked)
