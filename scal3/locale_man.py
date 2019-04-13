@@ -197,9 +197,9 @@ class LangData(JsonSObj):
 
 
 langDict = StrOrderedDict()
-
 try:
-	langDefault = open(join(langDir, "default")).read().strip()
+	with open(join(langDir, "default")) as fp:
+		langDefault = fp.read().strip()
 except Exception as e:
 	print("failed to read default lang file: %s" % e)
 
@@ -211,7 +211,8 @@ for fname in os.listdir(langDir):
 		continue
 	fpath = join(langDir, fname)
 	try:
-		data = jsonToData(open(fpath, encoding="utf-8").read())
+		with open(fpath, encoding="utf-8") as fp:
+			data = jsonToData(fp.read())
 	except Exception as e:
 		print("failed to load json file %s" % fpath)
 		raise e

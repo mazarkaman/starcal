@@ -34,7 +34,8 @@ if __name__ == "__main__":
 	if not os.path.isfile(localeGen):
 		errorExit("File \"%s\" does not exist!" % localeGen)
 	localeName = sys.argv[1].lower().replace(".", " ")
-	lines = open(localeGen).read().split("\n")
+	with open(localeGen) as fp:
+		lines = fp.read().split("\n")
 	for (i, line) in enumerate(lines):
 		if line.lower().startswith(localeName):
 			print("locale \"%s\" is already enabled" % localeName)

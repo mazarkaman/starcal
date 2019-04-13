@@ -3377,7 +3377,8 @@ class EventContainer(BsonHistEventObj):
 				"error while loading event file %r: " % eventFile +
 				"file not found (container: %r)" % self
 			)
-		data = jsonToData(open(eventFile).read())
+		with open(eventFile) as fp:
+			data = jsonToData(fp.read())
 		data["id"] = eid  # FIXME
 		lastEpoch, lastHash = updateBasicDataFromBson(data, eventFile, "event")
 		event = classes.event.byName[data["type"]](eid)
@@ -5272,7 +5273,9 @@ class EventGroupsHolder(JsonObjectsHolder):
 		return newGroups
 
 	def importJsonFile(self, fpath):
-		return self.importData(jsonToData(open(fpath, "rb").read()))
+		with open(fpath, "rb") as fp:
+			jsonStr = fp.read()
+		self.importData(jsonToData(jsonStr))
 
 	def exportToIcs(self, fpath, gidList):
 		fp = open(fpath, "w")
@@ -5356,7 +5359,8 @@ class EventAccountsHolder(JsonObjectsHolder):
 				": file not found"
 			)# FIXME
 			## FileNotFoundError
-		data = jsonToData(open(objFile).read())
+		with open(objFile) as fp:
+			data = jsonToData(fp.read())
 		updateBasicDataFromBson(data, objFile, "account")
 		#if data["id"] != _id:
 		#	log.error(
@@ -5371,7 +5375,9 @@ class EventAccountsHolder(JsonObjectsHolder):
 		#print("------------ EventAccountsHolder.load")
 		self.clear()
 		if isfile(self.file):
-			for _id in jsonToData(open(self.file).read()):
+			with open(self.file) as fp:
+				data = jsonToData(fp.read())
+			for _id in data:
 				data = self.loadData(_id)
 				if not data:
 					continue

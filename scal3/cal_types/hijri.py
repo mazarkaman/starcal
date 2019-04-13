@@ -166,11 +166,13 @@ class MonthDbHolder:
 		self.setMonthLenByYear(monthLenByYear)
 
 	def load(self):
-		data = jsonToData(open(self.sysDbPath).read())
+		with open(self.sysDbPath) as fp:
+			data = jsonToData(fp.read())
 		self.origVersion = data["version"]
 		##
 		if isfile(self.userDbPath):
-			userData = jsonToData(open(self.userDbPath).read())
+			with open(self.userDbPath) as fp:
+				userData = jsonToData(fp.read())
 			if userData["origVersion"] >= self.origVersion:
 				data = userData
 			else:

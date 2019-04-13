@@ -119,7 +119,8 @@ class EventsImportWindow(WizardWindow):
 			try:
 				if format == "json":
 					try:
-						text = open(fpath, "r", encoding="utf-8").read()
+						with open(fpath, "r", encoding="utf-8") as fp:
+							text = fp.read()
 					except Exception as e:
 						sys.stderr.write(
 							_(

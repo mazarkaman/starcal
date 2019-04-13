@@ -48,7 +48,8 @@ def loadJsonConf(module, confPath, decoders={}):
 		return
 	###
 	try:
-		text = open(confPath).read()
+		with open(confPath) as fp:
+			text = fp.read()
 	except Exception as e:
 		print("failed to read file \"%s\": %s" % (confPath, e))
 		return

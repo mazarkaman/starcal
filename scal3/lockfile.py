@@ -25,7 +25,8 @@ def checkAndSaveJsonLockFile(fpath):
 	my_pid = os.getpid()
 	if isfile(fpath):
 		try:
-			text = open(fpath).read()
+			with open(fpath) as fp:
+				text = fp.read()
 		except:
 			myRaise()
 			locked = True
