@@ -56,7 +56,7 @@ class DayCalTypeParamBox(gtk.HBox):
 		module, ok = calTypes[calType]
 		if not ok:
 			raise RuntimeError("cal type %r not found" % calType)
-		label = gtk.Label(_(module.desc) + "  ")
+		label = gtk.Label(label=_(module.desc) + "  ")
 		label.set_alignment(0, 0.5)
 		pack(self, label)
 		sgroupLabel.add_widget(label)
@@ -142,8 +142,8 @@ class CalObj(gtk.DrawingArea, CalBase):
 				"font": ui.getFont(3.0),
 				"color": ui.textColor,
 			})
-		sgroupLabel = gtk.SizeGroup(gtk.SizeGroupMode.HORIZONTAL)
-		sgroupFont = gtk.SizeGroup(gtk.SizeGroupMode.HORIZONTAL)
+		sgroupLabel = gtk.SizeGroup(mode=gtk.SizeGroupMode.HORIZONTAL)
+		sgroupFont = gtk.SizeGroup(mode=gtk.SizeGroupMode.HORIZONTAL)
 		for i, calType in enumerate(calTypes.active):
 			#try:
 			params = ui.dcalTypeParams[i]

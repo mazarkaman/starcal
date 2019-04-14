@@ -54,19 +54,19 @@ class ModuleOptionItem:
 			self.get_value = w.get_active
 			self.set_value = w.set_active
 		elif t == list:
-			pack(hbox, gtk.Label(_(opt[2])))
+			pack(hbox, gtk.Label(label=_(opt[2])))
 			w = gtk.ComboBoxText()  # or RadioButton
 			for s in opt[3]:
 				w.append_text(_(s))
 			self.get_value = w.get_active
 			self.set_value = w.set_active
 		elif t == int:
-			pack(hbox, gtk.Label(_(opt[2])))
+			pack(hbox, gtk.Label(label=_(opt[2])))
 			w = IntSpinButton(opt[3], opt[4])
 			self.get_value = w.get_value
 			self.set_value = w.set_value
 		elif t == float:
-			pack(hbox, gtk.Label(_(opt[2])))
+			pack(hbox, gtk.Label(label=_(opt[2])))
 			w = FloatSpinButton(opt[3], opt[4], opt[5])
 			self.get_value = w.get_value
 			self.set_value = w.set_value
@@ -251,7 +251,7 @@ class CheckPrefItem(PrefItem):
 	def __init__(self, module, varName, label="", tooltip=""):
 		self.module = module
 		self.varName = varName
-		w = gtk.CheckButton(label)
+		w = gtk.CheckButton(label=label)
 		if tooltip:
 			set_tooltip(w, tooltip)
 		self._widget = w
@@ -295,6 +295,8 @@ class ColorPrefItem(PrefItem):
 		self.varName = varName
 		w = MyColorButton()
 		w.set_use_alpha(useAlpha)
+		# All methods of Gtk.ColorButton are deprecated since version 3.4:
+		# Looks like ColorButton itself is deprecated, and should be replaced with something else!!
 		self.useAlpha = useAlpha
 		self._widget = w
 
@@ -397,7 +399,7 @@ class LiveLabelSpinPrefItem(PrefItem):
 		spinb = self._spinItem.getWidget()
 
 		hbox = gtk.HBox(spacing=3)
-		pack(hbox, gtk.Label(label))
+		pack(hbox, gtk.Label(label=label))
 		pack(hbox, spinb)
 		self._widget = hbox
 
@@ -526,7 +528,7 @@ class RadioListPrefItem(PrefItem):
 		]
 		first = self.radios[0]
 		if label is not None:
-			pack(box, gtk.Label(label))
+			pack(box, gtk.Label(label=label))
 			pack(box, gtk.Label(label=""), 1, 1)
 		pack(box, first)
 		for r in self.radios[1:]:

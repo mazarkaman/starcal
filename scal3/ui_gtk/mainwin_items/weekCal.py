@@ -749,7 +749,7 @@ class WcalTypeParamBox(gtk.HBox):
 		module, ok = calTypes[calType]
 		if not ok:
 			raise RuntimeError("cal type %r not found" % calType)
-		label = gtk.Label(_(module.desc) + "  ")
+		label = gtk.Label(label=_(module.desc) + "  ")
 		label.set_alignment(0, 0.5)
 		pack(self, label)
 		sgroupLabel.add_widget(label)
@@ -923,8 +923,8 @@ class DaysOfMonthColumnGroup(gtk.HBox, CustomizableCalBox, ColumnBase):
 			ui.wcalTypeParams.append({
 				"font": None,
 			})
-		sgroupLabel = gtk.SizeGroup(gtk.SizeGroupMode.HORIZONTAL)
-		sgroupFont = gtk.SizeGroup(gtk.SizeGroupMode.HORIZONTAL)
+		sgroupLabel = gtk.SizeGroup(mode=gtk.SizeGroupMode.HORIZONTAL)
+		sgroupFont = gtk.SizeGroup(mode=gtk.SizeGroupMode.HORIZONTAL)
 		for i, calType in enumerate(calTypes.active):
 			#try:
 			params = ui.wcalTypeParams[i]

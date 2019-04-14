@@ -8,7 +8,7 @@ class IntSpinButton(SingleSpinButton):
 	def __init__(self, _min, _max, **kwargs):
 		SingleSpinButton.__init__(
 			self,
-			IntField(_min, _max),
+			field=IntField(_min, _max),
 			**kwargs
 		)
 

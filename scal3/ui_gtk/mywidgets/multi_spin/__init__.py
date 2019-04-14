@@ -66,7 +66,11 @@ class MultiSpinButton(gtk.HBox):
 	# 	self.field.children[0].setRange(_min, _max)
 	# 	self.set_text(self.field.getText())
 
-	def __init__(self, sep, fields, arrow_select=True, step_inc=1, page_inc=10):
+	def __init__(self, sep=None, fields=None, arrow_select=True, step_inc=1, page_inc=10):
+		if sep is None:
+			raise ValueError("MultiSpinButton: sep is None")
+		if fields is None:
+			raise ValueError("MultiSpinButton: fields is None")
 		gtk.HBox.__init__(self)
 		self.entry = gtk.Entry()
 		##
@@ -312,11 +316,13 @@ class MultiSpinButton(gtk.HBox):
 
 
 class SingleSpinButton(MultiSpinButton):
-	def __init__(self, field, **kwargs):
+	def __init__(self, field=None, **kwargs):
+		if field is None:
+			raise ValueError("SingleSpinButton: field is None")
 		MultiSpinButton.__init__(
 			self,
-			" ",
-			(field,),
+			sep=" ",
+			fields=(field,),
 			**kwargs
 		)
 		# if isinstance(field, NumField):

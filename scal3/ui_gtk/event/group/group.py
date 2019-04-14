@@ -38,7 +38,7 @@ class WidgetClass(BaseWidgetClass):
 		exp.set_label(_("Online Service"))
 		vbox = gtk.VBox()
 		exp.add(vbox)
-		sizeGroup = gtk.SizeGroup(gtk.SizeGroupMode.HORIZONTAL)
+		sizeGroup = gtk.SizeGroup(mode=gtk.SizeGroupMode.HORIZONTAL)
 		##
 		hbox = gtk.HBox()
 		label = gtk.Label(label=_("Account"))

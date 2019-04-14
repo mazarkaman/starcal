@@ -52,7 +52,7 @@ class WidgetClass(gtk.HBox):
 		self.trees = gtk.ListStore(str)
 		self.dialog = None
 		###
-		self.editButton = gtk.Button(_("Edit"))
+		self.editButton = gtk.Button(label=_("Edit"))
 		self.editButton.set_image(gtk.Image.new_from_icon_name(
 			"gtk-edit",
 			gtk.IconSize.BUTTON,
@@ -84,6 +84,7 @@ class WidgetClass(gtk.HBox):
 		cell.set_property("editable", True)
 		cell.connect("edited", self.dateCellEdited)
 		col = gtk.TreeViewColumn(_("Date"), cell, text=0)
+		# col.set_title
 		self.treev.append_column(col)
 		##
 		toolbar = gtk.Toolbar()

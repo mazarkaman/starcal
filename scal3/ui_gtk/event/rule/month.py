@@ -20,7 +20,7 @@ class WidgetClass(gtk.HBox):
 		self.buttons = []
 		calType = self.rule.getCalType()
 		for i in range(12):
-			b = gtk.ToggleButton(_(i + 1))
+			b = gtk.ToggleButton(label=_(i + 1))
 			set_tooltip(b, locale_man.getMonthName(calType, i + 1))
 			pack(self, b)
 			self.buttons.append(b)

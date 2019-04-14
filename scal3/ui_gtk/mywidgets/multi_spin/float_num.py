@@ -9,7 +9,7 @@ class FloatSpinButton(SingleSpinButton):
 			raise ValueError("FloatSpinButton: invalid digits=%r" % digits)
 		SingleSpinButton.__init__(
 			self,
-			FloatField(_min, _max, digits),
+			field=FloatField(_min, _max, digits),
 			**kwargs
 		)
 

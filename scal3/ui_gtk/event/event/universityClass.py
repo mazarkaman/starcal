@@ -42,7 +42,7 @@ class WidgetClass(gtk.VBox):
 		gtk.VBox.__init__(self)
 		self.event = event
 		assert event.parent.name == "universityTerm" ## FIXME
-		sizeGroup = gtk.SizeGroup(gtk.SizeGroupMode.HORIZONTAL)
+		sizeGroup = gtk.SizeGroup(mode=gtk.SizeGroupMode.HORIZONTAL)
 		#####
 		if not event.parent.courses:
 			showError(event.parent.noCourseError, ui.eventManDialog)

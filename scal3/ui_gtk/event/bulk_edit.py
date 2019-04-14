@@ -54,7 +54,7 @@ class EventsBulkEditDialog(gtk.Dialog):
 			" (or a full backup: menu File -> Export)"
 		)
 		msg += "\n\n"
-		label = gtk.Label(msg)
+		label = gtk.Label(label=msg)
 		label.set_line_wrap(True)
 		pack(self.vbox, label)
 		####

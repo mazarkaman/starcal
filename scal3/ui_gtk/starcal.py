@@ -561,7 +561,7 @@ class MainWin(gtk.ApplicationWindow, ud.BaseCalObj):
 		event = EventEditorDialog(
 			event,
 			title=_("Edit ") + event.desc,
-			parent=parent,
+			transient_for=parent,
 		).run()
 		if event is None:
 			return
@@ -843,7 +843,7 @@ class MainWin(gtk.ApplicationWindow, ud.BaseCalObj):
 			eventType,
 			useSelectedDate=True,
 			title=title,
-			parent=self,
+			transient_for=self,
 		)
 		if event is None:
 			return
@@ -1244,7 +1244,7 @@ class MainWin(gtk.ApplicationWindow, ud.BaseCalObj):
 				comments=core.aboutText,
 				license=core.licenseText,
 				website=core.homePage,
-				parent=self,
+				transient_for=self,
 			)
 			# add Donate button, FIXME
 			dialog.connect("delete-event", self.aboutHide)
@@ -1262,7 +1262,7 @@ class MainWin(gtk.ApplicationWindow, ud.BaseCalObj):
 	def prefShow(self, obj=None, data=None):
 		if not ui.prefDialog:
 			from scal3.ui_gtk.preferences import PrefDialog
-			ui.prefDialog = PrefDialog(self.statusIconMode, parent=self)
+			ui.prefDialog = PrefDialog(self.statusIconMode, transient_for=self)
 			ui.prefDialog.updatePrefGui()
 		openWindow(ui.prefDialog)
 
@@ -1295,7 +1295,7 @@ class MainWin(gtk.ApplicationWindow, ud.BaseCalObj):
 	def selectDateShow(self, widget=None):
 		if not self.selectDateDialog:
 			from scal3.ui_gtk.selectdate import SelectDateDialog
-			self.selectDateDialog = SelectDateDialog(parent=self)
+			self.selectDateDialog = SelectDateDialog(transient_for=self)
 			self.selectDateDialog.connect(
 				"response-date",
 				self.selectDateResponse,
@@ -1305,14 +1305,14 @@ class MainWin(gtk.ApplicationWindow, ud.BaseCalObj):
 	def dayInfoShow(self, widget=None):
 		if not self.dayInfoDialog:
 			from scal3.ui_gtk.day_info import DayInfoDialog
-			self.dayInfoDialog = DayInfoDialog(parent=self)
+			self.dayInfoDialog = DayInfoDialog(transient_for=self)
 			self.dayInfoDialog.onDateChange()
 		openWindow(self.dayInfoDialog)
 
 	def customizeDialogCreate(self):
 		if not self.customizeDialog:
 			from scal3.ui_gtk.customize_dialog import CustomizeDialog
-			self.customizeDialog = CustomizeDialog(self.vbox, parent=self)
+			self.customizeDialog = CustomizeDialog(self.vbox, transient_for=self)
 
 	def switchWcalMcal(self, widget=None):
 		self.customizeDialogCreate()
@@ -1327,7 +1327,7 @@ class MainWin(gtk.ApplicationWindow, ud.BaseCalObj):
 	def exportShow(self, year, month):
 		if not self.exportDialog:
 			from scal3.ui_gtk.export import ExportDialog
-			self.exportDialog = ExportDialog(parent=self)
+			self.exportDialog = ExportDialog(transient_for=self)
 		self.exportDialog.showDialog(year, month)
 
 	def exportClicked(self, widget=None):

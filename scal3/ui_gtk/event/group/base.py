@@ -36,7 +36,7 @@ class BaseWidgetClass(gtk.VBox):
 		gtk.VBox.__init__(self)
 		self.group = group
 		########
-		self.sizeGroup = gtk.SizeGroup(gtk.SizeGroupMode.HORIZONTAL)
+		self.sizeGroup = gtk.SizeGroup(mode=gtk.SizeGroupMode.HORIZONTAL)
 		#####
 		hbox = gtk.HBox()
 		label = gtk.Label(label=_("Title"))

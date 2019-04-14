@@ -34,7 +34,7 @@ class WidgetClass(common.WidgetClass):
 	def __init__(self, event):## FIXME
 		common.WidgetClass.__init__(self, event)
 		######
-		sizeGroup = gtk.SizeGroup(gtk.SizeGroupMode.HORIZONTAL)
+		sizeGroup = gtk.SizeGroup(mode=gtk.SizeGroupMode.HORIZONTAL)
 		######
 		hbox = gtk.HBox()
 		label = gtk.Label(label=_("Start"))

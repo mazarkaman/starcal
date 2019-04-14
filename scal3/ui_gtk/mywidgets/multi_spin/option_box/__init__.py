@@ -27,7 +27,7 @@ class MultiSpinOptionBox(gtk.HBox):
 	):
 		if not is_hbox:
 			gtk.HBox.__init__(self, spacing=spacing)
-		self.spin = MultiSpinButton(sep, fields, **kwargs)
+		self.spin = MultiSpinButton(sep=sep, fields=fields, **kwargs)
 		pack(self, self.spin, 1, 1)
 		self.hist_size = hist_size
 		self.option = gtk.Button()

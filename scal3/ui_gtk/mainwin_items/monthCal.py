@@ -166,7 +166,7 @@ class CalObj(gtk.DrawingArea, CalBase):
 				"font": ui.getFont(0.6),
 				"color": ui.textColor,
 			})
-		sgroupLabel = gtk.SizeGroup(gtk.SizeGroupMode.HORIZONTAL)
+		sgroupLabel = gtk.SizeGroup(mode=gtk.SizeGroupMode.HORIZONTAL)
 		for i, calType in enumerate(calTypes.active):
 			#try:
 			params = ui.mcalTypeParams[i]
