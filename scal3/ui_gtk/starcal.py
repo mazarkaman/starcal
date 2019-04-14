@@ -927,36 +927,31 @@ class MainWin(gtk.ApplicationWindow, ud.BaseCalObj):
 	#	openWindow(ui.weekCalWin)
 
 	def statusIconInit(self):
-		if self.statusIconMode == 2:
-			useAppIndicator = ui.useAppIndicator
-			if useAppIndicator:
-				try:
-					import scal3.ui_gtk.starcal_appindicator
-				except (ImportError, ValueError):
-					useAppIndicator = False
-			if useAppIndicator:
-				from scal3.ui_gtk.starcal_appindicator import (
-					IndicatorStatusIconWrapper,
-				)
-				self.sicon = IndicatorStatusIconWrapper(self)
-			else:
-				self.sicon = gtk.StatusIcon()
-				##self.sicon.set_blinking(True)
-				## ^ for Alarms ## some problem with gnome-shell
-				#self.sicon.set_name("starcal")
-				# Warning: g_object_notify: object class `GtkStatusIcon"
-				# has no property named `name"
-				self.sicon.set_title(core.APP_DESC)
-				self.sicon.set_visible(True)  # is needed?
-				self.sicon.connect(
-					"button-press-event",
-					self.statusIconButtonPress,
-				)
-				self.sicon.connect("activate", self.statusIconClicked)
-				self.sicon.connect("popup-menu", self.statusIconPopup)
-				#self.sicon.set_from_icon_name("gtk-home")
-		else:
+		if self.statusIconMode != 2:
 			self.sicon = None
+			return
+
+		useAppIndicator = ui.useAppIndicator
+		if useAppIndicator:
+			try:
+				import scal3.ui_gtk.starcal_appindicator
+			except (ImportError, ValueError):
+				useAppIndicator = False
+		if useAppIndicator:
+			from scal3.ui_gtk.starcal_appindicator import (
+				IndicatorStatusIconWrapper,
+			)
+			self.sicon = IndicatorStatusIconWrapper(self)
+		else:
+			self.sicon = gtk.StatusIcon()
+			self.sicon.set_title(core.APP_DESC)
+			self.sicon.set_visible(True)  # is needed?
+			self.sicon.connect(
+				"button-press-event",
+				self.statusIconButtonPress,
+			)
+			self.sicon.connect("activate", self.statusIconClicked)
+			self.sicon.connect("popup-menu", self.statusIconPopup)
 
 	def getMainWinMenuItem(self):
 		return labelMenuItem("Main Window", self.statusIconClicked)
