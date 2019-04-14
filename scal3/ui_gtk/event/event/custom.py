@@ -32,8 +32,8 @@ from scal3.ui_gtk.event import common
 
 class WidgetClass(common.WidgetClass):
 	groups = [
-		gtk.SizeGroup(gtk.SizeGroupMode.HORIZONTAL),
-		gtk.SizeGroup(gtk.SizeGroupMode.HORIZONTAL),
+		gtk.SizeGroup(mode=gtk.SizeGroupMode.HORIZONTAL),
+		gtk.SizeGroup(mode=gtk.SizeGroupMode.HORIZONTAL),
 	]
 	expandDescription = False
 
@@ -86,7 +86,7 @@ class WidgetClass(common.WidgetClass):
 
 	def makeRuleHbox(self, rule):
 		hbox = gtk.HBox(spacing=5)
-		lab = gtk.Label(rule.desc)
+		lab = gtk.Label(label=rule.desc)
 		lab.set_alignment(0, 0.5)
 		pack(hbox, lab)
 		self.groups[rule.sgroup].add_widget(lab)

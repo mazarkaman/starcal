@@ -11,7 +11,7 @@ from scal3.ui_gtk.utils import setClipboard
 
 class DateLabel(gtk.Label):
 	def __init__(self, text=None):
-		gtk.Label.__init__(self, text)
+		gtk.Label.__init__(self, label=text)
 		self.set_selectable(True)
 		#self.set_cursor_visible(False)## FIXME
 		self.set_can_focus(False)

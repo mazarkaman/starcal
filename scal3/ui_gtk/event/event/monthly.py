@@ -35,7 +35,7 @@ class WidgetClass(common.WidgetClass):
 		event.setJd(ui.cell.jd)
 		common.WidgetClass.__init__(self, event)
 		######
-		sizeGroup = gtk.SizeGroup(gtk.SizeGroupMode.HORIZONTAL)
+		sizeGroup = gtk.SizeGroup(mode=gtk.SizeGroupMode.HORIZONTAL)
 		######
 		hbox = gtk.HBox()
 		label = gtk.Label(label=_("Start"))

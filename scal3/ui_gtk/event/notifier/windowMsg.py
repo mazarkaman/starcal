@@ -43,7 +43,7 @@ def notify(notifier, finishFunc):  # FIXME
 	if event.icon:
 		pack(hbox, imageFromFile(event.icon))
 		dialog.set_icon_from_file(event.icon)
-	label = gtk.Label(text)
+	label = gtk.Label(label=text)
 	label.set_selectable(True)
 	pack(hbox, label, 1, 1)
 	pack(dialog.vbox, hbox)

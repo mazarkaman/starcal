@@ -50,7 +50,7 @@ class WidgetClass(common.WidgetClass):
 		pack(self, hbox)
 		###
 		hbox = gtk.HBox()
-		self.startYearCheck = gtk.CheckButton(_("Start Year"))
+		self.startYearCheck = gtk.CheckButton(label=_("Start Year"))
 		pack(hbox, self.startYearCheck)
 		self.startYearSpin = YearSpinButton()
 		pack(hbox, self.startYearSpin)

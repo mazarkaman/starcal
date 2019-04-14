@@ -34,7 +34,7 @@ class TrashEditorDialog(gtk.Dialog):
 		#######
 		self.trash = ui.eventTrash
 		##
-		sizeGroup = gtk.SizeGroup(gtk.SizeGroupMode.HORIZONTAL)
+		sizeGroup = gtk.SizeGroup(mode=gtk.SizeGroupMode.HORIZONTAL)
 		#######
 		hbox = gtk.HBox()
 		label = gtk.Label(label=_("Title"))

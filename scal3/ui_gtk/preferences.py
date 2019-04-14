@@ -206,7 +206,7 @@ class PrefDialog(gtk.Dialog):
 		#item = CheckPrefItem(ui, 'bgUseDesk', _('Use Desktop Background'))
 		#self.uiPrefItems.append(item)
 		#pack(hbox, item.getWidget())
-		#pack(hbox, gtk.Label(''), 1, 1)
+		#pack(hbox, gtk.Label(), 1, 1)
 		#pack(vbox, hbox)
 		#####################
 		hbox = gtk.HBox(spacing=3)
@@ -309,7 +309,7 @@ class PrefDialog(gtk.Dialog):
 		expVbox = gtk.VBox(spacing=1)
 		expVbox.set_border_width(5)
 		exp.add(expVbox)
-		sgroup = gtk.SizeGroup(gtk.SizeGroupMode.HORIZONTAL)
+		sgroup = gtk.SizeGroup(mode=gtk.SizeGroupMode.HORIZONTAL)
 		####
 		hbox = gtk.HBox(spacing=1)
 		pack(hbox, gtk.Label(label=" "))
@@ -392,7 +392,7 @@ class PrefDialog(gtk.Dialog):
 		vbox.icon = "preferences-desktop-locale.png"
 		self.prefPages.append(vbox)
 		######
-		sgroup = gtk.SizeGroup(gtk.SizeGroupMode.HORIZONTAL)
+		sgroup = gtk.SizeGroup(mode=gtk.SizeGroupMode.HORIZONTAL)
 		######
 		hbox = gtk.HBox(spacing=5)
 		label = gtk.Label(label=_("Date Format"))
@@ -874,7 +874,7 @@ class PrefDialog(gtk.Dialog):
 		self.notebook = notebook
 		#####################################
 		for vbox in self.prefPages:
-			l = gtk.Label(vbox.label)
+			l = gtk.Label(label=vbox.label)
 			l.set_use_underline(True)
 			vb = gtk.VBox(spacing=3)
 			pack(vb, imageFromFile(vbox.icon))

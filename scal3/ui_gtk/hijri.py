@@ -330,7 +330,7 @@ Otherwise, Hijri dates and Iranian official holidays would be incorrect.""")
 		self.set_title(_("Hijri months expired"))
 		self.connect("response", self.onResponse)
 		###
-		pack(self.vbox, gtk.Label(self.message + "\n\n"), 1, 1)
+		pack(self.vbox, gtk.Label(label=self.message + "\n\n"), 1, 1)
 		###
 		hbox = gtk.HBox()
 		checkb = gtk.CheckButton(_("Don't show this again"))

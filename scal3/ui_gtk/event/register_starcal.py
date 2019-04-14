@@ -54,7 +54,7 @@ class StarCalendarRegisterDialog(gtk.Window, MyDialog):
 		self.cancelButton = self.buttonBox.add_cancel(self.cancelClicked)
 		self.vbox.pack_end(self.buttonBox, 0, 0, 0)
 		###
-		sgroupLabel = gtk.SizeGroup(gtk.SizeGroupMode.HORIZONTAL)
+		sgroupLabel = gtk.SizeGroup(mode=gtk.SizeGroupMode.HORIZONTAL)
 		###
 		hbox = gtk.HBox(spacing=5)
 		label = gtk.Label(label=_("Email"))

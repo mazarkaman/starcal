@@ -50,7 +50,7 @@ class WizardWindow(gtk.Window):
 			child.destroy()
 		for label, func in step.buttons:
 			#print(label, func)
-			button = gtk.Button(label)
+			button = gtk.Button(label=label)
 			button.connect("clicked", func)
 			bbox.add(button)
 			#pack(bbox, button)

@@ -247,7 +247,7 @@ class IntLabel(BaseLabel):
 			s = "<b>%s</b>" % _(active)
 		else:
 			s = _(active)
-		self.label = gtk.Label(s)
+		self.label = gtk.Label(label=s)
 		self.label.set_use_markup(True)
 		self.add(self.label)
 		self.menu = None

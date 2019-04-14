@@ -65,7 +65,7 @@ class CustomizeDialog(gtk.Dialog):
 		self.activeOptionsWidget = None
 		###
 		self.model = gtk.TreeStore(bool, str) ## (GdkPixbuf.Pixbuf, str)
-		treev = self.treev = gtk.TreeView(self.model)
+		treev = self.treev = gtk.TreeView(model=self.model)
 		##
 		treev.set_enable_tree_lines(True)
 		treev.set_headers_visible(False)

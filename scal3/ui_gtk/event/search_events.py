@@ -81,7 +81,7 @@ class EventSearchWindow(gtk.Window, MyDialog, ud.BaseCalObj):
 		frame.set_label(_("Time"))
 		frame.set_border_width(5)
 		vboxIn = gtk.VBox()
-		sgroup = gtk.SizeGroup(gtk.SizeGroupMode.HORIZONTAL)
+		sgroup = gtk.SizeGroup(mode=gtk.SizeGroupMode.HORIZONTAL)
 		####
 		hboxIn = gtk.HBox()
 		##
