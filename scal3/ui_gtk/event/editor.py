@@ -65,7 +65,7 @@ class EventEditorDialog(gtk.Dialog):
 		pack(self.vbox, hbox)
 		#######
 		hbox = gtk.HBox()
-		pack(hbox, gtk.Label(_("Event Type")))
+		pack(hbox, gtk.Label(label=_("Event Type")))
 		if typeChangable:
 			combo = gtk.ComboBoxText()
 			for tmpEventType in self.eventTypeOptions:
@@ -78,8 +78,8 @@ class EventEditorDialog(gtk.Dialog):
 			combo.connect("changed", self.typeChanged)
 			self.comboEventType = combo
 		else:
-			pack(hbox, gtk.Label(":  " + event.desc))
-		pack(hbox, gtk.Label(""), 1, 1)
+			pack(hbox, gtk.Label(label=":  " + event.desc))
+		pack(hbox, gtk.Label(label=""), 1, 1)
 		hbox.show_all()
 		pack(self.vbox, hbox)
 		#####

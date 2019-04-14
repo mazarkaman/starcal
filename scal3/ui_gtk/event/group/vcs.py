@@ -13,7 +13,7 @@ class WidgetClass(BaseWidgetClass):
 		BaseWidgetClass.__init__(self, group)
 		####
 		hbox = gtk.HBox()
-		label = gtk.Label(_("Commit Description"))
+		label = gtk.Label(label=_("Commit Description"))
 		label.set_alignment(0, 0.5)
 		self.sizeGroup.add_widget(label)
 		pack(hbox, label)
@@ -21,12 +21,12 @@ class WidgetClass(BaseWidgetClass):
 		self.statCheck = gtk.CheckButton(_("Stat"))
 		pack(hbox, self.statCheck)
 		##
-		pack(hbox, gtk.Label("   "))
+		pack(hbox, gtk.Label(label="   "))
 		##
 		self.authorCheck = gtk.CheckButton(_("Author"))
 		pack(hbox, self.authorCheck)
 		##
-		pack(hbox, gtk.Label("   "))
+		pack(hbox, gtk.Label(label="   "))
 		##
 		self.shortHashCheck = gtk.CheckButton(_("Short Hash"))
 		pack(hbox, self.shortHashCheck)

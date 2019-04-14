@@ -46,7 +46,7 @@ class WidgetClass(gtk.HBox):
 		self.rule = rule
 		gtk.HBox.__init__(self)
 		###
-		self.countLabel = gtk.Label("")
+		self.countLabel = gtk.Label(label="")
 		pack(self, self.countLabel)
 		###
 		self.trees = gtk.ListStore(str)

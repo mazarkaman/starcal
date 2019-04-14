@@ -61,8 +61,8 @@ class DayCalTypeParamBox(gtk.HBox):
 		pack(self, label)
 		sgroupLabel.add_widget(label)
 		###
-		pack(self, gtk.Label(""), 1, 1)
-		pack(self, gtk.Label(_("position")))
+		pack(self, gtk.Label(label=""), 1, 1)
+		pack(self, gtk.Label(label=_("position")))
 		###
 		spin = FloatSpinButton(-999, 999, 1)
 		self.spinX = spin
@@ -72,7 +72,7 @@ class DayCalTypeParamBox(gtk.HBox):
 		self.spinY = spin
 		pack(self, spin)
 		####
-		pack(self, gtk.Label(""), 1, 1)
+		pack(self, gtk.Label(label=""), 1, 1)
 		###
 		fontb = MyFontButton(cal)
 		self.fontb = fontb

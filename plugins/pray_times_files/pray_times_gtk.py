@@ -86,7 +86,7 @@ class LocationDialog(gtk.Dialog):
 		self.okB = okB
 		###############
 		hbox = gtk.HBox()
-		pack(hbox, gtk.Label(_("Search Cities:")))
+		pack(hbox, gtk.Label(label=_("Search Cities:")))
 		entry = gtk.Entry()
 		pack(hbox, entry, 1, 1)
 		entry.connect("changed", self.entry_changed)
@@ -127,7 +127,7 @@ class LocationDialog(gtk.Dialog):
 		group = gtk.SizeGroup(gtk.SizeGroupMode.HORIZONTAL)
 		#####
 		hbox = gtk.HBox()
-		label = gtk.Label(_("Name:"))
+		label = gtk.Label(label=_("Name:"))
 		pack(hbox, label)
 		group.add_widget(label)
 		label.set_alignment(0, 0.5)
@@ -137,7 +137,7 @@ class LocationDialog(gtk.Dialog):
 		self.entry_edit_name = entry
 		####
 		hbox = gtk.HBox()
-		label = gtk.Label(_("Latitude:"))
+		label = gtk.Label(label=_("Latitude:"))
 		pack(hbox, label)
 		group.add_widget(label)
 		label.set_alignment(0, 0.5)
@@ -151,7 +151,7 @@ class LocationDialog(gtk.Dialog):
 		self.spin_lat = spin
 		####
 		hbox = gtk.HBox()
-		label = gtk.Label(_("Longitude:"))
+		label = gtk.Label(label=_("Longitude:"))
 		pack(hbox, label)
 		group.add_widget(label)
 		label.set_alignment(0, 0.5)
@@ -165,7 +165,7 @@ class LocationDialog(gtk.Dialog):
 		self.spin_lng = spin
 		####
 		hbox = gtk.HBox()
-		self.lowerLabel = gtk.Label("")
+		self.lowerLabel = gtk.Label(label="")
 		pack(hbox, self.lowerLabel, 1, 1)
 		self.lowerLabel.set_alignment(0, 0.5)
 		button = gtk.Button(_("Calculate Nearest City"))
@@ -304,7 +304,7 @@ class TextPluginUI:
 		group = gtk.SizeGroup(gtk.SizeGroupMode.HORIZONTAL)
 		###
 		hbox = gtk.HBox()
-		label = gtk.Label(_("Location"))
+		label = gtk.Label(label=_("Location"))
 		group.add_widget(label)
 		label.set_alignment(0, 0.5)
 		pack(hbox, label)
@@ -319,7 +319,7 @@ class TextPluginUI:
 		pack(self.confDialog.vbox, hbox)
 		###
 		hbox = gtk.HBox()
-		label = gtk.Label(_("Calculation Method"))
+		label = gtk.Label(label=_("Calculation Method"))
 		group.add_widget(label)
 		label.set_alignment(0, 0.5)
 		pack(hbox, label)
@@ -357,7 +357,7 @@ class TextPluginUI:
 		pack(self.confDialog.vbox, frame)
 		######
 		hbox = gtk.HBox()
-		pack(hbox, gtk.Label(_("Imsak")))
+		pack(hbox, gtk.Label(label=_("Imsak")))
 		spin = gtk.SpinButton()
 		spin.set_increments(1, 5)
 		spin.set_range(0, 99)
@@ -365,11 +365,11 @@ class TextPluginUI:
 		spin.set_direction(gtk.TextDirection.LTR)
 		self.imsakSpin = spin
 		pack(hbox, spin)
-		pack(hbox, gtk.Label(" " + _("minutes before fajr")))
+		pack(hbox, gtk.Label(label=" " + _("minutes before fajr")))
 		pack(self.confDialog.vbox, hbox)
 		######
 		hbox = gtk.HBox()
-		pack(hbox, gtk.Label(_("Seperator")))
+		pack(hbox, gtk.Label(label=_("Seperator")))
 		textview = gtk.TextView()
 		textview.set_wrap_mode(gtk.WrapMode.CHAR)
 		if locale_man.rtl:
@@ -403,11 +403,11 @@ class TextPluginUI:
 			lambda w: w.box.set_sensitive(w.get_active()),
 		)
 		pack(hbox1, self.preAzanEnableCheck)
-		pack(hbox2, gtk.Label("  "))
+		pack(hbox2, gtk.Label(label="  "))
 		self.preAzanFileButton = gtk.FileChooserButton(_("Pre-Azan Sound"))
 		#sgroupFcb.add_widget(self.preAzanFileButton)
 		pack(hbox2, self.preAzanFileButton, 1, 1)
-		pack(hbox2, gtk.Label("  "))
+		pack(hbox2, gtk.Label(label="  "))
 		##
 		spin = gtk.SpinButton()
 		spin.set_increments(1, 5)
@@ -417,8 +417,8 @@ class TextPluginUI:
 		self.preAzanMinutesSpin = spin
 		pack(hbox2, spin)
 		##
-		pack(hbox2, gtk.Label("  "))
-		pack(hbox2, gtk.Label(_("minutes before azan")))
+		pack(hbox2, gtk.Label(label="  "))
+		pack(hbox2, gtk.Label(label=_("minutes before azan")))
 		pack(hbox1, hbox2, 1, 1)
 		pack(vboxFrame, hbox1)
 		#####
@@ -432,11 +432,11 @@ class TextPluginUI:
 			lambda w: w.box.set_sensitive(w.get_active()),
 		)
 		pack(hbox1, self.azanEnableCheck)
-		pack(hbox2, gtk.Label("  "))
+		pack(hbox2, gtk.Label(label="  "))
 		self.azanFileButton = gtk.FileChooserButton(_("Azan Sound"))
 		#sgroupFcb.add_widget(self.azanFileButton)
 		pack(hbox2, self.azanFileButton, 1, 1)
-		#pack(hbox2, gtk.Label(""), 1, 1)
+		#pack(hbox2, gtk.Label(label=""), 1, 1)
 		##
 		pack(hbox1, hbox2, 1, 1)
 		pack(vboxFrame, hbox1)

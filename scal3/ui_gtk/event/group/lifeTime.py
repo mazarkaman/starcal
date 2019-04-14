@@ -15,7 +15,7 @@ class WidgetClass(NormalWidgetClass):
 			"Show Seperated Inputs for Year, Month and Day"
 		))
 		pack(hbox, self.showSeperatedYmdInputsCheck)
-		pack(hbox, gtk.Label(""), 1, 1)
+		pack(hbox, gtk.Label(label=""), 1, 1)
 		pack(self, hbox)
 
 	def updateWidget(self):

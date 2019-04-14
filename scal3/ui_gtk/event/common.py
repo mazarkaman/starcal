@@ -77,11 +77,11 @@ class WidgetClass(gtk.VBox):
 		###########
 		hbox = gtk.HBox()
 		###
-		pack(hbox, gtk.Label(_("Calendar Type")))
+		pack(hbox, gtk.Label(label=_("Calendar Type")))
 		combo = CalTypeCombo()
 		combo.set_active(calTypes.primary)## overwritten in updateWidget()
 		pack(hbox, combo)
-		pack(hbox, gtk.Label(""), 1, 1)
+		pack(hbox, gtk.Label(label=""), 1, 1)
 		self.calTypeCombo = combo
 		###
 		pack(self, hbox)
@@ -95,7 +95,7 @@ class WidgetClass(gtk.VBox):
 			pack(hbox, self.tzCheck)
 			combo = TimeZoneComboBoxEntry()
 			pack(hbox, combo)
-			pack(hbox, gtk.Label(""), 1, 1)
+			pack(hbox, gtk.Label(label=""), 1, 1)
 			self.tzCombo = combo
 			pack(self, hbox)
 			self.tzCheck.connect(
@@ -106,7 +106,7 @@ class WidgetClass(gtk.VBox):
 			)
 		###########
 		hbox = gtk.HBox()
-		pack(hbox, gtk.Label(_("Summary")))
+		pack(hbox, gtk.Label(label=_("Summary")))
 		self.summaryEntry = gtk.Entry()
 		pack(hbox, self.summaryEntry, 1, 1)
 		pack(self, hbox)
@@ -122,10 +122,10 @@ class WidgetClass(gtk.VBox):
 		pack(self, frame, self.expandDescription, self.expandDescription)
 		###########
 		hbox = gtk.HBox()
-		pack(hbox, gtk.Label(_("Icon") + ":"))
+		pack(hbox, gtk.Label(label=_("Icon") + ":"))
 		self.iconSelect = IconSelectButton()
 		pack(hbox, self.iconSelect)
-		pack(hbox, gtk.Label(""), 1, 1)
+		pack(hbox, gtk.Label(label=""), 1, 1)
 		pack(self, hbox)
 		##########
 		self.calTypeCombo.connect(
@@ -190,7 +190,7 @@ class FilesBox(gtk.VBox):
 		self.vbox = gtk.VBox()
 		pack(self, self.vbox)
 		hbox = gtk.HBox()
-		pack(hbox, gtk.Label(""), 1, 1)
+		pack(hbox, gtk.Label(label=""), 1, 1)
 		addButton = gtk.Button()
 		addButton.set_label(_("_Add File"))
 		addButton.set_image(gtk.Image.new_from_icon_name(
@@ -210,7 +210,7 @@ class FilesBox(gtk.VBox):
 			_("File") + ": " + fname,
 		)
 		pack(hbox, link)
-		pack(hbox, gtk.Label(""), 1, 1)
+		pack(hbox, gtk.Label(label=""), 1, 1)
 		delButton = gtk.Button()
 		delButton.set_label(_("_Delete"))
 		delButton.set_image(gtk.Image.new_from_icon_name(
@@ -281,10 +281,10 @@ class NotificationBox(gtk.Expander):## or NotificationBox FIXME
 		totalVbox = gtk.VBox()
 		###
 		hbox = gtk.HBox()
-		pack(hbox, gtk.Label(_("Notify") + " "))
+		pack(hbox, gtk.Label(label=_("Notify") + " "))
 		self.notifyBeforeInput = DurationInputBox()
 		pack(hbox, self.notifyBeforeInput, 0, 0)
-		pack(hbox, gtk.Label(" " + _("before event")))
+		pack(hbox, gtk.Label(label=" " + _("before event")))
 		pack(hbox, gtk.Label(), 1, 1)
 		pack(totalVbox, hbox)
 		###
@@ -309,7 +309,7 @@ class NotificationBox(gtk.Expander):## or NotificationBox FIXME
 			cb.set_active(False)
 			pack(hbox, cb)
 			hbox.cb = cb
-			#pack(hbox, gtk.Label(""), 1, 1)
+			#pack(hbox, gtk.Label(label=""), 1, 1)
 			pack(hbox, inputWidget, 1, 1)
 			hbox.inputWidget = inputWidget
 			self.hboxDict[notifier.name] = hbox

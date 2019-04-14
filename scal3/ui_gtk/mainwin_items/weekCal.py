@@ -136,7 +136,7 @@ class ColumnBase(CustomizableCalObj):
 		####
 		if self.customizeFont:
 			hbox = gtk.HBox()
-			pack(hbox, gtk.Label(_("Font Family")))
+			pack(hbox, gtk.Label(label=_("Font Family")))
 			combo = FontFamilyCombo(hasAuto=True)
 			combo.set_value(self.getFontValue())
 			pack(hbox, combo)
@@ -324,12 +324,12 @@ class MainMenuToolbarItem(ToolbarItem):
 			iconPath = join(pixDir, iconPath)
 		###
 		hbox = gtk.HBox()
-		pack(hbox, gtk.Label(_("Icon") + "  "))
+		pack(hbox, gtk.Label(label=_("Icon") + "  "))
 		self.iconSelect = IconSelectButton()
 		self.iconSelect.set_filename(iconPath)
 		self.iconSelect.connect("changed", self.onIconChanged)
 		pack(hbox, self.iconSelect)
-		pack(hbox, gtk.Label(""), 1, 1)
+		pack(hbox, gtk.Label(label=""), 1, 1)
 		pack(self.optionsWidget, hbox)
 		self.optionsWidget.show_all()
 
@@ -608,7 +608,7 @@ class EventsTextColumn(Column):
 		check = gtk.CheckButton(_("Use the color of event group for event text"))
 		check.set_active(ui.wcal_eventsText_colorize)
 		pack(hbox, check)
-		pack(hbox, gtk.Label(""), 1, 1)
+		pack(hbox, gtk.Label(label=""), 1, 1)
 		check.connect("clicked", self.colorizeCheckClicked)
 		pack(self.optionsWidget, hbox)
 		##
@@ -616,7 +616,7 @@ class EventsTextColumn(Column):
 		check = gtk.CheckButton(_("Show Description"))
 		check.set_active(ui.wcal_eventsText_showDesc)
 		pack(hbox, check)
-		pack(hbox, gtk.Label(""), 1, 1)
+		pack(hbox, gtk.Label(label=""), 1, 1)
 		check.connect("clicked", self.descCheckClicked)
 		pack(self.optionsWidget, hbox)
 		##
@@ -755,7 +755,7 @@ class WcalTypeParamBox(gtk.HBox):
 		sgroupLabel.add_widget(label)
 		###
 		self.fontCheck = gtk.CheckButton(_("Font"))
-		pack(self, gtk.Label(""), 1, 1)
+		pack(self, gtk.Label(label=""), 1, 1)
 		pack(self, self.fontCheck)
 		###
 		self.fontb = MyFontButton(wcal)
@@ -850,7 +850,7 @@ class DaysOfMonthColumnGroup(gtk.HBox, CustomizableCalBox, ColumnBase):
 		ColumnBase.optionsWidgetCreate(self)
 		###
 		hbox = gtk.HBox()
-		pack(hbox, gtk.Label(_("Direction")))
+		pack(hbox, gtk.Label(label=_("Direction")))
 		combo = DirectionComboBox()
 		pack(hbox, combo)
 		combo.setValue(ui.wcal_daysOfMonth_dir)

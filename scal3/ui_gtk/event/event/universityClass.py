@@ -58,7 +58,7 @@ class WidgetClass(gtk.VBox):
 		self.courseCombo = combo
 		##
 		hbox = gtk.HBox()
-		label = gtk.Label(_("Course"))
+		label = gtk.Label(label=_("Course"))
 		label.set_alignment(0, 0.5)
 		sizeGroup.add_widget(label)
 		pack(hbox, label)
@@ -67,7 +67,7 @@ class WidgetClass(gtk.VBox):
 		pack(self, hbox)
 		#####
 		hbox = gtk.HBox()
-		label = gtk.Label(_("Week"))
+		label = gtk.Label(label=_("Week"))
 		label.set_alignment(0, 0.5)
 		sizeGroup.add_widget(label)
 		pack(hbox, label)
@@ -79,7 +79,7 @@ class WidgetClass(gtk.VBox):
 		pack(self, hbox)
 		#####
 		hbox = gtk.HBox()
-		label = gtk.Label(_("Week Day"))
+		label = gtk.Label(label=_("Week Day"))
 		label.set_alignment(0, 0.5)
 		sizeGroup.add_widget(label)
 		pack(hbox, label)
@@ -89,7 +89,7 @@ class WidgetClass(gtk.VBox):
 		pack(self, hbox)
 		#####
 		hbox = gtk.HBox()
-		label = gtk.Label(_("Time"))
+		label = gtk.Label(label=_("Time"))
 		label.set_alignment(0, 0.5)
 		sizeGroup.add_widget(label)
 		pack(hbox, label)
@@ -101,12 +101,12 @@ class WidgetClass(gtk.VBox):
 		#self.dayTimeEndCombo.get_child().set_direction(gtk.TextDirection.LTR)
 		##
 		pack(hbox, self.dayTimeStartCombo)
-		pack(hbox, gtk.Label(" " + _("to") + " "))
+		pack(hbox, gtk.Label(label=" " + _("to") + " "))
 		pack(hbox, self.dayTimeEndCombo)
 		pack(self, hbox)
 		###########
 		#hbox = gtk.HBox()
-		#label = gtk.Label(_("Summary"))
+		#label = gtk.Label(label=_("Summary"))
 		#label.set_alignment(0, 0.5)
 		#sizeGroup.add_widget(label)
 		#pack(hbox, label)
@@ -115,7 +115,7 @@ class WidgetClass(gtk.VBox):
 		#pack(self, hbox)
 		#####
 		hbox = gtk.HBox()
-		label = gtk.Label(_("Description"))
+		label = gtk.Label(label=_("Description"))
 		label.set_alignment(0, 0.5)
 		sizeGroup.add_widget(label)
 		pack(hbox, label)
@@ -124,14 +124,14 @@ class WidgetClass(gtk.VBox):
 		pack(self, hbox)
 		#####
 		hbox = gtk.HBox()
-		label = gtk.Label(_("Icon"))
+		label = gtk.Label(label=_("Icon"))
 		label.set_alignment(0, 0.5)
 		sizeGroup.add_widget(label)
 		pack(hbox, label)
 		self.iconSelect = IconSelectButton()
 		#print(join(pixDir, self.icon))
 		pack(hbox, self.iconSelect)
-		pack(hbox, gtk.Label(""), 1, 1)
+		pack(hbox, gtk.Label(label=""), 1, 1)
 		pack(self, hbox)
 		######
 		self.notificationBox = common.NotificationBox(event)

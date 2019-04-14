@@ -17,7 +17,7 @@ class WidgetClass(BaseWidgetClass):
 		BaseWidgetClass.__init__(self, group)
 		####
 		hbox = gtk.HBox()
-		label = gtk.Label(_("Start"))
+		label = gtk.Label(label=_("Start"))
 		label.set_alignment(0, 0.5)
 		pack(hbox, label)
 		self.sizeGroup.add_widget(label)
@@ -26,7 +26,7 @@ class WidgetClass(BaseWidgetClass):
 		pack(self, hbox)
 		###
 		hbox = gtk.HBox()
-		label = gtk.Label(_("End"))
+		label = gtk.Label(label=_("End"))
 		label.set_alignment(0, 0.5)
 		pack(hbox, label)
 		self.sizeGroup.add_widget(label)
@@ -41,7 +41,7 @@ class WidgetClass(BaseWidgetClass):
 		sizeGroup = gtk.SizeGroup(gtk.SizeGroupMode.HORIZONTAL)
 		##
 		hbox = gtk.HBox()
-		label = gtk.Label(_("Account"))
+		label = gtk.Label(label=_("Account"))
 		label.set_alignment(0, 0.5)
 		pack(hbox, label)
 		sizeGroup.add_widget(label) ## FIXME
@@ -50,7 +50,7 @@ class WidgetClass(BaseWidgetClass):
 		pack(vbox, hbox)
 		##
 		hbox = gtk.HBox()
-		label = gtk.Label(_("Remote Group"))
+		label = gtk.Label(label=_("Remote Group"))
 		label.set_alignment(0, 0.5)
 		pack(hbox, label)
 		sizeGroup.add_widget(label) ## FIXME
@@ -65,7 +65,7 @@ class WidgetClass(BaseWidgetClass):
 		sizeGroup.add_widget(self.syncCheck)
 		self.syncIntervalInput = common.DurationInputBox()
 		pack(hbox, self.syncIntervalInput)
-		pack(hbox, gtk.Label(""), 1, 1)
+		pack(hbox, gtk.Label(label=""), 1, 1)
 		pack(vbox, hbox)
 		self.syncCheck.connect(
 			"clicked",

@@ -18,7 +18,7 @@ class BaseWidgetClass(gtk.VBox):
 		self.sizeGroup = gtk.SizeGroup(gtk.SizeGroupMode.HORIZONTAL)
 		#####
 		hbox = gtk.HBox()
-		label = gtk.Label(_("Title"))
+		label = gtk.Label(label=_("Title"))
 		label.set_alignment(0, 0.5)
 		pack(hbox, label)
 		self.sizeGroup.add_widget(label)

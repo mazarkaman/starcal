@@ -88,7 +88,7 @@ class EventSearchWindow(gtk.Window, MyDialog, ud.BaseCalObj):
 		self.timeFromCheck = gtk.CheckButton(_("From"))
 		sgroup.add_widget(self.timeFromCheck)
 		pack(hboxIn, self.timeFromCheck)
-		pack(hboxIn, gtk.Label("  "))
+		pack(hboxIn, gtk.Label(label="  "))
 		##
 		self.timeFromInput = DateTimeButton()
 		self.timeFromInput.set_value(((year, 1, 1), (0, 0, 0)))
@@ -101,7 +101,7 @@ class EventSearchWindow(gtk.Window, MyDialog, ud.BaseCalObj):
 		self.timeToCheck = gtk.CheckButton(_("To"))
 		sgroup.add_widget(self.timeToCheck)
 		pack(hboxIn, self.timeToCheck)
-		pack(hboxIn, gtk.Label("  "))
+		pack(hboxIn, gtk.Label(label="  "))
 		##
 		self.timeToInput = DateTimeButton()
 		self.timeToInput.set_value((
@@ -120,14 +120,14 @@ class EventSearchWindow(gtk.Window, MyDialog, ud.BaseCalObj):
 		vboxIn.set_border_width(5)
 		frame.add(vboxIn)
 		pack(hbox, frame)
-		pack(hbox, gtk.Label(""), 1, 1)
+		pack(hbox, gtk.Label(label=""), 1, 1)
 		pack(self.vbox, hbox)
 		######
 		hbox = gtk.HBox()
 		hbox.set_border_width(5)
 		self.modifiedFromCheck = gtk.CheckButton(_("Modified From"))
 		pack(hbox, self.modifiedFromCheck)
-		pack(hbox, gtk.Label("  "))
+		pack(hbox, gtk.Label(label="  "))
 		self.modifiedFromInput = DateTimeButton()
 		self.modifiedFromInput.set_value(((year, 1, 1), (0, 0, 0)))
 		pack(hbox, self.modifiedFromInput)
@@ -140,7 +140,7 @@ class EventSearchWindow(gtk.Window, MyDialog, ud.BaseCalObj):
 		hbox.set_border_width(5)
 		self.typeCheck = gtk.CheckButton(_("Event Type"))
 		pack(hbox, self.typeCheck)
-		pack(hbox, gtk.Label("  "))
+		pack(hbox, gtk.Label(label="  "))
 		##
 		combo = gtk.ComboBoxText()
 		for cls in event_lib.classes.event:
@@ -157,7 +157,7 @@ class EventSearchWindow(gtk.Window, MyDialog, ud.BaseCalObj):
 		hbox.set_border_width(5)
 		self.groupCheck = gtk.CheckButton(_("Group"))
 		pack(hbox, self.groupCheck)
-		pack(hbox, gtk.Label("  "))
+		pack(hbox, gtk.Label(label="  "))
 		self.groupCombo = SingleGroupComboBox()
 		pack(hbox, self.groupCombo)
 		##
@@ -242,13 +242,13 @@ class EventSearchWindow(gtk.Window, MyDialog, ud.BaseCalObj):
 		vbox.set_border_width(5)
 		###
 		topHbox = gtk.HBox()
-		self.resultLabel = gtk.Label("")
+		self.resultLabel = gtk.Label(label="")
 		pack(topHbox, self.resultLabel)
-		pack(topHbox, gtk.Label(""), 1, 1)
+		pack(topHbox, gtk.Label(label=""), 1, 1)
 		pack(vbox, topHbox)
 		####
 		columnBox = gtk.HBox(spacing=5)
-		pack(columnBox, gtk.Label(_("Columns") + ":    "))
+		pack(columnBox, gtk.Label(label=_("Columns") + ":    "))
 		##
 		check = gtk.CheckButton(_("Group"))
 		check.set_active(True)

@@ -49,7 +49,7 @@ win = gtk.Dialog(
 	)
 )
 langHbox = gtk.HBox()
-pack(langHbox, gtk.Label("Select Language:"))
+pack(langHbox, gtk.Label(label="Select Language:"))
 
 
 importCheckb = None
