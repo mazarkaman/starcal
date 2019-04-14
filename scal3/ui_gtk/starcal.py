@@ -72,6 +72,9 @@ from scal3.ui_gtk.customize import DummyCalObj, CustomizableCalBox
 from scal3.ui_gtk.event.utils import checkEventsReadOnly
 from scal3.ui_gtk import hijri as hijri_gtk
 
+from gi.repository import Gio as gio
+
+
 
 ui.uiName = "gtk"
 
@@ -183,8 +186,7 @@ class MainWinVbox(gtk.VBox, CustomizableCalBox):
 
 
 @registerSignals
-#class MainWin(gtk.ApplicationWindow, ud.IntegratedCalObj):
-class MainWin(gtk.Window, ud.BaseCalObj):
+class MainWin(gtk.ApplicationWindow, ud.BaseCalObj):
 	_name = "mainWin"
 	desc = _("Main Window")
 	timeout = 1 ## second
@@ -193,11 +195,10 @@ class MainWin(gtk.Window, ud.BaseCalObj):
 	#	pass
 
 	def __init__(self, statusIconMode=2):
-		#from gi.repository import Gio
-		#self.app = gtk.Application(application_id="apps.starcal")
-		#self.app.register(Gio.Cancellable.new())
-		#gtk.ApplicationWindow.__init__(self, application=self.app)
-		gtk.Window.__init__(self)
+		self.app = gtk.Application(application_id="apps.starcal")
+		self.app.register(gio.Cancellable.new())
+		gtk.ApplicationWindow.__init__(self, application=self.app)
+		###
 		self.add_events(gdk.EventMask.ALL_EVENTS_MASK)
 		self.initVars()
 		ud.windowList.appendItem(self)
