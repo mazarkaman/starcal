@@ -41,7 +41,7 @@ class EventTagsAndIconSelect(gtk.HBox):
 		gtk.HBox.__init__(self)
 		#########
 		hbox = gtk.HBox()
-		pack(hbox, gtk.Label(_("Category") + ":"))
+		pack(hbox, gtk.Label(label=_("Category") + ":"))
 		#####
 		ls = gtk.ListStore(GdkPixbuf.Pixbuf, str)
 		combo = gtk.ComboBox()
@@ -75,11 +75,11 @@ class EventTagsAndIconSelect(gtk.HBox):
 		pack(vbox, hbox)
 		pack(self, vbox)
 		#########
-		iconLabel = gtk.Label(_("Icon"))
+		iconLabel = gtk.Label(label=_("Icon"))
 		pack(hbox, iconLabel)
 		self.iconSelect = IconSelectButton()
 		pack(hbox, self.iconSelect)
-		tagsLabel = gtk.Label(_("Tags"))
+		tagsLabel = gtk.Label(label=_("Tags"))
 		pack(hbox, tagsLabel)
 		hbox3 = gtk.HBox()
 		self.tagButtons = []
@@ -165,7 +165,7 @@ class TagsListBox(gtk.VBox):
 			self.relatedCheck.set_active(True)
 			self.relatedCheck.connect("clicked", self.optionsChanged)
 			pack(hbox, self.relatedCheck)
-			pack(hbox, gtk.Label(""), 1, 1)
+			pack(hbox, gtk.Label(label=""), 1, 1)
 			pack(self, hbox)
 		########
 		treev = gtk.TreeView()
@@ -282,8 +282,8 @@ class ViewEditTagsHbox(gtk.HBox):
 	def __init__(self, eventType=""):
 		gtk.HBox.__init__(self)
 		self.tags = []
-		pack(self, gtk.Label(_("Tags") + ":  "))
-		self.tagsLabel = gtk.Label("")
+		pack(self, gtk.Label(label=_("Tags") + ":  "))
+		self.tagsLabel = gtk.Label(label="")
 		pack(self, self.tagsLabel, 1, 1)
 		self.dialog = TagEditorDialog(eventType, parent=self.get_toplevel())
 		self.dialog.connect("response", self.dialogResponse)

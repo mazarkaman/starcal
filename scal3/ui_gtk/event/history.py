@@ -149,7 +149,7 @@ class EventHistoryDialog(gtk.Dialog):
 		self.viewTypeCombo = combo
 
 		textTypeHbox = gtk.HBox()
-		pack(textTypeHbox, gtk.Label(_("View type")+": "))
+		pack(textTypeHbox, gtk.Label(label=_("View type")+": "))
 		pack(textTypeHbox, self.viewTypeCombo)
 		pack(leftVbox, textTypeHbox)
 

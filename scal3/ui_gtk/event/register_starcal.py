@@ -57,7 +57,7 @@ class StarCalendarRegisterDialog(gtk.Window, MyDialog):
 		sgroupLabel = gtk.SizeGroup(gtk.SizeGroupMode.HORIZONTAL)
 		###
 		hbox = gtk.HBox(spacing=5)
-		label = gtk.Label(_("Email"))
+		label = gtk.Label(label=_("Email"))
 		label.set_alignment(0, 0.5)
 		pack(hbox, label, 0, 0)
 		sgroupLabel.add_widget(label)
@@ -67,7 +67,7 @@ class StarCalendarRegisterDialog(gtk.Window, MyDialog):
 		pack(self.vbox, hbox, 0, 0, 10)
 		###
 		hbox = gtk.HBox(spacing=5)
-		label = gtk.Label(_("Password"))
+		label = gtk.Label(label=_("Password"))
 		label.set_alignment(0, 0.5)
 		pack(hbox, label, 0, 0)
 		sgroupLabel.add_widget(label)
@@ -78,7 +78,7 @@ class StarCalendarRegisterDialog(gtk.Window, MyDialog):
 		pack(self.vbox, hbox, 0, 0, 10)
 		###
 		hbox = gtk.HBox(spacing=5)
-		label = gtk.Label(_("Repeat Password"))
+		label = gtk.Label(label=_("Repeat Password"))
 		label.set_alignment(0, 0.5)
 		pack(hbox, label, 0, 0)
 		sgroupLabel.add_widget(label)
@@ -89,7 +89,7 @@ class StarCalendarRegisterDialog(gtk.Window, MyDialog):
 		pack(self.vbox, hbox, 0, 0, 10)
 		###
 		hbox = gtk.HBox(spacing=5)
-		label = gtk.Label(_("Name (Optional)"))
+		label = gtk.Label(label=_("Name (Optional)"))
 		label.set_alignment(0, 0.5)
 		pack(hbox, label, 0, 0)
 		sgroupLabel.add_widget(label)

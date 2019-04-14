@@ -429,10 +429,10 @@ class WidthHeightPrefItem(PrefItem):
 		self.heightItem = IntSpinButton(_min, _max)
 		###
 		hbox = self._widget = gtk.HBox()
-		pack(hbox, gtk.Label(_("Width") + ":"))
+		pack(hbox, gtk.Label(label=_("Width") + ":"))
 		pack(hbox, self.widthItem)
-		pack(hbox, gtk.Label("  "))
-		pack(hbox, gtk.Label(_("Height") + ":"))
+		pack(hbox, gtk.Label(label="  "))
+		pack(hbox, gtk.Label(label=_("Height") + ":"))
 		pack(hbox, self.heightItem)
 
 	def get(self):
@@ -527,13 +527,13 @@ class RadioListPrefItem(PrefItem):
 		first = self.radios[0]
 		if label is not None:
 			pack(box, gtk.Label(label))
-			pack(box, gtk.Label(""), 1, 1)
+			pack(box, gtk.Label(label=""), 1, 1)
 		pack(box, first)
 		for r in self.radios[1:]:
-			pack(box, gtk.Label(""), 1, 1)
+			pack(box, gtk.Label(label=""), 1, 1)
 			pack(box, r)
 			r.set_group(first)
-		pack(box, gtk.Label(""), 1, 1) ## FIXME
+		pack(box, gtk.Label(label=""), 1, 1) ## FIXME
 
 	def get(self):
 		for i in range(self.num):

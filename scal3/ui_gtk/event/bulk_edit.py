@@ -89,14 +89,14 @@ class EventsBulkEditDialog(gtk.Dialog):
 		self.iconChangeCombo.append_text(_("Change"))
 		self.iconChangeCombo.append_text(_("Change if empty"))
 		pack(hbox, self.iconChangeCombo)
-		pack(hbox, gtk.Label("  "))
+		pack(hbox, gtk.Label(label="  "))
 		self.iconSelect = IconSelectButton()
 		try:
 			self.iconSelect.set_filename(container.icon)
 		except AttributeError:
 			pass
 		pack(hbox, self.iconSelect)
-		pack(hbox, gtk.Label(""), 1, 1)
+		pack(hbox, gtk.Label(label=""), 1, 1)
 		pack(self.vbox, hbox)
 		self.iconHbox = hbox
 		####
@@ -110,7 +110,7 @@ class EventsBulkEditDialog(gtk.Dialog):
 		self.textChangeCombo.append_text(_("Replace text"))
 		self.textChangeCombo.connect("changed", self.textChangeComboChanged)
 		pack(hbox, self.textChangeCombo)
-		pack(hbox, gtk.Label(""), 1, 1)
+		pack(hbox, gtk.Label(label=""), 1, 1)
 		## CheckButton(_("Regexp"))
 		pack(self.textVbox, hbox)
 		###
@@ -118,8 +118,8 @@ class EventsBulkEditDialog(gtk.Dialog):
 		pack(self.textVbox, self.textInput1, 1, 1)
 		###
 		hbox = gtk.HBox()
-		pack(hbox, gtk.Label(_("with")))
-		pack(hbox, gtk.Label(""), 1, 1)
+		pack(hbox, gtk.Label(label=_("with")))
+		pack(hbox, gtk.Label(label=""), 1, 1)
 		pack(self.textVbox, hbox, 1, 1)
 		self.withHbox = hbox
 		###
@@ -134,10 +134,10 @@ class EventsBulkEditDialog(gtk.Dialog):
 		self.timeZoneChangeCombo.append_text(_("Change"))
 		self.timeZoneChangeCombo.append_text(_("Change if empty"))
 		pack(hbox, self.timeZoneChangeCombo)
-		pack(hbox, gtk.Label("  "))
+		pack(hbox, gtk.Label(label="  "))
 		self.timeZoneInput = TimeZoneComboBoxEntry()
 		pack(hbox, self.timeZoneInput)
-		pack(hbox, gtk.Label(""), 1, 1)
+		pack(hbox, gtk.Label(label=""), 1, 1)
 		pack(self.vbox, hbox, 1, 1)
 		self.timeZoneHbox = hbox
 		####

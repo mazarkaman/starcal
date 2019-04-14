@@ -35,9 +35,9 @@ class AccountEditorDialog(gtk.Dialog):
 		combo = gtk.ComboBoxText()
 		for cls in event_lib.classes.account:
 			combo.append_text(cls.desc)
-		pack(hbox, gtk.Label(_("Account Type")))
+		pack(hbox, gtk.Label(label=_("Account Type")))
 		pack(hbox, combo)
-		pack(hbox, gtk.Label(""), 1, 1)
+		pack(hbox, gtk.Label(label=""), 1, 1)
 		pack(self.vbox, hbox)
 		####
 		if self.account:

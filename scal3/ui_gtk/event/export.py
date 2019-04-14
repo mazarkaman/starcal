@@ -60,7 +60,7 @@ class SingleGroupExportDialog(gtk.Dialog, MyDialog):
 		##
 		frame.add(radioBox)
 		pack(hbox, frame)
-		pack(hbox, gtk.Label(""), 1, 1)
+		pack(hbox, gtk.Label(label=""), 1, 1)
 		pack(self.vbox, hbox)
 		########
 		self.fcw = gtk.FileChooserWidget(action=gtk.FileChooserAction.SAVE)
@@ -157,11 +157,11 @@ class MultiGroupExportDialog(gtk.Dialog, MyDialog):
 		##
 		frame.add(radioBox)
 		pack(hbox, frame)
-		pack(hbox, gtk.Label(""), 1, 1)
+		pack(hbox, gtk.Label(label=""), 1, 1)
 		pack(self.vbox, hbox)
 		########
 		hbox = gtk.HBox(spacing=2)
-		pack(hbox, gtk.Label(_("File") + ":"))
+		pack(hbox, gtk.Label(label=_("File") + ":"))
 		self.fpathEntry = gtk.Entry()
 		self.fpathEntry.set_text(join(
 			deskDir,

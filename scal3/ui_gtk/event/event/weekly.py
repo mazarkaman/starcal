@@ -37,41 +37,41 @@ class WidgetClass(common.WidgetClass):
 		sizeGroup = gtk.SizeGroup(gtk.SizeGroupMode.HORIZONTAL)
 		######
 		hbox = gtk.HBox()
-		label = gtk.Label(_("Start"))
+		label = gtk.Label(label=_("Start"))
 		label.set_alignment(0, 0.5)
 		sizeGroup.add_widget(label)
 		pack(hbox, label)
 		self.startDateInput = DateButton()
 		pack(hbox, self.startDateInput)
 		###
-		pack(hbox, gtk.Label(""), 1, 1)
+		pack(hbox, gtk.Label(label=""), 1, 1)
 		pack(self, hbox)
 		######
 		hbox = gtk.HBox()
-		label = gtk.Label(_("Repeat Every "))
+		label = gtk.Label(label=_("Repeat Every "))
 		label.set_alignment(0, 0.5)
 		sizeGroup.add_widget(label)
 		pack(hbox, label)
 		self.weeksSpin = IntSpinButton(1, 99999)
 		pack(hbox, self.weeksSpin)
-		pack(hbox, gtk.Label("  " + _(" Weeks")))
+		pack(hbox, gtk.Label(label="  " + _(" Weeks")))
 		###
-		pack(hbox, gtk.Label(""), 1, 1)
+		pack(hbox, gtk.Label(label=""), 1, 1)
 		pack(self, hbox)
 		######
 		hbox = gtk.HBox()
-		label = gtk.Label(_("End"))
+		label = gtk.Label(label=_("End"))
 		label.set_alignment(0, 0.5)
 		sizeGroup.add_widget(label)
 		pack(hbox, label)
 		self.endDateInput = DateButton()
 		pack(hbox, self.endDateInput)
 		###
-		pack(hbox, gtk.Label(""), 1, 1)
+		pack(hbox, gtk.Label(label=""), 1, 1)
 		pack(self, hbox)
 		#########
 		hbox = gtk.HBox()
-		label = gtk.Label(_("Time"))
+		label = gtk.Label(label=_("Time"))
 		label.set_alignment(0, 0.5)
 		sizeGroup.add_widget(label)
 		pack(hbox, label)
@@ -80,7 +80,7 @@ class WidgetClass(common.WidgetClass):
 		self.dayTimeEndInput = HourMinuteButton()
 		##
 		pack(hbox, self.dayTimeStartInput)
-		pack(hbox, gtk.Label(" " + _("to") + " "))
+		pack(hbox, gtk.Label(label=" " + _("to") + " "))
 		pack(hbox, self.dayTimeEndInput)
 		pack(self, hbox)
 		#############

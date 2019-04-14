@@ -54,7 +54,7 @@ class AllDateLabelsVBox(gtk.VBox, ud.BaseCalObj):
 			label.set_alignment(0, 0.5)
 			pack(hbox, label)
 			sgroup.add_widget(label)
-			pack(hbox, gtk.Label("  "))
+			pack(hbox, gtk.Label(label="  "))
 			###
 			dateLabel = gtk.Label(ui.cell.format(ud.dateFormatBin, i))
 			dateLabel.set_selectable(True)
@@ -98,11 +98,11 @@ class DayInfoJulianDayHBox(gtk.HBox, ud.BaseCalObj):
 		gtk.HBox.__init__(self)
 		self.initVars()
 		###
-		pack(self, gtk.Label(_("Julian Day Number") + ":  "))
-		self.jdLabel = gtk.Label("")
+		pack(self, gtk.Label(label=_("Julian Day Number") + ":  "))
+		self.jdLabel = gtk.Label(label="")
 		self.jdLabel.set_selectable(True)
 		pack(self, self.jdLabel)
-		pack(self, gtk.Label(""), 1, 1)
+		pack(self, gtk.Label(label=""), 1, 1)
 		###
 		self.show_all()
 

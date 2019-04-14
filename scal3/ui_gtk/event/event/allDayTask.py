@@ -36,7 +36,7 @@ class WidgetClass(common.WidgetClass):
 		sizeGroup = gtk.SizeGroup(gtk.SizeGroupMode.HORIZONTAL)
 		######
 		hbox = gtk.HBox()
-		label = gtk.Label(_("Start"))
+		label = gtk.Label(label=_("Start"))
 		label.set_alignment(0, 0.5)
 		sizeGroup.add_widget(label)
 		pack(hbox, label)
@@ -56,13 +56,13 @@ class WidgetClass(common.WidgetClass):
 		self.durationBox = gtk.HBox()
 		self.durationSpin = IntSpinButton(1, 999)
 		pack(self.durationBox, self.durationSpin)
-		pack(self.durationBox, gtk.Label(_(" days")))
+		pack(self.durationBox, gtk.Label(label=_(" days")))
 		pack(hbox, self.durationBox)
 		####
 		self.endDateInput = DateButton()
 		pack(hbox, self.endDateInput)
 		####
-		pack(hbox, gtk.Label(""), 1, 1)
+		pack(hbox, gtk.Label(label=""), 1, 1)
 		pack(self, hbox)
 		#############
 		self.notificationBox = common.NotificationBox(event)

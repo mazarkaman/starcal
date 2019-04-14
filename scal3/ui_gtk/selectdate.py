@@ -58,7 +58,7 @@ class SelectDateDialog(gtk.Dialog):
 		self.connect("drag-data-received", self.dragRec)
 		######
 		hb0 = gtk.HBox(spacing=4)
-		pack(hb0, gtk.Label(_("Date Mode")))
+		pack(hb0, gtk.Label(label=_("Date Mode")))
 		combo = CalTypeCombo()
 		combo.set_active(self.calType)
 		pack(hb0, combo)
@@ -73,7 +73,7 @@ class SelectDateDialog(gtk.Dialog):
 		pack(self.vbox, hbox)
 		########
 		hb2 = gtk.HBox(spacing=4)
-		pack(hb2, gtk.Label("yyyy/mm/dd"))
+		pack(hb2, gtk.Label(label="yyyy/mm/dd"))
 		dateInput = DateButtonOption(hist_size=16)
 		pack(hb2, dateInput)
 		rb2 = gtk.RadioButton.new_with_label_from_widget(rb1, "")

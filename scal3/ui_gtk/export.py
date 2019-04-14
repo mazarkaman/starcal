@@ -53,20 +53,20 @@ class ExportDialog(gtk.Dialog, MyDialog):
 		#self.set_has_separator(False)
 		########
 		hbox = gtk.HBox(spacing=2)
-		pack(hbox, gtk.Label(_("Month Range")))
+		pack(hbox, gtk.Label(label=_("Month Range")))
 		combo = gtk.ComboBoxText()
 		for t in ("Current Month", "Whole Current Year", "Custom"):
 			combo.append_text(_(t))
 		pack(hbox, combo)
-		pack(hbox, gtk.Label(""), 1, 1)
+		pack(hbox, gtk.Label(label=""), 1, 1)
 		self.combo = combo
 		###
 		hbox2 = gtk.HBox(spacing=2)
-		pack(hbox2, gtk.Label(_("from month")))
+		pack(hbox2, gtk.Label(label=_("from month")))
 		self.ymBox0 = YearMonthButton()
 		pack(hbox2, self.ymBox0)
-		pack(hbox2, gtk.Label(""), 1, 1)
-		pack(hbox2, gtk.Label(_("to month")))
+		pack(hbox2, gtk.Label(label=""), 1, 1)
+		pack(hbox2, gtk.Label(label=_("to month")))
 		self.ymBox1 = YearMonthButton()
 		pack(hbox2, self.ymBox1)
 		pack(hbox, hbox2, 1, 1)
@@ -191,10 +191,10 @@ class ExportToIcsDialog(gtk.Dialog, MyDialog):
 		#self.set_has_separator(False)
 		########
 		hbox = gtk.HBox(spacing=2)
-		pack(hbox, gtk.Label(_("From") + " "))
+		pack(hbox, gtk.Label(label=_("From") + " "))
 		self.startDateInput = DateButton()
 		pack(hbox, self.startDateInput)
-		pack(hbox, gtk.Label(" " + _("To") + " "))
+		pack(hbox, gtk.Label(label=" " + _("To") + " "))
 		self.endDateInput = DateButton()
 		pack(hbox, self.endDateInput)
 		pack(self.vbox, hbox)

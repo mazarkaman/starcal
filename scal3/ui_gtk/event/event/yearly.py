@@ -35,18 +35,18 @@ class WidgetClass(common.WidgetClass):
 		common.WidgetClass.__init__(self, event)
 		################
 		hbox = gtk.HBox()
-		pack(hbox, gtk.Label(_("Month")))
+		pack(hbox, gtk.Label(label=_("Month")))
 		self.monthCombo = MonthComboBox()
 		self.monthCombo.build(event.calType)
 		pack(hbox, self.monthCombo)
-		pack(hbox, gtk.Label(""), 1, 1)
+		pack(hbox, gtk.Label(label=""), 1, 1)
 		#pack(self, hbox)
 		###
 		#hbox = gtk.HBox()
-		pack(hbox, gtk.Label(_("Day")))
+		pack(hbox, gtk.Label(label=_("Day")))
 		self.daySpin = DaySpinButton()
 		pack(hbox, self.daySpin)
-		pack(hbox, gtk.Label(""), 1, 1)
+		pack(hbox, gtk.Label(label=""), 1, 1)
 		pack(self, hbox)
 		###
 		hbox = gtk.HBox()
@@ -54,7 +54,7 @@ class WidgetClass(common.WidgetClass):
 		pack(hbox, self.startYearCheck)
 		self.startYearSpin = YearSpinButton()
 		pack(hbox, self.startYearSpin)
-		pack(hbox, gtk.Label(""), 1, 1)
+		pack(hbox, gtk.Label(label=""), 1, 1)
 		pack(self, hbox)
 		self.startYearCheck.connect("clicked", self.startYearCheckClicked)
 		####

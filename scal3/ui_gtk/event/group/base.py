@@ -39,7 +39,7 @@ class BaseWidgetClass(gtk.VBox):
 		self.sizeGroup = gtk.SizeGroup(gtk.SizeGroupMode.HORIZONTAL)
 		#####
 		hbox = gtk.HBox()
-		label = gtk.Label(_("Title"))
+		label = gtk.Label(label=_("Title"))
 		label.set_alignment(0, 0.5)
 		pack(hbox, label)
 		self.sizeGroup.add_widget(label)
@@ -48,7 +48,7 @@ class BaseWidgetClass(gtk.VBox):
 		pack(self, hbox)
 		#####
 		hbox = gtk.HBox()
-		label = gtk.Label(_("Color"))
+		label = gtk.Label(label=_("Color"))
 		label.set_alignment(0, 0.5)
 		pack(hbox, label)
 		self.sizeGroup.add_widget(label)
@@ -58,7 +58,7 @@ class BaseWidgetClass(gtk.VBox):
 		pack(self, hbox)
 		#####
 		hbox = gtk.HBox()
-		label = gtk.Label(_("Default Icon"))## FIXME
+		label = gtk.Label(label=_("Default Icon"))## FIXME
 		label.set_alignment(0, 0.5)
 		pack(hbox, label)
 		self.sizeGroup.add_widget(label)
@@ -67,13 +67,13 @@ class BaseWidgetClass(gtk.VBox):
 		pack(self, hbox)
 		#####
 		hbox = gtk.HBox()
-		label = gtk.Label(_("Default Calendar Type"))
+		label = gtk.Label(label=_("Default Calendar Type"))
 		label.set_alignment(0, 0.5)
 		pack(hbox, label)
 		self.sizeGroup.add_widget(label)
 		combo = CalTypeCombo()
 		pack(hbox, combo)
-		pack(hbox, gtk.Label(""), 1, 1)
+		pack(hbox, gtk.Label(label=""), 1, 1)
 		self.calTypeCombo = combo
 		pack(self, hbox)
 		#####
@@ -83,7 +83,7 @@ class BaseWidgetClass(gtk.VBox):
 		self.sizeGroup.add_widget(self.tzCheck)
 		combo = TimeZoneComboBoxEntry()
 		pack(hbox, combo)
-		pack(hbox, gtk.Label(""), 1, 1)
+		pack(hbox, gtk.Label(label=""), 1, 1)
 		self.tzCombo = combo
 		pack(self, hbox)
 		self.tzCheck.connect(
@@ -92,7 +92,7 @@ class BaseWidgetClass(gtk.VBox):
 		)
 		#####
 		hbox = gtk.HBox()
-		label = gtk.Label(_("Show in Calendar"))
+		label = gtk.Label(label=_("Show in Calendar"))
 		label.set_alignment(0, 0.5)
 		pack(hbox, label)
 		self.sizeGroup.add_widget(label)
@@ -100,28 +100,28 @@ class BaseWidgetClass(gtk.VBox):
 		self.showInWCalCheck = gtk.CheckButton(_("Week"))
 		self.showInMCalCheck = gtk.CheckButton(_("Month"))
 		pack(hbox, self.showInDCalCheck)
-		pack(hbox, gtk.Label(""), 1, 1)
+		pack(hbox, gtk.Label(label=""), 1, 1)
 		pack(hbox, self.showInWCalCheck)
-		pack(hbox, gtk.Label(""), 1, 1)
+		pack(hbox, gtk.Label(label=""), 1, 1)
 		pack(hbox, self.showInMCalCheck)
-		pack(hbox, gtk.Label(""), 1, 1)
+		pack(hbox, gtk.Label(label=""), 1, 1)
 		pack(self, hbox)
 		#####
 		hbox = gtk.HBox()
-		label = gtk.Label(_("Show in"))
+		label = gtk.Label(label=_("Show in"))
 		label.set_alignment(0, 0.5)
 		pack(hbox, label)
 		self.sizeGroup.add_widget(label)
 		self.showInTimeLineCheck = gtk.CheckButton(_("Time Line"))
 		self.showInStatusIconCheck = gtk.CheckButton(_("Status Icon"))
 		pack(hbox, self.showInTimeLineCheck)
-		pack(hbox, gtk.Label(""), 1, 1)
+		pack(hbox, gtk.Label(label=""), 1, 1)
 		pack(hbox, self.showInStatusIconCheck)
-		pack(hbox, gtk.Label(""), 1, 1)
+		pack(hbox, gtk.Label(label=""), 1, 1)
 		pack(self, hbox)
 		#####
 		hbox = gtk.HBox()
-		label = gtk.Label(_("Event Cache Size"))
+		label = gtk.Label(label=_("Event Cache Size"))
 		label.set_alignment(0, 0.5)
 		pack(hbox, label)
 		self.sizeGroup.add_widget(label)
@@ -130,7 +130,7 @@ class BaseWidgetClass(gtk.VBox):
 		pack(self, hbox)
 		#####
 		hbox = gtk.HBox()
-		label = gtk.Label(_("Event Text Seperator"))
+		label = gtk.Label(label=_("Event Text Seperator"))
 		label.set_alignment(0, 0.5)
 		pack(hbox, label)
 		self.sizeGroup.add_widget(label)
@@ -142,7 +142,7 @@ class BaseWidgetClass(gtk.VBox):
 		))
 		#####
 		#hbox = gtk.HBox()
-		#label = gtk.Label(_("Show Full Event Description"))
+		#label = gtk.Label(label=_("Show Full Event Description"))
 		#label.set_alignment(0, 0.5)
 		#pack(hbox, label)
 		#self.sizeGroup.add_widget(label)

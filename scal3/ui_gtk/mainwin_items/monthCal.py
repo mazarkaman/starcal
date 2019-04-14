@@ -66,21 +66,21 @@ class MonthCalTypeParamBox(gtk.Frame):
 		self.add(vbox)
 		###
 		hbox = gtk.HBox()
-		label = gtk.Label(_("Position")+": ")
+		label = gtk.Label(label=_("Position")+": ")
 		pack(hbox, label)
 		sgroupLabel.add_widget(label)
 		spin = FloatSpinButton(-99, 99, 1)
 		self.spinX = spin
 		pack(hbox, spin)
-		pack(hbox, gtk.Label(""), 1, 1)
+		pack(hbox, gtk.Label(label=""), 1, 1)
 		spin = FloatSpinButton(-99, 99, 1)
 		self.spinY = spin
 		pack(hbox, spin)
-		pack(hbox, gtk.Label(""), 1, 1)
+		pack(hbox, gtk.Label(label=""), 1, 1)
 		pack(vbox, hbox)
 		####
 		hbox = gtk.HBox()
-		label = gtk.Label(_("Font")+": ")
+		label = gtk.Label(label=_("Font")+": ")
 		pack(hbox, label)
 		sgroupLabel.add_widget(label)
 		##
@@ -91,7 +91,7 @@ class MonthCalTypeParamBox(gtk.Frame):
 		self.colorb = colorb
 		##
 		pack(hbox, colorb)
-		pack(hbox, gtk.Label(""), 1, 1)
+		pack(hbox, gtk.Label(label=""), 1, 1)
 		pack(hbox, fontb)
 		pack(vbox, hbox)
 		####
@@ -215,19 +215,19 @@ class CalObj(gtk.DrawingArea, CalBase):
 		####
 		hbox = gtk.HBox(spacing=3)
 		##
-		pack(hbox, gtk.Label(_("Left Margin")))
+		pack(hbox, gtk.Label(label=_("Left Margin")))
 		spin = IntSpinButton(0, 99)
 		spin.set_value(ui.mcalLeftMargin)
 		spin.connect("changed", self.leftMarginSpinChanged)
 		pack(hbox, spin)
 		##
-		pack(hbox, gtk.Label(_("Top")))
+		pack(hbox, gtk.Label(label=_("Top")))
 		spin = IntSpinButton(0, 99)
 		spin.set_value(ui.mcalTopMargin)
 		spin.connect("changed", self.topMarginSpinChanged)
 		pack(hbox, spin)
 		##
-		pack(hbox, gtk.Label(""), 1, 1)
+		pack(hbox, gtk.Label(label=""), 1, 1)
 		pack(self.optionsWidget, hbox)
 		########
 		prefItem = LiveCheckColorPrefItem(

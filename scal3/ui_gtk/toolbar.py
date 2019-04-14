@@ -103,7 +103,7 @@ class CustomizableToolbar(gtk.Toolbar, CustomizableCalObj):
 		self.optionsWidget = gtk.VBox()
 		##
 		hbox = gtk.HBox()
-		pack(hbox, gtk.Label(_("Style")))
+		pack(hbox, gtk.Label(label=_("Style")))
 		self.styleCombo = gtk.ComboBoxText()
 		for item in self.styleList:
 			self.styleCombo.append_text(_(item))
@@ -111,7 +111,7 @@ class CustomizableToolbar(gtk.Toolbar, CustomizableCalObj):
 		pack(self.optionsWidget, hbox)
 		##
 		hbox = gtk.HBox()
-		pack(hbox, gtk.Label(_("Icon Size")))
+		pack(hbox, gtk.Label(label=_("Icon Size")))
 		self.iconSizeCombo = gtk.ComboBoxText()
 		for (i, item) in enumerate(ud.iconSizeList):
 			self.iconSizeCombo.append_text(_(item[0]))
@@ -120,7 +120,7 @@ class CustomizableToolbar(gtk.Toolbar, CustomizableCalObj):
 		self.iconSizeHbox = hbox
 		##
 		hbox = gtk.HBox()
-		pack(hbox, gtk.Label(_("Buttons Border")))
+		pack(hbox, gtk.Label(label=_("Buttons Border")))
 		self.buttonsBorderSpin = IntSpinButton(0, 99)
 		pack(hbox, self.buttonsBorderSpin)
 		pack(self.optionsWidget, hbox)

@@ -26,7 +26,7 @@ class WidgetClass(gtk.HBox):
 		pack(self, combo)
 		self.weekDayCombo = combo
 		###
-		pack(self, gtk.Label(_(" of ")))
+		pack(self, gtk.Label(label=_(" of ")))
 		###
 		combo = MonthComboBox(True)
 		combo.build(rule.getCalType())

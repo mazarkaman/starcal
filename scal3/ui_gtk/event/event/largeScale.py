@@ -21,7 +21,7 @@ class WidgetClass(common.WidgetClass):
 		sizeGroup = gtk.SizeGroup(gtk.SizeGroupMode.HORIZONTAL)
 		######
 		hbox = gtk.HBox()
-		label = gtk.Label(_("Scale"))
+		label = gtk.Label(label=_("Scale"))
 		label.set_alignment(0, 0.5)
 		sizeGroup.add_widget(label)
 		pack(hbox, label)
@@ -30,7 +30,7 @@ class WidgetClass(common.WidgetClass):
 		pack(self, hbox)
 		####
 		hbox = gtk.HBox()
-		label = gtk.Label(_("Start"))
+		label = gtk.Label(label=_("Start"))
 		label.set_alignment(0, 0.5)
 		sizeGroup.add_widget(label)
 		pack(hbox, label)

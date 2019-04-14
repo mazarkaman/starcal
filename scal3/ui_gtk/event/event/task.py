@@ -35,14 +35,14 @@ class WidgetClass(common.WidgetClass):
 		sizeGroup = gtk.SizeGroup(gtk.SizeGroupMode.HORIZONTAL)
 		######
 		hbox = gtk.HBox()
-		label = gtk.Label(_("Start"))
+		label = gtk.Label(label=_("Start"))
 		label.set_alignment(0, 0.5)
 		sizeGroup.add_widget(label)
 		pack(hbox, label)
 		self.startDateInput = DateButton()
 		pack(hbox, self.startDateInput)
 		##
-		pack(hbox, gtk.Label(" " + _("Time")))
+		pack(hbox, gtk.Label(label=" " + _("Time")))
 		self.startTimeInput = TimeButton()
 		pack(hbox, self.startTimeInput)
 		##
@@ -63,13 +63,13 @@ class WidgetClass(common.WidgetClass):
 		self.endDateInput = DateButton()
 		pack(self.endDateHbox, self.endDateInput)
 		##
-		pack(self.endDateHbox, gtk.Label(" " + _("Time")))
+		pack(self.endDateHbox, gtk.Label(label=" " + _("Time")))
 		self.endTimeInput = TimeButton()
 		pack(self.endDateHbox, self.endTimeInput)
 		##
 		pack(hbox, self.endDateHbox, 1, 1)
 		####
-		pack(hbox, gtk.Label(""), 1, 1)
+		pack(hbox, gtk.Label(label=""), 1, 1)
 		pack(self, hbox)
 		#############
 		self.notificationBox = common.NotificationBox(event)

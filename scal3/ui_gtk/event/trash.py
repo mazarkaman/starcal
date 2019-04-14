@@ -37,7 +37,7 @@ class TrashEditorDialog(gtk.Dialog):
 		sizeGroup = gtk.SizeGroup(gtk.SizeGroupMode.HORIZONTAL)
 		#######
 		hbox = gtk.HBox()
-		label = gtk.Label(_("Title"))
+		label = gtk.Label(label=_("Title"))
 		label.set_alignment(0, 0.5)
 		pack(hbox, label)
 		sizeGroup.add_widget(label)
@@ -46,13 +46,13 @@ class TrashEditorDialog(gtk.Dialog):
 		pack(self.vbox, hbox)
 		####
 		hbox = gtk.HBox()
-		label = gtk.Label(_("Icon"))
+		label = gtk.Label(label=_("Icon"))
 		label.set_alignment(0, 0.5)
 		pack(hbox, label)
 		sizeGroup.add_widget(label)
 		self.iconSelect = IconSelectButton()
 		pack(hbox, self.iconSelect)
-		pack(hbox, gtk.Label(""), 1, 1)
+		pack(hbox, gtk.Label(label=""), 1, 1)
 		pack(self.vbox, hbox)
 		####
 		self.vbox.show_all()
