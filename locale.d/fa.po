@@ -1741,6 +1741,31 @@ msgstr ""
 "خودکار"
 
 
+msgid "Alignment"
+msgstr ""
+"جهت"
+
+msgid "Center"
+msgstr ""
+"وسط"
+
+msgid "Left"
+msgstr ""
+"چپ"
+
+msgid "Right"
+msgstr ""
+"راست"
+
+msgid "Top"
+msgstr ""
+"بالا"
+
+msgid "Buttom"
+msgstr ""
+"پایین"
+
+
 
 msgid "aboutText"
 msgstr ""
@@ -2239,9 +2264,6 @@ msgid "Left Margin"
 msgstr ""
 "حاشیهٔ راست"
 
-msgid "Top"
-msgstr ""
-"بالا"
 
 msgid "Cursor"
 msgstr ""

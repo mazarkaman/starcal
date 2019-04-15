@@ -44,71 +44,6 @@ from scal3.ui_gtk.customize import CustomizableCalObj
 from scal3.ui_gtk.cal_base import CalBase
 
 
-class DayCalTypeParamBox(gtk.HBox):
-	def __init__(self, cal, index, calType, params, sgroupLabel, sgroupFont):
-		from scal3.ui_gtk.mywidgets.multi_spin.float_num import FloatSpinButton
-		from scal3.ui_gtk.mywidgets import MyFontButton, MyColorButton
-		gtk.HBox.__init__(self)
-		self.cal = cal
-		self.index = index
-		self.calType = calType
-		######
-		module, ok = calTypes[calType]
-		if not ok:
-			raise RuntimeError("cal type %r not found" % calType)
-		label = gtk.Label(label=_(module.desc) + "  ")
-		label.set_alignment(0, 0.5)
-		pack(self, label)
-		sgroupLabel.add_widget(label)
-		###
-		pack(self, gtk.Label(label=""), 1, 1)
-		pack(self, gtk.Label(label=_("position")))
-		###
-		spin = FloatSpinButton(-999, 999, 1)
-		self.spinX = spin
-		pack(self, spin)
-		###
-		spin = FloatSpinButton(-999, 999, 1)
-		self.spinY = spin
-		pack(self, spin)
-		####
-		pack(self, gtk.Label(label=""), 1, 1)
-		###
-		fontb = MyFontButton(cal)
-		self.fontb = fontb
-		pack(self, fontb)
-		sgroupFont.add_widget(fontb)
-		####
-		colorb = MyColorButton()
-		self.colorb = colorb
-		pack(self, colorb)
-		####
-		self.set(params)
-		####
-		self.spinX.connect("changed", self.onChange)
-		self.spinY.connect("changed", self.onChange)
-		fontb.connect("font-set", self.onChange)
-		colorb.connect("color-set", self.onChange)
-
-	def get(self):
-		return {
-			"pos": (self.spinX.get_value(), self.spinY.get_value()),
-			"font": self.fontb.get_font_name(),
-			"color": self.colorb.get_color()
-		}
-
-	def set(self, data):
-		self.spinX.set_value(data["pos"][0])
-		self.spinY.set_value(data["pos"][1])
-		self.fontb.set_font_name(data["font"])
-		self.colorb.set_color(data["color"])
-
-	def onChange(self, obj=None, event=None):
-		typeParams = self.cal.getTypeParams()
-		typeParams[self.index] = self.get()
-		self.cal.queue_draw()
-
-
 class DayCal(gtk.DrawingArea, CalBase):
 	_name = "dayCal"
 	desc = _("Day Calendar")
@@ -177,6 +112,7 @@ class DayCal(gtk.DrawingArea, CalBase):
 		)
 
 	def updateTypeParamsWidget(self):
+		from scal3.ui_gtk.cal_type_params import CalTypeParamBox
 		if not self.typeParamsParam:
 			return
 		typeParams = self.getTypeParams()
@@ -201,7 +137,15 @@ class DayCal(gtk.DrawingArea, CalBase):
 			params = typeParams[i]
 			#except IndexError:
 			##
-			hbox = DayCalTypeParamBox(self, i, calType, params, sgroupLabel, sgroupFont)
+			hbox = CalTypeParamBox(
+				self.typeParamsParam,
+				self,
+				i,
+				calType,
+				params,
+				sgroupLabel,
+				hasAlign=True,
+			)
 			pack(vbox, hbox)
 		###
 		vbox.show_all()
@@ -259,7 +203,7 @@ class DayCal(gtk.DrawingArea, CalBase):
 		xalign = params.get("xalign")
 		yalign = params.get("yalign")
 
-		if not xalign or xalign == "middle":
+		if not xalign or xalign == "center":
 			x = x0 + w / 2 - fontw / 2 + params["pos"][0]
 		elif xalign == "left":
 			x = x0 + params["pos"][0]
@@ -269,7 +213,7 @@ class DayCal(gtk.DrawingArea, CalBase):
 			x = x0 + w / 2 - fontw / 2 + params["pos"][0]
 			print("invalid xalign = %r" % xalign)
 
-		if not yalign or yalign == "middle":
+		if not yalign or yalign == "center":
 			y = y0 + h / 2 - fonth / 2 + params["pos"][1]
 		elif yalign == "top":
 			y = y0 + params["pos"][1]
