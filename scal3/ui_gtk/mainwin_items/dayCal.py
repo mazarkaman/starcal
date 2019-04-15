@@ -18,8 +18,14 @@
 # Also avalable in /usr/share/common-licenses/GPL on Debian systems
 # or /usr/share/licenses/common/GPL3/license.txt on ArchLinux
 
+from scal3 import ui
 from scal3.ui_gtk.dayCal import DayCal
 
 class CalObj(DayCal):
 	heightParam = "dcalHeight"
 	typeParamsParam = "dcalTypeParams"
+	buttonsEnableParam = "dcalButtonsEnable"
+	buttonsParam = "dcalButtons"
+
+	def getWindow(self):
+		return ui.mainWin
