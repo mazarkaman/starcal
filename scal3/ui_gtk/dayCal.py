@@ -115,6 +115,8 @@ class DayCal(gtk.DrawingArea, CalBase):
 	desc = _("Day Calendar")
 	heightParam = ""
 	typeParamsParam = ""
+	buttonsEnableParam = ""
+	buttonsParam = ""
 
 	myKeys = CalBase.myKeys + (
 		"up", "down",
@@ -135,6 +137,44 @@ class DayCal(gtk.DrawingArea, CalBase):
 
 	def getTypeParams(self):
 		return getattr(ui, self.typeParamsParam)
+
+	def getButtonsEnable(self):
+		return getattr(ui, self.buttonsEnableParam)
+
+	def getButtons(self):
+		return [
+			Button(
+				d["imageName"],
+				getattr(self, d["onClick"]),
+				d["x"],
+				d["y"],
+				autoDir=d["autoDir"],
+			)
+			for d in getattr(ui, self.buttonsParam)
+		]
+
+	def startMove(self, gevent):
+		win = self.getWindow()
+		if not win:
+			return
+		win.begin_move_drag(
+			1,
+			int(gevent.x_root),
+			int(gevent.y_root),
+			gevent.time,
+		)
+
+	def startResize(self, gevent):
+		win = self.getWindow()
+		if not win:
+			return
+		win.begin_resize_drag(
+			gdk.WindowEdge.SOUTH_EAST,
+			gevent.button,
+			int(gevent.x_root),
+			int(gevent.y_root),
+			gevent.time,
+		)
 
 	def updateTypeParamsWidget(self):
 		if not self.typeParamsParam:
@@ -168,6 +208,7 @@ class DayCal(gtk.DrawingArea, CalBase):
 
 	def __init__(self):
 		gtk.DrawingArea.__init__(self)
+		self._window = None
 		self.add_events(gdk.EventMask.ALL_EVENTS_MASK)
 		self.initCal()
 		self.heightUpdate(emit=False)
@@ -179,9 +220,12 @@ class DayCal(gtk.DrawingArea, CalBase):
 		#self.connect("screen-changed", self.screenChanged)
 		self.connect("scroll-event", self.scroll)
 
+	def getWindow(self):
+		return self._window
+
 	def optionsWidgetCreate(self):
 		from scal3.ui_gtk.pref_utils import LiveLabelSpinPrefItem, SpinPrefItem, \
-			CheckPrefItem, ColorPrefItem
+			CheckPrefItem, ColorPrefItem, LiveCheckPrefItem
 		if self.optionsWidget:
 			return
 		self.optionsWidget = gtk.VBox()
@@ -193,6 +237,14 @@ class DayCal(gtk.DrawingArea, CalBase):
 				self.heightUpdate,
 			)
 			pack(self.optionsWidget, prefItem.getWidget())
+		####
+		prefItem = LiveCheckPrefItem(
+			ui,
+			self.buttonsEnableParam,
+			label=_("Show buttons"),
+			onChangeFunc=self.queue_draw,
+		)
+		pack(self.optionsWidget, prefItem.getWidget())
 		########
 		frame = gtk.Frame()
 		frame.set_label(_("Calendars"))
@@ -282,6 +334,10 @@ class DayCal(gtk.DrawingArea, CalBase):
 			)
 			show_layout(cr, daynum)
 
+		if self.getButtonsEnable():
+			for button in self.getButtons():
+				button.draw(cr, w, h)
+
 	def buttonPress(self, obj, gevent):
 		b = gevent.button
 		#x, y, mask = col_win.get_pointer()
@@ -290,6 +346,13 @@ class DayCal(gtk.DrawingArea, CalBase):
 		###
 		if gevent.type == TWO_BUTTON_PRESS:
 			self.emit("2button-press")
+		if b == 1 and self.getButtonsEnable():
+			w = self.get_allocation().width
+			h = self.get_allocation().height
+			for button in self.getButtons():
+				if button.contains(x, y, w, h):
+					button.func(gevent)
+					return True
 		if b == 3:
 			self.emit("popup-cell-menu", gevent.time, x, y)
 		return True

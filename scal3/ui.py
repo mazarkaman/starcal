@@ -137,6 +137,8 @@ confParamsCustomize = (
 	"wcalFont_eventsBox",
 	"wcal_moonStatus_width",
 	"dcalHeight",
+	"dcalButtonsEnable",
+	# "dcalButtons",
 	"dcalTypeParams",
 	"pluginsTextInsideExpander",
 	"seasonPBar_southernHemisphere",
@@ -876,6 +878,23 @@ wcal_moonStatus_width = 48
 
 ####################
 dcalHeight = 250
+dcalButtonsEnable = False
+dcalButtons = [
+	{
+		"imageName": "transform-move.png",
+		"onClick": "startMove",
+		"x": 0,
+		"y": 0,
+		"autoDir": False,
+	},
+	{
+		"imageName": "resize-small.png",
+		"onClick": "startResize",
+		"x": -1,
+		"y": -1,
+		"autoDir": False,
+	},
+]
 
 
 ####################

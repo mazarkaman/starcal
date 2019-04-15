@@ -2638,6 +2638,9 @@ msgid "Buttons Border"
 msgstr ""
 "حاشیهٔ دکمه‌ها"
 
+msgid "Show buttons"
+msgstr ""
+"نمایش دکمه‌ها"
 
 msgid "Inside Expander"
 msgstr ""
