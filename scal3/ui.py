@@ -703,11 +703,6 @@ def getActiveMonthCalParams():
 	))
 
 
-def getActiveDayCalParams():
-	return list(zip(
-		calTypes.active,
-		dcalTypeParams,
-	))
 
 
 ################################
