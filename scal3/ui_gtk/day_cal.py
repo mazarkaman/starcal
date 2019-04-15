@@ -364,9 +364,7 @@ class DayCal(gtk.DrawingArea, CalBase):
 
 	def buttonPress(self, obj, gevent):
 		b = gevent.button
-		#x, y, mask = col_win.get_pointer()
-		x, y = self.get_pointer()
-		#y += 10
+		x, y = gevent.x, gevent.y
 		###
 		if gevent.type == TWO_BUTTON_PRESS:
 			self.emit("2button-press")
