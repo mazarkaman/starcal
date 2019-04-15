@@ -111,6 +111,7 @@ class MyColorButton(gtk.ColorButton):
 	# for tooltip text
 	def __init__(self):
 		gtk.ColorButton.__init__(self)
+		self.set_use_alpha(True)
 		self.connect("color-set", self.update_tooltip)
 
 	def update_tooltip(self, colorb=None):
