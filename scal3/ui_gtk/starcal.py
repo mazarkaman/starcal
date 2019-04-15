@@ -608,9 +608,9 @@ class MainWin(gtk.ApplicationWindow, ud.BaseCalObj):
 				self.copyDateGetCallback(calType),
 				calType,
 			))
-		menu.add(labelIconMenuItem(
+		menu.add(labelImageMenuItem(
 			"Day Info",
-			"gtk-info",
+			"gtk-info-18.png",
 			self.dayInfoShow,
 		))
 		menu.add(self.getEventAddToMenuItem())
@@ -751,9 +751,9 @@ class MainWin(gtk.ApplicationWindow, ud.BaseCalObj):
 			"gtk-index",
 			self.selectDateShow,
 		))
-		menu.add(labelIconMenuItem(
+		menu.add(labelImageMenuItem(
 			"Day Info",
-			"gtk-info",
+			"gtk-info-18.png",
 			self.dayInfoShow,
 		))
 		menu.add(labelIconMenuItem(
