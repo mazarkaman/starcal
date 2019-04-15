@@ -109,7 +109,6 @@ class DayCalTypeParamBox(gtk.HBox):
 		self.cal.queue_draw()
 
 
-@registerSignals
 class DayCal(gtk.DrawingArea, CalBase):
 	_name = "dayCal"
 	desc = _("Day Calendar")
@@ -130,8 +129,9 @@ class DayCal(gtk.DrawingArea, CalBase):
 	)
 
 	def heightUpdate(self, emit=True):
-		if self.heightParam:
-			self.set_property("height-request", getattr(ui, self.heightParam))
+		if not self.heightParam:
+			return
+		self.set_property("height-request", getattr(ui, self.heightParam))
 		if emit:
 			self.onDateChange() # just to resize the main window when decreasing height
 
@@ -255,6 +255,35 @@ class DayCal(gtk.DrawingArea, CalBase):
 		self.optionsWidget.show_all()
 		self.updateTypeParamsWidget()## FIXME
 
+	def getRenderPos(self, params, x0, y0, w, h, fontw, fonth):
+		xalign = params.get("xalign")
+		yalign = params.get("yalign")
+
+		if not xalign or xalign == "middle":
+			x = x0 + w / 2 - fontw / 2 + params["pos"][0]
+		elif xalign == "left":
+			x = x0 + params["pos"][0]
+		elif xalign == "right":
+			x = x0 + w - fontw - params["pos"][0]
+		else:
+			x = x0 + w / 2 - fontw / 2 + params["pos"][0]
+			print("invalid xalign = %r" % xalign)
+
+		if not yalign or yalign == "middle":
+			y = y0 + h / 2 - fonth / 2 + params["pos"][1]
+		elif yalign == "top":
+			y = y0 + params["pos"][1]
+		elif yalign == "buttom":
+			y = y0 + h - fonth - params["pos"][1]
+		else:
+			y = y0 + h / 2 - fonth / 2 + params["pos"][1]
+			print("invalid yalign = %r" % yalign)
+
+		return (x, y)
+
+	def getCell(self):
+		return ui.cell
+
 	def drawAll(self, widget=None, cr=None, cursor=True):
 		#gevent = gtk.get_current_event()
 		w = self.get_allocation().width
@@ -266,11 +295,9 @@ class DayCal(gtk.DrawingArea, CalBase):
 		cr.rectangle(0, 0, w, h)
 		fillColor(cr, ui.bgColor)
 		#####
-		c = ui.cell
+		c = self.getCell()
 		x0 = 0
 		y0 = 0
-		dx = w
-		dy = h
 		########
 		iconList = c.getDayEventIcons()
 		if iconList:
@@ -287,8 +314,8 @@ class DayCal(gtk.DrawingArea, CalBase):
 				pix_w = pix.get_width()
 				pix_h = pix.get_height()
 				## right buttom corner ?????????????????????
-				x1 = (x0 + dx) / scaleFact - fromRight - pix_w # right side
-				y1 = (y0 + dy / 2) / scaleFact - pix_h / 2 # middle
+				x1 = (x0 + w) / scaleFact - fromRight - pix_w # right side
+				y1 = (y0 + h / 2) / scaleFact - pix_h / 2 # middle
 				cr.scale(scaleFact, scaleFact)
 				gdk.cairo_set_source_pixbuf(cr, pix, x1, y1)
 				cr.rectangle(x1, y1, pix_w, pix_h)
@@ -297,10 +324,10 @@ class DayCal(gtk.DrawingArea, CalBase):
 				fromRight += pix_w
 		#### Drawing numbers inside every cell
 		#cr.rectangle(
-		#	x0-dx/2.0+1,
-		#	y0-self.dy/2.0+1,
-		#	dx-1,
-		#	dy-1,
+		#	x0-w/2.0+1,
+		#	y0-h/2.0+1,
+		#	w-1,
+		#	h-1,
 		#)
 		calType = calTypes.primary
 		params = self.getTypeParams()[0]
@@ -314,10 +341,9 @@ class DayCal(gtk.DrawingArea, CalBase):
 			setColor(cr, ui.holidayColor)
 		else:
 			setColor(cr, params["color"])
-		cr.move_to(
-			x0 + dx / 2 - fontw / 2 + params["pos"][0],
-			y0 + dy / 2 - fonth / 2 + params["pos"][1],
-		)
+
+		font_x, font_y = self.getRenderPos(params, x0, y0, w, h, fontw, fonth)
+		cr.move_to(font_x, font_y)
 		show_layout(cr, daynum)
 		####
 		activeTypeParams = list(zip(
@@ -328,10 +354,8 @@ class DayCal(gtk.DrawingArea, CalBase):
 			daynum = newTextLayout(self, _(c.dates[calType][2], calType), params["font"])
 			fontw, fonth = daynum.get_pixel_size()
 			setColor(cr, params["color"])
-			cr.move_to(
-				x0 + dx / 2 - fontw / 2 + params["pos"][0],
-				y0 + dy / 2 - fonth / 2 + params["pos"][1],
-			)
+			font_x, font_y = self.getRenderPos(params, x0, y0, w, h, fontw, fonth)
+			cr.move_to(font_x, font_y)
 			show_layout(cr, daynum)
 
 		if self.getButtonsEnable():

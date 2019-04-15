@@ -2568,6 +2568,10 @@ msgid "Day Calendar"
 msgstr ""
 "تقویم روز"
 
+msgid "Day Calendar (Desktop Widget)"
+msgstr ""
+"تقویم روز (ویجت دسکتاپ)"
+
 msgid "Status Bar"
 msgstr ""
 "نوار وضعیت"
