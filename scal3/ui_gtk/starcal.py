@@ -704,7 +704,10 @@ class MainWin(gtk.ApplicationWindow, ud.BaseCalObj):
 		menu.add(moreItem)
 		####
 		menu.show_all()
-		dx, dy = widget.translate_coordinates(self, x, y)
+		coord = widget.translate_coordinates(self, x, y)
+		if coord is None:
+			raise RuntimeError("failed to translate coordinates (%s, %s) from widget %s" % (x, y, widget))
+		dx, dy = coord
 		foo, wx, wy = self.get_window().get_origin()
 		x = wx + dx
 		y = wy + dy
@@ -774,6 +777,11 @@ class MainWin(gtk.ApplicationWindow, ud.BaseCalObj):
 		#	"gtk-add",
 		#	self.eventManShow,
 		#))
+		menu.add(labelIconMenuItem(
+			"Day Calendar (Desktop Widget)",
+			"", # FIXME: replace with image
+			self.dayCalWinShow,
+		))
 		menu.add(labelImageMenuItem(
 			"Time Line",
 			"timeline-18.png",
@@ -1280,6 +1288,12 @@ class MainWin(gtk.ApplicationWindow, ud.BaseCalObj):
 	def addCustomEvent(self, obj=None):
 		self.eventManCreate()
 		ui.eventManDialog.addCustomEvent()
+
+	def dayCalWinShow(self, obj=None, data=None):
+		if not ui.dayCalWin:
+			from scal3.ui_gtk.day_cal_window import DayCalWindow
+			ui.dayCalWin = DayCalWindow()
+		openWindow(ui.dayCalWin)
 
 	def timeLineShow(self, obj=None, data=None):
 		if not ui.timeLineWin:

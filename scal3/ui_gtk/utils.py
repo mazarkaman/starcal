@@ -253,6 +253,19 @@ def get_menu_width(menu):
 		return mw + 56 ## FIXME
 	return 0
 
+def get_menu_height(menu):
+	h = menu.get_allocation().height
+	if h > 1:
+		print("menu height from before:", h)
+		return h
+	items = menu.get_children()
+	if not items:
+		return 0
+	h = sum(item.size_request().height for item in items)
+	# FIXME: does not work, all items are zero
+	# print("menu height from sum:", h)
+	# print([item.size_request().height for item in items])
+	return h
 
 def get_pixbuf_hash(pbuf):
 	import hashlib

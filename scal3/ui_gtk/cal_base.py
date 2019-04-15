@@ -34,6 +34,8 @@ from scal3.ui_gtk.customize import CustomizableCalObj
 
 
 class CalBase(CustomizableCalObj):
+	dragAndDropEnable = True
+	doubleClickEnable = True
 	signals = CustomizableCalObj.signals + [
 		("popup-cell-menu", [int, int, int]),
 		("popup-main-menu", [int, int, int]),
@@ -51,8 +53,10 @@ class CalBase(CustomizableCalObj):
 		self.initVars()
 		listener.dateChange.add(self)
 		####
-		self.defineDragAndDrop()
-		self.connect("2button-press", ui.dayOpenEvolution)
+		if self.dragAndDropEnable:
+			self.defineDragAndDrop()
+		if self.doubleClickEnable:
+			self.connect("2button-press", ui.dayOpenEvolution)
 		if ui.mainWin:
 			self.connect("popup-cell-menu", ui.mainWin.menuCellPopup)
 			self.connect("popup-main-menu", ui.mainWin.menuMainPopup)

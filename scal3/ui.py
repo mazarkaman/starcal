@@ -140,6 +140,9 @@ confParamsCustomize = (
 	"dcalButtonsEnable",
 	# "dcalButtons",
 	"dcalTypeParams",
+	"dcalWinButtonsEnable",
+	# "dcalWinButtons",
+	# "dcalWinTypeParams",
 	"pluginsTextInsideExpander",
 	"seasonPBar_southernHemisphere",
 	"wcal_moonStatus_southernHemisphere",
@@ -546,7 +549,13 @@ def initFonts(fontDefaultNew):
 	for item in dcalTypeParams[1:]:
 		if item["font"] is None:
 			item["font"] = getFont(3.0)
-
+	######
+	if dcalWinTypeParams[0]["font"] is None:
+		dcalWinTypeParams[0]["font"] = getFont(5.0)
+	###
+	for item in dcalWinTypeParams[1:]:
+		if item["font"] is None:
+			item["font"] = getFont(2.0)
 
 def getHolidaysJdList(startJd, endJd):
 	jdList = []
@@ -692,6 +701,30 @@ dcalTypeParams = [  # FIXME
 	},
 	{
 		"pos": (-125, 24),
+		"font": None,
+		"color": (0, 200, 205),
+	},
+]
+
+dcalWinTypeParams = [
+	{
+		"pos": (0, 5),
+		"xalign": "left",
+		"yalign": "middle",
+		"font": None,
+		"color": (220, 220, 220),
+	},
+	{
+		"pos": (5, 0),
+		"xalign": "right",
+		"yalign": "top",
+		"font": None,
+		"color": (165, 255, 114),
+	},
+	{
+		"pos": (0, 0),
+		"xalign": "right",
+		"yalign": "buttom",
 		"font": None,
 		"color": (0, 200, 205),
 	},
@@ -896,6 +929,24 @@ dcalButtons = [
 	},
 ]
 
+dcalWinButtonsEnable = True
+dcalWinButtons = [
+	{
+		"imageName": "transform-move.png",
+		"onClick": "startMove",
+		"x": 0,
+		"y": 0,
+		"autoDir": False,
+	},
+	{
+		"imageName": "resize-small.png",
+		"onClick": "startResize",
+		"x": -1,
+		"y": -1,
+		"autoDir": False,
+	},
+]
+
 
 ####################
 
@@ -1065,5 +1116,6 @@ mainWin = None
 prefDialog = None
 eventManDialog = None
 timeLineWin = None
+dayCalWin = None
 yearWheelWin = None
 weekCalWin = None
