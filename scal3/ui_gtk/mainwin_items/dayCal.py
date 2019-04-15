@@ -19,7 +19,7 @@
 # or /usr/share/licenses/common/GPL3/license.txt on ArchLinux
 
 from scal3 import ui
-from scal3.ui_gtk.dayCal import DayCal
+from scal3.ui_gtk.day_cal import DayCal
 
 class CalObj(DayCal):
 	heightParam = "dcalHeight"
