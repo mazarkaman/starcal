@@ -710,7 +710,7 @@ dcalWinTypeParams = [
 	{
 		"pos": (0, 5),
 		"xalign": "left",
-		"yalign": "middle",
+		"yalign": "center",
 		"font": None,
 		"color": (220, 220, 220),
 	},

@@ -44,84 +44,6 @@ from scal3.ui_gtk.customize import CustomizableCalObj
 from scal3.ui_gtk.cal_base import CalBase
 
 
-class MonthCalTypeParamBox(gtk.Frame):
-	def getCellPagePlus(self, cell, plus):
-		return ui.getMonthPlus(cell, plus)
-
-	def __init__(self, cal, index, calType, params, sgroupLabel):
-		from scal3.ui_gtk.mywidgets.multi_spin.float_num import FloatSpinButton
-		from scal3.ui_gtk.mywidgets import MyFontButton, MyColorButton
-		gtk.Frame.__init__(self)
-		self.cal = cal
-		self.index = index
-		self.calType = calType
-		####
-		module, ok = calTypes[calType]
-		if not ok:
-			raise RuntimeError("cal type %r not found" % calType)
-		####
-		self.set_label(_(module.desc))
-		####
-		vbox = gtk.VBox()
-		self.add(vbox)
-		###
-		hbox = gtk.HBox()
-		label = gtk.Label(label=_("Position")+": ")
-		pack(hbox, label)
-		sgroupLabel.add_widget(label)
-		spin = FloatSpinButton(-99, 99, 1)
-		self.spinX = spin
-		pack(hbox, spin)
-		pack(hbox, gtk.Label(label=""), 1, 1)
-		spin = FloatSpinButton(-99, 99, 1)
-		self.spinY = spin
-		pack(hbox, spin)
-		pack(hbox, gtk.Label(label=""), 1, 1)
-		pack(vbox, hbox)
-		####
-		hbox = gtk.HBox()
-		label = gtk.Label(label=_("Font")+": ")
-		pack(hbox, label)
-		sgroupLabel.add_widget(label)
-		##
-		fontb = MyFontButton(cal)
-		self.fontb = fontb
-		##
-		colorb = MyColorButton()
-		self.colorb = colorb
-		##
-		pack(hbox, colorb)
-		pack(hbox, gtk.Label(label=""), 1, 1)
-		pack(hbox, fontb)
-		pack(vbox, hbox)
-		####
-		self.set(params)
-		####
-		self.spinX.connect("changed", self.onChange)
-		self.spinY.connect("changed", self.onChange)
-		fontb.connect("font-set", self.onChange)
-		colorb.connect("color-set", self.onChange)
-
-	def get(self):
-		return {
-			"pos": (
-				self.spinX.get_value(),
-				self.spinY.get_value(),
-			),
-			"font": self.fontb.get_font_name(),
-			"color": self.colorb.get_color(),
-		}
-
-	def set(self, data):
-		self.spinX.set_value(data["pos"][0])
-		self.spinY.set_value(data["pos"][1])
-		self.fontb.set_font_name(data["font"])
-		self.colorb.set_color(data["color"])
-
-	def onChange(self, obj=None, event=None):
-		ui.mcalTypeParams[self.index] = self.get()
-		self.cal.queue_draw()
-
 
 @registerSignals
 class CalObj(gtk.DrawingArea, CalBase):
@@ -152,6 +74,7 @@ class CalObj(gtk.DrawingArea, CalBase):
 		self.queue_draw()
 
 	def updateTypeParamsWidget(self):
+		from scal3.ui_gtk.cal_type_params import CalTypeParamBox
 		try:
 			vbox = self.typeParamsVbox
 		except AttributeError:
@@ -172,7 +95,8 @@ class CalObj(gtk.DrawingArea, CalBase):
 			params = ui.mcalTypeParams[i]
 			#except IndexError:
 			##
-			hbox = MonthCalTypeParamBox(
+			hbox = CalTypeParamBox(
+				"mcalTypeParams",
 				self,
 				i,
 				calType,
