@@ -135,9 +135,16 @@ class DayCalWindowWidget(DayCal):
 		self.customizeDialogCreate()
 		x, y = self._window.get_position()
 		w, h = self._window.get_size()
-		self.customizeDialog.move(x + w + 10, y)
-		# print("moved to:", x + w + 10, y)
+		cw, ch = self.customizeDialog.get_size()
+		cx = x + w + 5
+		cy = y
+		if cx + cw > ud.screenW:
+			cx = x - cw - 5
+		if cy + ch > ud.screenH:
+			cy = y + h - ch
 		self.customizeDialog.present()
+		self.customizeDialog.move(cx, cy)
+		# should move() after present()
 
 	def buttonPress(self, obj, gevent):
 		b = gevent.button
