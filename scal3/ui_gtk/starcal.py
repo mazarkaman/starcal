@@ -411,10 +411,10 @@ class MainWin(gtk.ApplicationWindow, ud.BaseCalObj):
 
 	def configureEvent(self, widget, gevent):
 		wx, wy = self.get_position()
-		maxPosDelta = max(
-			abs(ui.winX - wx),
-			abs(ui.winY - wy),
-		)
+		# maxPosDelta = max(
+		# 	abs(ui.winX - wx),
+		# 	abs(ui.winY - wy),
+		# )
 		#print(wx, wy)
 		ww, wh = self.get_size()
 		#if ui.bgUseDesk and maxPosDelta > 1:## FIXME
