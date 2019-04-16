@@ -115,7 +115,7 @@ class PrefDialog(gtk.Dialog):
 		item = CheckPrefItem(
 			ui,
 			"showMain",
-			_("Show main window on start"),
+			_("Open main window on start"),
 		)
 		self.uiPrefItems.append(item)
 		pack(vbox, item.getWidget())
