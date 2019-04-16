@@ -114,6 +114,7 @@ class DayCalWindowCustomizeDialog(gtk.Dialog):
 class DayCalWindowWidget(DayCal):
 	dragAndDropEnable = False
 	doubleClickEnable = False
+	backgroundColorParam = "dcalWinBackgroundColor"
 	heightParam = ""
 	typeParamsParam = "dcalWinTypeParams"
 	buttonsEnableParam = "dcalWinButtonsEnable"

@@ -47,6 +47,7 @@ from scal3.ui_gtk.cal_base import CalBase
 class DayCal(gtk.DrawingArea, CalBase):
 	_name = "dayCal"
 	desc = _("Day Calendar")
+	backgroundColorParam = ""
 	heightParam = ""
 	typeParamsParam = ""
 	buttonsEnableParam = ""
@@ -69,6 +70,11 @@ class DayCal(gtk.DrawingArea, CalBase):
 		self.set_property("height-request", getattr(ui, self.heightParam))
 		if emit:
 			self.onDateChange() # just to resize the main window when decreasing height
+
+	def getBackgroundColor(self):
+		if self.backgroundColorParam:
+			return getattr(ui, self.backgroundColorParam)
+		return ui.bgColor
 
 	def getTypeParams(self):
 		return getattr(ui, self.typeParamsParam)
@@ -176,11 +182,23 @@ class DayCal(gtk.DrawingArea, CalBase):
 
 	def optionsWidgetCreate(self):
 		from scal3.ui_gtk.pref_utils import LiveLabelSpinPrefItem, SpinPrefItem, \
-			CheckPrefItem, ColorPrefItem, LiveCheckPrefItem
+			CheckPrefItem, ColorPrefItem, LiveCheckPrefItem, LiveColorPrefItem
 		if self.optionsWidget:
 			return
 		self.optionsWidget = gtk.VBox()
 		####
+		if self.backgroundColorParam:
+			prefItem = LiveColorPrefItem(
+				ui,
+				self.backgroundColorParam,
+				useAlpha=False,
+				onChangeFunc=self.queue_draw,
+			)
+			hbox = gtk.HBox()
+			pack(hbox, gtk.Label(label=_("Background")+": "))
+			pack(hbox, prefItem.getWidget())
+			pack(hbox, gtk.Label(), 1, 1)
+			pack(self.optionsWidget, hbox)
 		if self.heightParam:
 			prefItem = LiveLabelSpinPrefItem(
 				_("Height"),
@@ -244,7 +262,7 @@ class DayCal(gtk.DrawingArea, CalBase):
 			#cr.set_line_width(0)#??????????????
 			#cr.scale(0.5, 0.5)
 		cr.rectangle(0, 0, w, h)
-		fillColor(cr, ui.bgColor)
+		fillColor(cr, self.getBackgroundColor())
 		#####
 		c = self.getCell()
 		x0 = 0
