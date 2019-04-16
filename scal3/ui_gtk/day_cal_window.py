@@ -208,7 +208,7 @@ class DayCalWindow(gtk.Window, ud.BaseCalObj):
 		###
 		self.resize(ui.dcalWinWidth, ui.dcalWinHeight)
 		self.move(ui.dcalWinX, ui.dcalWinY)
-		self.set_title(self.desc)
+		self.set_skip_taskbar_hint(True)
 		self.set_decorated(False)
 		###
 		self._widget = DayCalWindowWidget()
