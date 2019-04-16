@@ -41,7 +41,7 @@ from scal3.ui_gtk.pref_utils_extra import *
 
 
 class PrefDialog(gtk.Dialog):
-	def __init__(self, statusIconMode, **kwargs):
+	def __init__(self, **kwargs):
 		gtk.Dialog.__init__(self, **kwargs)
 		self.set_title(_("Preferences"))
 		self.connect("delete-event", self.onDelete)
