@@ -1267,7 +1267,7 @@ class MainWin(gtk.ApplicationWindow, ud.BaseCalObj):
 	def prefShow(self, obj=None, data=None):
 		if not ui.prefDialog:
 			from scal3.ui_gtk.preferences import PrefDialog
-			ui.prefDialog = PrefDialog(self.statusIconMode, transient_for=self)
+			ui.prefDialog = PrefDialog(transient_for=self)
 			ui.prefDialog.updatePrefGui()
 		openWindow(ui.prefDialog)
 
