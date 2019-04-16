@@ -18,12 +18,14 @@
 # Also avalable in /usr/share/common-licenses/GPL on Debian systems
 # or /usr/share/licenses/common/GPL3/license.txt on ArchLinux
 
+from time import time as now
 import os
+
+from scal3.path import *
 
 from scal3.locale_man import tr as _
 from scal3.locale_man import rtl
-
-
+from scal3.json_utils import saveJsonConf, loadJsonConf
 from scal3 import ui
 
 from scal3.ui_gtk import *
@@ -38,6 +40,42 @@ from scal3.ui_gtk.utils import (
 
 from scal3.ui_gtk.day_cal import DayCal
 
+confPathLive = join(confDir, "ui-daycal-live.json")
+
+confParamsLive = (
+	"dcalWinX",
+	"dcalWinY",
+	"dcalWinWidth",
+	"dcalWinHeight",
+)
+
+lastLiveConfChangeTime = 0
+
+loadJsonConf(ui, confPathLive)
+
+
+def saveLiveConf():  # rename to saveConfLive FIXME
+	saveJsonConf(ui, confPathLive, confParamsLive)
+
+def saveLiveConfLoop():  # rename to saveConfLiveLoop FIXME
+	global lastLiveConfChangeTime
+	tm = now()
+	if tm - lastLiveConfChangeTime > ui.saveLiveConfDelay:
+		saveLiveConf()
+		return False  # Finish loop
+	return True  # Continue loop
+
+def liveConfChanged():
+	global lastLiveConfChangeTime
+	tm = now()
+	if tm - lastLiveConfChangeTime > ui.saveLiveConfDelay:
+		timeout_add(
+			int(ui.saveLiveConfDelay * 1000),
+			saveLiveConfLoop,
+		)
+		lastLiveConfChangeTime = tm
+
+
 class DayCalWindowCustomizeDialog(gtk.Dialog):
 	def __init__(self, dayCal: DayCal, **kwargs):
 		gtk.Dialog.__init__(self, **kwargs)
@@ -45,6 +83,7 @@ class DayCalWindowCustomizeDialog(gtk.Dialog):
 		##
 		self.set_title(_("Customize") + ": " + dayCal.desc)
 		self.connect("delete-event", self.close)
+		##
 		dialog_add_button(
 			self,
 			"gtk-close",
@@ -159,8 +198,8 @@ class DayCalWindow(gtk.Window, ud.BaseCalObj):
 		self.initVars()
 		ud.windowList.appendItem(self)
 		###
-		self.resize(180, 180)
-		self.move(0, 0)
+		self.resize(ui.dcalWinWidth, ui.dcalWinHeight)
+		self.move(ui.dcalWinX, ui.dcalWinY)
 		self.set_title(self.desc)
 		self.set_decorated(False)
 		###
@@ -169,7 +208,7 @@ class DayCalWindow(gtk.Window, ud.BaseCalObj):
 
 		self.connect("key-press-event", self._widget.keyPress)
 		self.connect("delete-event", self.closeClicked)
-		# self.connect("button-press-event", self._widget.buttonPress)
+		self.connect("configure-event", self.configureEvent)
 
 		self.add(self._widget)
 		self._widget.show()
@@ -182,5 +221,13 @@ class DayCalWindow(gtk.Window, ud.BaseCalObj):
 			gtk.main_quit()
 		return True
 	
-	# TODO: capture resize (configure) event
-	# and save width and height
+	def configureEvent(self, widget, gevent):
+		if not self.get_property("visible"):
+			return
+		wx, wy = self.get_position()
+		ww, wh = self.get_size()
+		ui.dcalWinX, ui.dcalWinY = (wx, wy)
+		ui.dcalWinWidth = ww
+		ui.dcalWinHeight = wh
+		liveConfChanged()
+		return False
