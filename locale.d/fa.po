@@ -2189,6 +2189,10 @@ msgid "Open main window on start"
 msgstr ""
 "باز کردن پنجرهٔ اصلی در هنگام شروع"
 
+msgid "Open desktop widget on start"
+msgstr ""
+"باز کردن ویجت دسکتاپ در هنگام شروع"
+
 msgid "Run on session startup"
 msgstr ""
 "در شروعِ نشست اجرا شو"
