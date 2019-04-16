@@ -79,11 +79,13 @@ class DayCal(gtk.DrawingArea, CalBase):
 	def getButtons(self):
 		return [
 			Button(
-				d["imageName"],
+				d.get("imageName", ""),
 				getattr(self, d["onClick"]),
 				d["x"],
 				d["y"],
 				autoDir=d["autoDir"],
+				iconName=d.get("iconName", ""),
+				iconSize=d.get("iconSize", 16),
 			)
 			for d in getattr(ui, self.buttonsParam)
 		]
@@ -110,6 +112,10 @@ class DayCal(gtk.DrawingArea, CalBase):
 			int(gevent.y_root),
 			gevent.time,
 		)
+
+	def openCustomize(self, gevent):
+		if ui.mainWin:
+			ui.mainWin.customizeShow()
 
 	def updateTypeParamsWidget(self):
 		from scal3.ui_gtk.cal_type_params import CalTypeParamBox
