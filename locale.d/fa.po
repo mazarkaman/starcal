@@ -2185,10 +2185,9 @@ msgstr ""
 #msgid "Failed to find \"code\" in the query parameters of the redirect."
 
 
-msgid "Show main window on start"
+msgid "Open main window on start"
 msgstr ""
-"در هنگام شروع، پنجرهٔ اصلی را نمایش بده"
-
+"باز کردن پنجرهٔ اصلی در هنگام شروع"
 
 msgid "Run on session startup"
 msgstr ""
