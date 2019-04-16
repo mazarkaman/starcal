@@ -119,6 +119,14 @@ class PrefDialog(gtk.Dialog):
 		)
 		self.uiPrefItems.append(item)
 		pack(vbox, item.getWidget())
+		########################
+		item = CheckPrefItem(
+			ui,
+			"showDesktopWidget",
+			_("Open desktop widget on start"),
+		)
+		self.uiPrefItems.append(item)
+		pack(vbox, item.getWidget())
 		##########################
 		item = CheckPrefItem(
 			ui,

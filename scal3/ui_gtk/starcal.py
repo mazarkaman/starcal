@@ -1446,6 +1446,8 @@ def main():
 	#	sys.exit(0)
 	if action == "show" or not mainWin.sicon:
 		mainWin.present()
+	if ui.showDesktopWidget:
+		mainWin.dayCalWinShow()
 	#ud.rootWindow.set_cursor(gdk.Cursor.new(gdk.CursorType.LEFT_PTR))
 	# ^ FIXME
 	#mainWin.app.run(None)

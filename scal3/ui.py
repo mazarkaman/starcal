@@ -58,6 +58,7 @@ confPathLive = join(confDir, "ui-live.json")
 
 confParams = (
 	"showMain",
+	"showDesktopWidget",
 	"winTaskbar",
 	"useAppIndicator",
 	"showDigClockTr",
@@ -1015,7 +1016,8 @@ fontDefaultInit = fontDefault
 fontCustom = None
 fontCustomEnable = False
 #####################
-showMain = True  # Show main window on start (or only goto statusIcon)
+showMain = True  # Open main window on start (or only goto statusIcon)
+showDesktopWidget = False # Open desktop widget on start
 #####################
 mainWinItems = (
 	("winContronller", True),
