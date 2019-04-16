@@ -141,6 +141,7 @@ confParamsCustomize = (
 	"dcalButtonsEnable",
 	# "dcalButtons",
 	"dcalTypeParams",
+	"dcalWinBackgroundColor",
 	"dcalWinButtonsEnable",
 	# "dcalWinButtons",
 	"dcalWinTypeParams",
@@ -934,6 +935,7 @@ dcalWinX = 0
 dcalWinY = 0
 dcalWinWidth = 180
 dcalWinHeight = 180
+dcalWinBackgroundColor = (0, 10, 0)
 dcalWinButtonsEnable = True
 dcalWinButtons = [
 	{
