@@ -29,9 +29,47 @@ from scal3 import ui
 from scal3.ui_gtk import *
 from scal3.ui_gtk import gtk_ud as ud
 from scal3.ui_gtk.decorators import *
-from scal3.ui_gtk.utils import get_menu_width, get_menu_height
+from scal3.ui_gtk.utils import (
+	get_menu_width,
+	get_menu_height,
+	dialog_add_button,
+	openWindow,
+)
 
 from scal3.ui_gtk.day_cal import DayCal
+
+class DayCalWindowCustomizeDialog(gtk.Dialog):
+	def __init__(self, dayCal: DayCal, **kwargs):
+		gtk.Dialog.__init__(self, **kwargs)
+		self._widget = dayCal
+		##
+		self.set_title(_("Customize") + ": " + dayCal.desc)
+		self.connect("delete-event", self.close)
+		dialog_add_button(
+			self,
+			"gtk-close",
+			_("_Close"),
+			0,
+			self.close,
+		)
+		##
+		dayCal.optionsWidgetCreate()
+		pack(self.vbox, dayCal.optionsWidget)
+		##
+		# self.vbox.connect("size-allocate", self.vboxSizeRequest)
+		self.vbox.show_all()
+
+	# def vboxSizeRequest(self, widget, req):
+	# 	self.resize(self.get_size()[0], 1)
+
+	def save(self):
+		self._widget.updateVars()
+		ui.saveConfCustomize()
+
+	def close(self, button=None, event=None):
+		self.save()
+		self.hide()
+		return True
 
 @registerSignals
 class DayCalWindowWidget(DayCal):
@@ -48,6 +86,19 @@ class DayCalWindowWidget(DayCal):
 	def __init__(self):
 		DayCal.__init__(self)
 		self.menu = None
+		self.customizeDialog = None
+
+	def customizeDialogCreate(self):
+		if not self.customizeDialog:
+			self.customizeDialog = DayCalWindowCustomizeDialog(self, transient_for=self._window)
+
+	def openCustomize(self, gevent):
+		self.customizeDialogCreate()
+		x, y = self._window.get_position()
+		w, h = self._window.get_size()
+		self.customizeDialog.move(x + w + 10, y)
+		# print("moved to:", x + w + 10, y)
+		self.customizeDialog.present()
 
 	def buttonPress(self, obj, gevent):
 		b = gevent.button
