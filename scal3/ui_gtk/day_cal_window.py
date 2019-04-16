@@ -210,6 +210,7 @@ class DayCalWindow(gtk.Window, ud.BaseCalObj):
 		self.move(ui.dcalWinX, ui.dcalWinY)
 		self.set_skip_taskbar_hint(True)
 		self.set_decorated(False)
+		self.stick()
 		###
 		self._widget = DayCalWindowWidget()
 		self._widget._window = self
