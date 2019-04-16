@@ -929,6 +929,10 @@ dcalButtons = [
 	},
 ]
 
+dcalWinX = 0
+dcalWinY = 0
+dcalWinWidth = 180
+dcalWinHeight = 180
 dcalWinButtonsEnable = True
 dcalWinButtons = [
 	{
