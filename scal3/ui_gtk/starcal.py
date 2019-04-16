@@ -212,7 +212,7 @@ class MainWin(gtk.ApplicationWindow, ud.BaseCalObj):
 		#	("applet", "kde")
 		##
 		#	0: none (simple window)
-		#	1: applet
+		#	1: (dropped) applet
 		#	2: standard status icon
 		self.statusIconMode = statusIconMode
 		###
@@ -338,8 +338,6 @@ class MainWin(gtk.ApplicationWindow, ud.BaseCalObj):
 		############################################################
 		self.statusIconInit()
 		listener.dateChange.add(self)
-		#if self.statusIconMode!=1:
-		#	timeout_add_seconds(self.timeout, self.statusIconUpdate)
 		#########
 		self.connect("delete-event", self.onDeleteEvent)
 		#########################################
@@ -690,12 +688,11 @@ class MainWin(gtk.ApplicationWindow, ud.BaseCalObj):
 			"gtk-about",
 			self.aboutShow,
 		))
-		if self.statusIconMode != 1:
-			moreMenu.add(labelIconMenuItem(
-				"_Quit",
-				"gtk-quit",
-				self.quit,
-			))
+		moreMenu.add(labelIconMenuItem(
+			"_Quit",
+			"gtk-quit",
+			self.quit,
+		))
 		##
 		moreMenu.show_all()
 		moreItem = MenuItem(_("More"))
@@ -812,12 +809,11 @@ class MainWin(gtk.ApplicationWindow, ud.BaseCalObj):
 			"gtk-about",
 			self.aboutShow,
 		))
-		if self.statusIconMode != 1:
-			menu.add(labelIconMenuItem(
-				"_Quit",
-				"gtk-quit",
-				self.quit,
-			))
+		menu.add(labelIconMenuItem(
+			"_Quit",
+			"gtk-quit",
+			self.quit,
+		))
 		menu.show_all()
 		self.menuMain = menu
 

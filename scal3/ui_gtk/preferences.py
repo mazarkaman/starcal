@@ -106,20 +106,19 @@ class PrefDialog(gtk.Dialog):
 		#frame.set_border_width(5)
 		pack(vbox, hbox, 1, 1)
 		##########################
-		if statusIconMode != 1:
-			hbox = gtk.HBox(spacing=3)
-			item = CheckStartupPrefItem()
-			self.uiPrefItems.append(item)
-			pack(hbox, item.getWidget(), 1, 1)
-			pack(vbox, hbox)
-			########################
-			item = CheckPrefItem(
-				ui,
-				"showMain",
-				_("Show main window on start"),
-			)
-			self.uiPrefItems.append(item)
-			pack(vbox, item.getWidget())
+		hbox = gtk.HBox(spacing=3)
+		item = CheckStartupPrefItem()
+		self.uiPrefItems.append(item)
+		pack(hbox, item.getWidget(), 1, 1)
+		pack(vbox, hbox)
+		########################
+		item = CheckPrefItem(
+			ui,
+			"showMain",
+			_("Show main window on start"),
+		)
+		self.uiPrefItems.append(item)
+		pack(vbox, item.getWidget())
 		##########################
 		item = CheckPrefItem(
 			ui,
@@ -160,20 +159,12 @@ class PrefDialog(gtk.Dialog):
 		#self.uiPrefItems.append(item)
 		#pack(hbox, item.getWidget())
 		pack(hbox, gtk.Label(label=""), 1, 1)
-		if statusIconMode == 1:
-			item = CheckPrefItem(
-				ui,
-				"showDigClockTr",
-				_("On Applet"),
-				"Panel Applet",
-			)
-		else:
-			item = CheckPrefItem(
-				ui,
-				"showDigClockTr",
-				_("On Status Icon"),
-				"Notification Area",
-			)
+		item = CheckPrefItem(
+			ui,
+			"showDigClockTr",
+			_("On Status Icon"),
+			"Notification Area",
+		)
 		self.uiPrefItems.append(item)
 		pack(hbox, item.getWidget())
 		pack(hbox, gtk.Label(label=""), 1, 1)
@@ -526,18 +517,11 @@ class PrefDialog(gtk.Dialog):
 		#####
 		##pluginsTextStatusIcon:
 		hbox = gtk.HBox()
-		if statusIconMode == 1:
-			item = CheckPrefItem(
-				ui,
-				"pluginsTextStatusIcon",
-				_("Show in applet (for today)"),
-			)
-		else:
-			item = CheckPrefItem(
-				ui,
-				"pluginsTextStatusIcon",
-				_("Show in Status Icon (for today)"),
-			)
+		item = CheckPrefItem(
+			ui,
+			"pluginsTextStatusIcon",
+			_("Show in Status Icon (for today)"),
+		)
 		self.uiPrefItems.append(item)
 		pack(hbox, item.getWidget())
 		pack(hbox, gtk.Label(label=""), 1, 1)
