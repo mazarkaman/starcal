@@ -150,6 +150,7 @@ class DayCal(gtk.DrawingArea, CalBase):
 				calType,
 				params,
 				sgroupLabel,
+				hasEnable=(i > 0),
 				hasAlign=True,
 			)
 			pack(vbox, hbox)
@@ -301,6 +302,8 @@ class DayCal(gtk.DrawingArea, CalBase):
 			self.getTypeParams(),
 		))
 		for calType, params in activeTypeParams[1:]:
+			if not params.get("enable", True):
+				continue
 			daynum = newTextLayout(self, _(c.dates[calType][2], calType), params["font"])
 			fontw, fonth = daynum.get_pixel_size()
 			setColor(cr, params["color"])

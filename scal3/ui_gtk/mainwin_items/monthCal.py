@@ -102,6 +102,7 @@ class CalObj(gtk.DrawingArea, CalBase):
 				calType,
 				params,
 				sgroupLabel,
+				hasEnable=(i > 0),
 			)
 			pack(vbox, hbox)
 		###
@@ -335,6 +336,8 @@ class CalObj(gtk.DrawingArea, CalBase):
 				show_layout(cr, daynum)
 				if not cellInactive:
 					for calType, params in ui.getActiveMonthCalParams()[1:]:
+						if not params.get("enable", True):
+							continue
 						daynum = newTextLayout(
 							self,
 							_(c.dates[calType][2], calType),

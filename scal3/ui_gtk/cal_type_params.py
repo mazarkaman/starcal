@@ -88,7 +88,7 @@ class YAlignComboBox(gtk.ComboBoxText):
 			self.set_active(1)
 
 class CalTypeParamBox(gtk.Frame):
-	def __init__(self, paramName, cal, index, calType, params, sgroupLabel, hasAlign=False):
+	def __init__(self, paramName, cal, index, calType, params, sgroupLabel, hasEnable=False, hasAlign=False):
 		from scal3.ui_gtk.mywidgets.multi_spin.float_num import FloatSpinButton
 		from scal3.ui_gtk.mywidgets import MyFontButton, MyColorButton
 		gtk.Frame.__init__(self)
@@ -96,13 +96,18 @@ class CalTypeParamBox(gtk.Frame):
 		self.cal = cal
 		self.index = index
 		self.calType = calType
+		self.hasEnable = hasEnable
 		self.hasAlign = hasAlign
 		####
 		module, ok = calTypes[calType]
 		if not ok:
 			raise RuntimeError("cal type %r not found" % calType)
 		####
-		self.set_label(_(module.desc))
+		if hasEnable:
+			self.enableCheck = gtk.CheckButton(label=_(module.desc))
+			self.set_label_widget(self.enableCheck)
+		else:
+			self.set_label(_(module.desc))
 		####
 		vbox = gtk.VBox()
 		self.add(vbox)
@@ -158,6 +163,8 @@ class CalTypeParamBox(gtk.Frame):
 		self.spinY.connect("changed", self.onChange)
 		fontb.connect("font-set", self.onChange)
 		colorb.connect("color-set", self.onChange)
+		if hasEnable:
+			self.enableCheck.connect("clicked", self.onChange)
 		if hasAlign:
 			self.xalignCombo.connect("changed", self.onChange)
 			self.yalignCombo.connect("changed", self.onChange)
@@ -171,6 +178,8 @@ class CalTypeParamBox(gtk.Frame):
 			"font": self.fontb.get_font_name(),
 			"color": self.colorb.get_color(),
 		}
+		if self.hasEnable:
+			params["enable"] = self.enableCheck.get_active()
 		if self.hasAlign:
 			params["xalign"] = self.xalignCombo.get()
 			params["yalign"] = self.yalignCombo.get()
@@ -181,6 +190,8 @@ class CalTypeParamBox(gtk.Frame):
 		self.spinY.set_value(params["pos"][1])
 		self.fontb.set_font_name(params["font"])
 		self.colorb.set_color(params["color"])
+		if self.hasEnable:
+			self.enableCheck.set_active(params.get("enable", True))
 		if self.hasAlign:
 			self.xalignCombo.set(params.get("xalign", "center"))
 			self.yalignCombo.set(params.get("yalign", "center"))
