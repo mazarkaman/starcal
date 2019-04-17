@@ -30,7 +30,7 @@ class MyStack(gtk.Stack):
 		self._iconSize = iconSize # type: int
 		self._vboxSpacing = vboxSpacing # type: int
 		###
-		self._nameStack = [] # type: List[str]
+		self._currentName = ""
 
 	def _setSlideForward(self):
 		self.set_transition_type(
@@ -44,13 +44,16 @@ class MyStack(gtk.Stack):
 			else gtk.RevealerTransitionType.SLIDE_RIGHT
 		)
 
-	def _newNavButtonBox(self, desc=""):
+	def _newNavButtonBox(self, parentName: str, desc=""):
 		hbox = gtk.HBox()
 		hbox.set_direction(gtk.TextDirection.LTR)
 		backButton = gtk.Button()
 		backButton.set_label("Back")
 		backButton.set_image(gtk.Image.new_from_icon_name("gtk-go-back", self._iconSize))
-		backButton.connect("clicked", self._goBackClicked)
+		backButton.connect(
+			"clicked",
+			lambda w: self.gotoPage(parentName, backward=True),
+		)
 		pack(hbox, backButton)
 		pack(hbox, gtk.Label(), 1, 1)
 		if desc:
@@ -58,16 +61,22 @@ class MyStack(gtk.Stack):
 		hbox.show_all()
 		return hbox
 
-	def addPage(self, name: str, widget: gtk.Widget, addBackButton: bool, desc: str = ""):
+	def addPage(
+		self,
+		name: str,
+		parentName: str,
+		widget: gtk.Widget,
+		desc: str = "",
+	):
 		vbox = gtk.VBox(spacing=self._vboxSpacing)
-		if addBackButton:
-			pack(vbox, self._newNavButtonBox(desc=desc))
+		if parentName:
+			pack(vbox, self._newNavButtonBox(parentName, desc=desc))
 		pack(vbox, widget)
 		self.add_named(vbox, name=name)
 		widget.show()
 		vbox.show()
 		##
-		if not self._nameStack:
+		if not self._currentName:
 			self.gotoPage(name, False)
 
 	def hasPage(self, name: str):
@@ -75,27 +84,9 @@ class MyStack(gtk.Stack):
 
 	def gotoPage(self, name: str, backward: bool = False):
 		if backward:
-			if len(self._nameStack) < 2:
-				raise ValueError("gotoPage: backward=True passed while there are only %s pages" % len(self._nameStack))
-			if name != self._nameStack[-2]:
-				raise ValueError("gotoPage: page name does not match the last page")
-		##
-		if backward:
 			self._setSlideBackward()
 		else:
 			self._setSlideForward()
-
 		self.set_visible_child_name(name)
-		
 		self.show()
-		##
-		if backward:
-			self._nameStack.pop()
-		else:
-			self._nameStack.append(name)
-
-	def goBack(self):
-		self.gotoPage(self._nameStack[-2], backward=True)
-
-	def _goBackClicked(self, button):
-		self.goBack()
+		self._currentName = name
