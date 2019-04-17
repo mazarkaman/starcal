@@ -26,12 +26,8 @@ class StackBox(gtk.VBox):
         self._iconSize = iconSize
         self._vboxSpacing = vboxSpacing
         ###
-        self._pageDict = {} # type: Dict[str, gtk.Widget]
+        self._revealers = {} # type: Dict[name, gtk.Revealer]
         self._pageStack = [] # type: List[str]
-        self._currentName = ""
-        self._currentRevealer = None # type: Optional[gtk.Revealer]
-        self._currentVBox = None # type: Optional[gtk.VBox]
-        ###
 
     def _backButtonClicked(self, button):
         print("backButtonClicked")
@@ -48,34 +44,7 @@ class StackBox(gtk.VBox):
         hbox.show_all()
         return hbox
 
-    def addPage(self, name: str, widget: gtk.Widget):
-        self._pageDict[name] = widget
-        if not self._currentName:
-            self.gotoPage(name, isBack=False)
-
-    def gotoPage(self, name: str, isBack=False):
-        widget = self._pageDict[name]
-        # self._nextWidget = widget
-        ##
-        if isBack:
-            if len(self._pageStack) < 2:
-                raise ValueError("gotoPage: isBack=True passed while there are only %s pages" % len(self._pageStack))
-            if name != self._pageStack[-2]:
-                raise ValueError("gotoPage: page name does not match the last page")
-            addBackButton = len(self._pageStack) > 2
-        else:
-            addBackButton = len(self._pageStack) > 0
-        ##
-        # vbox = None
-        if self._currentRevealer:
-            # widget.unparent()
-            self._currentVBox.remove(widget)
-            self._currentRevealer.remove(self._currentVBox)
-            self.remove(self._currentRevealer)
-            # if isBack:
-            #     vbox = self._currentVBox
-            # else:
-        ##
+    def addPage(self, name: str, widget: gtk.Widget, addBackButton: bool):
         vbox = gtk.VBox(spacing=self._vboxSpacing)
         if addBackButton:
             pack(vbox, self._newNavButtonBox())
@@ -84,21 +53,33 @@ class StackBox(gtk.VBox):
         revealer.set_transition_type(gtk.RevealerTransitionType.SLIDE_LEFT)
         revealer.set_transition_duration(1000) # milliseconds
         revealer.add(vbox)
+        revealer.set_reveal_child(False)
         widget.show()
         vbox.show()
-        revealer.show()
         ##
         pack(self, revealer, 1, 1)
+        self._revealers[name] = revealer
         ##
-        self._currentName = name
-        self._currentVBox = vbox
-        self._currentRevealer = revealer
+        if not self._pageStack:
+            self.gotoPage(name, False)
+
+
+    def gotoPage(self, name: str, isBack=False):
+        if isBack:
+            if len(self._pageStack) < 2:
+                raise ValueError("gotoPage: isBack=True passed while there are only %s pages" % len(self._pageStack))
+            if name != self._pageStack[-2]:
+                raise ValueError("gotoPage: page name does not match the last page")
+        ##
+        for tmpName, revealer in self._revealers.items():
+            visible = tmpName == name
+            revealer.set_visible(visible)
+            revealer.set_reveal_child(visible)
+        ##
         if isBack:
             self._pageStack.pop()
         else:
             self._pageStack.append(name)
-        ##
-        revealer.set_reveal_child(True)
         ##
         print("switched to:", name)
 
@@ -117,7 +98,7 @@ if __name__ == "__main__":
     pack(vbox, button)
     button.connect("clicked", lambda w: stackbox.gotoPage("page2"))
     vbox.show_all()
-    stackbox.addPage("page1", vbox)
+    stackbox.addPage("page1", vbox, False)
     ###
     vbox = gtk.VBox(spacing=20)
     pack(vbox, gtk.Label(label="Line 3"))
@@ -126,7 +107,7 @@ if __name__ == "__main__":
     pack(vbox, button)
     button.connect("clicked", lambda w: stackbox.gotoPage("page3"))
     vbox.show_all()
-    stackbox.addPage("page2", vbox)
+    stackbox.addPage("page2", vbox, True)
     ###
     vbox = gtk.VBox(spacing=20)
     pack(vbox, gtk.Label(label="Line 5"))
@@ -135,7 +116,7 @@ if __name__ == "__main__":
     pack(vbox, button)
     # button.connect("clicked", lambda w: stackbox.gotoPage("page4"))
     vbox.show_all()
-    stackbox.addPage("page3", vbox)
+    stackbox.addPage("page3", vbox, True)
     ###
     dialog = gtk.Dialog()
     pack(dialog.vbox, stackbox, 1, 1)
