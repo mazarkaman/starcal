@@ -125,6 +125,7 @@ class DayCalWindowWidget(DayCal):
 
 	def __init__(self):
 		DayCal.__init__(self)
+		self.set_size_request(50, 50)
 		self.menu = None
 		self.customizeDialog = None
 
