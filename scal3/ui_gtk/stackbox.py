@@ -21,16 +21,10 @@
 import time
 from scal3.ui_gtk import *
 
-class StackBox(gtk.StackSwitcher):
+class MyStack(gtk.Stack):
 	def __init__(self, iconSize=gtk.IconSize.BUTTON, vboxSpacing=5):
-		gtk.StackSwitcher.__init__(self)
-		###
-		stack = gtk.Stack()
-		stack.show()
-		stack.set_transition_duration(500) # milliseconds
-		self.set_stack(stack)
-		self.add(stack)
-		self._stack = stack
+		gtk.Stack.__init__(self)
+		self.set_transition_duration(500) # milliseconds
 		###
 		self._iconSize = iconSize
 		self._vboxSpacing = vboxSpacing
@@ -38,14 +32,14 @@ class StackBox(gtk.StackSwitcher):
 		self._nameStack = [] # type: List[str]
 
 	def _backButtonClicked(self, button):
-		print("backButtonClicked")
+		# print("backButtonClicked")
 		self.gotoPage(self._nameStack[-2], isBack=True)
 
 	def setFromLeft(self):
-		self._stack.set_transition_type(gtk.RevealerTransitionType.SLIDE_LEFT)
+		self.set_transition_type(gtk.RevealerTransitionType.SLIDE_LEFT)
 
 	def setFromRight(self):
-		self._stack.set_transition_type(gtk.RevealerTransitionType.SLIDE_RIGHT)
+		self.set_transition_type(gtk.RevealerTransitionType.SLIDE_RIGHT)
 
 	def _newNavButtonBox(self):
 		hbox = gtk.HBox()
@@ -63,7 +57,7 @@ class StackBox(gtk.StackSwitcher):
 		if addBackButton:
 			pack(vbox, self._newNavButtonBox())
 		pack(vbox, widget)
-		self._stack.add_named(vbox, name=name)
+		self.add_named(vbox, name=name)
 		widget.show()
 		vbox.show()
 		##
@@ -82,7 +76,7 @@ class StackBox(gtk.StackSwitcher):
 		else:
 			self.setFromLeft()
 
-		self._stack.set_visible_child_name(name)
+		self.set_visible_child_name(name)
 		
 		self.show()
 		##
@@ -91,47 +85,44 @@ class StackBox(gtk.StackSwitcher):
 		else:
 			self._nameStack.append(name)
 		##
-		print("switched to:", name)
+		# print("switched to:", name)
 
  
 
 
 if __name__ == "__main__":
-	stackbox = StackBox()
+	stack = MyStack()
 	###
 	vbox = gtk.VBox(spacing=20)
 	pack(vbox, gtk.Label(label="Line 1"))
 	pack(vbox, gtk.Label(label="Line 2"))
 	button = gtk.Button(label="Next Page (2)")
 	pack(vbox, button)
-	button.connect("clicked", lambda w: stackbox.gotoPage("page2"))
+	button.connect("clicked", lambda w: stack.gotoPage("page2"))
 	vbox.show_all()
-	stackbox.addPage("page1", vbox, False)
-	print("added page1")
+	stack.addPage("page1", vbox, False)
 	###
 	vbox = gtk.VBox(spacing=20)
 	pack(vbox, gtk.Label(label="Line 3"))
 	pack(vbox, gtk.Label(label="Line 4"))
 	button = gtk.Button(label="Next Page (3)")
 	pack(vbox, button)
-	button.connect("clicked", lambda w: stackbox.gotoPage("page3"))
+	button.connect("clicked", lambda w: stack.gotoPage("page3"))
 	vbox.show_all()
-	stackbox.addPage("page2", vbox, True)
-	print("added page2")
+	stack.addPage("page2", vbox, True)
 	###
 	vbox = gtk.VBox(spacing=20)
 	pack(vbox, gtk.Label(label="Line 5"))
 	pack(vbox, gtk.Label(label="Line 6"))
 	button = gtk.Button(label="Next Page (4)")
 	pack(vbox, button)
-	# button.connect("clicked", lambda w: stackbox.gotoPage("page4"))
+	# button.connect("clicked", lambda w: stack.gotoPage("page4"))
 	vbox.show_all()
-	stackbox.addPage("page3", vbox, True)
-	print("added page3")
+	stack.addPage("page3", vbox, True)
 	###
 	dialog = gtk.Dialog()
-	pack(dialog.vbox, stackbox, 1, 1)
-	stackbox.show()
+	pack(dialog.vbox, stack, 1, 1)
+	stack.show()
 	dialog.vbox.show()
 	dialog.run()
 
