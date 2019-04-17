@@ -70,6 +70,9 @@ class MyStack(gtk.Stack):
 		if not self._nameStack:
 			self.gotoPage(name, False)
 
+	def hasPage(self, name: str):
+		return self.get_child_by_name(name=name) != None
+
 	def gotoPage(self, name: str, backward: bool = False):
 		if backward:
 			if len(self._nameStack) < 2:
