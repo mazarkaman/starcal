@@ -22,10 +22,11 @@ import time
 from scal3.ui_gtk import *
 
 class MyStack(gtk.Stack):
-	def __init__(self, iconSize=gtk.IconSize.BUTTON, vboxSpacing=5):
+	def __init__(self, rtl=False, iconSize=gtk.IconSize.BUTTON, vboxSpacing=5):
 		gtk.Stack.__init__(self)
-		self.set_transition_duration(500) # milliseconds
+		self.set_transition_duration(300) # milliseconds
 		###
+		self._rtl = rtl
 		self._iconSize = iconSize
 		self._vboxSpacing = vboxSpacing
 		###
@@ -33,13 +34,19 @@ class MyStack(gtk.Stack):
 
 	def _backButtonClicked(self, button):
 		# print("backButtonClicked")
-		self.gotoPage(self._nameStack[-2], isBack=True)
+		self.gotoPage(self._nameStack[-2], backward=True)
 
-	def setFromLeft(self):
-		self.set_transition_type(gtk.RevealerTransitionType.SLIDE_LEFT)
+	def _setSlideForward(self):
+		self.set_transition_type(
+			gtk.RevealerTransitionType.SLIDE_RIGHT if self._rtl
+			else gtk.RevealerTransitionType.SLIDE_LEFT
+		)
 
-	def setFromRight(self):
-		self.set_transition_type(gtk.RevealerTransitionType.SLIDE_RIGHT)
+	def _setSlideBackward(self):
+		self.set_transition_type(
+			gtk.RevealerTransitionType.SLIDE_LEFT if self._rtl
+			else gtk.RevealerTransitionType.SLIDE_RIGHT
+		)
 
 	def _newNavButtonBox(self):
 		hbox = gtk.HBox()
@@ -64,23 +71,23 @@ class MyStack(gtk.Stack):
 		if not self._nameStack:
 			self.gotoPage(name, False)
 
-	def gotoPage(self, name: str, isBack=False):
-		if isBack:
+	def gotoPage(self, name: str, backward=False):
+		if backward:
 			if len(self._nameStack) < 2:
-				raise ValueError("gotoPage: isBack=True passed while there are only %s pages" % len(self._nameStack))
+				raise ValueError("gotoPage: backward=True passed while there are only %s pages" % len(self._nameStack))
 			if name != self._nameStack[-2]:
 				raise ValueError("gotoPage: page name does not match the last page")
 		##
-		if isBack:
-			self.setFromRight()
+		if backward:
+			self._setSlideBackward()
 		else:
-			self.setFromLeft()
+			self._setSlideForward()
 
 		self.set_visible_child_name(name)
 		
 		self.show()
 		##
-		if isBack:
+		if backward:
 			self._nameStack.pop()
 		else:
 			self._nameStack.append(name)
