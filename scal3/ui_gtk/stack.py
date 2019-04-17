@@ -44,7 +44,7 @@ class MyStack(gtk.Stack):
 			else gtk.RevealerTransitionType.SLIDE_RIGHT
 		)
 
-	def _newNavButtonBox(self):
+	def _newNavButtonBox(self, desc=""):
 		hbox = gtk.HBox()
 		backButton = gtk.Button()
 		backButton.set_label("Back")
@@ -52,13 +52,15 @@ class MyStack(gtk.Stack):
 		backButton.connect("clicked", self._goBackClicked)
 		pack(hbox, backButton)
 		pack(hbox, gtk.Label(), 1, 1)
+		if desc:
+			pack(hbox, gtk.Label(label=desc), 0, 0)
 		hbox.show_all()
 		return hbox
 
-	def addPage(self, name: str, widget: gtk.Widget, addBackButton: bool):
+	def addPage(self, name: str, widget: gtk.Widget, addBackButton: bool, desc: str = ""):
 		vbox = gtk.VBox(spacing=self._vboxSpacing)
 		if addBackButton:
-			pack(vbox, self._newNavButtonBox())
+			pack(vbox, self._newNavButtonBox(desc=desc))
 		pack(vbox, widget)
 		self.add_named(vbox, name=name)
 		widget.show()
@@ -104,29 +106,30 @@ if __name__ == "__main__":
 	vbox = gtk.VBox(spacing=20)
 	pack(vbox, gtk.Label(label="Line 1"))
 	pack(vbox, gtk.Label(label="Line 2"))
-	button = gtk.Button(label="Next Page (2)")
+	pack(vbox, gtk.Label(label="Line 3"))
+	button = gtk.Button(label="Goto Page 2")
 	pack(vbox, button)
 	button.connect("clicked", lambda w: stack.gotoPage("page2"))
 	vbox.show_all()
-	stack.addPage("page1", vbox, False)
+	stack.addPage("page1", vbox, False, desc="Main")
 	###
 	vbox = gtk.VBox(spacing=20)
-	pack(vbox, gtk.Label(label="Line 3"))
-	pack(vbox, gtk.Label(label="Line 4"))
-	button = gtk.Button(label="Next Page (3)")
+	pack(vbox, gtk.Label(label="Page 2 Line 1"))
+	pack(vbox, gtk.Label(label="Page 2 Line 2"))
+	button = gtk.Button(label="Goto Page 3")
 	pack(vbox, button)
 	button.connect("clicked", lambda w: stack.gotoPage("page3"))
 	vbox.show_all()
-	stack.addPage("page2", vbox, True)
+	stack.addPage("page2", vbox, True, desc="Page 2")
 	###
 	vbox = gtk.VBox(spacing=20)
-	pack(vbox, gtk.Label(label="Line 5"))
-	pack(vbox, gtk.Label(label="Line 6"))
-	button = gtk.Button(label="Next Page (4)")
+	pack(vbox, gtk.Label(label="Page 3 Line 1"))
+	pack(vbox, gtk.Label(label="Page 3 Line 2"))
+	button = gtk.Button(label="Close")
 	pack(vbox, button)
-	# button.connect("clicked", lambda w: stack.gotoPage("page4"))
+	button.connect("clicked", lambda w: dialog.destroy())
 	vbox.show_all()
-	stack.addPage("page3", vbox, True)
+	stack.addPage("page3", vbox, True, desc="Page 3")
 	###
 	dialog = gtk.Dialog()
 	pack(dialog.vbox, stack, 1, 1)
