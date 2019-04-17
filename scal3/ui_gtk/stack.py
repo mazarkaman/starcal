@@ -32,10 +32,6 @@ class MyStack(gtk.Stack):
 		###
 		self._nameStack = [] # type: List[str]
 
-	def _backButtonClicked(self, button):
-		# print("backButtonClicked")
-		self.gotoPage(self._nameStack[-2], backward=True)
-
 	def _setSlideForward(self):
 		self.set_transition_type(
 			gtk.RevealerTransitionType.SLIDE_RIGHT if self._rtl
@@ -53,7 +49,7 @@ class MyStack(gtk.Stack):
 		backButton = gtk.Button()
 		backButton.set_label("Back")
 		backButton.set_image(gtk.Image.new_from_icon_name("gtk-go-back", self._iconSize))
-		backButton.connect("clicked", self._backButtonClicked)
+		backButton.connect("clicked", self._goBackClicked)
 		pack(hbox, backButton)
 		pack(hbox, gtk.Label(), 1, 1)
 		hbox.show_all()
@@ -91,8 +87,13 @@ class MyStack(gtk.Stack):
 			self._nameStack.pop()
 		else:
 			self._nameStack.append(name)
-		##
-		# print("switched to:", name)
+
+	def goBack(self):
+		self.gotoPage(self._nameStack[-2], backward=True)
+
+	def _goBackClicked(self, button):
+		self.goBack()
+
 
  
 
