@@ -26,9 +26,9 @@ class MyStack(gtk.Stack):
 		gtk.Stack.__init__(self)
 		self.set_transition_duration(300) # milliseconds
 		###
-		self._rtl = rtl
-		self._iconSize = iconSize
-		self._vboxSpacing = vboxSpacing
+		self._rtl = rtl # type: bool
+		self._iconSize = iconSize # type: int
+		self._vboxSpacing = vboxSpacing # type: int
 		###
 		self._nameStack = [] # type: List[str]
 
@@ -46,6 +46,7 @@ class MyStack(gtk.Stack):
 
 	def _newNavButtonBox(self, desc=""):
 		hbox = gtk.HBox()
+		hbox.set_direction(gtk.TextDirection.LTR)
 		backButton = gtk.Button()
 		backButton.set_label("Back")
 		backButton.set_image(gtk.Image.new_from_icon_name("gtk-go-back", self._iconSize))
@@ -69,7 +70,7 @@ class MyStack(gtk.Stack):
 		if not self._nameStack:
 			self.gotoPage(name, False)
 
-	def gotoPage(self, name: str, backward=False):
+	def gotoPage(self, name: str, backward: bool = False):
 		if backward:
 			if len(self._nameStack) < 2:
 				raise ValueError("gotoPage: backward=True passed while there are only %s pages" % len(self._nameStack))
@@ -95,5 +96,3 @@ class MyStack(gtk.Stack):
 
 	def _goBackClicked(self, button):
 		self.goBack()
-
-
