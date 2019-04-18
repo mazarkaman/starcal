@@ -19,6 +19,9 @@
 # or /usr/share/licenses/common/GPL3/license.txt on ArchLinux
 
 import time
+
+from scal3.locale_man import tr as _
+
 from scal3.ui_gtk import *
 
 class MyStack(gtk.Stack):
@@ -46,9 +49,9 @@ class MyStack(gtk.Stack):
 
 	def _newNavButtonBox(self, parentName: str, desc=""):
 		hbox = gtk.HBox()
-		hbox.set_direction(gtk.TextDirection.LTR)
+		# hbox.set_direction(gtk.TextDirection.LTR)
 		backButton = gtk.Button()
-		backButton.set_label("Back")
+		backButton.set_label(_("Back"))
 		backButton.set_image(gtk.Image.new_from_icon_name("gtk-go-back", self._iconSize))
 		backButton.connect(
 			"clicked",
