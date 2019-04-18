@@ -33,7 +33,19 @@ class MyStack(gtk.Stack):
 		self._iconSize = iconSize # type: int
 		self._vboxSpacing = vboxSpacing # type: int
 		###
+		self._parentNames = {} # Dict[str, str]
 		self._currentName = ""
+		###
+		self.connect("key-press-event", self.keyPress)
+
+	def keyPress(self, arg, gevent):
+		if gdk.keyval_name(gevent.keyval) == "BackSpace":
+			if self._currentName:
+				parentName = self._parentNames[self._currentName]
+				if parentName:
+					self.gotoPage(parentName, backward=True)
+					return True
+		return False
 
 	def _setSlideForward(self):
 		self.set_transition_type(
@@ -78,6 +90,8 @@ class MyStack(gtk.Stack):
 		self.add_named(vbox, name=name)
 		widget.show()
 		vbox.show()
+		##
+		self._parentNames[name] = parentName
 		##
 		if not self._currentName:
 			self.gotoPage(name, False)
