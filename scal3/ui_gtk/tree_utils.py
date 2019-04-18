@@ -1,10 +1,19 @@
 #!/usr/bin/env python3
-def tree_path_split(p):
-	return [
-		int(x)
-		for x in p.split(":")
-	]
 
+from scal3.ui_gtk import gtk
+
+def tree_path_split(path):
+	if isinstance(path, gtk.TreePath):
+		return path.get_indices()
+	elif isinstance(path, str):
+		return [
+			int(x)
+			for x in path.split(":")
+		]
+	elif isinstance(path, int):
+		return [path]
+	else:
+		raise TypeError("invalid path: %r" % path)
 
 def getTreeviewPathStr(path):
 	if not path:

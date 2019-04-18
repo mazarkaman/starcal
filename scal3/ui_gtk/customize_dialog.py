@@ -18,10 +18,13 @@
 # Also avalable in /usr/share/common-licenses/GPL on Debian systems
 # or /usr/share/licenses/common/GPL3/license.txt on ArchLinux
 
+from typing import Tuple
+
 from scal3.path import *
 from scal3.utils import myRaise
 from scal3 import core
 from scal3.locale_man import tr as _
+from scal3.locale_man import rtl
 from scal3 import ui
 
 from scal3.ui_gtk import gtk_ud as ud
@@ -30,26 +33,20 @@ from scal3.ui_gtk.utils import (
 	toolButtonFromIcon,
 	set_tooltip,
 	dialog_add_button,
+	showInfo,
 )
 from scal3.ui_gtk.tree_utils import tree_path_split
+from scal3.ui_gtk.stack import MyStack
 
 
 class CustomizeDialog(gtk.Dialog):
-	def appendItemTree(self, item, parentIter):
-		itemIter = self.model.append(parentIter)
-		self.model.set(
-			itemIter,
-			0,
-			item.enable,
-			1,
-			item.desc,
-		)
-		for child in item.items:
-			if child.customizable:
-				self.appendItemTree(child, itemIter)
-
-	def __init__(self, widget, **kwargs):
+	def __init__(self, widget: "CustomizableCalObj", **kwargs):
 		gtk.Dialog.__init__(self, **kwargs)
+		self.vbox.set_border_width(10)
+		##
+		self.stack = MyStack(rtl=rtl, vboxSpacing=10)
+		pack(self.vbox, self.stack, 1, 1)
+		##
 		self.set_title(_("Customize"))
 		#self.set_has_separator(False)## not in gtk3
 		self.connect("delete-event", self.close)
@@ -61,20 +58,30 @@ class CustomizeDialog(gtk.Dialog):
 			self.close,
 		)
 		###
-		self._widget = widget
-		self.activeOptionsWidget = None
+		treev, childrenBox = self.newItemList("mainWin", widget)
+		self.treev_root = treev
+		self.stack.addPage("mainWin", "", childrenBox)
 		###
-		self.model = gtk.TreeStore(bool, str) ## (GdkPixbuf.Pixbuf, str)
-		treev = self.treev = gtk.TreeView(model=self.model)
+		self.vbox.connect("size-allocate", self.vboxSizeRequest)
+		self.vbox.show_all()
+
+	def newItemList(self, pageName: str, parentItem: "CustomizableCalObj") -> Tuple[gtk.TreeView, gtk.Box]:
+		# column 0: bool: enable
+		# column 1: str: unique pageName (dot separated)
+		# column 2: str: desc
+		model = gtk.ListStore(bool, str, str)
+		treev = gtk.TreeView(model=model)
+		treev.scalItem = parentItem
+		treev.pageName = pageName
 		##
 		treev.set_enable_tree_lines(True)
 		treev.set_headers_visible(False)
-		treev.connect("row-activated", self.rowActivated)
+		treev.connect("row-activated", self.rowActivated, parentItem)
 		##
 		col = gtk.TreeViewColumn("Widget")
 		##
 		cell = gtk.CellRendererToggle()
-		cell.connect("toggled", self.enableCellToggled)
+		cell.connect("toggled", self.enableCellToggled, treev)
 		pack(col, cell)
 		col.add_attribute(cell, "active", 0)
 		col.set_property("expand", False)
@@ -85,14 +92,21 @@ class CustomizeDialog(gtk.Dialog):
 		##
 		cell = gtk.CellRendererText()
 		pack(col, cell)
-		col.add_attribute(cell, "text", 1)
+		col.add_attribute(cell, "text", 2)
 		col.set_property("expand", True)
 		##
 		treev.append_column(col)
 		###
-		for item in widget.items:
+		for item in parentItem.items:
+			pageName = parentItem._name + "." + item._name
 			if item.customizable:
-				self.appendItemTree(item, None)
+				itemIter = model.append(None)
+				model.set(
+					itemIter,
+					0, item.enable,
+					1, pageName,
+					2, item.desc,
+				)
 		###
 		hbox = gtk.HBox()
 		vbox_l = gtk.VBox()
@@ -107,187 +121,150 @@ class CustomizeDialog(gtk.Dialog):
 		###
 		tb = toolButtonFromIcon("gtk-go-up", size)
 		set_tooltip(tb, _("Move up"))
-		tb.connect("clicked", self.upClicked)
+		tb.connect("clicked", self.upClicked, treev)
 		toolbar.insert(tb, -1)
 		###
 		tb = toolButtonFromIcon("gtk-go-down", size)
 		set_tooltip(tb, _("Move down"))
-		tb.connect("clicked", self.downClicked)
+		tb.connect("clicked", self.downClicked, treev)
 		toolbar.insert(tb, -1)
 		###
 		pack(hbox, toolbar)
-		pack(self.vbox, hbox, 1, 1)
-		self.vbox_l = vbox_l
 		###
-		self.vbox.connect("size-allocate", self.vboxSizeRequest)
-		self.vbox.show_all()
-		treev.get_selection().connect("changed", self.treevCursorChanged)
+		vbox = gtk.VBox(spacing=10)
+		label = gtk.Label(
+			label="<span font_size=\"xx-small\">" +
+				_("Double-click on each row to see it's settings") +
+				"</span>"
+		)
+		label.set_use_markup(True)
+		pack(vbox, label)
+		pack(vbox, hbox, 1, 1)
+		###
+		return treev, vbox
 
 	def vboxSizeRequest(self, widget, req):
 		self.resize(self.get_size()[0], 1)
 
-	def getItemByPath(self, path):
-		if isinstance(path, gtk.TreePath):
-			path = path.get_indices()
-		elif isinstance(path, str):
-			path = tree_path_split(path)
-		elif isinstance(path, int):
-			path = [path]
-		elif not isinstance(path, (tuple, list)):
-			raise TypeError(
-				"argument %s given to getItemByPath " % path +
-				"has bad type %s" % type(path)
-			)
-		item = self._widget.items[path[0]]
-		for i in path[1:]:
-			item = item.items[i]
-		return item
-
-	def treevCursorChanged(self, selection):
-		if self.activeOptionsWidget:
-			try:
-				self.vbox_l.remove(self.activeOptionsWidget)
-			except:
-				myRaise(__file__)
-			self.activeOptionsWidget = None
-		index_list = self.treev.get_cursor()[0]
+	def upClicked(self, button, treev):
+		item = treev.scalItem
+		model = treev.get_model()
+		index_list = treev.get_cursor()[0]
 		if not index_list:
 			return
-		item = self.getItemByPath(index_list)
-		item.optionsWidgetCreate()
+		i = index_list[-1]
+		
+		if len(index_list) != 1:
+			raise RuntimeError("unexpected index_list = %r" % index_list)
+
+		if i <= 0 or i >= len(model):
+			gdk.beep()
+			return
+		###
+		item.moveItemUp(i)
+		model.swap(model.get_iter(i - 1), model.get_iter(i))
+		treev.set_cursor(i - 1)
+			
+
+	def downClicked(self, button, treev):
+		item = treev.scalItem
+		model = treev.get_model()
+		index_list = treev.get_cursor()[0]
+		if not index_list:
+			return
+		i = index_list[-1]
+
+		if len(index_list) != 1:
+			raise RuntimeError("unexpected index_list = %r" % index_list)
+
+		if i < 0 or i >= len(model) - 1:
+			gdk.beep()
+			return
+		###
+		item.moveItemUp(i + 1)
+		model.swap(model.get_iter(i), model.get_iter(i + 1))
+		treev.set_cursor(i + 1)
+
+	def addPage(self, pageName: str, parentPageName: str, parentItem: "CustomizableCalObj", itemIndex: int):
+		if self.stack.hasPage(pageName):
+			return
+		item = parentItem.items[itemIndex]
+		###
+		if item.customizable and not item.optionsWidget:
+			item.optionsWidgetCreate()
+		vbox = gtk.VBox()
+		# FIXME: detect if we should show children treeview
+		if len(item.items) > 0:
+			treev, childrenBox = self.newItemList(pageName, item)
+			childrenBox.show_all()
+			pack(vbox, childrenBox)
 		if item.optionsWidget:
-			item.optionsWidget.set_sensitive(item.enable)
-			self.activeOptionsWidget = item.optionsWidget
-			pack(self.vbox_l, item.optionsWidget)
-			item.optionsWidget.show()
+			pack(vbox, item.optionsWidget, 0, 0)
+		self.stack.addPage(pageName, parentPageName, vbox, desc=item.desc)
 
-	def upClicked(self, button):
-		model = self.model
-		index_list = self.treev.get_cursor()[0]
-		if not index_list:
+	def rowActivated(
+		self,
+		treev: gtk.TreeView,
+		path: gtk.TreePath,
+		col: gtk.TreeViewColumn,
+		parentItem: "CustomizableCalObj",
+	):
+		model = treev.get_model()
+		itemIter = model.get_iter(path)
+		pageName = model.get_value(itemIter, 1)
+		itemIndex = tree_path_split(path)[0]
+		item = parentItem.items[itemIndex]
+		if not item.enable:
+			showInfo(
+				_("%s is disabled.\nCheck the checkbox if you want to enable it.") % item.desc,
+				parent=self,
+			)
 			return
-		i = index_list[-1]
-		if len(index_list) == 1:
-			if i <= 0 or i >= len(model):
-				gdk.beep()
-				return
-			###
-			self._widget.moveItemUp(i)
-			model.swap(model.get_iter(i - 1), model.get_iter(i))
-			self.treev.set_cursor(i - 1)
-		else:
-			if i <= 0:
-				gdk.beep()
-				return
-			###
-			root = self.getItemByPath(index_list[:-1])
-			if i >= len(root.items):
-				gdk.beep()
-				return
-			###
-			root.moveItemUp(i)
-			index_list2 = list(index_list)
-			index_list2[-1] = i - 1
-			model.swap(model.get_iter(index_list), model.get_iter(index_list2))
-			self.treev.set_cursor(index_list2)
+		print("rowActivated: pageName = %r" % pageName)
+		parentPageName = treev.pageName
+		self.addPage(pageName, parentPageName, parentItem, itemIndex)
+		self.stack.gotoPage(pageName)
 
-	def downClicked(self, button):
-		model = self.model
-		index_list = self.treev.get_cursor()[0]
-		if not index_list:
-			return
-		i = index_list[-1]
-		if len(index_list) == 1:
-			if i < 0 or i >= len(model) - 1:
-				gdk.beep()
-				return
-			###
-			self._widget.moveItemUp(i + 1)
-			model.swap(model.get_iter(i), model.get_iter(i + 1))
-			self.treev.set_cursor(i + 1)
-		else:
-			if i < 0:
-				gdk.beep()
-				return
-			###
-			root = self.getItemByPath(index_list[:-1])
-			if i >= len(root.items) - 1:
-				gdk.beep()
-				return
-			###
-			root.moveItemUp(i + 1)
-			index_list2 = list(index_list)
-			index_list2[-1] = i + 1
-			model.swap(model.get_iter(index_list), model.get_iter(index_list2))
-			self.treev.set_cursor(index_list2)
-
-	def rowActivated(self, treev, path, col):
-		if treev.row_expanded(path):
-			treev.collapse_row(path)
-		else:
-			treev.expand_row(path, False)
-
-	def enableCellToggled(self, cell, path):  # FIXME
+	def enableCellToggled(self, cell, path, treev):
+		model = treev.get_model()
 		active = not cell.get_active()
-		self.model.set_value(
-			self.model.get_iter(path),
+		model.set_value(
+			model.get_iter(path),
 			0,
 			active,
 		)  # or set(...)
-		parentItem = self._widget
-		pp = tree_path_split(path)
-		item = parentItem.items[pp[0]]
-		for i in pp[1:]:
-			parentItem, item = item, item.items[i]
-		itemIndex = int(pp[-1])
+		parentItem = treev.scalItem
+		itemIndex = tree_path_split(path)[0]
+		item = parentItem.items[itemIndex]
 		assert parentItem.items[itemIndex] == item
 		###
 		if active:
-			item = self.loadItem(parentItem, itemIndex, path)
+			if not item.loaded:
+				item = item.getLoadedObj()
+				parentItem.replaceItem(itemIndex, item)
+				parentItem.insertItemWidget(itemIndex)
 			item.onConfigChange()
+			item.onDateChange()
 		item.enable = active
 		item.showHide()
-		if item.customizable:
-			if item.optionsWidget:
-				item.optionsWidget.set_sensitive(item.enable)
-			elif active:
-				item.optionsWidgetCreate()
-		if ui.mainWin:
-			ui.mainWin.setMinHeight()
-
-	def loadItem(self, parentItem, itemIndex, itemPath):
-		itemIter = self.model.get_iter(itemPath)
-		item = parentItem.items[itemIndex]
-		if item.loaded:
-			return item
-		###
-		item = item.getLoadedObj()
-		parentItem.replaceItem(itemIndex, item)
-		parentItem.insertItemWidget(itemIndex)
-		for child in item.items:
-			if item.customizable:
-				self.appendItemTree(child, itemIter)
-		item.onConfigChange()
-		item.onDateChange()
-		return item
-
-	def findItem(self, item):
-		return self._widget.items.index(item)
 
 	def updateTreeEnableChecks(self):
-		for i, item in enumerate(self._widget.items):
-			self.model.set_value(
-				self.model.get_iter((i,)),
+		treev = self.treev_root
+		model = treev.get_model()
+		for i, item in enumerate(treev.scalItem.items):
+			model.set_value(
+				model.get_iter((i,)),
 				0,
 				item.enable,
 			)
 
 	def save(self):
-		self._widget.updateVars()
+		item = self.treev_root.scalItem
+		item.updateVars()
 		ui.ud__wcalToolbarData = ud.wcalToolbarData
 		ui.ud__mainToolbarData = ud.mainToolbarData
 		ui.saveConfCustomize()
-		#data = self._widget.getData()## remove? FIXME
+		#data = item.getData()## remove? FIXME
 
 	def close(self, button=None, event=None):
 		self.save()

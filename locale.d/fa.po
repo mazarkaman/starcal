@@ -2638,6 +2638,13 @@ msgid "Moon Status"
 msgstr ""
 "وضعیت ماه"
 
+msgid "Double-click on each row to see it's settings"
+msgstr ""
+"با دبل-کلیک روی هر سطر، تنظیمات مربوط به آن را ببینید"
+
+msgid "%s is disabled.\nCheck the checkbox if you want to enable it."
+msgstr ""
+"‌%s غیرفعال است.\nبرای فعال کردنش مربع مربوط به آن را تیک بزنید."
 
 msgid "Icon Size"
 msgstr ""
