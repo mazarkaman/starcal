@@ -218,6 +218,7 @@ class DayCal(gtk.DrawingArea, CalBase):
 		########
 		frame = gtk.Frame()
 		frame.set_label(_("Calendars"))
+		frame.set_border_width(5)
 		self.typeParamsVbox = gtk.VBox()
 		frame.add(self.typeParamsVbox)
 		frame.show_all()

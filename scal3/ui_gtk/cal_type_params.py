@@ -92,6 +92,7 @@ class CalTypeParamBox(gtk.Frame):
 		from scal3.ui_gtk.mywidgets.multi_spin.float_num import FloatSpinButton
 		from scal3.ui_gtk.mywidgets import MyFontButton, MyColorButton
 		gtk.Frame.__init__(self)
+		self.set_border_width(5)
 		self.paramName = paramName
 		self.cal = cal
 		self.index = index
@@ -110,6 +111,7 @@ class CalTypeParamBox(gtk.Frame):
 			self.set_label(_(module.desc))
 		####
 		vbox = gtk.VBox()
+		vbox.set_border_width(5)
 		self.add(vbox)
 		###
 		hbox = gtk.HBox()
