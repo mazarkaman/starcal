@@ -66,6 +66,13 @@ class CustomizeDialog(gtk.Dialog):
 		self.vbox.connect("size-allocate", self.vboxSizeRequest)
 		self.vbox.show_all()
 
+	def itemPixbuf(self, item):
+		if not item.enable:
+			return None
+		if item.hasOptions or (item.itemListCustomizable and item.items):
+			return pixbufFromFile("gtk-edit-16.png")
+		return None
+
 	def newItemList(self, pageName: str, parentItem: "CustomizableCalObj") -> Tuple[gtk.TreeView, gtk.Box]:
 		# column 0: bool: enable
 		# column 1: str: unique pageName (dot separated)
@@ -97,14 +104,11 @@ class CustomizeDialog(gtk.Dialog):
 		for item in parentItem.items:
 			pageName = parentItem._name + "." + item._name
 			if item.customizable:
-				pixbuf = None
-				if item.hasOptions or (item.itemListCustomizable and item.items):
-					pixbuf = pixbufFromFile("gtk-edit-16.png")
 				model.append([
 					item.enable,
 					pageName,
 					item.desc,
-					pixbuf,
+					self.itemPixbuf(item),
 				])
 		###
 		hbox = gtk.HBox()
@@ -242,11 +246,8 @@ class CustomizeDialog(gtk.Dialog):
 	def enableCellToggled(self, cell, path, treev):
 		model = treev.get_model()
 		active = not cell.get_active()
-		model.set_value(
-			model.get_iter(path),
-			0,
-			active,
-		)  # or set(...)
+		itr = model.get_iter(path)
+		model.set_value(itr, 0, active)
 		parentItem = treev.scalItem
 		itemIndex = tree_path_split(path)[0]
 		item = parentItem.items[itemIndex]
@@ -260,7 +261,9 @@ class CustomizeDialog(gtk.Dialog):
 			item.onConfigChange()
 			item.onDateChange()
 		item.enable = active
+		model.set_value(itr, 3, self.itemPixbuf(item))
 		item.showHide()
+
 
 	def updateTreeEnableChecks(self):
 		treev = self.treev_root
