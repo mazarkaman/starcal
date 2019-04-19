@@ -72,7 +72,11 @@ class MyStack(gtk.Stack):
 		pack(hbox, backButton)
 		pack(hbox, gtk.Label(), 1, 1)
 		if desc:
-			pack(hbox, gtk.Label(label=desc), 0, 0)
+			label = gtk.Label(
+				label="<span font_size=\"x-small\">" + desc + "</span>",
+			)
+			label.set_use_markup(True)
+			pack(hbox, label, 0, 0)
 		hbox.show_all()
 		return hbox
 
