@@ -225,7 +225,6 @@ class CustomizeDialog(gtk.Dialog):
 				parent=self,
 			)
 			return
-		print("rowActivated: pageName = %r" % pageName)
 		parentPageName = treev.pageName
 		self.addPage(pageName, parentPageName, parentItem, itemIndex)
 		self.stack.gotoPage(pageName)
