@@ -99,7 +99,7 @@ class CustomizeDialog(gtk.Dialog):
 			if item.customizable:
 				pixbuf = None
 				if item.hasOptions or (item.itemListCustomizable and item.items):
-					pixbuf = pixbufFromFile("gtk-edit.png")
+					pixbuf = pixbufFromFile("gtk-edit-16.png")
 				model.append([
 					item.enable,
 					pageName,
