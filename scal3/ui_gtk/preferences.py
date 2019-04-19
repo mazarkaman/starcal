@@ -1023,8 +1023,8 @@ class PrefDialog(gtk.Dialog):
 						gtk.DialogFlags.MODAL |
 						gtk.DialogFlags.DESTROY_WITH_PARENT
 					),
-					buttons=("gtk-cancel", 0),
 				)
+				d.add_buttons("gtk-cancel", 0)
 				d.set_keep_above(True)
 				label = gtk.Label(_(
 					"Some preferences need for restart %s to apply."

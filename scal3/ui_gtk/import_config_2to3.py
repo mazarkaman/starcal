@@ -41,12 +41,12 @@ langCodeList = []
 
 win = gtk.Dialog(
 	title=APP_DESC + " 3.x - First Run",
-	buttons=(
-		"gtk-ok",
-		gtk.ResponseType.OK,
-		"gtk-cancel",
-		gtk.ResponseType.CANCEL,
-	)
+)
+win.add_buttons(
+	"gtk-ok",
+	gtk.ResponseType.OK,
+	"gtk-cancel",
+	gtk.ResponseType.CANCEL,
 )
 langHbox = gtk.HBox()
 pack(langHbox, gtk.Label(label="Select Language:"))

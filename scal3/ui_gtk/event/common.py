@@ -226,11 +226,11 @@ class FilesBox(gtk.VBox):
 
 	def addClicked(self, button):
 		fcd = gtk.FileChooserDialog(
-			buttons=(
-				toBytes(_("_OK")), gtk.ResponseType.OK,
-				toBytes(_("_Cancel")), gtk.ResponseType.CANCEL,
-			),
 			title=_("Add File"),
+		)
+		fcd.add_buttons(
+			toBytes(_("_OK")), gtk.ResponseType.OK,
+			toBytes(_("_Cancel")), gtk.ResponseType.CANCEL,
 		)
 		fcd.set_local_only(True)
 		fcd.connect("response", lambda w, e: fcd.hide())
