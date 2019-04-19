@@ -117,6 +117,7 @@ class DayCalWindowWidget(DayCal):
 	backgroundColorParam = "dcalWinBackgroundColor"
 	heightParam = ""
 	typeParamsParam = "dcalWinTypeParams"
+	weekdayParamsParam = "dcalWinWeekdayParams"
 	buttonsEnableParam = "dcalWinButtonsEnable"
 	buttonsParam = "dcalWinButtons"
 

@@ -141,10 +141,12 @@ confParamsCustomize = (
 	"dcalButtonsEnable",
 	# "dcalButtons",
 	"dcalTypeParams",
+	"dcalWeekdayParams",
 	"dcalWinBackgroundColor",
 	"dcalWinButtonsEnable",
 	# "dcalWinButtons",
 	"dcalWinTypeParams",
+	"dcalWinWeekdayParams",
 	"pluginsTextInsideExpander",
 	"seasonPBar_southernHemisphere",
 	"wcal_moonStatus_southernHemisphere",
@@ -558,6 +560,12 @@ def initFonts(fontDefaultNew):
 	for item in dcalWinTypeParams[1:]:
 		if item["font"] is None:
 			item["font"] = getFont(2.0)
+	######
+	if dcalWeekdayParams["font"] is None:
+		dcalWeekdayParams["font"] = getFont(1.0)
+	if dcalWinWeekdayParams["font"] is None:
+		dcalWinWeekdayParams["font"] = getFont(1.0)
+
 
 def getHolidaysJdList(startJd, endJd):
 	jdList = []
@@ -707,6 +715,14 @@ dcalTypeParams = [  # FIXME
 		"color": (0, 200, 205),
 	},
 ]
+dcalWeekdayParams = {
+	"enable": False,
+	"pos": (0, 0),
+	"xalign": "right",
+	"yalign": "top",
+	"font": None,
+	"color": (0, 200, 205),
+}
 
 dcalWinTypeParams = [
 	{
@@ -731,6 +747,14 @@ dcalWinTypeParams = [
 		"color": (0, 200, 205),
 	},
 ]
+dcalWinWeekdayParams = {
+	"enable": False,
+	"pos": (0, 0),
+	"xalign": "right",
+	"yalign": "top",
+	"font": None,
+	"color": (0, 200, 205),
+}
 
 
 def getActiveMonthCalParams():

@@ -75,7 +75,7 @@ class CalObj(gtk.DrawingArea, CalBase):
 		self.queue_draw()
 
 	def updateTypeParamsWidget(self):
-		from scal3.ui_gtk.cal_type_params import CalTypeParamBox
+		from scal3.ui_gtk.cal_type_params import CalTypeParamFrame
 		try:
 			vbox = self.typeParamsVbox
 		except AttributeError:
@@ -91,21 +91,21 @@ class CalObj(gtk.DrawingArea, CalBase):
 				"color": ui.textColor,
 			})
 		sgroupLabel = gtk.SizeGroup(mode=gtk.SizeGroupMode.HORIZONTAL)
-		for i, calType in enumerate(calTypes.active):
+		for index, calType in enumerate(calTypes.active):
 			#try:
-			params = ui.mcalTypeParams[i]
+			params = ui.mcalTypeParams[index]
 			#except IndexError:
 			##
-			hbox = CalTypeParamBox(
+			frame = CalTypeParamFrame(
 				"mcalTypeParams",
 				self,
-				i,
-				calType,
 				params,
-				sgroupLabel,
-				hasEnable=(i > 0),
+				sgroupLabel=sgroupLabel,
+				index=index,
+				calType=calType,
+				hasEnable=(index > 0),
 			)
-			pack(vbox, hbox)
+			pack(vbox, frame)
 		###
 		vbox.show_all()
 

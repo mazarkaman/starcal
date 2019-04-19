@@ -87,28 +87,29 @@ class YAlignComboBox(gtk.ComboBoxText):
 		else:
 			self.set_active(1)
 
-class CalTypeParamBox(gtk.Frame):
-	def __init__(self, paramName, cal, index, calType, params, sgroupLabel, hasEnable=False, hasAlign=False):
+class TextParamFrame(gtk.Frame):
+	def __init__(self, paramName, cal, params, sgroupLabel=None, desc=None, hasEnable=False, hasAlign=False):
 		from scal3.ui_gtk.mywidgets.multi_spin.float_num import FloatSpinButton
 		from scal3.ui_gtk.mywidgets import MyFontButton, MyColorButton
+		if desc is None:
+			raise ValueError("desc is None")
+		###
 		gtk.Frame.__init__(self)
+		###
 		self.set_border_width(5)
 		self.paramName = paramName
 		self.cal = cal
-		self.index = index
-		self.calType = calType
 		self.hasEnable = hasEnable
 		self.hasAlign = hasAlign
 		####
-		module, ok = calTypes[calType]
-		if not ok:
-			raise RuntimeError("cal type %r not found" % calType)
+		if sgroupLabel is None:
+			sgroupLabel = gtk.SizeGroup(mode=gtk.SizeGroupMode.HORIZONTAL)
 		####
 		if hasEnable:
-			self.enableCheck = gtk.CheckButton(label=_(module.desc))
+			self.enableCheck = gtk.CheckButton(label=desc)
 			self.set_label_widget(self.enableCheck)
 		else:
-			self.set_label(_(module.desc))
+			self.set_label(desc)
 		####
 		vbox = gtk.VBox()
 		vbox.set_border_width(5)
@@ -197,6 +198,30 @@ class CalTypeParamBox(gtk.Frame):
 		if self.hasAlign:
 			self.xalignCombo.set(params.get("xalign", "center"))
 			self.yalignCombo.set(params.get("yalign", "center"))
+
+	def onChange(self, obj=None, event=None):
+		setattr(ui, self.paramName, self.get())
+		self.cal.queue_draw()
+
+
+class CalTypeParamFrame(TextParamFrame):
+	def __init__(self, *args, **kwargs):
+		index = kwargs.get("index")
+		if index is None:
+			raise ValueError("index is None")
+		del kwargs["index"]
+		self.index = index
+		####
+		calType = kwargs.get("calType")
+		if calType is None:
+			raise ValueError("calType is None")
+		del kwargs["calType"]
+		module, ok = calTypes[calType]
+		if not ok:
+			raise RuntimeError("cal type %r not found" % calType)
+		kwargs["desc"] = _(module.desc)
+		####
+		TextParamFrame.__init__(self, *args, **kwargs)
 
 	def onChange(self, obj=None, event=None):
 		typeParams = getattr(ui, self.paramName)

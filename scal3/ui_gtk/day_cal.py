@@ -51,6 +51,7 @@ class DayCal(gtk.DrawingArea, CalBase):
 	backgroundColorParam = ""
 	heightParam = ""
 	typeParamsParam = ""
+	weekdayParamsParam = ""
 	buttonsEnableParam = ""
 	buttonsParam = ""
 
@@ -79,6 +80,9 @@ class DayCal(gtk.DrawingArea, CalBase):
 
 	def getTypeParams(self):
 		return getattr(ui, self.typeParamsParam)
+
+	def getWeekDayParams(self):
+		return getattr(ui, self.weekdayParamsParam)
 
 	def getButtonsEnable(self):
 		return getattr(ui, self.buttonsEnableParam)
@@ -125,7 +129,7 @@ class DayCal(gtk.DrawingArea, CalBase):
 			ui.mainWin.customizeShow()
 
 	def updateTypeParamsWidget(self):
-		from scal3.ui_gtk.cal_type_params import CalTypeParamBox
+		from scal3.ui_gtk.cal_type_params import CalTypeParamFrame
 		if not self.typeParamsParam:
 			return
 		typeParams = self.getTypeParams()
@@ -145,22 +149,22 @@ class DayCal(gtk.DrawingArea, CalBase):
 			})
 		sgroupLabel = gtk.SizeGroup(mode=gtk.SizeGroupMode.HORIZONTAL)
 		sgroupFont = gtk.SizeGroup(mode=gtk.SizeGroupMode.HORIZONTAL)
-		for i, calType in enumerate(calTypes.active):
+		for index, calType in enumerate(calTypes.active):
 			#try:
-			params = typeParams[i]
+			params = typeParams[index]
 			#except IndexError:
 			##
-			hbox = CalTypeParamBox(
+			frame = CalTypeParamFrame(
 				self.typeParamsParam,
 				self,
-				i,
-				calType,
 				params,
-				sgroupLabel,
-				hasEnable=(i > 0),
+				sgroupLabel=sgroupLabel,
+				index=index,
+				calType=calType,
+				hasEnable=(index > 0),
 				hasAlign=True,
 			)
-			pack(vbox, hbox)
+			pack(vbox, frame)
 		###
 		vbox.show_all()
 
@@ -184,6 +188,7 @@ class DayCal(gtk.DrawingArea, CalBase):
 	def optionsWidgetCreate(self):
 		from scal3.ui_gtk.pref_utils import LiveLabelSpinPrefItem, SpinPrefItem, \
 			CheckPrefItem, ColorPrefItem, LiveCheckPrefItem, LiveColorPrefItem
+		from scal3.ui_gtk.cal_type_params import TextParamFrame
 		if self.optionsWidget:
 			return
 		self.optionsWidget = gtk.VBox()
@@ -223,8 +228,22 @@ class DayCal(gtk.DrawingArea, CalBase):
 		frame.add(self.typeParamsVbox)
 		frame.show_all()
 		pack(self.optionsWidget, frame)
+		self.updateTypeParamsWidget()
+		####
+		if self.weekdayParamsParam:
+			params = self.getWeekDayParams()
+			frame = TextParamFrame(
+				self.weekdayParamsParam,
+				self,
+				params,
+				sgroupLabel=None,
+				desc=_("Week Day"),
+				hasEnable=True,
+				hasAlign=True,
+			)
+			pack(self.optionsWidget, frame)
+		####
 		self.optionsWidget.show_all()
-		self.updateTypeParamsWidget()## FIXME
 
 	def getRenderPos(self, params, x0, y0, w, h, fontw, fonth):
 		xalign = params.get("xalign")
@@ -330,6 +349,17 @@ class DayCal(gtk.DrawingArea, CalBase):
 			font_x, font_y = self.getRenderPos(params, x0, y0, w, h, fontw, fonth)
 			cr.move_to(font_x, font_y)
 			show_layout(cr, daynum)
+
+		if self.weekdayParamsParam:
+			params = self.getWeekDayParams()
+			if params.get("enable", True):
+				text = core.weekDayName[c.weekDay]
+				daynum = newTextLayout(self, text, params["font"])
+				fontw, fonth = daynum.get_pixel_size()
+				setColor(cr, params["color"])
+				font_x, font_y = self.getRenderPos(params, x0, y0, w, h, fontw, fonth)
+				cr.move_to(font_x, font_y)
+				show_layout(cr, daynum)
 
 		if self.getButtonsEnable():
 			for button in self.getButtons():
