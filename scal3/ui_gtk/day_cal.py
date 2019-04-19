@@ -221,13 +221,8 @@ class DayCal(gtk.DrawingArea, CalBase):
 		)
 		pack(self.optionsWidget, prefItem.getWidget())
 		########
-		frame = gtk.Frame()
-		frame.set_label(_("Calendars"))
-		frame.set_border_width(5)
 		self.typeParamsVbox = gtk.VBox()
-		frame.add(self.typeParamsVbox)
-		frame.show_all()
-		pack(self.optionsWidget, frame)
+		pack(self.optionsWidget, self.typeParamsVbox)
 		self.updateTypeParamsWidget()
 		####
 		if self.weekdayParamsParam:
