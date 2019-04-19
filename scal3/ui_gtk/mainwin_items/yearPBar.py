@@ -15,6 +15,7 @@ class CalObj(MyProgressBar, CustomizableCalObj):
 	_name = "yearPBar"
 	desc = _("Year Progress Bar")
 	itemListCustomizable = False
+	hasOptions = False
 
 	def __init__(self):
 		MyProgressBar.__init__(self)

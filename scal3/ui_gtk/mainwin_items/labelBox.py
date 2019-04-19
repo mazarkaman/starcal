@@ -524,6 +524,7 @@ class CalObj(gtk.HBox, CustomizableCalObj):
 	_name = "labelBox"
 	desc = _("Year & Month Labels")
 	itemListCustomizable = False
+	hasOptions = False
 
 	def __init__(self):
 		gtk.HBox.__init__(self)

@@ -12,6 +12,7 @@ from scal3.ui_gtk.customize import CustomizableCalObj, CustomizableCalBox
 
 @registerSignals
 class WinConButton(gtk.EventBox, CustomizableCalObj):
+	hasOptions = False
 	expand = False
 	imageName = ""
 	imageNameFocus = ""

@@ -41,6 +41,8 @@ if "mainMenu" not in dict(ud.wcalToolbarData["items"]):
 @registerSignals
 class DummyCalObj(Object):
 	loaded = False
+	itemListCustomizable = False
+	hasOptions = False
 	signals = [
 		("config-change", []),
 		("date-change", []),
@@ -86,6 +88,7 @@ class DummyCalObj(Object):
 class CustomizableCalObj(ud.BaseCalObj):
 	customizable = True
 	itemListCustomizable = True
+	hasOptions = True
 	expand = False
 	params = ()
 	myKeys = ()

@@ -15,6 +15,7 @@ from scal3.ui_gtk.customize import CustomizableCalObj
 
 @registerSignals
 class ToolbarItem(gtk.ToolButton, CustomizableCalObj):
+	hasOptions = False
 	def __init__(
 		self,
 		name,

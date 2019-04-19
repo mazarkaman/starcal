@@ -34,6 +34,7 @@ from scal3.ui_gtk.utils import (
 	set_tooltip,
 	dialog_add_button,
 	showInfo,
+	pixbufFromFile,
 )
 from scal3.ui_gtk.tree_utils import tree_path_split
 from scal3.ui_gtk.stack import MyStack
@@ -69,44 +70,42 @@ class CustomizeDialog(gtk.Dialog):
 		# column 0: bool: enable
 		# column 1: str: unique pageName (dot separated)
 		# column 2: str: desc
-		model = gtk.ListStore(bool, str, str)
+		# column 3: Pixbuf: settings icon
+		model = gtk.ListStore(bool, str, str, GdkPixbuf.Pixbuf)
 		treev = gtk.TreeView(model=model)
 		treev.scalItem = parentItem
 		treev.pageName = pageName
 		##
-		treev.set_enable_tree_lines(True)
 		treev.set_headers_visible(False)
-		treev.connect("row-activated", self.rowActivated, parentItem)
-		##
-		col = gtk.TreeViewColumn("Widget")
-		##
+		treev.connect("button-press-event", self.treeviewButtonPress)
+		treev.connect("row-activated", self.rowActivated)
+		######
 		cell = gtk.CellRendererToggle()
+		col = gtk.TreeViewColumn(title="", cell_renderer=cell, active=0)
+		col.set_property("expand", False)
 		cell.connect("toggled", self.enableCellToggled, treev)
-		pack(col, cell)
-		col.add_attribute(cell, "active", 0)
-		col.set_property("expand", False)
-		##
 		treev.append_column(col)
-		col = gtk.TreeViewColumn("Widget")
-		col.set_property("expand", False)
-		##
-		cell = gtk.CellRendererText()
-		pack(col, cell)
-		col.add_attribute(cell, "text", 2)
+		#####
+		col = gtk.TreeViewColumn(title="Widget", cell_renderer=gtk.CellRendererText(), text=2)
 		col.set_property("expand", True)
-		##
 		treev.append_column(col)
-		###
+		#####
+		col = gtk.TreeViewColumn(title="S", cell_renderer=gtk.CellRendererPixbuf(), pixbuf=3)
+		col.set_property("expand", False)
+		treev.append_column(col)
+		#####
 		for item in parentItem.items:
 			pageName = parentItem._name + "." + item._name
 			if item.customizable:
-				itemIter = model.append(None)
-				model.set(
-					itemIter,
-					0, item.enable,
-					1, pageName,
-					2, item.desc,
-				)
+				pixbuf = None
+				if item.hasOptions or (item.itemListCustomizable and item.items):
+					pixbuf = pixbufFromFile("gtk-edit.png")
+				model.append([
+					item.enable,
+					pageName,
+					item.desc,
+					pixbuf,
+				])
 		###
 		hbox = gtk.HBox()
 		vbox_l = gtk.VBox()
@@ -190,10 +189,10 @@ class CustomizeDialog(gtk.Dialog):
 			return
 		item = parentItem.items[itemIndex]
 		###
-		if item.customizable and not item.optionsWidget:
+		if item.hasOptions:
 			item.optionsWidgetCreate()
 		vbox = gtk.VBox()
-		if item.itemListCustomizable:
+		if item.itemListCustomizable and item.items:
 			treev, childrenBox = self.newItemList(pageName, item)
 			childrenBox.show_all()
 			pack(vbox, childrenBox)
@@ -201,13 +200,27 @@ class CustomizeDialog(gtk.Dialog):
 			pack(vbox, item.optionsWidget, 0, 0)
 		self.stack.addPage(pageName, parentPageName, vbox, desc=item.desc)
 
+	def treeviewButtonPress(self, treev, gevent):
+		if gevent.button != 1:
+			return False
+		pos_t = treev.get_path_at_pos(int(gevent.x), int(gevent.y))
+		if not pos_t:
+			return False
+		# pos_t == path, col, xRel, yRel
+		path = pos_t[0]
+		col = pos_t[1]
+		cell = col.get_cells()[0]
+		if isinstance(cell, gtk.CellRendererPixbuf):
+			self.rowActivated(treev, path, col)
+		return False
+
 	def rowActivated(
 		self,
 		treev: gtk.TreeView,
 		path: gtk.TreePath,
 		col: gtk.TreeViewColumn,
-		parentItem: "CustomizableCalObj",
 	):
+		parentItem = treev.scalItem
 		model = treev.get_model()
 		itemIter = model.get_iter(path)
 		pageName = model.get_value(itemIter, 1)
