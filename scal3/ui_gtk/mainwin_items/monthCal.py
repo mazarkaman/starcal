@@ -49,6 +49,7 @@ from scal3.ui_gtk.cal_base import CalBase
 class CalObj(gtk.DrawingArea, CalBase):
 	_name = "monthCal"
 	desc = _("Month Calendar")
+	itemListCustomizable = False
 	cx = [0, 0, 0, 0, 0, 0, 0]
 	myKeys = CalBase.myKeys + (
 		"up", "down",

@@ -37,6 +37,7 @@ from scal3.ui_gtk import gtk_ud as ud
 class DayOccurrenceView(gtk.ScrolledWindow, ud.BaseCalObj):
 	_name = "eventDayView"
 	desc = _("Events of Day")
+	itemListCustomizable = False
 
 	def updateData(self):
 		return self.updateDataByGroups(ui.eventGroups)

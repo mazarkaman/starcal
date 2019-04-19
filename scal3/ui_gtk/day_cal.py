@@ -47,6 +47,7 @@ from scal3.ui_gtk.cal_base import CalBase
 class DayCal(gtk.DrawingArea, CalBase):
 	_name = "dayCal"
 	desc = _("Day Calendar")
+	itemListCustomizable = False
 	backgroundColorParam = ""
 	heightParam = ""
 	typeParamsParam = ""

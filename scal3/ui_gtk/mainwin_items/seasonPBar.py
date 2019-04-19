@@ -14,6 +14,7 @@ from scal3.ui_gtk.customize import CustomizableCalObj
 class CalObj(MyProgressBar, CustomizableCalObj):
 	_name = "seasonPBar"
 	desc = _("Season Progress Bar")
+	itemListCustomizable = False
 
 	def __init__(self):
 		MyProgressBar.__init__(self)

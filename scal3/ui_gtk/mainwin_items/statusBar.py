@@ -16,6 +16,7 @@ from scal3.ui_gtk.customize import CustomizableCalObj
 class CalObj(gtk.HBox, CustomizableCalObj):
 	_name = "statusBar"
 	desc = _("Status Bar")
+	itemListCustomizable = False
 
 	def __init__(self):
 		from scal3.ui_gtk.mywidgets.resize_button import ResizeButton

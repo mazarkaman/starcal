@@ -193,13 +193,7 @@ class CustomizeDialog(gtk.Dialog):
 		if item.customizable and not item.optionsWidget:
 			item.optionsWidgetCreate()
 		vbox = gtk.VBox()
-		showChildList = False
-		for child in item.items:
-			if child.customizable:
-				showChildList = True
-				break
-		# print("customizable=%s, len(items)=%s, showChildList=%s" % (item.customizable, len(item.items), showChildList))
-		if showChildList:
+		if item.itemListCustomizable:
 			treev, childrenBox = self.newItemList(pageName, item)
 			childrenBox.show_all()
 			pack(vbox, childrenBox)

@@ -85,6 +85,7 @@ class DummyCalObj(Object):
 
 class CustomizableCalObj(ud.BaseCalObj):
 	customizable = True
+	itemListCustomizable = True
 	expand = False
 	params = ()
 	myKeys = ()

@@ -523,6 +523,7 @@ class MonthLabelButtonBox(gtk.HBox, ud.BaseCalObj):
 class CalObj(gtk.HBox, CustomizableCalObj):
 	_name = "labelBox"
 	desc = _("Year & Month Labels")
+	itemListCustomizable = False
 
 	def __init__(self):
 		gtk.HBox.__init__(self)

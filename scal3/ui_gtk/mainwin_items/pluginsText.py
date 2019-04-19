@@ -12,6 +12,7 @@ from scal3.ui_gtk.customize import CustomizableCalObj
 class CalObj(gtk.VBox, CustomizableCalObj):
 	_name = "pluginsText"
 	desc = _("Plugins Text")
+	itemListCustomizable = False
 
 	def __init__(self):
 		from scal3.ui_gtk.mywidgets.text_widgets import ReadOnlyTextView
