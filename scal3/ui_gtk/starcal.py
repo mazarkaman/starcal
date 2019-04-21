@@ -1293,7 +1293,7 @@ class MainWin(gtk.ApplicationWindow, ud.BaseCalObj):
 		if not ui.dayCalWin:
 			from scal3.ui_gtk.day_cal_window import DayCalWindow
 			ui.dayCalWin = DayCalWindow()
-		openWindow(ui.dayCalWin)
+		ui.dayCalWin.present()
 
 	def timeLineShow(self, obj=None, data=None):
 		if not ui.timeLineWin:
