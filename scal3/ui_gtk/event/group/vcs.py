@@ -14,7 +14,7 @@ class WidgetClass(BaseWidgetClass):
 		####
 		hbox = gtk.HBox()
 		label = gtk.Label(label=_("Commit Description"))
-		label.set_alignment(0, 0.5)
+		label.set_xalign(0)
 		self.sizeGroup.add_widget(label)
 		pack(hbox, label)
 		##

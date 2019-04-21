@@ -45,7 +45,7 @@ class WidgetClass(common.WidgetClass):
 		self.ruleAddBox = gtk.HBox()
 		self.warnLabel = gtk.Label()
 		self.warnLabel.modify_fg(gtk.StateType.NORMAL, gdk.Color(65535, 0, 0))
-		self.warnLabel.set_alignment(0, 0.5)
+		self.warnLabel.set_xalign(0)
 		#self.warnLabel.set_visible(False)## FIXME
 		###########
 		self.rulesFrame = gtk.Frame()
@@ -87,7 +87,7 @@ class WidgetClass(common.WidgetClass):
 	def makeRuleHbox(self, rule):
 		hbox = gtk.HBox(spacing=5)
 		lab = gtk.Label(label=rule.desc)
-		lab.set_alignment(0, 0.5)
+		lab.set_xalign(0)
 		pack(hbox, lab)
 		self.groups[rule.sgroup].add_widget(lab)
 		#pack(hbox, gtk.Label(label=""), 1, 1)

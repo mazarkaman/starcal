@@ -38,7 +38,7 @@ class TrashEditorDialog(gtk.Dialog):
 		#######
 		hbox = gtk.HBox()
 		label = gtk.Label(label=_("Title"))
-		label.set_alignment(0, 0.5)
+		label.set_xalign(0)
 		pack(hbox, label)
 		sizeGroup.add_widget(label)
 		self.titleEntry = gtk.Entry()
@@ -47,7 +47,7 @@ class TrashEditorDialog(gtk.Dialog):
 		####
 		hbox = gtk.HBox()
 		label = gtk.Label(label=_("Icon"))
-		label.set_alignment(0, 0.5)
+		label.set_xalign(0)
 		pack(hbox, label)
 		sizeGroup.add_widget(label)
 		self.iconSelect = IconSelectButton()

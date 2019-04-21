@@ -129,7 +129,7 @@ class MonthLabel(BaseLabel, ud.BaseCalObj):
 			label = item.get_child()
 			label.set_label(text)
 			#label.set_justify(gtk.Justification.LEFT)
-			label.set_alignment(0, 0.5)
+			label.set_xalign(0)
 			label.set_use_markup(True)
 			item.set_right_justified(True) ##?????????
 			item.connect("activate", self.itemActivate, i)

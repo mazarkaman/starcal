@@ -13,7 +13,7 @@ class VcsBaseWidgetClass(NormalWidgetClass):
 		######
 		hbox = gtk.HBox()
 		label = gtk.Label(label=_("VCS Type"))
-		label.set_alignment(0, 0.5)
+		label.set_xalign(0)
 		self.sizeGroup.add_widget(label)
 		pack(hbox, label)
 		self.vcsTypeCombo = gtk.ComboBoxText()
@@ -24,7 +24,7 @@ class VcsBaseWidgetClass(NormalWidgetClass):
 		######
 		hbox = gtk.HBox()
 		label = gtk.Label(label=_("Directory"))
-		label.set_alignment(0, 0.5)
+		label.set_xalign(0)
 		self.sizeGroup.add_widget(label)
 		pack(hbox, label)
 		self.dirEntry = gtk.Entry()

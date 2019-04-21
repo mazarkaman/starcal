@@ -18,7 +18,7 @@ class WidgetClass(BaseWidgetClass):
 		####
 		hbox = gtk.HBox()
 		label = gtk.Label(label=_("Start"))
-		label.set_alignment(0, 0.5)
+		label.set_xalign(0)
 		pack(hbox, label)
 		self.sizeGroup.add_widget(label)
 		self.startDateInput = DateButton()
@@ -27,7 +27,7 @@ class WidgetClass(BaseWidgetClass):
 		###
 		hbox = gtk.HBox()
 		label = gtk.Label(label=_("End"))
-		label.set_alignment(0, 0.5)
+		label.set_xalign(0)
 		pack(hbox, label)
 		self.sizeGroup.add_widget(label)
 		self.endDateInput = DateButton()
@@ -42,7 +42,7 @@ class WidgetClass(BaseWidgetClass):
 		##
 		hbox = gtk.HBox()
 		label = gtk.Label(label=_("Account"))
-		label.set_alignment(0, 0.5)
+		label.set_xalign(0)
 		pack(hbox, label)
 		sizeGroup.add_widget(label) ## FIXME
 		self.accountCombo = AccountCombo()
@@ -51,7 +51,7 @@ class WidgetClass(BaseWidgetClass):
 		##
 		hbox = gtk.HBox()
 		label = gtk.Label(label=_("Remote Group"))
-		label.set_alignment(0, 0.5)
+		label.set_xalign(0)
 		pack(hbox, label)
 		sizeGroup.add_widget(label) ## FIXME
 		accountGroupBox = AccountGroupBox(self.accountCombo)

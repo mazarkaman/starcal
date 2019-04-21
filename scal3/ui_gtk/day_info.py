@@ -51,7 +51,7 @@ class AllDateLabelsVBox(gtk.VBox, ud.BaseCalObj):
 		for i, module in calTypes.iterIndexModule():
 			hbox = gtk.HBox()
 			label = gtk.Label(label=_(module.desc))
-			label.set_alignment(0, 0.5)
+			label.set_xalign(0)
 			pack(hbox, label)
 			sgroup.add_widget(label)
 			pack(hbox, gtk.Label(label="  "))

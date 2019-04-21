@@ -750,7 +750,7 @@ class WcalTypeParamBox(gtk.HBox):
 		if not ok:
 			raise RuntimeError("cal type %r not found" % calType)
 		label = gtk.Label(label=_(module.desc) + "  ")
-		label.set_alignment(0, 0.5)
+		label.set_xalign(0)
 		pack(self, label)
 		sgroupLabel.add_widget(label)
 		###

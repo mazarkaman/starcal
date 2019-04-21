@@ -39,7 +39,7 @@ class WidgetClass(common.WidgetClass):
 		######
 		hbox = gtk.HBox()
 		label = gtk.Label(label=_("Start"))
-		label.set_alignment(0, 0.5)
+		label.set_xalign(0)
 		sizeGroup.add_widget(label)
 		pack(hbox, label)
 		self.startDateInput = DateButton()
@@ -50,7 +50,7 @@ class WidgetClass(common.WidgetClass):
 		######
 		hbox = gtk.HBox()
 		label = gtk.Label(label=_("End"))
-		label.set_alignment(0, 0.5)
+		label.set_xalign(0)
 		sizeGroup.add_widget(label)
 		pack(hbox, label)
 		self.endDateInput = DateButton()
@@ -61,7 +61,7 @@ class WidgetClass(common.WidgetClass):
 		######
 		hbox = gtk.HBox()
 		label = gtk.Label(label=_("Day of Month"))
-		label.set_alignment(0, 0.5)
+		label.set_xalign(0)
 		sizeGroup.add_widget(label)
 		pack(hbox, label)
 		self.daySpin = DaySpinButton()
@@ -72,7 +72,7 @@ class WidgetClass(common.WidgetClass):
 		#########
 		hbox = gtk.HBox()
 		label = gtk.Label(label=_("Time"))
-		label.set_alignment(0, 0.5)
+		label.set_xalign(0)
 		sizeGroup.add_widget(label)
 		pack(hbox, label)
 		##

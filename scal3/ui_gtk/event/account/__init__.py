@@ -23,7 +23,7 @@ class BaseWidgetClass(gtk.VBox):
 		#####
 		hbox = gtk.HBox()
 		label = gtk.Label(label=_("Title"))
-		label.set_alignment(0, 0.5)
+		label.set_xalign(0)
 		pack(hbox, label)
 		self.sizeGroup.add_widget(label)
 		self.titleEntry = gtk.Entry()
@@ -107,7 +107,7 @@ class AccountGroupBox(gtk.HBox):
 		self.fetchButton = button
 		##
 		label = gtk.Label()
-		label.set_alignment(0.1, 0.5)
+		label.set_xalign(0.1)
 		pack(self, label, 1, 1)
 		self.msgLabel = label
 		###

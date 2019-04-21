@@ -16,7 +16,7 @@ class WidgetClass(NormalWidgetClass):
 		###
 		hbox = gtk.HBox()
 		label = gtk.Label(label=_("Default Task Duration"))
-		label.set_alignment(0, 0.5)
+		label.set_xalign(0)
 		pack(hbox, label)
 		self.sizeGroup.add_widget(label)
 		self.defaultDurationBox = common.DurationInputBox()

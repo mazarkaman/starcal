@@ -58,7 +58,7 @@ class StarCalendarRegisterDialog(gtk.Window, MyDialog):
 		###
 		hbox = gtk.HBox(spacing=5)
 		label = gtk.Label(label=_("Email"))
-		label.set_alignment(0, 0.5)
+		label.set_xalign(0)
 		pack(hbox, label, 0, 0)
 		sgroupLabel.add_widget(label)
 		self.emailEntry = gtk.Entry()
@@ -68,7 +68,7 @@ class StarCalendarRegisterDialog(gtk.Window, MyDialog):
 		###
 		hbox = gtk.HBox(spacing=5)
 		label = gtk.Label(label=_("Password"))
-		label.set_alignment(0, 0.5)
+		label.set_xalign(0)
 		pack(hbox, label, 0, 0)
 		sgroupLabel.add_widget(label)
 		self.passwordEntry = gtk.Entry()
@@ -79,7 +79,7 @@ class StarCalendarRegisterDialog(gtk.Window, MyDialog):
 		###
 		hbox = gtk.HBox(spacing=5)
 		label = gtk.Label(label=_("Repeat Password"))
-		label.set_alignment(0, 0.5)
+		label.set_xalign(0)
 		pack(hbox, label, 0, 0)
 		sgroupLabel.add_widget(label)
 		self.passwordEntry2 = gtk.Entry()
@@ -90,7 +90,7 @@ class StarCalendarRegisterDialog(gtk.Window, MyDialog):
 		###
 		hbox = gtk.HBox(spacing=5)
 		label = gtk.Label(label=_("Name (Optional)"))
-		label.set_alignment(0, 0.5)
+		label.set_xalign(0)
 		pack(hbox, label, 0, 0)
 		sgroupLabel.add_widget(label)
 		self.nameEntry = gtk.Entry()
@@ -100,7 +100,7 @@ class StarCalendarRegisterDialog(gtk.Window, MyDialog):
 		###
 		hbox = gtk.HBox(spacing=5)
 		label = gtk.Label()
-		label.set_alignment(0, 0.5)
+		label.set_xalign(0)
 		# make text color red
 		label.modify_fg(gtk.StateType.NORMAL, gdk.Color(65535, 0, 0))
 		pack(hbox, label, 0, 0)

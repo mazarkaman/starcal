@@ -37,7 +37,7 @@ class WidgetClass(common.WidgetClass):
 		######
 		hbox = gtk.HBox()
 		label = gtk.Label(label=_("Start"))
-		label.set_alignment(0, 0.5)
+		label.set_xalign(0)
 		sizeGroup.add_widget(label)
 		pack(hbox, label)
 		self.startDateInput = DateButton()

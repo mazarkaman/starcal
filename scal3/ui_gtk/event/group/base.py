@@ -40,7 +40,7 @@ class BaseWidgetClass(gtk.VBox):
 		#####
 		hbox = gtk.HBox()
 		label = gtk.Label(label=_("Title"))
-		label.set_alignment(0, 0.5)
+		label.set_xalign(0)
 		pack(hbox, label)
 		self.sizeGroup.add_widget(label)
 		self.titleEntry = gtk.Entry()
@@ -49,7 +49,7 @@ class BaseWidgetClass(gtk.VBox):
 		#####
 		hbox = gtk.HBox()
 		label = gtk.Label(label=_("Color"))
-		label.set_alignment(0, 0.5)
+		label.set_xalign(0)
 		pack(hbox, label)
 		self.sizeGroup.add_widget(label)
 		self.colorButton = MyColorButton()
@@ -59,7 +59,7 @@ class BaseWidgetClass(gtk.VBox):
 		#####
 		hbox = gtk.HBox()
 		label = gtk.Label(label=_("Default Icon"))## FIXME
-		label.set_alignment(0, 0.5)
+		label.set_xalign(0)
 		pack(hbox, label)
 		self.sizeGroup.add_widget(label)
 		self.iconSelect = IconSelectButton()
@@ -68,7 +68,7 @@ class BaseWidgetClass(gtk.VBox):
 		#####
 		hbox = gtk.HBox()
 		label = gtk.Label(label=_("Default Calendar Type"))
-		label.set_alignment(0, 0.5)
+		label.set_xalign(0)
 		pack(hbox, label)
 		self.sizeGroup.add_widget(label)
 		combo = CalTypeCombo()
@@ -93,7 +93,7 @@ class BaseWidgetClass(gtk.VBox):
 		#####
 		hbox = gtk.HBox()
 		label = gtk.Label(label=_("Show in Calendar"))
-		label.set_alignment(0, 0.5)
+		label.set_xalign(0)
 		pack(hbox, label)
 		self.sizeGroup.add_widget(label)
 		self.showInDCalCheck = gtk.CheckButton(label=_("Day"))
@@ -109,7 +109,7 @@ class BaseWidgetClass(gtk.VBox):
 		#####
 		hbox = gtk.HBox()
 		label = gtk.Label(label=_("Show in"))
-		label.set_alignment(0, 0.5)
+		label.set_xalign(0)
 		pack(hbox, label)
 		self.sizeGroup.add_widget(label)
 		self.showInTimeLineCheck = gtk.CheckButton(label=_("Time Line"))
@@ -122,7 +122,7 @@ class BaseWidgetClass(gtk.VBox):
 		#####
 		hbox = gtk.HBox()
 		label = gtk.Label(label=_("Event Cache Size"))
-		label.set_alignment(0, 0.5)
+		label.set_xalign(0)
 		pack(hbox, label)
 		self.sizeGroup.add_widget(label)
 		self.cacheSizeSpin = IntSpinButton(0, 9999)
@@ -131,7 +131,7 @@ class BaseWidgetClass(gtk.VBox):
 		#####
 		hbox = gtk.HBox()
 		label = gtk.Label(label=_("Event Text Seperator"))
-		label.set_alignment(0, 0.5)
+		label.set_xalign(0)
 		pack(hbox, label)
 		self.sizeGroup.add_widget(label)
 		self.sepInput = TextFrame()
@@ -143,7 +143,7 @@ class BaseWidgetClass(gtk.VBox):
 		#####
 		#hbox = gtk.HBox()
 		#label = gtk.Label(label=_("Show Full Event Description"))
-		#label.set_alignment(0, 0.5)
+		#label.set_xalign(0)
 		#pack(hbox, label)
 		#self.sizeGroup.add_widget(label)
 		#self.showFullEventDescCheck = gtk.CheckButton(label="")

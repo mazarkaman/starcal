@@ -54,7 +54,7 @@ class WidgetClass(gtk.VBox):
 		##
 		hbox = gtk.HBox()
 		label = gtk.Label(label=_("Course"))
-		label.set_alignment(0, 0.5)
+		label.set_xalign(0)
 		sizeGroup.add_widget(label)
 		pack(hbox, label)
 		pack(hbox, combo)
@@ -63,7 +63,7 @@ class WidgetClass(gtk.VBox):
 		#####
 		hbox = gtk.HBox()
 		label = gtk.Label(label=_("Date"))
-		label.set_alignment(0, 0.5)
+		label.set_xalign(0)
 		sizeGroup.add_widget(label)
 		pack(hbox, label)
 		self.dateInput = DateButton()
@@ -72,7 +72,7 @@ class WidgetClass(gtk.VBox):
 		#####
 		hbox = gtk.HBox()
 		label = gtk.Label(label=_("Time"))
-		label.set_alignment(0, 0.5)
+		label.set_xalign(0)
 		sizeGroup.add_widget(label)
 		pack(hbox, label)
 		##
@@ -89,7 +89,7 @@ class WidgetClass(gtk.VBox):
 		###########
 		#hbox = gtk.HBox()
 		#label = gtk.Label(label=_("Summary"))
-		#label.set_alignment(0, 0.5)
+		#label.set_xalign(0)
 		#sizeGroup.add_widget(label)
 		#pack(hbox, label)
 		#self.summaryEntry = gtk.Entry()
@@ -98,7 +98,7 @@ class WidgetClass(gtk.VBox):
 		#####
 		hbox = gtk.HBox()
 		label = gtk.Label(label=_("Description"))
-		label.set_alignment(0, 0.5)
+		label.set_xalign(0)
 		sizeGroup.add_widget(label)
 		pack(hbox, label)
 		self.descriptionInput = TextFrame()
@@ -107,7 +107,7 @@ class WidgetClass(gtk.VBox):
 		#####
 		hbox = gtk.HBox()
 		label = gtk.Label(label=_("Icon"))
-		label.set_alignment(0, 0.5)
+		label.set_xalign(0)
 		sizeGroup.add_widget(label)
 		pack(hbox, label)
 		self.iconSelect = IconSelectButton()

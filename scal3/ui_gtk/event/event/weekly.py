@@ -38,7 +38,7 @@ class WidgetClass(common.WidgetClass):
 		######
 		hbox = gtk.HBox()
 		label = gtk.Label(label=_("Start"))
-		label.set_alignment(0, 0.5)
+		label.set_xalign(0)
 		sizeGroup.add_widget(label)
 		pack(hbox, label)
 		self.startDateInput = DateButton()
@@ -49,7 +49,7 @@ class WidgetClass(common.WidgetClass):
 		######
 		hbox = gtk.HBox()
 		label = gtk.Label(label=_("Repeat Every "))
-		label.set_alignment(0, 0.5)
+		label.set_xalign(0)
 		sizeGroup.add_widget(label)
 		pack(hbox, label)
 		self.weeksSpin = IntSpinButton(1, 99999)
@@ -61,7 +61,7 @@ class WidgetClass(common.WidgetClass):
 		######
 		hbox = gtk.HBox()
 		label = gtk.Label(label=_("End"))
-		label.set_alignment(0, 0.5)
+		label.set_xalign(0)
 		sizeGroup.add_widget(label)
 		pack(hbox, label)
 		self.endDateInput = DateButton()
@@ -72,7 +72,7 @@ class WidgetClass(common.WidgetClass):
 		#########
 		hbox = gtk.HBox()
 		label = gtk.Label(label=_("Time"))
-		label.set_alignment(0, 0.5)
+		label.set_xalign(0)
 		sizeGroup.add_widget(label)
 		pack(hbox, label)
 		##
