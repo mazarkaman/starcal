@@ -32,7 +32,7 @@ class WidgetClass(gtk.HBox):
 		gtk.HBox.__init__(self)
 		# [_] Fill Screen Width   Speed [__]   BG Color [__]  Text Color [__]
 		##
-		self.fillWidthCb = gtk.CheckButton(_("Fill Width"))
+		self.fillWidthCb = gtk.CheckButton(label=_("Fill Width"))
 		pack(self, self.fillWidthCb)
 		pack(self, gtk.Label(label=""), 1, 1)
 		##

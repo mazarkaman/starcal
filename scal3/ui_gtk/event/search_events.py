@@ -69,7 +69,7 @@ class EventSearchWindow(gtk.Window, MyDialog, ud.BaseCalObj):
 		self.textInput = frame
 		##
 		hbox = gtk.HBox()
-		self.textCSensCheck = gtk.CheckButton(_("Case Sensitive"))
+		self.textCSensCheck = gtk.CheckButton(label=_("Case Sensitive"))
 		self.textCSensCheck.set_active(False) ## FIXME
 		pack(hbox, self.textCSensCheck)
 		pack(self.vbox, hbox)
@@ -86,7 +86,7 @@ class EventSearchWindow(gtk.Window, MyDialog, ud.BaseCalObj):
 		####
 		hboxIn = gtk.HBox()
 		##
-		self.timeFromCheck = gtk.CheckButton(_("From"))
+		self.timeFromCheck = gtk.CheckButton(label=_("From"))
 		sgroup.add_widget(self.timeFromCheck)
 		pack(hboxIn, self.timeFromCheck)
 		pack(hboxIn, gtk.Label(label="  "))
@@ -99,7 +99,7 @@ class EventSearchWindow(gtk.Window, MyDialog, ud.BaseCalObj):
 		####
 		hboxIn = gtk.HBox()
 		##
-		self.timeToCheck = gtk.CheckButton(_("To"))
+		self.timeToCheck = gtk.CheckButton(label=_("To"))
 		sgroup.add_widget(self.timeToCheck)
 		pack(hboxIn, self.timeToCheck)
 		pack(hboxIn, gtk.Label(label="  "))
@@ -126,7 +126,7 @@ class EventSearchWindow(gtk.Window, MyDialog, ud.BaseCalObj):
 		######
 		hbox = gtk.HBox()
 		hbox.set_border_width(5)
-		self.modifiedFromCheck = gtk.CheckButton(_("Modified From"))
+		self.modifiedFromCheck = gtk.CheckButton(label=_("Modified From"))
 		pack(hbox, self.modifiedFromCheck)
 		pack(hbox, gtk.Label(label="  "))
 		self.modifiedFromInput = DateTimeButton()
@@ -139,7 +139,7 @@ class EventSearchWindow(gtk.Window, MyDialog, ud.BaseCalObj):
 		######
 		hbox = gtk.HBox()
 		hbox.set_border_width(5)
-		self.typeCheck = gtk.CheckButton(_("Event Type"))
+		self.typeCheck = gtk.CheckButton(label=_("Event Type"))
 		pack(hbox, self.typeCheck)
 		pack(hbox, gtk.Label(label="  "))
 		##
@@ -156,7 +156,7 @@ class EventSearchWindow(gtk.Window, MyDialog, ud.BaseCalObj):
 		######
 		hbox = gtk.HBox()
 		hbox.set_border_width(5)
-		self.groupCheck = gtk.CheckButton(_("Group"))
+		self.groupCheck = gtk.CheckButton(label=_("Group"))
 		pack(hbox, self.groupCheck)
 		pack(hbox, gtk.Label(label="  "))
 		self.groupCombo = SingleGroupComboBox()
@@ -251,7 +251,7 @@ class EventSearchWindow(gtk.Window, MyDialog, ud.BaseCalObj):
 		columnBox = gtk.HBox(spacing=5)
 		pack(columnBox, gtk.Label(label=_("Columns") + ":    "))
 		##
-		check = gtk.CheckButton(_("Group"))
+		check = gtk.CheckButton(label=_("Group"))
 		check.set_active(True)
 		check.connect(
 			"clicked",
@@ -259,7 +259,7 @@ class EventSearchWindow(gtk.Window, MyDialog, ud.BaseCalObj):
 		)
 		pack(columnBox, check)
 		##
-		check = gtk.CheckButton(_("Icon"))
+		check = gtk.CheckButton(label=_("Icon"))
 		check.set_active(True)
 		check.connect(
 			"clicked",
@@ -267,7 +267,7 @@ class EventSearchWindow(gtk.Window, MyDialog, ud.BaseCalObj):
 		)
 		pack(columnBox, check)
 		##
-		check = gtk.CheckButton(_("Summary"))
+		check = gtk.CheckButton(label=_("Summary"))
 		check.set_active(True)
 		check.connect(
 			"clicked",
@@ -275,7 +275,7 @@ class EventSearchWindow(gtk.Window, MyDialog, ud.BaseCalObj):
 		)
 		pack(columnBox, check)
 		##
-		check = gtk.CheckButton(_("Description"))
+		check = gtk.CheckButton(label=_("Description"))
 		check.set_active(showDesc)
 		check.connect(
 			"clicked",

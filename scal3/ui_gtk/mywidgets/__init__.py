@@ -69,7 +69,7 @@ class MyFontButton(gtk.FontButton):
 
 	def dragDataGet(self, fontb, context, selection, target_id, etime):
 		#print("fontButtonDragDataGet")
-		selection.set_text(gfontEncode(fontb.get_font_name()))
+		selection.set_text(gfontEncode(fontb.get_font()))
 		return True
 
 	def dragDataRec(self, fontb, context, x, y, selection, target_id, etime):
@@ -80,12 +80,12 @@ class MyFontButton(gtk.FontButton):
 		if text:
 			pfont = Pango.FontDescription(text)
 			if pfont.get_family() and pfont.get_size() > 0:
-				gtk.FontButton.set_font_name(fontb, text)
+				gtk.FontButton.set_font(fontb, text)
 		return True
 
 	def dragBegin(self, fontb, context, parent):
 		#print("fontBottonDragBegin"## caled before dragCalDataGet)
-		fontName = gtk.FontButton.get_font_name(self)
+		fontName = gtk.FontButton.get_font(self)
 		pbuf = newDndFontNamePixbuf(fontName)
 		w = pbuf.get_width()
 		h = pbuf.get_height()
@@ -97,14 +97,14 @@ class MyFontButton(gtk.FontButton):
 		)
 		return True
 
-	def get_font_name(self):
-		return gfontDecode(gtk.FontButton.get_font_name(self))
+	def get_font(self):
+		return gfontDecode(gtk.FontButton.get_font(self))
 
-	def set_font_name(self, font):
+	def set_font(self, font):
 		if isinstance(font, str):## For compatibility
-			gtk.FontButton.set_font_name(self, font)
+			gtk.FontButton.set_font(self, font)
 		else:
-			gtk.FontButton.set_font_name(self, gfontEncode(font))
+			gtk.FontButton.set_font(self, gfontEncode(font))
 
 
 class MyColorButton(gtk.ColorButton):

@@ -60,7 +60,7 @@ class WidgetClass(BaseWidgetClass):
 		self.accountGroupCombo = accountGroupBox.combo
 		##
 		hbox = gtk.HBox()
-		self.syncCheck = gtk.CheckButton(_("Synchronization Interval"))
+		self.syncCheck = gtk.CheckButton(label=_("Synchronization Interval"))
 		pack(hbox, self.syncCheck)
 		sizeGroup.add_widget(self.syncCheck)
 		self.syncIntervalInput = common.DurationInputBox()

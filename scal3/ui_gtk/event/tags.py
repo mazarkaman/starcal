@@ -85,7 +85,7 @@ class EventTagsAndIconSelect(gtk.HBox):
 		hbox3 = gtk.HBox()
 		self.tagButtons = []
 		for item in ui.eventTags:
-			button = gtk.ToggleButton(item.desc)
+			button = gtk.ToggleButton(label=item.desc)
 			button.tagName = item.name
 			self.tagButtons.append(button)
 			pack(hbox3, button)
@@ -158,7 +158,7 @@ class TagsListBox(gtk.VBox):
 		########
 		if eventType:
 			hbox = gtk.HBox()
-			self.relatedCheck = gtk.CheckButton(_("Only related tags"))
+			self.relatedCheck = gtk.CheckButton(label=_("Only related tags"))
 			set_tooltip(
 				self.relatedCheck,
 				_("Show only tags related to this event type"),

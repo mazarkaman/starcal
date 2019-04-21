@@ -59,7 +59,7 @@ class WeekDayCheckListPrefItem(PrefItem):
 			box = gtk.HBox()
 		box.set_homogeneous(homo)
 		nameList = core.weekDayNameAb if abbreviateNames else core.weekDayName
-		ls = [gtk.ToggleButton(item) for item in nameList]
+		ls = [gtk.ToggleButton(label=item) for item in nameList]
 		s = core.firstWeekDay
 		for i in range(7):
 			pack(box, ls[(s + i) % 7], 1, 1)
@@ -170,7 +170,7 @@ class LangPrefItem(PrefItem):
 
 class CheckStartupPrefItem(PrefItem):  # FIXME
 	def __init__(self):
-		w = gtk.CheckButton(_("Run on session startup"))
+		w = gtk.CheckButton(label=_("Run on session startup"))
 		set_tooltip(
 			w,
 			"Run on startup of Gnome, KDE, Xfce, LXDE, ...\nFile: %s"

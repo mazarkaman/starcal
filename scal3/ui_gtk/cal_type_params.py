@@ -178,7 +178,7 @@ class TextParamFrame(gtk.Frame):
 				self.spinX.get_value(),
 				self.spinY.get_value(),
 			),
-			"font": self.fontb.get_font_name(),
+			"font": self.fontb.get_font(),
 			"color": self.colorb.get_color(),
 		}
 		if self.hasEnable:
@@ -191,7 +191,7 @@ class TextParamFrame(gtk.Frame):
 	def set(self, params):
 		self.spinX.set_value(params["pos"][0])
 		self.spinY.set_value(params["pos"][1])
-		self.fontb.set_font_name(params["font"])
+		self.fontb.set_font(params["font"])
 		self.colorb.set_color(params["color"])
 		if self.hasEnable:
 			self.enableCheck.set_active(params.get("enable", True))

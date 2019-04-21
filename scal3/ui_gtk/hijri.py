@@ -334,7 +334,7 @@ Otherwise, Hijri dates and Iranian official holidays would be incorrect.""")
 		pack(self.vbox, gtk.Label(label=self.message + "\n\n"), 1, 1)
 		###
 		hbox = gtk.HBox()
-		checkb = gtk.CheckButton(_("Don't show this again"))
+		checkb = gtk.CheckButton(label=_("Don't show this again"))
 		pack(hbox, checkb)
 		pack(self.vbox, hbox)
 		self.noShowCheckb = checkb

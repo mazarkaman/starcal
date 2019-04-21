@@ -135,7 +135,8 @@ def labelIconMenuItem(label, iconName="", func=None, *args):
 	return item
 
 def labelImageMenuItem(label, imageName, func=None, *args):
-	item = ImageMenuItem(_(label))
+	# FIXME: ImageMenuItem is deprecated since version 3.10: Use Gtk.MenuItem.new() instead.
+	item = gtk.ImageMenuItem(label=_(label))
 	item.set_use_underline(True)
 	if imageName:
 		item.set_image(imageFromFile(imageName))

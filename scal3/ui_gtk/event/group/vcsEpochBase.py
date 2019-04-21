@@ -16,7 +16,7 @@ class VcsEpochBaseWidgetClass(VcsBaseWidgetClass):
 		self.sizeGroup.add_widget(label)
 		pack(hbox, label)
 		pack(hbox, label)
-		self.showSecondsCheck = gtk.CheckButton("")
+		self.showSecondsCheck = gtk.CheckButton(label="")
 		pack(hbox, self.showSecondsCheck)
 		pack(self, hbox)
 

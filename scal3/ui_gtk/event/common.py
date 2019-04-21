@@ -89,7 +89,7 @@ class WidgetClass(gtk.VBox):
 			self.tzCheck = None
 		else:
 			hbox = gtk.HBox()
-			self.tzCheck = gtk.CheckButton(_("Time Zone"))
+			self.tzCheck = gtk.CheckButton(label=_("Time Zone"))
 			set_tooltip(self.tzCheck, _("For input times of event"))
 			pack(hbox, self.tzCheck)
 			combo = TimeZoneComboBoxEntry()
@@ -297,7 +297,7 @@ class NotificationBox(gtk.Expander):## or NotificationBox FIXME
 				))
 				continue
 			hbox = gtk.HBox()
-			cb = gtk.CheckButton(notifier.desc)
+			cb = gtk.CheckButton(label=notifier.desc)
 			cb.inputWidget = inputWidget
 			cb.connect(
 				"clicked",

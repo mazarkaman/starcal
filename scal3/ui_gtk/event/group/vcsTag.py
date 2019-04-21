@@ -18,7 +18,7 @@ class WidgetClass(BaseWidgetClass):
 		self.sizeGroup.add_widget(label)
 		pack(hbox, label)
 		##
-		self.statCheck = gtk.CheckButton(_("Stat"))
+		self.statCheck = gtk.CheckButton(label=_("Stat"))
 		pack(hbox, self.statCheck)
 		##
 		pack(self, hbox)

@@ -50,7 +50,7 @@ class ModuleOptionItem:
 		self.var_name = opt[0]
 		hbox = gtk.HBox()
 		if t == bool:
-			w = gtk.CheckButton(_(opt[2]))
+			w = gtk.CheckButton(label=_(opt[2]))
 			self.get_value = w.get_active
 			self.set_value = w.set_active
 		elif t == list:
@@ -241,10 +241,10 @@ class FontPrefItem(PrefItem):  # FIXME
 		self._widget = w
 
 	def get(self):
-		return self._widget.get_font_name()  # FIXME
+		return self._widget.get_font()  # FIXME
 
 	def set(self, value):
-		self._widget.set_font_name(value)
+		self._widget.set_font(value)
 
 
 class CheckPrefItem(PrefItem):
@@ -462,7 +462,7 @@ class FileChooserPrefItem(PrefItem):
 		self.varName = varName
 		###
 		dialog = gtk.FileChooserDialog(
-			title,
+			title=title,
 			action=gtk.FileChooserAction.OPEN,
 		)
 		dialog_add_button(
@@ -479,7 +479,7 @@ class FileChooserPrefItem(PrefItem):
 			gtk.ResponseType.OK,
 			None,
 		)
-		w = gtk.FileChooserButton(dialog)
+		w = gtk.FileChooserButton.new_with_dialog(dialog)
 		w.set_local_only(True)
 		if currentFolder:
 			w.set_current_folder(currentFolder)

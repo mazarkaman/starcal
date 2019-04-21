@@ -487,7 +487,7 @@ class WeeklyScheduleWindow(gtk.Dialog):
 		self.connect("delete-event", self.onDeleteEvent)
 		#####
 		hbox = gtk.HBox()
-		self.currentWOnlyCheck = gtk.CheckButton(_("Current Week Only"))
+		self.currentWOnlyCheck = gtk.CheckButton(label=_("Current Week Only"))
 		self.currentWOnlyCheck.connect("clicked", lambda obj: self.updateWidget())
 		pack(hbox, self.currentWOnlyCheck)
 		##

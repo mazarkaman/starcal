@@ -51,12 +51,14 @@ def getScrollValue(gevent):
 
 
 class MenuItem(gtk.MenuItem):
-	def __init__(self, *args, **kwargs):
-		gtk.MenuItem.__init__(self, *args, **kwargs)
+	def __init__(self, label=""):
+		gtk.MenuItem.__init__(self, label=label)
 		self.set_use_underline(True)
 
 
+
+# FIXME: ImageMenuItem is deprecated since version 3.10: Use Gtk.MenuItem.new() instead.
 class ImageMenuItem(gtk.ImageMenuItem):
-	def __init__(self, *args, **kwargs):
-		gtk.ImageMenuItem.__init__(self, *args, **kwargs)
+	def __init__(self, label=""):
+		gtk.ImageMenuItem.__init__(self, label=label)
 		self.set_use_underline(True)

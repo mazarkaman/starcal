@@ -605,7 +605,7 @@ class EventsTextColumn(Column):
 		Column.optionsWidgetCreate(self)
 		#####
 		hbox = gtk.HBox()
-		check = gtk.CheckButton(_("Use the color of event group for event text"))
+		check = gtk.CheckButton(label=_("Use the color of event group for event text"))
 		check.set_active(ui.wcal_eventsText_colorize)
 		pack(hbox, check)
 		pack(hbox, gtk.Label(label=""), 1, 1)
@@ -613,7 +613,7 @@ class EventsTextColumn(Column):
 		pack(self.optionsWidget, hbox)
 		##
 		hbox = gtk.HBox()
-		check = gtk.CheckButton(_("Show Description"))
+		check = gtk.CheckButton(label=_("Show Description"))
 		check.set_active(ui.wcal_eventsText_showDesc)
 		pack(hbox, check)
 		pack(hbox, gtk.Label(label=""), 1, 1)
@@ -754,7 +754,7 @@ class WcalTypeParamBox(gtk.HBox):
 		pack(self, label)
 		sgroupLabel.add_widget(label)
 		###
-		self.fontCheck = gtk.CheckButton(_("Font"))
+		self.fontCheck = gtk.CheckButton(label=_("Font"))
 		pack(self, gtk.Label(label=""), 1, 1)
 		pack(self, self.fontCheck)
 		###
@@ -770,7 +770,7 @@ class WcalTypeParamBox(gtk.HBox):
 	def get(self):
 		return {
 			"font": (
-				self.fontb.get_font_name()
+				self.fontb.get_font()
 				if self.fontCheck.get_active()
 				else None
 			),
@@ -781,7 +781,7 @@ class WcalTypeParamBox(gtk.HBox):
 		self.fontCheck.set_active(bool(font))
 		if not font:
 			font = ui.getFont()
-		self.fontb.set_font_name(font)
+		self.fontb.set_font(font)
 
 	def onChange(self, obj=None, event=None):
 		ui.wcalTypeParams[self.index] = self.get()

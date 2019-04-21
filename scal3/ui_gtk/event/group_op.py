@@ -47,7 +47,7 @@ class GroupSortDialog(gtk.Dialog):
 			self.sortByNames.index(sortByDefault),
 		)  # FIXME
 		pack(hbox, self.sortByCombo)
-		self.reverseCheck = gtk.CheckButton(_("Descending"))
+		self.reverseCheck = gtk.CheckButton(label=_("Descending"))
 		pack(hbox, self.reverseCheck)
 		pack(hbox, gtk.Label(label=""), 1, 1)
 		pack(self.vbox, hbox)

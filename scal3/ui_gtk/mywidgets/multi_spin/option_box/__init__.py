@@ -31,7 +31,7 @@ class MultiSpinOptionBox(gtk.HBox):
 		pack(self, self.spin, 1, 1)
 		self.hist_size = hist_size
 		self.option = gtk.Button()
-		self.option.add(gtk.Arrow(gtk.ArrowType.DOWN, gtk.ShadowType.IN))
+		self.option.add(gtk.Arrow(arrow_type=gtk.ArrowType.DOWN, shadow_type=gtk.ShadowType.IN))
 		pack(self, self.option, 1, 1)
 		self.menu = gtk.Menu()
 		#self.menu.show()

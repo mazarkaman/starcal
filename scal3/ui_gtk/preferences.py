@@ -395,7 +395,6 @@ class PrefDialog(gtk.Dialog):
 		######
 		hbox = gtk.HBox(spacing=5)
 		label = gtk.Label(label=_("Date Format"))
-		label.set_alignment(0, 0.5)
 		pack(hbox, label)
 		sgroup.add_widget(label)
 		#pack(hbox, gtk.Label(label=""), 1, 1)
@@ -485,7 +484,6 @@ class PrefDialog(gtk.Dialog):
 		hbox = gtk.HBox(spacing=5)
 		#pack(hbox, gtk.Label(label=""), 1, 1)
 		label = gtk.Label(label=_("Digital Clock Format"))
-		label.set_alignment(0, 0.5)
 		pack(hbox, label)
 		#sgroup.add_widget(label)
 		item = ComboEntryTextPrefItem(ud, "clockFormat", (
@@ -510,7 +508,6 @@ class PrefDialog(gtk.Dialog):
 		######
 		hbox = gtk.HBox(spacing=5)
 		label = gtk.Label(label=_("Days maximum cache size"))
-		label.set_alignment(0, 0.5)
 		pack(hbox, label)
 		##sgroup.add_widget(label)
 		item = SpinPrefItem(ui, "maxDayCacheSize", 100, 9999, 0)
