@@ -170,6 +170,8 @@ if rtl:
 
 gtk.Window.set_default_icon_from_file(ui.logo)
 
+display = gdk.Display.get_default()
+
 settings = gtk.Settings.get_default()
 
 if settings is None:
