@@ -196,7 +196,11 @@ class MainWin(gtk.ApplicationWindow, ud.BaseCalObj):
 	#	pass
 
 	def __init__(self, statusIconMode=2):
-		self.app = gtk.Application(application_id="apps.starcal")
+		appId = "apps.starcal"
+		# if this application_id is already running, Gtk will crash with Segmentation fault
+		if event_lib.allReadOnly:
+			appId += "2"
+		self.app = gtk.Application(application_id=appId)
 		self.app.register(gio.Cancellable.new())
 		gtk.ApplicationWindow.__init__(self, application=self.app)
 		###
