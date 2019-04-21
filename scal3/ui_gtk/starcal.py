@@ -861,7 +861,7 @@ class MainWin(gtk.ApplicationWindow, ud.BaseCalObj):
 
 	def prefUpdateBgColor(self, cal):
 		if ui.prefDialog:
-			ui.prefDialog.colorbBg.set_color(ui.bgColor)
+			ui.prefDialog.colorbBg.set_rgba(ui.bgColor)
 		#else:## FIXME
 		ui.saveLiveConf()
 

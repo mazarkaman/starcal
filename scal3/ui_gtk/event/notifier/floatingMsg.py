@@ -54,14 +54,14 @@ class WidgetClass(gtk.HBox):
 	def updateWidget(self):
 		self.fillWidthCb.set_active(self.notifier.fillWidth)
 		self.speedSpin.set_value(self.notifier.speed)
-		self.bgColorButton.set_color(self.notifier.bgColor)
-		self.textColorButton.set_color(self.notifier.textColor)
+		self.bgColorButton.set_rgba(self.notifier.bgColor)
+		self.textColorButton.set_rgba(self.notifier.textColor)
 
 	def updateVars(self):
 		self.notifier.fillWidth = self.fillWidthCb.get_active()
 		self.notifier.speed = self.speedSpin.get_value()
-		self.notifier.bgColor = self.bgColorButton.get_color()
-		self.notifier.textColor = self.textColorButton.get_color()
+		self.notifier.bgColor = self.bgColorButton.get_rgba()
+		self.notifier.textColor = self.textColorButton.get_rgba()
 
 
 def notify(notifier, finishFunc):## FIXME

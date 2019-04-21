@@ -157,7 +157,7 @@ class BaseWidgetClass(gtk.VBox):
 
 	def updateWidget(self):
 		self.titleEntry.set_text(self.group.title)
-		self.colorButton.set_color(self.group.color)
+		self.colorButton.set_rgba(self.group.color)
 		self.iconSelect.set_filename(self.group.icon)
 		self.calTypeCombo.set_active(self.group.calType)
 		##
@@ -177,7 +177,7 @@ class BaseWidgetClass(gtk.VBox):
 
 	def updateVars(self):
 		self.group.title = self.titleEntry.get_text()
-		self.group.color = self.colorButton.get_color()
+		self.group.color = self.colorButton.get_rgba()
 		self.group.icon = self.iconSelect.get_filename()
 		self.group.calType = self.calTypeCombo.get_active()
 		##

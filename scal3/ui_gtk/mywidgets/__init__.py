@@ -115,8 +115,7 @@ class MyColorButton(gtk.ColorButton):
 		self.connect("color-set", self.update_tooltip)
 
 	def update_tooltip(self, colorb=None):
-		r, g, b = self.get_color()
-		a = self.get_alpha()
+		r, g, b, a = self.get_rgba()
 		if self.get_use_alpha():
 			text = "%s\n%s\n%s\n%s" % (r, g, b, a)
 		else:
@@ -127,34 +126,19 @@ class MyColorButton(gtk.ColorButton):
 		#self.tt_label.set_label(text)##???????????? Dosent work
 		##self.set_tooltip_window(self.tt_win)
 
-	def set_color(self, color):## color is a tuple of (r, g, b)
-		if len(color) == 3:
-			r, g, b = color
-			gtk.ColorButton.set_color(self, rgbToGdkColor(*color))
-			self.set_alpha(255)
-		elif len(color) == 4:
-			gtk.ColorButton.set_color(self, rgbToGdkColor(*color[:3]))
-			gtk.ColorButton.set_alpha(self, color[3] * 257)
-		else:
-			raise ValueError
+	# color is a tuple of (r, g, b) or (r, g, b, a)
+	def set_rgba(self, color):
+		gtk.ColorButton.set_rgba(self, rgbaToGdkRGBA(*color))
 		self.update_tooltip()
 
-	def set_alpha(self, alpha):  # alpha is in range(256)
-		if alpha is None:
-			alpha = 255
-		gtk.ColorButton.set_alpha(self, alpha * 257)
-		self.update_tooltip()
-
-	def get_color(self):
-		color = gtk.ColorButton.get_color(self)
+	def get_rgba(self):
+		color = gtk.ColorButton.get_rgba(self)
 		return (
-			int(color.red / 257),
-			int(color.green / 257),
-			int(color.blue / 257),
+			int(color.red * 255),
+			int(color.green * 255),
+			int(color.blue * 255),
+			int(color.alpha * 255),
 		)
-
-	def get_alpha(self):
-		return int(gtk.ColorButton.get_alpha(self) / 257)
 
 
 class TextFrame(gtk.Frame):

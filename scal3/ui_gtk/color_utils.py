@@ -15,6 +15,13 @@ def rgbToGdkColor(r, g, b, a=None):
 		int(b * 257),
 	)
 
+def rgbaToGdkRGBA(r, g, b, a=255):
+	return gdk.RGBA(
+		red = r / 255,
+		green = g / 255,
+		blue = b / 255,
+		alpha = a / 255,
+	)
 
 def gdkColorToRgb(gc):
 	return (

@@ -301,25 +301,10 @@ class ColorPrefItem(PrefItem):
 		self._widget = w
 
 	def get(self):
-		#if self.useAlpha:
-		alpha = self._widget.get_alpha()
-		if alpha is None:
-			return self._widget.get_color()
-		else:
-			return self._widget.get_color() + (alpha,)
+		return self._widget.get_rgba()
 
 	def set(self, color):
-		if self.useAlpha:
-			if len(color) == 3:
-				self._widget.set_color(color)
-				self._widget.set_alpha(255)
-			elif len(color) == 4:
-				self._widget.set_color(color[:3])
-				self._widget.set_alpha(color[3])
-			else:
-				raise ValueError
-		else:
-			self._widget.set_color(color)
+		self._widget.set_rgba(color)
 
 
 class LiveColorPrefItem(ColorPrefItem):
