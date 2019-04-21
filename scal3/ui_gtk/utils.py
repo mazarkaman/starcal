@@ -69,7 +69,7 @@ def setClipboard(text, clipboard=None):
 	#clipboard.store() ## ?????? No need!
 
 
-def imageFromIconName(iconName: str, size: int) -> gtk.Image:
+def imageFromIconName(iconName: str, size: int, nonStock=False) -> gtk.Image:
 	# So gtk.Image.new_from_stock is deprecated
 	# And the doc says we should use gtk.Image.new_from_icon_name
 	# which does NOT have the same functionality!
@@ -78,6 +78,8 @@ def imageFromIconName(iconName: str, size: int) -> gtk.Image:
 	# So for now we use new_from_stock, unless it's not a stock item
 	# But we do not use either of these two outside this function
 	# So that it's easy to switch
+	if nonStock:
+		return gtk.Image.new_from_icon_name(iconName, size)
 	try:
 		return gtk.Image.new_from_stock(iconName, size)
 	except:
