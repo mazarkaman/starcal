@@ -166,6 +166,24 @@ class DayCalWindowWidget(DayCal):
 			self.popupMenu(obj, gevent)
 		return True
 
+	def getMenuPosFunc(self, menu, gevent, above: bool):
+		# looks like gevent.x_root and gevent.y_root are wrong on Wayland (Fedora + Gnome3)
+		# we should probably just pass func=None in Wayland for now
+		if os.getenv("XDG_SESSION_TYPE") == "wayland":
+			return None
+
+		mw = get_menu_width(menu)
+		mh = get_menu_height(menu)
+		mx = max(0, gevent.x_root - mw) if rtl else gevent.x_root
+		my = max(0, gevent.y_root - mh) if above else gevent.y_root
+
+		if mx == 0 and my == 0:
+			print("mx=%s, my=%s, mw=%s, mh=%s, x_root=%s, y_root=%s" % (mx, my, mw, mh, gevent.x_root, gevent.y_root))
+			return None
+
+		return lambda *args: (mx, my, False)
+
+
 	def popupMenu(self, obj, gevent):
 		reverse = gevent.y_root > ud.screenH / 2.0
 
@@ -186,11 +204,7 @@ class DayCalWindowWidget(DayCal):
 		menu.popup(
 			None,
 			None,
-			lambda *args: (
-				gevent.x_root - get_menu_width(menu) if rtl else gevent.x_root,
-				gevent.y_root - get_menu_height(menu) if reverse else gevent.y_root,
-				True,
-			),
+			self.getMenuPosFunc(menu, gevent, reverse),
 			self,
 			gevent.button,
 			gevent.time,
