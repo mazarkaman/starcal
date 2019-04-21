@@ -29,7 +29,11 @@ from scal3.locale_man import numDecode
 
 from scal3.ui_gtk import *
 from scal3.ui_gtk.decorators import *
-from scal3.ui_gtk.utils import toolButtonFromIcon, set_tooltip
+from scal3.ui_gtk.utils import (
+	toolButtonFromIcon,
+	set_tooltip,
+	imageFromIconName,
+)
 from scal3.ui_gtk.drawing import *
 from scal3.ui_gtk.event.group.group import WidgetClass as NormalWidgetClass
 
@@ -529,12 +533,12 @@ class WeeklyScheduleWindow(gtk.Dialog):
 		saveB = fcd.add_button("gtk-save", gtk.ResponseType.OK)
 		if ui.autoLocale:
 			canB.set_label(_("_Cancel"))
-			canB.set_image(gtk.Image.new_from_icon_name(
+			canB.set_image(imageFromIconName(
 				"gtk-cancel",
 				gtk.IconSize.BUTTON,
 			))
 			saveB.set_label(_("_Save"))
-			saveB.set_image(gtk.Image.new_from_icon_name(
+			saveB.set_image(imageFromIconName(
 				"gtk-save",
 				gtk.IconSize.BUTTON,
 			))

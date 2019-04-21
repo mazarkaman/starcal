@@ -26,7 +26,11 @@ from scal3 import event_lib
 from scal3 import ui
 
 from scal3.ui_gtk import *
-from scal3.ui_gtk.utils import toolButtonFromIcon, set_tooltip
+from scal3.ui_gtk.utils import (
+	toolButtonFromIcon,
+	set_tooltip,
+	imageFromIconName,
+)
 
 
 def encode(d):
@@ -53,7 +57,7 @@ class WidgetClass(gtk.HBox):
 		self.dialog = None
 		###
 		self.editButton = gtk.Button(label=_("Edit"))
-		self.editButton.set_image(gtk.Image.new_from_icon_name(
+		self.editButton.set_image(imageFromIconName(
 			"gtk-edit",
 			gtk.IconSize.BUTTON,
 		))
@@ -124,7 +128,7 @@ class WidgetClass(gtk.HBox):
 		okButton = self.dialog.add_button("gtk-ok", gtk.ResponseType.CANCEL)
 		if ui.autoLocale:
 			okButton.set_label(_("_OK"))
-			okButton.set_image(gtk.Image.new_from_icon_name(
+			okButton.set_image(imageFromIconName(
 				"gtk-ok",
 				gtk.IconSize.BUTTON,
 			))

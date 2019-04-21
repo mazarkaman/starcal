@@ -627,7 +627,7 @@ class PrefDialog(gtk.Dialog):
 		hboxBut = gtk.HBox()
 		###
 		button = gtk.Button(_("_About Plugin"))
-		button.set_image(gtk.Image.new_from_icon_name(
+		button.set_image(imageFromIconName(
 			"gtk-about",
 			gtk.IconSize.BUTTON,
 		))
@@ -638,7 +638,7 @@ class PrefDialog(gtk.Dialog):
 		pack(hboxBut, gtk.Label(label=""), 1, 1)
 		###
 		button = gtk.Button(_("C_onfigure Plugin"))
-		button.set_image(gtk.Image.new_from_icon_name(
+		button.set_image(imageFromIconName(
 			"gtk-preferences",
 			gtk.IconSize.BUTTON,
 		))
@@ -1033,7 +1033,7 @@ class PrefDialog(gtk.Dialog):
 				label.set_line_wrap(True)
 				pack(d.vbox, label)
 				resBut = d.add_button(_("_Restart"), 1)
-				resBut.set_image(gtk.Image.new_from_icon_name(
+				resBut.set_image(imageFromIconName(
 					"gtk-refresh",
 					gtk.IconSize.BUTTON,
 				))

@@ -28,6 +28,7 @@ from pray_times_backend import timeNames, methodsList
 from pray_times_utils import *
 
 from scal3.ui_gtk import *
+from scal3.ui_gtk.utils import imageFromIconName
 from scal3.ui_gtk.app_info import popenFile
 from scal3.ui_gtk.about import AboutDialog
 ## do I have to duplicate AboutDialog class code?
@@ -74,12 +75,12 @@ class LocationDialog(gtk.Dialog):
 		okB = self.add_button(gtk.STOCK_OK, self.EXIT_OK)
 		#if autoLocale:
 		cancelB.set_label(_("_Cancel"))
-		cancelB.set_image(gtk.Image.new_from_stock(
+		cancelB.set_image(imageFromIconName(
 			gtk.STOCK_CANCEL,
 			gtk.IconSize.BUTTON,
 		))
 		okB.set_label(_("_OK"))
-		okB.set_image(gtk.Image.new_from_stock(
+		okB.set_image(imageFromIconName(
 			gtk.STOCK_OK,
 			gtk.IconSize.BUTTON,
 		))
@@ -451,12 +452,12 @@ class TextPluginUI:
 		okB = self.confDialog.add_button(gtk.STOCK_OK, 3)
 		#if autoLocale:
 		cancelB.set_label(_("_Cancel"))
-		cancelB.set_image(gtk.Image.new_from_stock(
+		cancelB.set_image(imageFromIconName(
 			gtk.STOCK_CANCEL,
 			gtk.IconSize.BUTTON,
 		))
 		okB.set_label(_("_OK"))
-		okB.set_image(gtk.Image.new_from_stock(
+		okB.set_image(imageFromIconName(
 			gtk.STOCK_OK,
 			gtk.IconSize.BUTTON,
 		))

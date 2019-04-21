@@ -36,6 +36,7 @@ from scal3.ui_gtk.utils import (
 	pixbufFromFile,
 	labelIconMenuItem,
 	labelImageMenuItem,
+	imageFromIconName,
 )
 from scal3.ui_gtk.drawing import newColorCheckPixbuf
 from scal3.ui_gtk.mywidgets import TextFrame
@@ -170,7 +171,7 @@ class EventSearchWindow(gtk.Window, MyDialog, ud.BaseCalObj):
 		bbox.set_border_width(5)
 		searchButton = gtk.Button()
 		searchButton.set_label(_("_Search"))
-		searchButton.set_image(gtk.Image.new_from_icon_name(
+		searchButton.set_image(imageFromIconName(
 			"gtk-find",
 			gtk.IconSize.BUTTON,
 		))
@@ -298,7 +299,7 @@ class EventSearchWindow(gtk.Window, MyDialog, ud.BaseCalObj):
 		bbox2.set_border_width(10)
 		closeButton = gtk.Button()
 		closeButton.set_label(_("_Close"))
-		closeButton.set_image(gtk.Image.new_from_icon_name(
+		closeButton.set_image(imageFromIconName(
 			"gtk-close",
 			gtk.IconSize.BUTTON,
 		))

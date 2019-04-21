@@ -29,6 +29,7 @@ from scal3.ui_gtk.utils import (
 	openWindow,
 	dialog_add_button,
 	hideList,
+	imageFromIconName,
 )
 from scal3.ui_gtk.mywidgets.icon import IconSelectButton
 
@@ -289,7 +290,7 @@ class ViewEditTagsHbox(gtk.HBox):
 		self.dialog.connect("response", self.dialogResponse)
 		self.editButton = gtk.Button()
 		self.editButton.set_label(_("_Edit"))
-		self.editButton.set_image(gtk.Image.new_from_icon_name(
+		self.editButton.set_image(imageFromIconName(
 			"gtk-edit",
 			gtk.IconSize.BUTTON,
 		))

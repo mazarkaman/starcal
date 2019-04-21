@@ -38,9 +38,8 @@ from scal3.ui_gtk import *
 from scal3.ui_gtk.utils import (
 	toolButtonFromIcon,
 	set_tooltip,
-)
-from scal3.ui_gtk.utils import (
 	getStyleColor,
+	imageFromIconName,
 )
 from scal3.ui_gtk.drawing import newColorCheckPixbuf
 from scal3.ui_gtk.mywidgets import TextFrame
@@ -193,7 +192,7 @@ class FilesBox(gtk.VBox):
 		pack(hbox, gtk.Label(label=""), 1, 1)
 		addButton = gtk.Button()
 		addButton.set_label(_("_Add File"))
-		addButton.set_image(gtk.Image.new_from_icon_name(
+		addButton.set_image(imageFromIconName(
 			"gtk-add",
 			gtk.IconSize.BUTTON,
 		))
@@ -213,7 +212,7 @@ class FilesBox(gtk.VBox):
 		pack(hbox, gtk.Label(label=""), 1, 1)
 		delButton = gtk.Button()
 		delButton.set_label(_("_Delete"))
-		delButton.set_image(gtk.Image.new_from_icon_name(
+		delButton.set_image(imageFromIconName(
 			"gtk-delete",
 			gtk.IconSize.BUTTON,
 		))

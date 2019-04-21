@@ -32,7 +32,11 @@ from scal3 import ui
 from gi.repository import GdkPixbuf
 
 from scal3.ui_gtk import *
-from scal3.ui_gtk.utils import set_tooltip, toolButtonFromIcon
+from scal3.ui_gtk.utils import (
+	set_tooltip,
+	toolButtonFromIcon,
+	imageFromIconName,
+)
 
 
 from scal3.ui_gtk.pref_utils import PrefItem
@@ -370,7 +374,7 @@ class AICalsPrefItem(PrefItem):
 			tb.action = ""
 		else:
 			tb.set_label_widget(
-				gtk.Image.new_from_icon_name(
+				imageFromIconName(
 					(
 						"gtk-go-forward" if isRight ^ rtl
 						else "gtk-go-back"

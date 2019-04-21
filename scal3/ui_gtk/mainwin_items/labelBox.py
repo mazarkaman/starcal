@@ -28,7 +28,12 @@ from scal3 import ui
 
 from scal3.ui_gtk import *
 from scal3.ui_gtk.decorators import *
-from scal3.ui_gtk.utils import set_tooltip, setClipboard, get_menu_width
+from scal3.ui_gtk.utils import (
+	set_tooltip,
+	setClipboard,
+	get_menu_width,
+	imageFromIconName,
+)
 from scal3.ui_gtk.drawing import newTextLayout, setColor
 from scal3.ui_gtk.mywidgets.button import ConButton
 from scal3.ui_gtk import gtk_ud as ud
@@ -421,7 +426,7 @@ def newSmallNoFocusButton(iconName, func, tooltip=""):
 	arrow = ConButton()
 	arrow.set_relief(2)
 	arrow.set_can_focus(False)
-	arrow.set_image(gtk.Image.new_from_icon_name(
+	arrow.set_image(imageFromIconName(
 		iconName,
 		gtk.IconSize.SMALL_TOOLBAR,
 	))

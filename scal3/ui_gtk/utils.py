@@ -69,6 +69,21 @@ def setClipboard(text, clipboard=None):
 	#clipboard.store() ## ?????? No need!
 
 
+def imageFromIconName(iconName: str, size: int) -> gtk.Image:
+	# So gtk.Image.new_from_stock is deprecated
+	# And the doc says we should use gtk.Image.new_from_icon_name
+	# which does NOT have the same functionality!
+	# because not all stock items are existing in all themes (even popular themes)
+	# and new_from_icon_name does not seem to look in other (non-default) themes!
+	# So for now we use new_from_stock, unless it's not a stock item
+	# But we do not use either of these two outside this function
+	# So that it's easy to switch
+	try:
+		return gtk.Image.new_from_stock(iconName, size)
+	except:
+		return gtk.Image.new_from_icon_name(iconName, size)
+
+
 def imageFromFile(path):## the file must exist
 	if not isabs(path):
 		path = join(pixDir, path)
@@ -93,13 +108,13 @@ def pixbufFromFile(path):## the file may not exist
 
 def toolButtonFromIcon(iconName, size):
 	tb = gtk.ToolButton()
-	tb.set_icon_widget(gtk.Image.new_from_icon_name(iconName, size))
+	tb.set_icon_widget(imageFromIconName(iconName, size))
 	return tb
 
 def labelIconButton(label, iconName, size):
 	button = gtk.Button()
 	button.set_label(label)
-	button.set_image(gtk.Image.new_from_icon_name(iconName, size))
+	button.set_image(imageFromIconName(iconName, size))
 	button.set_use_underline(True)
 	return button
 
@@ -112,7 +127,7 @@ def labelIconMenuItem(label, iconName="", func=None, *args):
 	item = ImageMenuItem(_(label))
 	item.set_use_underline(True)
 	if iconName:
-		item.set_image(gtk.Image.new_from_icon_name(iconName, gtk.IconSize.MENU))
+		item.set_image(imageFromIconName(iconName, gtk.IconSize.MENU))
 	if func:
 		item.connect("activate", func, *args)
 	return item
@@ -162,7 +177,7 @@ def dialog_add_button(dialog, iconName, label, resId, onClicked=None, tooltip=""
 	if ui.autoLocale:
 		if label:
 			b.set_label(label)
-		b.set_image(gtk.Image.new_from_icon_name(iconName, gtk.IconSize.BUTTON))
+		b.set_image(imageFromIconName(iconName, gtk.IconSize.BUTTON))
 	if onClicked:
 		b.connect("clicked", onClicked)
 	if tooltip:

@@ -6,7 +6,10 @@ from scal3 import ui
 
 from scal3 import ui
 from scal3.ui_gtk import *
-from scal3.ui_gtk.utils import setClipboard
+from scal3.ui_gtk.utils import (
+	setClipboard,
+	imageFromIconName,
+)
 
 
 class DateLabel(gtk.Label):
@@ -19,14 +22,14 @@ class DateLabel(gtk.Label):
 		self.connect("populate-popup", self.popupPopulate)
 	def popupPopulate(self, label, menu):
 		itemCopyAll = ImageMenuItem(_("Copy _All"))
-		itemCopyAll.set_image(gtk.Image.new_from_icon_name(
+		itemCopyAll.set_image(imageFromIconName(
 			"gtk-copy",
 			gtk.IconSize.MENU),
 		)
 		itemCopyAll.connect("activate", self.copyAll)
 		##
 		itemCopy = ImageMenuItem(_("_Copy"))
-		itemCopy.set_image(gtk.Image.new_from_icon_name(
+		itemCopy.set_image(imageFromIconName(
 			"gtk-copy",
 			gtk.IconSize.MENU,
 		))

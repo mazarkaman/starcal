@@ -13,8 +13,11 @@ from scal3 import ui
 
 from scal3.ui_gtk import *
 from scal3.ui_gtk import gtk_ud as ud
-from scal3.ui_gtk.utils import dialog_add_button
-from scal3.ui_gtk.utils import showInfo
+from scal3.ui_gtk.utils import (
+	dialog_add_button,
+	showInfo,
+	imageFromIconName,
+)
 from scal3.ui_gtk.mywidgets.text_widgets import ReadOnlyTextView
 
 from scal3.ui_gtk.event import makeWidget
@@ -111,7 +114,7 @@ class EventHistoryDialog(gtk.Dialog):
 
 		# revertButton = gtk.Button()
 		# revertButton.set_label(_("Revert this vhange"))
-		# revertButton.set_image(gtk.Image.new_from_icon_name(
+		# revertButton.set_image(imageFromIconName(
 		# 	"gtk-undo",
 		# 	gtk.IconSize.BUTTON,
 		# ))
@@ -121,7 +124,7 @@ class EventHistoryDialog(gtk.Dialog):
 
 		checkoutAfterButton = gtk.Button()
 		checkoutAfterButton.set_label(_("Select revision after this change"))
-		checkoutAfterButton.set_image(gtk.Image.new_from_icon_name(
+		checkoutAfterButton.set_image(imageFromIconName(
 			"gtk-undo",
 			gtk.IconSize.BUTTON,
 		))
@@ -131,7 +134,7 @@ class EventHistoryDialog(gtk.Dialog):
 
 		checkoutBeforeButton = gtk.Button()
 		checkoutBeforeButton.set_label(_("Select revision before this change"))
-		checkoutBeforeButton.set_image(gtk.Image.new_from_icon_name(
+		checkoutBeforeButton.set_image(imageFromIconName(
 			"gtk-undo",
 			gtk.IconSize.BUTTON,
 		))

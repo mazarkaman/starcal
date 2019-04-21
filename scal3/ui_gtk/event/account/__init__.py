@@ -7,7 +7,11 @@ from scal3.locale_man import tr as _
 from scal3 import ui
 
 from scal3.ui_gtk import *
-from scal3.ui_gtk.utils import IdComboBox, showError
+from scal3.ui_gtk.utils import (
+	IdComboBox,
+	showError,
+	imageFromIconName,
+)
 
 
 class BaseWidgetClass(gtk.VBox):
@@ -96,7 +100,7 @@ class AccountGroupBox(gtk.HBox):
 		pack(self, self.combo)
 		##
 		button = gtk.Button()
-		# button.set_image(gtk.Image.new_from_icon_name("gtk-connect", gtk.IconSize.BUTTON))
+		# button.set_image(imageFromIconName("gtk-connect", gtk.IconSize.BUTTON))
 		button.set_label(_("Fetch"))
 		button.connect("clicked", self.fetchClicked)
 		pack(self, button)

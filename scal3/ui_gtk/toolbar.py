@@ -8,7 +8,10 @@ from scal3 import ui
 
 from scal3.ui_gtk import *
 from scal3.ui_gtk.decorators import *
-from scal3.ui_gtk.utils import set_tooltip
+from scal3.ui_gtk.utils import (
+	set_tooltip,
+	imageFromIconName,
+)
 from scal3.ui_gtk import gtk_ud as ud
 from scal3.ui_gtk.customize import CustomizableCalObj
 
@@ -39,7 +42,7 @@ class ToolbarItem(gtk.ToolButton, CustomizableCalObj):
 		######
 		gtk.ToolButton.__init__(self)
 		self.set_icon_widget(
-			gtk.Image.new_from_icon_name(
+			imageFromIconName(
 				iconName,
 				gtk.IconSize.DIALOG,
 			) if iconName else None,

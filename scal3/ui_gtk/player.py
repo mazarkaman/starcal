@@ -27,6 +27,7 @@ import os
 import re
 
 from scal3.ui_gtk import *
+from scal3.ui_gtk.utils import imageFromIconName
 
 # Control
 SEEK_TIME_SMALL = 10 # in seconds
@@ -263,7 +264,7 @@ class PlayerBox(gtk.HBox):
 		##self.toolbar.connect("key-press-event", self.toolbarKey)#??????????
 		##############
 		self.playPauseBut = gtk.Button()
-		self.playPauseBut.set_image(gtk.Image.new_from_icon_name(
+		self.playPauseBut.set_image(imageFromIconName(
 			"gtk-media-play",
 			gtk.IconSize.SMALL_TOOLBAR,
 		))
@@ -271,7 +272,7 @@ class PlayerBox(gtk.HBox):
 		pack(self, self.playPauseBut)
 		#######
 		stopBut = gtk.Button()
-		stopBut.set_image(gtk.Image.new_from_icon_name(
+		stopBut.set_image(imageFromIconName(
 			"gtk-media-stop",
 			gtk.IconSize.SMALL_TOOLBAR,
 		))
@@ -337,7 +338,7 @@ class PlayerBox(gtk.HBox):
 			print("abc")
 			sleep(0.05)
 			self.seekAdj.value = 100
-			#self.playPauseBut.set_image(gtk.Image.new_from_icon_name(
+			#self.playPauseBut.set_image(imageFromIconName(
 			#	"gtk-media-play",
 			#	gtk.IconSize.SMALL_TOOLBAR,
 			#))
@@ -369,7 +370,7 @@ class PlayerBox(gtk.HBox):
 			if path is None:
 				return
 			self.mplayer.play(path)
-		self.playPauseBut.set_image(gtk.Image.new_from_icon_name(
+		self.playPauseBut.set_image(imageFromIconName(
 			icon,
 			gtk.IconSize.SMALL_TOOLBAR,
 		))
@@ -379,7 +380,7 @@ class PlayerBox(gtk.HBox):
 
 	def stop(self, button):# Stop mplayer if it's running
 		self.mplayer.close()
-		self.playPauseBut.set_image(gtk.Image.new_from_icon_name(
+		self.playPauseBut.set_image(imageFromIconName(
 			"gtk-media-play",
 			gtk.IconSize.SMALL_TOOLBAR,
 		))
@@ -408,7 +409,7 @@ class PlayerBox(gtk.HBox):
 		if startPlaying:
 			self.playPause()
 		#self.mplayer.play(path)
-		#self.playPauseBut.set_image(gtk.Image.new_from_icon_name(
+		#self.playPauseBut.set_image(imageFromIconName(
 		#	"gtk-media-pause",
 		#	gtk.IconSize.SMALL_TOOLBAR,
 		#))

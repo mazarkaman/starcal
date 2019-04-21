@@ -33,6 +33,7 @@ from scal3 import ui
 
 from scal3.ui_gtk import *
 from scal3.ui_gtk.decorators import *
+from scal3.ui_gtk.utils import imageFromIconName
 
 @registerSignals
 class MultiSpinButton(gtk.HBox):
@@ -91,7 +92,7 @@ class MultiSpinButton(gtk.HBox):
 		# https://gitlab.gnome.org/GNOME/gtk/commit/5fd936beef7a999828e5e3625506ea6708188762
 		###
 		self.down_button = gtk.Button()
-		self.down_button.add(gtk.Image.new_from_icon_name("list-remove-symbolic", button_size))
+		self.down_button.add(imageFromIconName("list-remove-symbolic", button_size))
 		self.down_button.get_style_context().add_class("image-button")
 		self.down_button.set_can_focus(False)
 		self.down_button.get_style_context().add_class("down")
@@ -99,7 +100,7 @@ class MultiSpinButton(gtk.HBox):
 		self.down_button.connect("button-release-event", self._button_release)
 		###
 		self.up_button = gtk.Button()
-		self.up_button.add(gtk.Image.new_from_icon_name("list-add-symbolic", button_size))
+		self.up_button.add(imageFromIconName("list-add-symbolic", button_size))
 		self.up_button.get_style_context().add_class("image-button")
 		self.up_button.set_can_focus(False)
 		self.up_button.get_style_context().add_class("up")

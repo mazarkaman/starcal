@@ -8,7 +8,10 @@ from scal3 import ui
 
 from scal3.ui_gtk import *
 from scal3.ui_gtk.decorators import *
-from scal3.ui_gtk.utils import labelIconMenuItem
+from scal3.ui_gtk.utils import (
+	labelIconMenuItem,
+	imageFromIconName,
+)
 
 
 @registerSignals
@@ -30,17 +33,17 @@ class IconSelectButton(gtk.Button):
 		clearB = self.dialog.add_button("gtk-clear", gtk.ResponseType.REJECT)
 		if ui.autoLocale:
 			cancelB.set_label(_("_Cancel"))
-			cancelB.set_image(gtk.Image.new_from_icon_name(
+			cancelB.set_image(imageFromIconName(
 				"gtk-cancel",
 				gtk.IconSize.BUTTON,
 			))
 			okB.set_label(_("_OK"))
-			okB.set_image(gtk.Image.new_from_icon_name(
+			okB.set_image(imageFromIconName(
 				"gtk-ok",
 				gtk.IconSize.BUTTON,
 			))
 			clearB.set_label(_("Clear"))
-			clearB.set_image(gtk.Image.new_from_icon_name(
+			clearB.set_image(imageFromIconName(
 				"gtk-clear",
 				gtk.IconSize.BUTTON,
 			))

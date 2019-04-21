@@ -6,7 +6,10 @@ from scal3 import event_lib
 from scal3 import ui
 
 from scal3.ui_gtk import *
-from scal3.ui_gtk.utils import imageFromFile
+from scal3.ui_gtk.utils import (
+	imageFromFile,
+	imageFromIconName,
+)
 
 
 class WidgetClass(gtk.Entry):
@@ -52,7 +55,7 @@ def notify(notifier, finishFunc):  # FIXME
 	okB.connect("clicked", hideWindow, dialog)
 	if ui.autoLocale:
 		okB.set_label(_("_OK"))
-		okB.set_image(gtk.Image.new_from_icon_name("gtk-ok", gtk.IconSize.BUTTON))
+		okB.set_image(imageFromIconName("gtk-ok", gtk.IconSize.BUTTON))
 	####
 	dialog.vbox.show_all()
 	dialog.connect("response", lambda w, e: finishFunc())

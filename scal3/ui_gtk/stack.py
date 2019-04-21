@@ -23,6 +23,7 @@ import time
 from scal3.locale_man import tr as _
 
 from scal3.ui_gtk import *
+from scal3.ui_gtk.utils import imageFromIconName
 
 class MyStack(gtk.Stack):
 	def __init__(self, rtl=False, iconSize=gtk.IconSize.BUTTON, vboxSpacing=5):
@@ -64,7 +65,7 @@ class MyStack(gtk.Stack):
 		# hbox.set_direction(gtk.TextDirection.LTR)
 		backButton = gtk.Button()
 		backButton.set_label(_("Back"))
-		backButton.set_image(gtk.Image.new_from_icon_name("gtk-go-back", self._iconSize))
+		backButton.set_image(imageFromIconName("gtk-go-back", self._iconSize))
 		backButton.connect(
 			"clicked",
 			lambda w: self.gotoPage(parentName, backward=True),

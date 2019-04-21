@@ -38,6 +38,7 @@ from scal3.ui_gtk.utils import (
 	dialog_add_button,
 	toolButtonFromIcon,
 	set_tooltip,
+	imageFromIconName,
 )
 from scal3.ui_gtk import gtk_ud as ud
 from scal3.ui_gtk import listener
@@ -150,7 +151,7 @@ class EditDbDialog(gtk.Dialog):
 			gtk.ResponseType.NONE,
 		)
 		resetB.set_label(_("_Reset to Defaults"))
-		resetB.set_image(gtk.Image.new_from_icon_name(
+		resetB.set_image(imageFromIconName(
 			"gtk-undo",
 			gtk.IconSize.BUTTON,
 		))
