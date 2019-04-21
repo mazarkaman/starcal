@@ -273,7 +273,7 @@ def get_menu_width(menu):
 def get_menu_height(menu):
 	h = menu.get_allocation().height
 	if h > 1:
-		print("menu height from before:", h)
+		# print("menu height from before:", h)
 		return h
 	items = menu.get_children()
 	if not items:
