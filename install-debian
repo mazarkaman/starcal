@@ -96,8 +96,6 @@ Description: A full-featured international calendar written in Python
  Homepage: http://ilius.github.io/starcal
 " > "$tmpDir/DEBIAN/control"
 
-#echo "/usr/share/$pkgName/scripts/assert_python3" > "$tmpDir/DEBIAN/postinst"
-#chmod 755 "$tmpDir/DEBIAN/postinst"
 
 echo "#!/bin/bash
 if [ -d '/usr/share/starcal3' ] ; then
