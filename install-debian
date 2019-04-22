@@ -99,6 +99,16 @@ Description: A full-featured international calendar written in Python
 #echo "/usr/share/$pkgName/scripts/assert_python3" > "$tmpDir/DEBIAN/postinst"
 #chmod 755 "$tmpDir/DEBIAN/postinst"
 
+echo "#!/bin/bash
+if [ -d '/usr/share/starcal3' ] ; then
+	echo 'Cleaning up /usr/share/starcal3'
+	find '/usr/share/starcal3' -regex '^.*\(__pycache__\|\.py[co]\)$' -print -delete
+	find '/usr/share/starcal3' -type d -print -delete
+fi
+" > "$tmpDir/DEBIAN/postrm"
+chmod a+x "$tmpDir/DEBIAN/postrm"
+
+
 pkgFile=${pkgName}_${version}-1_all.deb
 
 if dpkg-deb -b "$tmpDir" "$pkgFile" ; then
