@@ -368,7 +368,7 @@ class EventHistoryDialog(gtk.Dialog):
 			return {}
 		if _hash in self.objectCache:
 			return self.objectCache[_hash]
-		data = loadBsonObject(_hash)
+		data = loadBsonObject(_hash, ui.fs)
 		data = self.normalizeObjectData(data)
 		if len(self.objectCache) > 100:
 			self.objectCache.popitem()

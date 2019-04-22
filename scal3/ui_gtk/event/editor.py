@@ -97,7 +97,7 @@ class EventEditorDialog(gtk.Dialog):
 			self.activeWidget.destroy()
 		eventType = self.eventTypeOptions[combo.get_active()]
 		if self.isNew:
-			self.event = self._group.createEvent(eventType)
+			self.event = self._group.create(eventType)
 		else:
 			self.event = self._group.copyEventWithType(self.event, eventType)
 		self._group.updateCache(self.event)## needed? FIXME
@@ -142,7 +142,7 @@ class EventEditorDialog(gtk.Dialog):
 
 
 def addNewEvent(group, eventType, typeChangable=False, **kwargs):
-	event = group.createEvent(eventType)
+	event = group.create(eventType)
 	if eventType == "custom":  # FIXME
 		typeChangable = True
 	event = EventEditorDialog(

@@ -45,7 +45,8 @@ class GroupEditorDialog(gtk.Dialog):
 		pack(self.vbox, hbox)
 		####
 		if self.isNew:
-			self._group = event_lib.classes.group[event_lib.defaultGroupTypeIndex]()
+			name = event_lib.classes.group[event_lib.defaultGroupTypeIndex].name
+			self._group = ui.eventGroups.create(name)
 			combo.set_active(event_lib.defaultGroupTypeIndex)
 		else:
 			self._group = group
@@ -75,8 +76,7 @@ class GroupEditorDialog(gtk.Dialog):
 		if self.activeWidget:
 			self.activeWidget.updateVars()
 			self.activeWidget.destroy()
-		cls = event_lib.classes.group[self.comboType.get_active()]
-		group = cls()
+		group = ui.withFS(event_lib.classes.group[self.comboType.get_active()]())
 		if self.isNew:
 			group.setRandomColor()
 			if group.icon:
@@ -85,7 +85,7 @@ class GroupEditorDialog(gtk.Dialog):
 			group.copyFrom(self._group)
 		group.setId(self._group.id)
 		if self.isNew:
-			group.title = self.getNewGroupTitle(cls.desc)
+			group.title = self.getNewGroupTitle(group.desc)
 		self._group = group
 		self.activeWidget = makeWidget(group)
 		pack(self.vbox, self.activeWidget)

@@ -20,6 +20,23 @@ dataToJson = dataToPrettyJson
 #from scal3.core import dataToJson## FIXME
 
 
+class FileSystem:
+	def open(self, fpath, mode="r", encoding=None):
+		raise NotImplementedError
+
+
+class DefaultFileSystem(FileSystem):
+	def __init__(self, rootPath):
+		self._rootPath = rootPath
+
+	def open(self, fpath, mode="r", encoding=None):
+		fpath = join(self._rootPath, fpath)
+		if mode == "r" and encoding is None:
+			encoding = "utf-8"
+		return open(fpath, mode=mode, encoding=encoding)
+
+
+
 class SObj:
 	@classmethod
 	def getSubclass(cls, _type):
@@ -58,7 +75,7 @@ class SObj:
 			for param in self.params
 		}
 
-	def setData(self, data, force=False):
+	def setData(self, data: "Union[Dict, List]", force=False):
 		if not force and not self.__class__.canSetDataMultipleTimes:
 			if getattr(self, "dataIsSet", False):
 				raise RuntimeError(
@@ -102,7 +119,7 @@ class SObj:
 		return parent.getPath() + [index]
 
 
-def makeOrderedData(data, params):
+def makeOrderedData(data: "Union[Dict, List]", params):
 	if isinstance(data, dict):
 		if params:
 			data = list(data.items())
@@ -135,12 +152,12 @@ class JsonSObj(SObj):
 		return cls.file
 
 	@classmethod
-	def load(cls, *args):
+	def load(cls, fs: FileSystem, *args):
 		fpath = cls.getFile(*args)
 		data = {}
 		if isfile(fpath):
 			try:
-				with open(fpath) as fp:
+				with fs.open(fpath) as fp:
 					jsonStr = fp.read()
 				data = jsonToData(jsonStr)
 			except Exception as e:
@@ -157,6 +174,7 @@ class JsonSObj(SObj):
 		else:
 			subCls = cls.getSubclass(_type)
 		obj = subCls(*args)
+		obj.fs = fs
 		obj.setData(data)
 		return obj
 	#####
@@ -173,7 +191,7 @@ class JsonSObj(SObj):
 	def save(self):
 		if self.file:
 			jstr = self.getJson()
-			with open(self.file, "w") as fp:
+			with self.fs.open(self.file, "w") as fp:
 				fp.write(jstr)
 		else:
 			print(
@@ -195,7 +213,7 @@ class JsonSObj(SObj):
 		#	print("no modified param for object %r"%self)
 
 
-def saveBsonObject(data):
+def saveBsonObject(data: "Union[Dict, List]", fs: FileSystem):
 	data = getSortedDict(data)
 	bsonBytes = bytes(bson.dumps(data))
 	_hash = sha1(bsonBytes).hexdigest()
@@ -203,13 +221,13 @@ def saveBsonObject(data):
 	fpath = join(dpath, _hash[2:])
 	if not isfile(fpath):
 		makeDir(dpath)
-		open(fpath, "wb").write(bsonBytes)
+		fs.open(fpath, "wb").write(bsonBytes)
 	return _hash
 
 
-def loadBsonObject(_hash):
+def loadBsonObject(_hash, fs: FileSystem):
 	fpath = join(objectDir, _hash[:2], _hash[2:])
-	with open(fpath, "rb") as fp:
+	with fs.open(fpath, "rb") as fp:
 		bsonBytes = fp.read()
 	if _hash != sha1(bsonBytes).hexdigest():
 		raise IOError(
@@ -218,7 +236,7 @@ def loadBsonObject(_hash):
 	return bson.loads(bsonBytes)
 
 
-def updateBasicDataFromBson(data, filePath, fileType):
+def updateBasicDataFromBson(data: "Union[Dict, List]", filePath: str, fileType: str, fs: FileSystem):
 	"""
 		fileType: "event" | "group" | "account"...,
 			display only, does not matter much
@@ -232,7 +250,7 @@ def updateBasicDataFromBson(data, filePath, fileType):
 		raise ValueError(
 			"invalid %s file \"%s\", no \"history\"" % (fileType, filePath)
 		)
-	data.update(loadBsonObject(lastHash))
+	data.update(loadBsonObject(lastHash, fs))
 	data["modified"] = lastEpoch ## FIXME
 	return (lastEpoch, lastHash)
 
@@ -252,12 +270,12 @@ class BsonHistObj(SObj):
 		return cls.file
 
 	@classmethod
-	def load(cls, *args):
+	def load(cls, fs: FileSystem, *args):
 		_file = cls.getFile(*args)
 		data = {}
 		lastEpoch, lastHash = None, None
 		try:
-			with open(_file) as fp:
+			with fs.open(_file) as fp:
 				jsonStr = fp.read()
 			data = jsonToData(jsonStr)
 		except FileNotFoundError:
@@ -268,7 +286,7 @@ class BsonHistObj(SObj):
 				print("error while opening json file \"%s\"" % _file)
 				raise e
 		else:
-			lastEpoch, lastHash = updateBasicDataFromBson(data, _file, cls.name)
+			lastEpoch, lastHash = updateBasicDataFromBson(data, _file, cls.name, fs)
 
 		# data is the result of json.loads, so probably can be just dict or list (or str)
 		_type = data.get("type") if isinstance(data, dict) else None
@@ -277,6 +295,7 @@ class BsonHistObj(SObj):
 		else:
 			subCls = cls.getSubclass(_type)
 		obj = subCls(*args)
+		obj.fs = fs
 		obj.setData(data)
 		obj.lastHash = lastHash
 		obj.modified = lastEpoch
@@ -289,7 +308,7 @@ class BsonHistObj(SObj):
 	def loadBasicData(self):
 		if not isfile(self.file):
 			return {}
-		with open(self.file) as fp:
+		with self.fs.open(self.file) as fp:
 			jsonStr = fp.read()
 		return jsonToData(jsonStr)
 
@@ -304,7 +323,7 @@ class BsonHistObj(SObj):
 
 	def saveBasicData(self, basicData):
 		jsonStr = dataToJson(basicData)
-		open(self.file, "w").write(jsonStr)
+		self.fs.open(self.file, "w").write(jsonStr)
 
 	def save(self, *histArgs):
 		"""
@@ -323,7 +342,7 @@ class BsonHistObj(SObj):
 			basicData[param] = data.pop(param)
 		if "modified" in data:
 			del data["modified"]
-		_hash = saveBsonObject(data)
+		_hash = saveBsonObject(data, self.fs)
 		###
 		history = self.loadHistory()
 		###
@@ -342,7 +361,7 @@ class BsonHistObj(SObj):
 	def getRevision(self, revHash, *args):
 		cls = self.__class__
 		data = self.loadBasicData()
-		data.update(loadBsonObject(revHash))
+		data.update(loadBsonObject(revHash, self.fs))
 		try:
 			_type = data["type"]
 		except (KeyError, TypeError):

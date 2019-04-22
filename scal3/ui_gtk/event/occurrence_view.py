@@ -143,7 +143,7 @@ class DayOccurrenceView(gtk.ScrolledWindow, ud.BaseCalObj):
 		event,
 		occurData,
 	):
-		newEvent = newGroup.createEvent(newEventType)
+		newEvent = newGroup.create(newEventType)
 		newEvent.copyFrom(event)
 		startEpoch, endEpoch = occurData["time_epoch"]
 		newEvent.setStartEpoch(startEpoch)

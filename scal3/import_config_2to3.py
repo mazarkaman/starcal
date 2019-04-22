@@ -32,7 +32,7 @@ import re
 from scal3.path import confDir as newConfDir
 from scal3.os_utils import makeDir
 from scal3.json_utils import dataToPrettyJson, dataToCompactJson
-from scal3.s_object import saveBsonObject
+from scal3.s_object import DefaultFileSystem, saveBsonObject
 
 oldConfDir = newConfDir.replace("starcal3", "starcal2")
 
@@ -47,6 +47,8 @@ newGroupsDir = join(newEventDir, "groups")
 
 oldAccountsDir = join(oldEventDir, "accounts")
 newAccountsDir = join(newEventDir, "accounts")
+
+fsNew = DefaultFileSystem(newConfDir)
 
 
 def loadConf(confPath):
@@ -168,7 +170,7 @@ def importEventsIter():
 			except KeyError:
 				pass
 		###
-		_hash = saveBsonObject(data)
+		_hash = saveBsonObject(data, fsNew)
 		basicData["history"] = [(tm, _hash)]
 		open(newDpath + ".json", "w").write(
 			dataToPrettyJson(basicData, sort_keys=True)
@@ -234,7 +236,7 @@ def importGroupsIter():
 			except KeyError:
 				pass
 		###
-		_hash = saveBsonObject(data)
+		_hash = saveBsonObject(data, fsNew)
 		basicData["history"] = [(tm, _hash)]
 		open(newJsonPath, "w").write(dataToPrettyJson(basicData, sort_keys=True))
 	####
@@ -310,7 +312,7 @@ def importAccountsIter():
 			except KeyError:
 				pass
 		###
-		_hash = saveBsonObject(data)
+		_hash = saveBsonObject(data, fsNew)
 		basicData["history"] = [(tm, _hash)]
 		open(newJsonPath, "w").write(
 			dataToPrettyJson(basicData, sort_keys=True)
@@ -348,7 +350,7 @@ def importTrashIter():
 		except KeyError:
 			pass
 	###
-	_hash = saveBsonObject(data)
+	_hash = saveBsonObject(data, fsNew)
 	basicData["history"] = [(tm, _hash)]
 	open(newJsonPath, "w").write(dataToPrettyJson(basicData, sort_keys=True))
 

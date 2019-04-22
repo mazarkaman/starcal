@@ -656,14 +656,22 @@ def duplicateGroupTitle(group):
 
 
 def init():
-	global todayCell, cell, eventAccounts, eventGroups
+	global todayCell, cell, fs, eventAccounts, eventGroups, eventTrash
 	core.init()
-	event_lib.init()
+
+	fs = event_lib.DefaultFileSystem(confDir)
+	event_lib.init(fs)
 	# Load accounts, groups and trash? FIXME
-	eventAccounts = event_lib.EventAccountsHolder.load()
-	eventGroups = event_lib.EventGroupsHolder.load()
+	eventAccounts = event_lib.EventAccountsHolder.load(fs)
+	eventGroups = event_lib.EventGroupsHolder.load(fs)
+	eventTrash = event_lib.EventTrash.load(fs)
 	####
 	todayCell = cell = cellCache.getTodayCell()  # FIXME
+
+
+def withFS(obj):
+	obj.fs = fs
+	return obj
 
 
 ######################################################################
@@ -829,9 +837,10 @@ eventTagsDesc = {
 }
 
 ###################
-eventTrash = event_lib.EventTrash.load()
-eventAccounts = []
-eventGroups = []
+fs = None # type: event_lib.FileSystem
+eventAccounts = [] # type: List[event_lib.EventAccount]
+eventGroups = [] # type: List[event_lib.EventGroup]
+eventTrash = None # type: event_lib.EventTrash
 
 
 def iterAllEvents():  # dosen"t include orphan events

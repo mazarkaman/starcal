@@ -149,7 +149,7 @@ def importEvent(gevent, group):
 		else:
 			eventType = "task"
 
-	event = group.createEvent(eventType)
+	event = group.create(eventType)
 	event.calType = GREGORIAN  # FIXME
 	if not event.setIcsData(dict(icsData)):
 		return

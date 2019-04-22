@@ -92,14 +92,17 @@ makeDir(accountsDir)
 ###################################################
 
 
-def init():
-	global allReadOnly
+def init(fs: FileSystem):
+	global allReadOnly, info, lastIds
+
 	import scal3.account.starcal
 	from scal3.lockfile import checkAndSaveJsonLockFile
 	allReadOnly = checkAndSaveJsonLockFile(lockPath)
 	if allReadOnly:
 		print("Event lock file %s exists, EVENT DATA IS READ-ONLY" % lockPath)
 
+	info = InfoWrapper.load(fs)
+	lastIds = LastIdsWrapper.load(fs)
 
 class JsonEventObj(JsonSObj):
 	def save(self):
@@ -148,7 +151,7 @@ class InfoWrapper(JsonEventObj):
 		self.update()
 		self.save()
 
-info = InfoWrapper.load()
+info = None # type: InfoWrapper
 
 ###################################################
 
@@ -173,7 +176,7 @@ class LastIdsWrapper(JsonEventObj):
 		self.account = 0
 
 
-lastIds = LastIdsWrapper.load()
+lastIds = None # type: LastIdsWrapper
 
 ###########################################################################
 
@@ -1834,6 +1837,7 @@ class Event(BsonHistEventObj, RuleContainer):
 			self.id = None
 		else:
 			self.setId(_id)
+		self.fs = None
 		self.uuid = None
 		self.parent = parent
 		if parent is not None:
@@ -1860,6 +1864,11 @@ class Event(BsonHistEventObj, RuleContainer):
 		# remote groupId and eventId both can be integer or string
 		# (depending on remote account type)
 		self.lastMergeSha1 = None # [localSha1, remoteSha1]
+
+	def create(self, ruleName: str) -> EventRule:
+		rule = classes.rule.byName[ruleName](self)
+		rule.fs = self.fs
+		return rule
 
 	def getShownDescription(self):
 		if not self.description:
@@ -2061,9 +2070,6 @@ class Event(BsonHistEventObj, RuleContainer):
 		if "notifyBefore" in data:
 			self.notifyBefore = durationDecode(data["notifyBefore"])
 		fixIconInObj(self)
-
-	# FIXME
-	#def load(self):## skipRules arg for use in ui_gtk/event/notify.py
 
 	def getNotifiersData(self):
 		return [(notifier.name, notifier.getData()) for notifier in self.notifiers]
@@ -3347,6 +3353,7 @@ class EventContainer(BsonHistEventObj):
 		return "%s(title=%s)" % (self.__class__.__name__, self.title)
 
 	def __init__(self, title="Untitled"):
+		self.fs = None
 		self.parent = None
 		self.timeZoneEnable = False
 		self.timeZone = ""
@@ -3377,11 +3384,12 @@ class EventContainer(BsonHistEventObj):
 				"error while loading event file %r: " % eventFile +
 				"file not found (container: %r)" % self
 			)
-		with open(eventFile) as fp:
+		with self.fs.open(eventFile) as fp:
 			data = jsonToData(fp.read())
 		data["id"] = eid  # FIXME
-		lastEpoch, lastHash = updateBasicDataFromBson(data, eventFile, "event")
+		lastEpoch, lastHash = updateBasicDataFromBson(data, eventFile, "event", self.fs)
 		event = classes.event.byName[data["type"]](eid)
+		event.fs = self.fs
 		event.setData(data)
 		event.lastHash = lastHash
 		event.modified = lastEpoch
@@ -3868,17 +3876,18 @@ class EventGroup(EventContainer):
 			self.eventCache[eid] = event
 		return event
 
-	def createEvent(self, eventType):
+	def create(self, eventType):
 		#if not eventType in self.acceptsEventTypes:## FIXME
 		#	raise ValueError(
 		#	"Event type "%s" not supported " % eventType +
 		#	"in group "%s"" % self.name
 		#)
 		event = classes.event.byName[eventType](parent=self)## FIXME
+		event.fs = self.fs
 		return event
 
 	def copyEventWithType(self, event, eventType):## FIXME
-		newEvent = self.createEvent(eventType)
+		newEvent = self.create(eventType)
 		###
 		newEvent.changeCalType(event.calType)
 		newEvent.copyFrom(event)
@@ -3941,6 +3950,7 @@ class EventGroup(EventContainer):
 
 	def copyAs(self, newGroupType):
 		newGroup = classes.group.byName[newGroupType]()
+		newGroup.fs = self.fs
 		newGroup.copyFrom(self)
 		newGroup.removeAll()
 		return newGroup
@@ -3958,7 +3968,7 @@ class EventGroup(EventContainer):
 		newEventType = newGroup.acceptsEventTypes[0]
 		newGroup.enable = False  # to prevent per-event node update
 		for event in self:
-			newEvent = newGroup.createEvent(newEventType)
+			newEvent = newGroup.create(newEventType)
 			newEvent.changeCalType(event.calType)## FIXME needed?
 			newEvent.copyFrom(event, True)
 			newEvent.setId(event.id)
@@ -4127,7 +4137,7 @@ class EventGroup(EventContainer):
 		return data
 
 	def appendByData(self, eventData):
-		event = self.createEvent(eventData["type"])
+		event = self.create(eventData["type"])
 		event.setData(eventData)
 		event.save()
 		self.append(event)
@@ -4655,7 +4665,7 @@ class VcsEpochBaseEvent(Event):
 	)
 
 	@classmethod
-	def load(cls):## FIXME
+	def load(cls, fs: FileSystem, *args):## FIXME
 		pass
 
 	def __bool__(self):
@@ -4819,7 +4829,7 @@ class VcsEpochBaseEventGroup(VcsBaseEventGroup):
 			newGroup.enable = False  # to prevent per-event node update
 			for vcsId in self.vcsIds:
 				event = self.getEvent(vcsId)
-				newEvent = newGroup.createEvent(newEventType)
+				newEvent = newGroup.create(newEventType)
 				newEvent.changeCalType(event.calType)## FIXME needed?
 				newEvent.copyFrom(event, True)
 				newEvent.setStartEpoch(event.epoch)
@@ -4982,7 +4992,7 @@ class VcsDailyStatEvent(Event):
 	)
 
 	@classmethod
-	def load(cls):  # FIXME
+	def load(cls, fs: FileSystem, *args):  # FIXME
 		pass
 
 	def __bool__(self):
@@ -5097,6 +5107,7 @@ class JsonObjectsHolder(JsonEventObj):
 	skipLoadNoFile = True
 
 	def __init__(self, _id=None):
+		self.fs = None
 		self.clear()
 
 	def clear(self):
@@ -5168,7 +5179,7 @@ class JsonObjectsHolder(JsonEventObj):
 			_id = abs(sid)
 			try:
 				cls = getattr(classes, self.childName).main
-				obj = cls.load(_id)
+				obj = cls.load(self.fs, _id)
 			except:
 				print("error loading %s" % self.childName)
 				myRaiseTback()
@@ -5194,6 +5205,11 @@ class EventGroupsHolder(JsonObjectsHolder):
 		self.id = None
 		self.parent = None
 
+	def create(self, groupName: str) -> EventGroup:
+		group = classes.group.byName[groupName]()
+		group.fs = self.fs
+		return group
+
 	def delete(self, obj):
 		assert not obj.idList  # FIXME
 		obj.parent = None
@@ -5217,6 +5233,7 @@ class EventGroupsHolder(JsonObjectsHolder):
 			):
 				cls = classes.group.byName[name]
 				obj = cls()## FIXME
+				obj.fs = self.fs
 				obj.setRandomColor()
 				obj.setTitle(cls.desc)
 				obj.save()
@@ -5266,6 +5283,7 @@ class EventGroupsHolder(JsonObjectsHolder):
 		newGroups = []
 		for gdata in data["groups"]:
 			group = classes.group.byName[gdata["type"]]()
+			group.fs = self.fs
 			group.importData(gdata)
 			self.append(group)
 			newGroups.append(group)
@@ -5273,12 +5291,12 @@ class EventGroupsHolder(JsonObjectsHolder):
 		return newGroups
 
 	def importJsonFile(self, fpath):
-		with open(fpath, "rb") as fp:
+		with self.fs.open(fpath, "rb") as fp:
 			jsonStr = fp.read()
 		self.importData(jsonToData(jsonStr))
 
 	def exportToIcs(self, fpath, gidList):
-		fp = open(fpath, "w")
+		fp = self.fs.open(fpath, "w")
 		fp.write(ics.icsHeader)
 		for gid in gidList:
 			self[gid].exportToIcsFp(fp)
@@ -5359,9 +5377,9 @@ class EventAccountsHolder(JsonObjectsHolder):
 				": file not found"
 			)# FIXME
 			## FileNotFoundError
-		with open(objFile) as fp:
+		with self.fs.open(objFile) as fp:
 			data = jsonToData(fp.read())
-		updateBasicDataFromBson(data, objFile, "account")
+		updateBasicDataFromBson(data, objFile, "account", self.fs)
 		#if data["id"] != _id:
 		#	log.error(
 		#	"attribute "id" in json file " +
@@ -5369,38 +5387,6 @@ class EventAccountsHolder(JsonObjectsHolder):
 		#)
 		#del data["id"]
 		return data
-	"""
-
-	def load(self):
-		#print("------------ EventAccountsHolder.load")
-		self.clear()
-		if isfile(self.file):
-			with open(self.file) as fp:
-				data = jsonToData(fp.read())
-			for _id in data:
-				data = self.loadData(_id)
-				if not data:
-					continue
-				name = data["type"]
-				if data["enable"]:
-					cls = self.loadClass(name)
-					if cls is None:
-						continue
-					try:
-						obj = cls(_id)
-					except:
-						myRaise()
-						continue
-					#data["id"] = _id  # FIXME
-					obj.setData(data)
-				else:
-					obj = DummyAccount(
-						name,
-						_id,
-						data["title"],
-					)
-				self.append(obj)
-	"""
 
 	def getLoadedObj(self, obj):
 		_id = obj.id
@@ -5410,6 +5396,7 @@ class EventAccountsHolder(JsonObjectsHolder):
 		if cls is None:
 			return
 		obj = cls(_id)
+		obj.fs = self.fs
 		data = self.loadData(_id)
 		obj.setData(data)
 		return obj
@@ -5479,10 +5466,10 @@ class DummyAccount:
 		self.id = _id
 		self.title = title
 
-	def save():
+	def save(self):
 		pass
 
-	def load():
+	def load(cls, fs: FileSystem, *args):
 		pass
 
 	def getLoadedObj(self):

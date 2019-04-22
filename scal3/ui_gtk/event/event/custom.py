@@ -173,7 +173,7 @@ class WidgetClass(common.WidgetClass):
 		if ci is None or ci < 0:
 			return
 		newRuleName = self.addRuleModel[ci][0]
-		newRule = event_lib.classes.rule.byName[newRuleName](self.event)
+		newRule = self.event.create(newRuleName)
 		ok, msg = self.event.checkRulesDependencies(newRule=newRule)
 		self.warnLabel.set_label(msg)
 
@@ -182,7 +182,7 @@ class WidgetClass(common.WidgetClass):
 		if ci is None or ci < 0:
 			return
 		ruleName = self.addRuleModel[ci][0]
-		rule = event_lib.classes.rule.byName[ruleName](self.event)
+		rule = self.event.create(ruleName)
 		ok, msg = self.event.checkAndAddRule(rule)
 		if not ok:
 			return
