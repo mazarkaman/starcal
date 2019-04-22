@@ -289,15 +289,18 @@ wcalToolbarData = {
 
 ###########################################################
 
-try:
-	wcalToolbarData = ui.ud__wcalToolbarData ## loaded from jsom
-except AttributeError:
-	pass
+# loaded from jsom
+tmpValue = getattr(ui, "ud__wcalToolbarData", None)
+if tmpValue is not None:
+	wcalToolbarData = tmpValue
+del tmpValue
 
-try:
-	mainToolbarData = ui.ud__mainToolbarData ## loaded from jsom
-except AttributeError:
-	pass
+
+# loaded from jsom
+tmpValue = getattr(ui, "ud__mainToolbarData", None)
+if tmpValue is not None:
+	mainToolbarData = tmpValue
+del tmpValue
 
 
 loadConf()

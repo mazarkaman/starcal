@@ -885,6 +885,10 @@ logo = join(pixDir, "starcal.png")
 
 # _________________________ Options _________________________ #
 
+# these 2 are loaded from json
+ud__wcalToolbarData = None
+ud__mainToolbarData = None
+
 winWidth = 480
 mcalHeight = 250
 winTaskbar = False
