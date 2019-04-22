@@ -24,6 +24,9 @@ class FileSystem:
 	def open(self, fpath, mode="r", encoding=None):
 		raise NotImplementedError
 
+	def listdir(self, dpath):
+		raise NotImplementedError
+
 
 class DefaultFileSystem(FileSystem):
 	def __init__(self, rootPath):
@@ -35,6 +38,8 @@ class DefaultFileSystem(FileSystem):
 			encoding = "utf-8"
 		return open(fpath, mode=mode, encoding=encoding)
 
+	def listdir(self, dpath):
+		return os.listdir(join(self._rootPath, dpath))
 
 
 class SObj:
