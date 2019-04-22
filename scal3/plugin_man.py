@@ -27,7 +27,9 @@ from os.path import isfile, dirname, join, split, splitext, isabs
 from scal3.path import *
 from scal3.utils import myRaiseTback
 from scal3.json_utils import *
-from scal3.cal_types import calTypes, jd_to, to_jd, convert, GREGORIAN
+from scal3.time_utils import getJdListFromEpochRange
+from scal3.ics import getEpochByIcsTime
+from scal3.cal_types import calTypes, jd_to, to_jd, convert, GREGORIAN, gregorian
 from scal3.date_utils import ymdRange
 from scal3.locale_man import tr as _
 from scal3.locale_man import getMonthName
@@ -626,7 +628,8 @@ class IcsTextPlugin(BasePlugin):
 						text = SUMMARY
 						if DESCRIPTION:
 							text += "\n%s" % DESCRIPTION
-						for (y, m, d) in ymdRange(DTSTART, DTEND):
+						for jd in getJdListFromEpochRange(DTSTART, DTEND):
+							y, m, d = gregorian.jd_to(jd)
 							md[(m, d)] = text
 					else:
 						log.error(
@@ -647,16 +650,13 @@ class IcsTextPlugin(BasePlugin):
 					#if not line.startswith("DTSTART;VALUE=DATE;"):
 					#	log.error("unsupported ics line: %s"%line)
 					#	continue
-					date = line.split(":")[-1]
-					#if len(date)!=8:
+					
+					icsTime = line.split(":")[-1]
+					#if len(icsTime)!=8:
 					#	log.error("unsupported ics line: %s"%line)
 					#	continue
 					try:
-						DTSTART = (
-							int(date[:4]),
-							int(date[4:6]),
-							int(date[6:8]),
-						)
+						DTSTART = getEpochByIcsTime(icsTime)
 					except:
 						log.error("unsupported ics line: %s" % line)
 						myRaise()
@@ -665,16 +665,12 @@ class IcsTextPlugin(BasePlugin):
 					#if not line.startswith("DTEND;VALUE=DATE;"):
 					#	log.error("unsupported ics line: %s"%line)
 					#	continue
-					date = line.split(":")[-1]
-					#if len(date)!=8:
+					icsTime = line.split(":")[-1]
+					#if len(icsTime)!=8:
 					#	log.error("unsupported ics line: %s"%line)
 					#	continue
 					try:
-						DTEND = (
-							int(date[:4]),
-							int(date[4:6]),
-							int(date[6:8]),
-						)
+						DTEND = getEpochByIcsTime(icsTime)
 					except:
 						log.error("unsupported ics line: %s" % line)
 						myRaise()
@@ -694,7 +690,8 @@ class IcsTextPlugin(BasePlugin):
 						text = SUMMARY
 						if DESCRIPTION:
 							text += "\n%s" % DESCRIPTION
-						for (y, m, d) in ymdRange(DTSTART, DTEND):
+						for jd in getJdListFromEpochRange(DTSTART, DTEND):
+							y, m, d = gregorian.jd_to(jd)
 							ymd[(y, m, d)] = text
 					SUMMARY = ""
 					DESCRIPTION = ""
@@ -704,30 +701,30 @@ class IcsTextPlugin(BasePlugin):
 					SUMMARY = line[8:].replace("\\,", ",").replace("\\n", "\n")
 				elif line.startswith("DESCRIPTION:"):
 					DESCRIPTION = line[12:].replace("\\,", ",").replace("\\n", "\n")
-				elif line.startswith("DTSTART;"):
-					#if not line.startswith("DTSTART;VALUE=DATE;"):
+				elif line.startswith("DTSTART"):
+					#if not line.startswith("DTSTART;VALUE=DATE"):
 					#	log.error("unsupported ics line: %s"%line)
 					#	continue
-					date = line.split(":")[-1]
-					#if len(date)!=8:
+					icsTime = line.split(":")[-1]
+					#if len(icsTime)!=8:
 					#	log.error("unsupported ics line: %s"%line)
 					#	continue
 					try:
-						DTSTART = (int(date[:4]), int(date[4:6]), int(date[6:8]))
+						DTSTART = getEpochByIcsTime(icsTime)
 					except:
 						log.error("unsupported ics line: %s" % line)
 						myRaise()
 						continue
-				elif line.startswith("DTEND;"):
+				elif line.startswith("DTEND"):
 					#if not line.startswith("DTEND;VALUE=DATE;"):
 					#	log.error("unsupported ics line: %s"%line)
 					#	continue
-					date = line.split(":")[-1]
-					#if len(date)!=8:
+					icsTime = line.split(":")[-1]
+					#if len(icsTime)!=8:
 					#	log.error("unsupported ics line: %s"%line)
 					#	continue
 					try:
-						DTEND = (int(date[:4]), int(date[4:6]), int(date[6:8]))
+						DTEND = getEpochByIcsTime(icsTime)
 					except:
 						log.error("unsupported ics line: %s" % line)
 						myRaise()
