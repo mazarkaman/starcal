@@ -725,9 +725,9 @@ dcalTypeParams = [  # FIXME
 ]
 dcalWeekdayParams = {
 	"enable": False,
-	"pos": (0, 0),
+	"pos": (20, 10),
 	"xalign": "right",
-	"yalign": "top",
+	"yalign": "buttom",
 	"font": None,
 	"color": (0, 200, 205),
 }
@@ -757,9 +757,9 @@ dcalWinTypeParams = [
 ]
 dcalWinWeekdayParams = {
 	"enable": False,
-	"pos": (0, 0),
+	"pos": (20, 10),
 	"xalign": "right",
-	"yalign": "top",
+	"yalign": "buttom",
 	"font": None,
 	"color": (0, 200, 205),
 }
