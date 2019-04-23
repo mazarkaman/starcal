@@ -19,6 +19,8 @@ class EventDiff:
 		self.lastOrder = 0
 
 	def add(self, action, event):
+		if event.parent is None:
+			raise ValueError("event.parent is None")
 		eid = event.id
 		gid = event.parent.id
 		path = event.getPath()

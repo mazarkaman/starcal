@@ -856,6 +856,8 @@ class MainWin(gtk.ApplicationWindow, ud.BaseCalObj):
 		)
 		if event is None:
 			return
+		if event.parent is None:
+			raise RuntimeError("event.parent is None")
 		ui.eventDiff.add("+", event)
 		self.onConfigChange()
 
