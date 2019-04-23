@@ -43,3 +43,15 @@ def get():
 	if log is None:
 		init()
 	return log
+
+def myRaise(File=None):
+	typ, value, tback = sys.exc_info()
+	text = "line %s: %s: %s\n" % (
+		tback.tb_lineno,
+		typ.__name__,
+		value,
+	)
+	if File:
+		text = "File \"%s\", " % File + text
+	log.error(text)
+

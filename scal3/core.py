@@ -38,6 +38,7 @@ from scal3.utils import *
 
 from scal3 import logger
 from scal3.cal_types import calTypes, GREGORIAN, getSysDate
+from scal3.logger import myRaise
 from scal3 import locale_man
 from scal3.locale_man import tr as _
 from scal3.locale_man import localTz
@@ -144,18 +145,6 @@ def saveConf():
 
 
 log = logger.get()
-
-
-def myRaise(File=None):
-	typ, value, tback = sys.exc_info()
-	text = "line %s: %s: %s\n" % (
-		tback.tb_lineno,
-		typ.__name__,
-		value,
-	)
-	if File:
-		text = "File \"%s\", " % File + text
-	log.error(text)
 
 
 # ____________________________________________________________________ #

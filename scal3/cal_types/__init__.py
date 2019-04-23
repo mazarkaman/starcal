@@ -6,19 +6,11 @@ from time import localtime
 from scal3.cal_types import gregorian
 from scal3.path import *
 from scal3.utils import printError
+# from scal3.logger import myRaise
 
 GREGORIAN = 0  # Gregorian (common calendar)
 modules = [gregorian]
 
-
-def myRaise():
-	i = sys.exc_info()
-	sys.stdout.write("File \"%s\", line %s: %s: %s\n" % (
-		__file__,
-		i[2].tb_lineno,
-		i[0].__name__,
-		i[1],
-	))
 
 
 with open(join(modDir, "modules.list")) as fp:

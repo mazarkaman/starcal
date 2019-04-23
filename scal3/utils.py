@@ -101,6 +101,7 @@ def myRaise(File=None):
 	sys.stderr.write(text)
 
 
+# FIXME: move to logger.py
 def myRaiseTback():
 	import traceback
 	typ, value, tback = sys.exc_info()

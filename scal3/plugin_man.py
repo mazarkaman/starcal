@@ -35,6 +35,7 @@ from scal3.locale_man import tr as _
 from scal3.locale_man import getMonthName
 from scal3.ics import icsTmFormat, icsHeader
 from scal3.s_object import *
+from scal3.logger import myRaise
 
 try:
 	import logging
@@ -60,14 +61,6 @@ def registerPlugin(cls):
 def getPlugPath(_file):
 	return _file if isabs(_file) else join(plugDir, _file)
 
-
-def myRaise(File=__file__):
-	i = sys.exc_info()
-	log.error("File \"%s\", line %s: %s: %s\n" % (
-		File,
-		i[2].tb_lineno,
-		i[0].__name__, i[1],
-	))
 
 
 class BasePlugin(SObj):
