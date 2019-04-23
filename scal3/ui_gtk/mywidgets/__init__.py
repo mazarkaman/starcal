@@ -32,17 +32,6 @@ from scal3.ui_gtk.utils import buffer_get_text
 from scal3.ui_gtk.drawing import newDndFontNamePixbuf
 
 
-def myRaise():
-	i = sys.exc_info()
-	try:
-		print("line %s: %s: %s" % (
-			i[2].tb_lineno,
-			i[0].__name__, i[1],
-		))
-	except:
-		print(i)
-
-
 def show_event(widget, gevent):
 	print(type(widget), gevent.type.value_name)#, gevent.send_event
 

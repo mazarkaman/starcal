@@ -41,18 +41,6 @@ from scal3.ui_gtk import *
 from scal3.ui_gtk.decorators import *
 
 
-def myRaise():
-	i = sys.exc_info()
-	try:
-		print("line %s: %s: %s" % (
-			i[2].tb_lineno,
-			i[0].__name__,
-			i[1],
-		))
-	except:
-		print(i)
-
-
 @registerType
 class NumRangesEntry(gtk.Entry):
 	def __init__(self, _min, _max, page_inc=10):
