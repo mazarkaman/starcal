@@ -1113,6 +1113,15 @@ class MainWin(gtk.ApplicationWindow, ud.BaseCalObj):
 				loader.set_size(width, height)
 			except:
 				myRaise()
+		elif os.getenv("XDG_CURRENT_DESKTOP") == "KDE":
+			#DESKTOP_SESSION=/usr/share/xsessions/plasma5
+			#XDG_SESSION_DESKTOP=KDE
+			#XDG_CURRENT_DESKTOP=KDE
+			print("loader.set_size(40, 40)")
+			try:
+				loader.set_size(34, 34) # >= 34x34
+			except:
+				myRaise()
 		with open(imagePath, "rb") as fp:
 			data = fp.read()
 		if ext == "svg":
@@ -1136,6 +1145,7 @@ class MainWin(gtk.ApplicationWindow, ud.BaseCalObj):
 		loader.write(data)
 		loader.close()
 		pixbuf = loader.get_pixbuf()
+		print("pixbuf size:", pixbuf.get_width(), pixbuf.get_height())
 		self.sicon.set_from_pixbuf(pixbuf)
 
 	def statusIconUpdateTooltip(self):
