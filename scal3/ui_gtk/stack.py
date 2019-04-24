@@ -39,10 +39,10 @@ class MyStack(gtk.Stack):
 		###
 		self.connect("key-press-event", self.keyPress)
 		###
-		self._descFontSize = "x-small"
-		self._descCentered = False
+		self._titleFontSize = "x-small"
+		self._titleCentered = False
 
-	def setDescFontSize(self, fontSize: str):
+	def setTitleFontSize(self, fontSize: str):
 		'''
 		Font size in 1024ths of a point, or one of the absolute sizes
 		'xx-small', 'x-small', 'small', 'medium', 'large', 'x-large', 'xx-large',
@@ -52,10 +52,10 @@ class MyStack(gtk.Stack):
 		you can use font='12.5' rather than size='12800'.
 		https://developer.gnome.org/pango/stable/PangoMarkupFormat.html#PangoMarkupFormat
 		'''
-		self._descFontSize = fontSize
+		self._titleFontSize = fontSize
 
-	def setDescCentered(self, centered: bool):
-		self._descCentered = centered
+	def setTitleCentered(self, centered: bool):
+		self._titleCentered = centered
 
 	def keyPress(self, arg, gevent):
 		if gdk.keyval_name(gevent.keyval) == "BackSpace":
@@ -78,7 +78,7 @@ class MyStack(gtk.Stack):
 			else gtk.RevealerTransitionType.SLIDE_RIGHT
 		)
 
-	def _newNavButtonBox(self, parentName: str, desc=""):
+	def _newNavButtonBox(self, parentName: str, title=""):
 		hbox = gtk.HBox()
 		# hbox.set_direction(gtk.TextDirection.LTR)
 		backButton = gtk.Button()
@@ -93,14 +93,14 @@ class MyStack(gtk.Stack):
 		)
 		pack(hbox, backButton)
 		pack(hbox, gtk.Label(), 1, 1)
-		if desc:
-			if self._descFontSize:
-				desc = "<span font_size=\"%s\">%s</span>" % (self._descFontSize, desc)
-			label = gtk.Label(label=desc)
-			if self._descFontSize:
+		if title:
+			if self._titleFontSize:
+				title = "<span font_size=\"%s\">%s</span>" % (self._titleFontSize, title)
+			label = gtk.Label(label=title)
+			if self._titleFontSize:
 				label.set_use_markup(True)
 			pack(hbox, label, 0, 0)
-			if self._descCentered:
+			if self._titleCentered:
 				pack(hbox, gtk.Label(), 1, 1)
 		hbox.show_all()
 		return hbox
@@ -110,11 +110,11 @@ class MyStack(gtk.Stack):
 		name: str,
 		parentName: str,
 		widget: gtk.Widget,
-		desc: str = "",
+		title: str = "",
 	):
 		vbox = gtk.VBox(spacing=self._vboxSpacing)
 		if parentName:
-			pack(vbox, self._newNavButtonBox(parentName, desc=desc))
+			pack(vbox, self._newNavButtonBox(parentName, title=title))
 		pack(vbox, widget)
 		self.add_named(vbox, name=name)
 		widget.show()

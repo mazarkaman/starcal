@@ -202,10 +202,10 @@ class CustomizeDialog(gtk.Dialog):
 			pack(vbox, childrenBox)
 		if item.optionsWidget:
 			pack(vbox, item.optionsWidget, 0, 0)
-		desc = item.desc
+		title = item.desc
 		if parentItem._name != "mainWin":
-			desc = desc + " - " + parentItem.desc
-		self.stack.addPage(pageName, parentPageName, vbox, desc=desc)
+			title = title + " - " + parentItem.desc
+		self.stack.addPage(pageName, parentPageName, vbox, title=title)
 
 	def treeviewButtonPress(self, treev, gevent):
 		if gevent.button != 1:
