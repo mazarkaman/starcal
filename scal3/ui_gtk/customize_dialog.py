@@ -61,7 +61,7 @@ class CustomizeDialog(gtk.Dialog):
 		###
 		treev, childrenBox = self.newItemList("mainWin", widget)
 		self.treev_root = treev
-		self.stack.addPage("mainWin", "", childrenBox)
+		self.stack.addPage("mainWin", "", childrenBox, expand=True, fill=True)
 		###
 		self.vbox.connect("size-allocate", self.vboxSizeRequest)
 		self.vbox.show_all()
@@ -73,7 +73,7 @@ class CustomizeDialog(gtk.Dialog):
 			return pixbufFromFile("gtk-edit-16.png")
 		return None
 
-	def newItemList(self, pageName: str, parentItem: "CustomizableCalObj") -> Tuple[gtk.TreeView, gtk.Box]:
+	def newItemList(self, pageName: str, parentItem: "CustomizableCalObj", scrolled=False) -> Tuple[gtk.TreeView, gtk.Box]:
 		# column 0: bool: enable
 		# column 1: str: unique pageName (dot separated)
 		# column 2: str: desc
@@ -113,7 +113,13 @@ class CustomizeDialog(gtk.Dialog):
 		###
 		hbox = gtk.HBox()
 		vbox_l = gtk.VBox()
-		pack(vbox_l, treev, 1, 1)
+		if scrolled:
+			swin = gtk.ScrolledWindow()
+			swin.set_policy(gtk.PolicyType.AUTOMATIC, gtk.PolicyType.AUTOMATIC)
+			swin.add(treev)
+			pack(vbox_l, swin, 1, 1)
+		else:
+			pack(vbox_l, treev, 1, 1)
 		pack(hbox, vbox_l, 1, 1)
 		###
 		toolbar = gtk.Toolbar()
@@ -197,15 +203,22 @@ class CustomizeDialog(gtk.Dialog):
 			item.optionsWidgetCreate()
 		vbox = gtk.VBox()
 		if item.itemListCustomizable and item.items:
-			treev, childrenBox = self.newItemList(pageName, item)
+			treev, childrenBox = self.newItemList(pageName, item, scrolled=True)
 			childrenBox.show_all()
-			pack(vbox, childrenBox)
+			pack(vbox, childrenBox, 1, 1)
 		if item.optionsWidget:
 			pack(vbox, item.optionsWidget, 0, 0)
 		title = item.desc
 		if parentItem._name != "mainWin":
 			title = title + " - " + parentItem.desc
-		self.stack.addPage(pageName, parentPageName, vbox, title=title)
+		self.stack.addPage(
+			pageName,
+			parentPageName,
+			vbox,
+			title=title,
+			expand=True,
+			fill=True,
+		)
 
 	def treeviewButtonPress(self, treev, gevent):
 		if gevent.button != 1:
