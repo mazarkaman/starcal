@@ -254,6 +254,7 @@ class PrefDialog(gtk.Window):
 		#pack(vbox, hbox)
 		#####################
 		pageHBox = gtk.HBox()
+		pageHBox.set_border_width(10)
 		spacing = 3
 		###
 		pageVBox = gtk.VBox()
