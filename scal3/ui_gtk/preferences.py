@@ -964,8 +964,6 @@ class PrefDialog(gtk.Window):
 		stack.setupWindowTitle(self, _("Preferences"), False)
 		self.stack = stack
 		##########################
-		mainVBox = gtk.VBox(spacing=5)
-		mainVBox.set_border_width(20)
 		###
 		mainPages = []
 		for page in self.prefPages:
@@ -973,32 +971,48 @@ class PrefDialog(gtk.Window):
 				continue
 			mainPages.append(page)
 		####
+		colN = 2
+		####
+		grid = gtk.Grid()
+		grid.set_row_homogeneous(True)
+		grid.set_column_homogeneous(True)
+		grid.set_row_spacing(15)
+		grid.set_column_spacing(15)
+		grid.set_border_width(20)
+		####
 		page = mainPages.pop(0)
 		button = self.newWideButton(label=page.pageLabel, imageName=page.pageIcon)
 		button.connect("clicked", self.gotoPageCallback(page.pageName))
-		pack(mainVBox, button, 1, 1, padding=10)
+		grid.attach(button, 0, 0, colN, 1)
+		button.grab_focus()
 		###
-		colsHBox = gtk.HBox(spacing=10)
 		N = len(mainPages)
-		colN = 2
 		colBN = int(ceil(N / colN))
 		for col_i in range(colN):
 			colVBox = gtk.VBox(spacing=10)
-			for page in mainPages[col_i*colBN : min(N, (col_i+1)*colBN)]:
+			for row_i in range(colBN):
+				page_i = col_i * colBN + row_i
+				if page_i >= N:
+					break
+				page = mainPages[page_i]
 				button = self.newWideButton(label=page.pageLabel, imageName=page.pageIcon)
 				button.connect("clicked", self.gotoPageCallback(page.pageName))
-				pack(colVBox, button, 1, 1)
-			pack(colsHBox, colVBox, 1, 1)
-			colVBox = gtk.HBox(spacing=10)
-		pack(mainVBox, colsHBox)
-		mainVBox.show_all()
-		stack.addPage("main", "", mainVBox)
+				grid.attach(button, col_i, row_i, 1, 1)
+		grid.show_all()
+		stack.addPage("main", "", grid, expand=True, fill=True)
 		##########################
 		for page in self.prefPages:
 			pageParent = page.pageParent
 			if not pageParent:
 				pageParent = "main"
-			stack.addPage(page.pageName, pageParent, page.pageWidget, title=page.pageTitle)
+			stack.addPage(
+				page.pageName,
+				pageParent,
+				page.pageWidget,
+				title=page.pageTitle,
+				expand=True,
+				fill=True,
+			)
 		#######################
 		pack(self.vbox, stack, 1, 1)
 		pack(self.vbox, self.buttonbox)
