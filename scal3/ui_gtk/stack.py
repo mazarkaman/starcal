@@ -64,8 +64,11 @@ class MyStack(gtk.Stack):
 		hbox = gtk.HBox()
 		# hbox.set_direction(gtk.TextDirection.LTR)
 		backButton = gtk.Button()
-		backButton.set_label(_("Back"))
-		backButton.set_image(imageFromIconName("gtk-go-back", self._iconSize))
+		backHbox = gtk.HBox(spacing=3)
+		backHbox.set_border_width(5)
+		pack(backHbox, imageFromIconName("gtk-go-back", self._iconSize))
+		pack(backHbox, gtk.Label(label=_("Back")))
+		backButton.add(backHbox)
 		backButton.connect(
 			"clicked",
 			lambda w: self.gotoPage(parentName, backward=True),
