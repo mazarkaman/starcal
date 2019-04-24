@@ -41,6 +41,14 @@ from scal3.ui_gtk.pref_utils_extra import *
 from scal3.ui_gtk.stack import MyStack
 
 
+class PrefPage:
+	def __init__(self):
+		self.pageWidget = None
+		self.pageName = ""
+		self.pageTitle = ""
+		self.pageLabel = ""
+		self.pageIcon = ""
+
 class PrefDialog(gtk.Dialog):
 	def __init__(self, **kwargs):
 		gtk.Dialog.__init__(self, **kwargs)
@@ -82,11 +90,13 @@ class PrefDialog(gtk.Dialog):
 		self.prefPages = []
 		################################ Tab 1 (General) #####################
 		vbox = gtk.VBox()
-		vbox._name = "general"
-		vbox._title = _("General")
-		vbox._label = _("_General")
-		vbox._icon = "preferences-other.png"
-		self.prefPages.append(vbox)
+		page = PrefPage()
+		page.pageWidget = vbox
+		page.pageName = "general"
+		page.pageTitle = _("General")
+		page.pageLabel = _("_General")
+		page.pageIcon = "preferences-other.png"
+		self.prefPages.append(page)
 		hbox = gtk.HBox(spacing=3)
 		pack(hbox, gtk.Label(label=_("Language")))
 		itemLang = LangPrefItem()
@@ -182,12 +192,14 @@ class PrefDialog(gtk.Dialog):
 		pack(vbox, hbox)
 		################################ Tab 2 (Appearance) ##################
 		vbox = gtk.VBox()
-		vbox._name = "appearance"
-		vbox._title = _("Appearance")
+		page = PrefPage()
+		page.pageWidget = vbox
+		page.pageName = "appearance"
+		page.pageTitle = _("Appearance")
 		# A is for Apply, P is for Plugins, R is for Regional, C is for Cancel, only "n" is left!
-		vbox._label = _("Appeara_nce")
-		vbox._icon = "preferences-desktop-theme.png"
-		self.prefPages.append(vbox)
+		page.pageLabel = _("Appeara_nce")
+		page.pageIcon = "preferences-desktop-theme.png"
+		self.prefPages.append(page)
 		########
 		hbox = gtk.HBox(spacing=2)
 		###
@@ -392,11 +404,13 @@ class PrefDialog(gtk.Dialog):
 		pack(vbox, exp)
 		################################ Tab 3 (Regional) ###################
 		vbox = gtk.VBox()
-		vbox._name = "regional"
-		vbox._title = _("Regional")
-		vbox._label = _("_Regional")
-		vbox._icon = "preferences-desktop-locale.png"
-		self.prefPages.append(vbox)
+		page = PrefPage()
+		page.pageWidget = vbox
+		page.pageName = "regional"
+		page.pageTitle = _("Regional")
+		page.pageLabel = _("_Regional")
+		page.pageIcon = "preferences-desktop-locale.png"
+		self.prefPages.append(page)
 		######
 		sgroup = gtk.SizeGroup(mode=gtk.SizeGroupMode.HORIZONTAL)
 		######
@@ -484,11 +498,13 @@ class PrefDialog(gtk.Dialog):
 		self.moduleOptions = options
 		################################ Tab 4 (Advanced) ###################
 		vbox = gtk.VBox()
-		vbox._name = "advanced"
-		vbox._title = _("Advanced")
-		vbox._label = _("A_dvanced")
-		vbox._icon = "applications-system.png"
-		self.prefPages.append(vbox)
+		page = PrefPage()
+		page.pageWidget = vbox
+		page.pageName = "advanced"
+		page.pageTitle = _("Advanced")
+		page.pageLabel = _("A_dvanced")
+		page.pageIcon = "applications-system.png"
+		self.prefPages.append(page)
 		######
 		hbox = gtk.HBox(spacing=5)
 		#pack(hbox, gtk.Label(label=""), 1, 1)
@@ -525,11 +541,13 @@ class PrefDialog(gtk.Dialog):
 		pack(vbox, hbox)
 		################################ Tab 5 (Plugins) ####################
 		vbox = gtk.VBox()
-		vbox._name = "plugins"
-		vbox._title = _("Plugins")
-		vbox._label = _("_Plugins")
-		vbox._icon = "preferences-plugin.png"
-		self.prefPages.append(vbox)
+		page = PrefPage()
+		page.pageWidget = vbox
+		page.pageName = "plugins"
+		page.pageTitle = _("Plugins")
+		page.pageLabel = _("_Plugins")
+		page.pageIcon = "preferences-plugin.png"
+		self.prefPages.append(page)
 		#####
 		##pluginsTextStatusIcon:
 		hbox = gtk.HBox()
@@ -777,11 +795,13 @@ class PrefDialog(gtk.Dialog):
 		##self.plugAddItems = []
 		####################################### Tab 6 (Accounts)
 		vbox = gtk.VBox()
-		vbox._name = "accounts"
-		vbox._title = _("Accounts")
-		vbox._label = _("Accounts")
-		vbox._icon = "web-settings.png"
-		self.prefPages.append(vbox)
+		page = PrefPage()
+		page.pageWidget = vbox
+		page.pageName = "accounts"
+		page.pageTitle = _("Accounts")
+		page.pageLabel = _("Accounts")
+		page.pageIcon = "web-settings.png"
+		self.prefPages.append(page)
 		#####
 		treev = gtk.TreeView()
 		treev.set_headers_clickable(True)
@@ -881,14 +901,14 @@ class PrefDialog(gtk.Dialog):
 		##########################
 		mainVBox = gtk.VBox(spacing=20)
 		mainVBox.set_border_width(20)
-		for vbox in self.prefPages:
-			name = vbox._name
+		for page in self.prefPages:
+			name = page.pageName
 			hbox = gtk.HBox(spacing=10)
 			hbox.set_border_width(10)
-			label = gtk.Label(label=vbox._label)
+			label = gtk.Label(label=page.pageLabel)
 			label.set_use_underline(True)
 			pack(hbox, gtk.Label(), 1, 1)
-			pack(hbox, imageFromFile(vbox._icon))
+			pack(hbox, imageFromFile(page.pageIcon))
 			pack(hbox, label, 0, 0)
 			pack(hbox, gtk.Label(), 1, 1)
 			button = gtk.Button()
@@ -898,9 +918,10 @@ class PrefDialog(gtk.Dialog):
 		mainVBox.show_all()
 		stack.addPage("main", "", mainVBox)
 		##########################
-		for vbox in self.prefPages:
+		for page in self.prefPages:
+			vbox = page.pageWidget
 			vbox.set_border_width(10)
-			stack.addPage(vbox._name, "main", vbox, title=vbox._title)
+			stack.addPage(page.pageName, "main", vbox, title=page.pageTitle)
 		#######################
 		pack(self.vbox, stack)
 		self.vbox.show_all()
