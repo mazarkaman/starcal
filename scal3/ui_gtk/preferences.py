@@ -218,7 +218,7 @@ class PrefDialog(gtk.Window):
 		# pack(hbox, gtk.Label(), 1, 1)
 		# pack(vbox, hbox)
 		################################ Page 2 (Appearance) ##################
-		vbox = gtk.VBox(spacing=15)
+		vbox = gtk.VBox(spacing=0)
 		vbox.set_border_width(5)
 		page = PrefPage()
 		page.pageWidget = vbox
@@ -229,6 +229,9 @@ class PrefDialog(gtk.Window):
 		page.pageIcon = "preferences-desktop-theme.png"
 		self.prefPages.append(page)
 		########
+		buttonPadding = 7
+		padding = 5
+		###
 		hbox = gtk.HBox(spacing=2)
 		###
 		customCheckItem = CheckPrefItem(
@@ -244,7 +247,7 @@ class PrefDialog(gtk.Window):
 		pack(hbox, customItem.getWidget())
 		pack(hbox, gtk.Label(), 1, 1)
 		customCheckItem.syncSensitive(customItem.getWidget())
-		pack(vbox, hbox, padding=10)
+		pack(vbox, hbox, padding=padding)
 		########################### Theme #####################
 		#hbox = gtk.HBox(spacing=3)
 		#item = CheckPrefItem(ui, 'bgUseDesk', _('Use Desktop Background'))
@@ -352,26 +355,40 @@ class PrefDialog(gtk.Window):
 		#####
 		button = self.newWideButton(label=page.pageLabel)
 		button.connect("clicked", self.gotoPageCallback(page.pageName))
-		pack(vbox, button, padding=10)
+		pack(vbox, button, padding=padding)
 		###################
-		hbox = gtk.HBox(spacing=1)
-		label = gtk.Label(label="<b>%s</b>:" % _("Cursor"))
-		label.set_use_markup(True)
-		pack(hbox, label)
-		pack(hbox, gtk.Label(), 1, 1)
-		pack(hbox, gtk.Label(label=_("Diameter Factor")))
+		pageVBox = gtk.VBox(spacing=20)
+		pageVBox.set_border_width(10)
+		sgroup = gtk.SizeGroup(mode=gtk.SizeGroupMode.HORIZONTAL)
+		###########
+		hbox = gtk.HBox(spacing=10)
+		pack(hbox, newAlignLabel(sgroup=sgroup, label=_("Diameter Factor")))
 		item = SpinPrefItem(ui, "cursorDiaFactor", 0, 1, 2)
 		self.uiPrefItems.append(item)
 		pack(hbox, item.getWidget())
-		###
 		pack(hbox, gtk.Label(), 1, 1)
-		pack(hbox, gtk.Label(label=_("Rounding Factor")))
+		pack(pageVBox, hbox)
+		###
+		hbox = gtk.HBox(spacing=10)
+		pack(hbox, newAlignLabel(sgroup=sgroup, label=_("Rounding Factor")))
 		item = SpinPrefItem(ui, "cursorRoundingFactor", 0, 1, 2)
 		self.uiPrefItems.append(item)
 		pack(hbox, item.getWidget())
 		pack(hbox, gtk.Label(), 1, 1)
-		###
-		pack(vbox, hbox)
+		pack(pageVBox, hbox)
+		####
+		page = PrefPage()
+		page.pageParent = "appearance"
+		page.pageWidget = pageVBox
+		page.pageName = "cursor"
+		page.pageTitle = _("Cursor") + " - " + _("Appearance")
+		page.pageLabel = _("Cursor")
+		page.pageIcon = ""
+		self.prefPages.append(page)
+		#####
+		button = self.newWideButton(label=page.pageLabel)
+		button.connect("clicked", self.gotoPageCallback(page.pageName))
+		pack(vbox, button, padding=buttonPadding)
 		###################
 		# the header label of gtk.Expander in gtk3 is always on the left (even in RTL mode)
 		# that's why we use gtk.Frame instead
@@ -464,7 +481,7 @@ class PrefDialog(gtk.Window):
 		#####
 		button = self.newWideButton(label=page.pageLabel)
 		button.connect("clicked", self.gotoPageCallback(page.pageName))
-		pack(vbox, button, padding=10)
+		pack(vbox, button, padding=buttonPadding)
 		################################ Page 3 (Regional) ###################
 		vbox = gtk.VBox()
 		vbox.set_border_width(5)
@@ -477,6 +494,7 @@ class PrefDialog(gtk.Window):
 		self.prefPages.append(page)
 		######
 		sgroup = gtk.SizeGroup(mode=gtk.SizeGroupMode.HORIZONTAL)
+		buttonPadding = 3
 		######
 		hbox = gtk.HBox(spacing=10)
 		label = gtk.Label(label=_("Date Format"))
@@ -580,7 +598,7 @@ class PrefDialog(gtk.Window):
 			#####
 			button = self.newWideButton(label=page.pageLabel)
 			button.connect("clicked", self.gotoPageCallback(page.pageName))
-			pack(vbox, button, padding=3)
+			pack(vbox, button, padding=buttonPadding)
 			for opt in mod.options:
 				if opt[0] == "button":
 					try:
