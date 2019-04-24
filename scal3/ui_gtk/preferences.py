@@ -88,7 +88,7 @@ class PrefDialog(gtk.Dialog):
 		self.gtkPrefItems = []  # FIXME
 		#####
 		self.prefPages = []
-		################################ Tab 1 (General) #####################
+		################################ Page 1 (General) #####################
 		vbox = gtk.VBox()
 		page = PrefPage()
 		page.pageWidget = vbox
@@ -190,7 +190,7 @@ class PrefDialog(gtk.Dialog):
 		pack(hbox, item.getWidget())
 		pack(hbox, gtk.Label(label=""), 1, 1)
 		pack(vbox, hbox)
-		################################ Tab 2 (Appearance) ##################
+		################################ Page 2 (Appearance) ##################
 		vbox = gtk.VBox()
 		page = PrefPage()
 		page.pageWidget = vbox
@@ -402,7 +402,7 @@ class PrefDialog(gtk.Dialog):
 		checkItem.syncSensitive(item.getWidget(), reverse=False)
 		####
 		pack(vbox, exp)
-		################################ Tab 3 (Regional) ###################
+		################################ Page 3 (Regional) ###################
 		vbox = gtk.VBox()
 		page = PrefPage()
 		page.pageWidget = vbox
@@ -496,7 +496,7 @@ class PrefDialog(gtk.Dialog):
 				options.append(optl)
 				pack(vbox, optl.getWidget())
 		self.moduleOptions = options
-		################################ Tab 4 (Advanced) ###################
+		################################ Page 4 (Advanced) ###################
 		vbox = gtk.VBox()
 		page = PrefPage()
 		page.pageWidget = vbox
@@ -539,7 +539,7 @@ class PrefDialog(gtk.Dialog):
 		self.uiPrefItems.append(item)
 		pack(hbox, item.getWidget())
 		pack(vbox, hbox)
-		################################ Tab 5 (Plugins) ####################
+		################################ Page 5 (Plugins) ####################
 		vbox = gtk.VBox()
 		page = PrefPage()
 		page.pageWidget = vbox
@@ -793,7 +793,7 @@ class PrefDialog(gtk.Dialog):
 		#############
 		##treev.set_resize_mode(gtk.RESIZE_IMMEDIATE)
 		##self.plugAddItems = []
-		####################################### Tab 6 (Accounts)
+		####################################### Page 6 (Accounts)
 		vbox = gtk.VBox()
 		page = PrefPage()
 		page.pageWidget = vbox
