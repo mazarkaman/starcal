@@ -44,6 +44,7 @@ from scal3.ui_gtk.stack import MyStack
 class PrefPage:
 	def __init__(self):
 		self.pageWidget = None
+		self.pageParent = ""
 		self.pageName = ""
 		self.pageTitle = ""
 		self.pageLabel = ""
@@ -317,14 +318,8 @@ class PrefDialog(gtk.Dialog):
 		###################
 		# the header label of gtk.Expander in gtk3 is always on the left (even in RTL mode)
 		# that's why we use gtk.Frame instead
-		exp = gtk.Frame()
-		exp.set_border_width(5)
-		label = gtk.Label(label="<b>%s</b>" % _("Status Icon"))
-		label.set_use_markup(True)
-		exp.set_label_widget(label)
-		expVbox = gtk.VBox(spacing=1)
-		expVbox.set_border_width(5)
-		exp.add(expVbox)
+		pageVBox = gtk.VBox(spacing=1)
+		pageVBox.set_border_width(10)
 		sgroup = gtk.SizeGroup(mode=gtk.SizeGroupMode.HORIZONTAL)
 		####
 		hbox = gtk.HBox(spacing=1)
@@ -341,7 +336,7 @@ class PrefDialog(gtk.Dialog):
 		)
 		self.uiPrefItems.append(item)
 		pack(hbox, item.getWidget(), 1, 1)
-		pack(expVbox, hbox)
+		pack(pageVBox, hbox)
 		####
 		hbox = gtk.HBox(spacing=1)
 		pack(hbox, gtk.Label(label=" "))
@@ -357,7 +352,7 @@ class PrefDialog(gtk.Dialog):
 		)
 		self.uiPrefItems.append(item)
 		pack(hbox, item.getWidget(), 1, 1)
-		pack(expVbox, hbox)
+		pack(pageVBox, hbox)
 		####
 		hbox = gtk.HBox(spacing=1)
 		pack(hbox, gtk.Label(label=" "))
@@ -376,7 +371,7 @@ class PrefDialog(gtk.Dialog):
 		)
 		self.uiPrefItems.append(item)
 		pack(hbox, item.getWidget(), 1, 1)
-		pack(expVbox, hbox)
+		pack(pageVBox, hbox)
 		####
 		hbox = gtk.HBox(spacing=1)
 		pack(hbox, gtk.Label(label=" "))
@@ -397,11 +392,22 @@ class PrefDialog(gtk.Dialog):
 		)
 		self.uiPrefItems.append(item)
 		pack(hbox, item.getWidget(), 1, 1)
-		pack(expVbox, hbox)
+		pack(pageVBox, hbox)
 		########
 		checkItem.syncSensitive(item.getWidget(), reverse=False)
 		####
-		pack(vbox, exp)
+		page = PrefPage()
+		page.pageParent = "appearance"
+		page.pageWidget = pageVBox
+		page.pageName = "statusIcon"
+		page.pageTitle = _("Appearance") + " - " + _("Status Icon")
+		page.pageLabel = _("Status Icon")
+		page.pageIcon = ""
+		self.prefPages.append(page)
+		#####
+		button = self.newWideButton(label=_("Status Icon"))
+		button.connect("clicked", self.gotoPageCallback("statusIcon"))
+		pack(vbox, button, padding=10)
 		################################ Page 3 (Regional) ###################
 		vbox = gtk.VBox()
 		page = PrefPage()
@@ -902,17 +908,10 @@ class PrefDialog(gtk.Dialog):
 		mainVBox = gtk.VBox(spacing=20)
 		mainVBox.set_border_width(20)
 		for page in self.prefPages:
+			if page.pageParent:
+				continue
 			name = page.pageName
-			hbox = gtk.HBox(spacing=10)
-			hbox.set_border_width(10)
-			label = gtk.Label(label=page.pageLabel)
-			label.set_use_underline(True)
-			pack(hbox, gtk.Label(), 1, 1)
-			pack(hbox, imageFromFile(page.pageIcon))
-			pack(hbox, label, 0, 0)
-			pack(hbox, gtk.Label(), 1, 1)
-			button = gtk.Button()
-			button.add(hbox)
+			button = self.newWideButton(label=page.pageLabel, imageName=page.pageIcon)
 			button.connect("clicked", self.gotoPageCallback(name))
 			pack(mainVBox, button, 1, 1)
 		mainVBox.show_all()
@@ -921,7 +920,10 @@ class PrefDialog(gtk.Dialog):
 		for page in self.prefPages:
 			vbox = page.pageWidget
 			vbox.set_border_width(10)
-			stack.addPage(page.pageName, "main", vbox, title=page.pageTitle)
+			pageParent = page.pageParent
+			if not pageParent:
+				pageParent = "main"
+			stack.addPage(page.pageName, pageParent, vbox, title=page.pageTitle)
 		#######################
 		pack(self.vbox, stack)
 		self.vbox.show_all()
@@ -930,6 +932,20 @@ class PrefDialog(gtk.Dialog):
 		def callback(*args):
 			self.stack.gotoPage(pageName)
 		return callback
+
+	def newWideButton(self, label="", imageName=""):
+		hbox = gtk.HBox(spacing=10)
+		hbox.set_border_width(10)
+		label = gtk.Label(label=label)
+		label.set_use_underline(True)
+		pack(hbox, gtk.Label(), 1, 1)
+		if imageName:
+			pack(hbox, imageFromFile(imageName))
+		pack(hbox, label, 0, 0)
+		pack(hbox, gtk.Label(), 1, 1)
+		button = gtk.Button()
+		button.add(hbox)
+		return button
 
 	def comboFirstWDChanged(self, combo):
 		f = self.comboFirstWD.get_active() ## 0 means Sunday
