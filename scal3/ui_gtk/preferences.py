@@ -61,6 +61,8 @@ class PrefPage:
 
 class PrefDialog(gtk.Window):
 	def __init__(self, **kwargs):
+		from math import ceil
+		##
 		gtk.Window.__init__(self, **kwargs)
 		self.set_title(_("Preferences"))
 		self.set_position(gtk.WindowPosition.CENTER)
@@ -964,13 +966,31 @@ class PrefDialog(gtk.Window):
 		##########################
 		mainVBox = gtk.VBox(spacing=5)
 		mainVBox.set_border_width(20)
+		###
+		mainPages = []
 		for page in self.prefPages:
 			if page.pageParent:
 				continue
-			name = page.pageName
-			button = self.newWideButton(label=page.pageLabel, imageName=page.pageIcon)
-			button.connect("clicked", self.gotoPageCallback(name))
-			pack(mainVBox, button, 1, 1)
+			mainPages.append(page)
+		####
+		page = mainPages.pop(0)
+		button = self.newWideButton(label=page.pageLabel, imageName=page.pageIcon)
+		button.connect("clicked", self.gotoPageCallback(page.pageName))
+		pack(mainVBox, button, 1, 1, padding=10)
+		###
+		colsHBox = gtk.HBox(spacing=10)
+		N = len(mainPages)
+		colN = 2
+		colBN = int(ceil(N / colN))
+		for col_i in range(colN):
+			colVBox = gtk.VBox(spacing=10)
+			for page in mainPages[col_i*colBN : min(N, (col_i+1)*colBN)]:
+				button = self.newWideButton(label=page.pageLabel, imageName=page.pageIcon)
+				button.connect("clicked", self.gotoPageCallback(page.pageName))
+				pack(colVBox, button, 1, 1)
+			pack(colsHBox, colVBox, 1, 1)
+			colVBox = gtk.HBox(spacing=10)
+		pack(mainVBox, colsHBox)
 		mainVBox.show_all()
 		stack.addPage("main", "", mainVBox)
 		##########################
