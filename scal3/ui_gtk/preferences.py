@@ -39,6 +39,7 @@ from scal3.ui_gtk import gtk_ud as ud
 from scal3.ui_gtk.pref_utils import *
 from scal3.ui_gtk.pref_utils_extra import *
 from scal3.ui_gtk.stack import MyStack
+from scal3.ui_gtk.mywidgets.buttonbox import MyHButtonBox
 
 newHSep = lambda: gtk.Separator(orientation=gtk.Orientation.HORIZONTAL)
 
@@ -58,34 +59,34 @@ class PrefPage:
 		self.pageLabel = ""
 		self.pageIcon = ""
 
-class PrefDialog(gtk.Dialog):
+class PrefDialog(gtk.Window):
 	def __init__(self, **kwargs):
-		gtk.Dialog.__init__(self, **kwargs)
+		gtk.Window.__init__(self, **kwargs)
 		self.set_title(_("Preferences"))
+		self.set_position(gtk.WindowPosition.CENTER)
 		self.connect("delete-event", self.onDelete)
+		self.connect("key-press-event", self.keyPress)
 		#self.set_has_separator(False)
 		#self.set_skip_taskbar_hint(True)
 		###
-		dialog_add_button(
-			self,
+		self.vbox = gtk.VBox()
+		self.add(self.vbox)
+		###
+		self.buttonbox = MyHButtonBox()
+		self.buttonbox.add_button(
 			"gtk-cancel",
 			_("_Cancel"),
-			1,
-			self.cancel,
+			onClick=self.cancel,
 		)
-		dialog_add_button(
-			self,
+		self.buttonbox.add_button(
 			"gtk-apply",
 			_("_Apply"),
-			2,
-			self.apply,
+			onClick=self.apply,
 		)
-		okB = dialog_add_button(
-			self,
+		okB = self.buttonbox.add_button(
 			"gtk-ok",
 			_("_OK"),
-			3,
-			self.ok,
+			onClick=self.ok,
 			tooltip=_("Apply and Close"),
 		)
 		okB.grab_default()  # FIXME
@@ -979,7 +980,9 @@ class PrefDialog(gtk.Dialog):
 				pageParent = "main"
 			stack.addPage(page.pageName, pageParent, page.pageWidget, title=page.pageTitle)
 		#######################
-		pack(self.vbox, stack)
+		pack(self.vbox, stack, 1, 1)
+		pack(self.vbox, self.buttonbox)
+		####
 		self.vbox.show_all()
 
 	def gotoPageCallback(self, pageName):
@@ -1014,6 +1017,12 @@ class PrefDialog(gtk.Dialog):
 	def onDelete(self, obj=None, data=None):
 		self.hide()
 		return True
+
+	def keyPress(self, arg, gevent):
+		if gdk.keyval_name(gevent.keyval) == "Escape":
+			self.hide()
+			return True
+		return False
 
 	def ok(self, widget):
 		self.hide()
