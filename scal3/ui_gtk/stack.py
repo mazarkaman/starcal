@@ -126,11 +126,13 @@ class MyStack(gtk.Stack):
 		parentName: str,
 		widget: gtk.Widget,
 		title: str = "",
+		expand=False,
+		fill=False,
 	):
 		vbox = gtk.VBox(spacing=self._vboxSpacing)
 		if parentName:
 			pack(vbox, self._newNavButtonBox(parentName, title=title))
-		pack(vbox, widget)
+		pack(vbox, widget, expand=expand, fill=fill)
 		self.add_named(vbox, name=name)
 		widget.show()
 		vbox.show()
