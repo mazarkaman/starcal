@@ -68,14 +68,14 @@ class MyStack(gtk.Stack):
 
 	def _setSlideForward(self):
 		self.set_transition_type(
-			gtk.RevealerTransitionType.SLIDE_RIGHT if self._rtl
-			else gtk.RevealerTransitionType.SLIDE_LEFT
+			gtk.RevealerTransitionType.SLIDE_LEFT if self._rtl
+			else gtk.RevealerTransitionType.SLIDE_RIGHT
 		)
 
 	def _setSlideBackward(self):
 		self.set_transition_type(
-			gtk.RevealerTransitionType.SLIDE_LEFT if self._rtl
-			else gtk.RevealerTransitionType.SLIDE_RIGHT
+			gtk.RevealerTransitionType.SLIDE_RIGHT if self._rtl
+			else gtk.RevealerTransitionType.SLIDE_LEFT
 		)
 
 	def _newNavButtonBox(self, parentName: str, title=""):
