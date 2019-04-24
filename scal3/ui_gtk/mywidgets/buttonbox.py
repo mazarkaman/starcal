@@ -21,7 +21,10 @@
 from scal3.locale_man import tr as _
 from scal3 import ui
 from scal3.ui_gtk import *
-from scal3.ui_gtk.utils import labelIconButton
+from scal3.ui_gtk.utils import (
+	labelIconButton,
+	set_tooltip,
+)
 
 
 class MyHButtonBox(gtk.ButtonBox):
@@ -31,10 +34,12 @@ class MyHButtonBox(gtk.ButtonBox):
 		self.set_spacing(15)
 		self.set_border_width(15)
 
-	def add_button(self, iconName, label, onClick=None):
+	def add_button(self, iconName, label, onClick=None, tooltip=""):
 		b = labelIconButton(label, iconName, gtk.IconSize.BUTTON)
 		if onClick:
 			b.connect("clicked", onClick)
+		if tooltip:
+			set_tooltip(b, tooltip)
 		self.add(b)
 		return b
 
