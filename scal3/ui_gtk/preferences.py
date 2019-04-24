@@ -942,7 +942,7 @@ class PrefDialog(gtk.Dialog):
 		pack(hbox, toolbar)
 		pack(vbox, hbox, 1, 1)
 		####################################################################
-		stack = MyStack()
+		stack = MyStack(rtl=rtl)
 		stack.setTitleFontSize("large")
 		stack.setTitleCentered(True)
 		self.stack = stack
