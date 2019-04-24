@@ -339,7 +339,7 @@ class PrefDialog(gtk.Dialog):
 		page.pageParent = "appearance"
 		page.pageWidget = pageHBox
 		page.pageName = "colors"
-		page.pageTitle = _("Appearance") + " - " + _("Colors")
+		page.pageTitle = _("Colors") + " - " + _("Appearance")
 		page.pageLabel = _("Colors")
 		page.pageIcon = ""
 		self.prefPages.append(page)
@@ -451,7 +451,7 @@ class PrefDialog(gtk.Dialog):
 		page.pageParent = "appearance"
 		page.pageWidget = pageVBox
 		page.pageName = "statusIcon"
-		page.pageTitle = _("Appearance") + " - " + _("Status Icon")
+		page.pageTitle = _("Status Icon") + " - " + _("Appearance")
 		page.pageLabel = _("Status Icon")
 		page.pageIcon = ""
 		self.prefPages.append(page)
@@ -958,6 +958,7 @@ class PrefDialog(gtk.Dialog):
 		stack = MyStack(rtl=rtl)
 		stack.setTitleFontSize("large")
 		stack.setTitleCentered(True)
+		stack.setupWindowTitle(self, _("Preferences"), False)
 		self.stack = stack
 		##########################
 		mainVBox = gtk.VBox(spacing=5)

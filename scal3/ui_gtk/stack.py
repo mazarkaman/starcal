@@ -36,11 +36,17 @@ class MyStack(gtk.Stack):
 		###
 		self._parentNames = {} # Dict[str, str]
 		self._currentName = ""
+		self._titles = {} # Dict[str, str]
 		###
 		self.connect("key-press-event", self.keyPress)
 		###
 		self._titleFontSize = "x-small"
 		self._titleCentered = False
+		###
+		self._windowTitleEnable = False
+		self._window = None
+		self._windowTitleMain = ""
+		self._windowTitleMainFirst = False
 
 	def setTitleFontSize(self, fontSize: str):
 		'''
@@ -56,6 +62,12 @@ class MyStack(gtk.Stack):
 
 	def setTitleCentered(self, centered: bool):
 		self._titleCentered = centered
+
+	def setupWindowTitle(self, window: gtk.Window, mainTitle: str, mainTitleFirst: bool):
+		self._windowTitleEnable = True
+		self._window = window
+		self._windowTitleMain = mainTitle
+		self._windowTitleMainFirst = mainTitleFirst
 
 	def keyPress(self, arg, gevent):
 		if gdk.keyval_name(gevent.keyval) == "BackSpace":
@@ -124,12 +136,27 @@ class MyStack(gtk.Stack):
 		vbox.show()
 		##
 		self._parentNames[name] = parentName
+		self._titles[name] = title
 		##
 		if not self._currentName:
 			self.gotoPage(name, False)
 
 	def hasPage(self, name: str):
 		return self.get_child_by_name(name=name) != None
+
+	def _setPageWindowTitle(self, name: str):
+		if not self._windowTitleEnable:
+			return
+		title = self._titles[name]
+		if not title:
+			self._window.set_title(self._windowTitleMain)
+			return
+		if self._windowTitleMain:
+			if self._windowTitleMainFirst:
+				title = self._windowTitleMain + " - " + title
+			else:
+				title = title + " - " + self._windowTitleMain
+		self._window.set_title(title)
 
 	def gotoPage(self, name: str, backward: bool = False):
 		if backward:
@@ -139,3 +166,4 @@ class MyStack(gtk.Stack):
 		self.set_visible_child_name(name)
 		self.show()
 		self._currentName = name
+		self._setPageWindowTitle(name)
