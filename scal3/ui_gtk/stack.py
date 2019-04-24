@@ -38,6 +38,24 @@ class MyStack(gtk.Stack):
 		self._currentName = ""
 		###
 		self.connect("key-press-event", self.keyPress)
+		###
+		self._descFontSize = "x-small"
+		self._descCentered = False
+
+	def setDescFontSize(self, fontSize: str):
+		'''
+		Font size in 1024ths of a point, or one of the absolute sizes
+		'xx-small', 'x-small', 'small', 'medium', 'large', 'x-large', 'xx-large',
+		or one of the relative sizes 'smaller' or 'larger'.
+		If you want to specify a absolute size, it's usually easier to take
+		advantage of the ability to specify a partial font description using 'font';
+		you can use font='12.5' rather than size='12800'.
+		https://developer.gnome.org/pango/stable/PangoMarkupFormat.html#PangoMarkupFormat
+		'''
+		self._descFontSize = fontSize
+
+	def setDescCentered(self, centered: bool):
+		self._descCentered = centered
 
 	def keyPress(self, arg, gevent):
 		if gdk.keyval_name(gevent.keyval) == "BackSpace":
@@ -76,11 +94,14 @@ class MyStack(gtk.Stack):
 		pack(hbox, backButton)
 		pack(hbox, gtk.Label(), 1, 1)
 		if desc:
-			label = gtk.Label(
-				label="<span font_size=\"x-small\">" + desc + "</span>",
-			)
-			label.set_use_markup(True)
+			if self._descFontSize:
+				desc = "<span font_size=\"%s\">%s</span>" % (self._descFontSize, desc)
+			label = gtk.Label(label=desc)
+			if self._descFontSize:
+				label.set_use_markup(True)
 			pack(hbox, label, 0, 0)
+			if self._descCentered:
+				pack(hbox, gtk.Label(), 1, 1)
 		hbox.show_all()
 		return hbox
 
