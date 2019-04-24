@@ -41,6 +41,13 @@ from scal3.ui_gtk.utils import (
 
 from scal3.ui_gtk.pref_utils import PrefItem
 
+def newBox(vertical: bool, homogeneous: False):
+	if vertical:
+		box = gtk.VBox()
+	else:
+		box = gtk.HBox()
+	box.set_homogeneous(homogeneous)
+	return box
 
 class WeekDayCheckListPrefItem(PrefItem):
 	def __init__(
@@ -50,21 +57,30 @@ class WeekDayCheckListPrefItem(PrefItem):
 		vertical=False,
 		homo=True,
 		abbreviateNames=True,
+		twoRows=False
 	):
 		self.module = module
 		self.varName = varName
-		if vertical:
-			box = gtk.VBox()
-		else:
-			box = gtk.HBox()
-		box.set_homogeneous(homo)
 		nameList = core.weekDayNameAb if abbreviateNames else core.weekDayName
 		ls = [gtk.ToggleButton(label=item) for item in nameList]
 		s = core.firstWeekDay
-		for i in range(7):
-			pack(box, ls[(s + i) % 7], 1, 1)
+		if twoRows:
+			mainBox = newBox(not vertical, homo)
+			box1 = newBox(vertical, homo)
+			box2 = newBox(vertical, homo)
+			pack(mainBox, box1)
+			pack(mainBox, box2)
+			for i in range(4):
+				pack(box1, ls[(s + i) % 7], 1, 1)
+			for i in range(4, 7):
+				pack(box2, ls[(s + i) % 7], 1, 1)
+			self._widget = mainBox
+		else:
+			box = newBox(vertical, homo)
+			for i in range(7):
+				pack(box, ls[(s + i) % 7], 1, 1)
+			self._widget = box
 		self.cbList = ls
-		self._widget = box
 		self.start = s
 
 	def setStart(self, s):

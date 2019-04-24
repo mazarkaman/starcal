@@ -173,6 +173,10 @@ msgid "Calendar"
 msgstr ""
 "تقویم"
 
+msgid "%s Calendar"
+msgstr ""
+"تقویم %s"
+
 msgid "Apply and Close"
 msgstr ""
 "اعمال و بستن"
@@ -2226,6 +2230,10 @@ msgid "Run on session startup"
 msgstr ""
 "در شروعِ نشست اجرا شو"
 
+
+msgid "Week-related Settings"
+msgstr ""
+"تنظیمات مربوط به هفته"
 
 msgid "First day of week"
 msgstr ""

@@ -349,8 +349,8 @@ class PrefDialog(gtk.Window):
 		page.pageExpand = False
 		self.prefPages.append(page)
 		#####
-		button = self.newWideButton(label=_("Colors"))
-		button.connect("clicked", self.gotoPageCallback("colors"))
+		button = self.newWideButton(label=page.pageLabel)
+		button.connect("clicked", self.gotoPageCallback(page.pageName))
 		pack(vbox, button, padding=10)
 		###################
 		hbox = gtk.HBox(spacing=1)
@@ -461,8 +461,8 @@ class PrefDialog(gtk.Window):
 		page.pageIcon = ""
 		self.prefPages.append(page)
 		#####
-		button = self.newWideButton(label=_("Status Icon"))
-		button.connect("clicked", self.gotoPageCallback("statusIcon"))
+		button = self.newWideButton(label=page.pageLabel)
+		button.connect("clicked", self.gotoPageCallback(page.pageName))
 		pack(vbox, button, padding=10)
 		################################ Page 3 (Regional) ###################
 		vbox = gtk.VBox()
@@ -477,7 +477,7 @@ class PrefDialog(gtk.Window):
 		######
 		sgroup = gtk.SizeGroup(mode=gtk.SizeGroupMode.HORIZONTAL)
 		######
-		hbox = gtk.HBox(spacing=5)
+		hbox = gtk.HBox(spacing=10)
 		label = gtk.Label(label=_("Date Format"))
 		pack(hbox, label)
 		sgroup.add_widget(label)
@@ -495,7 +495,20 @@ class PrefDialog(gtk.Window):
 		self.gtkPrefItems.append(item)
 		pack(hbox, item.getWidget(), 1, 1)
 		pack(vbox, hbox)
-		########
+		################################
+		hbox = gtk.HBox(spacing=3)
+		item = CheckPrefItem(
+			locale_man,
+			"enableNumLocale",
+			_("Numbers Localization"),
+		)
+		self.localePrefItems.append(item)
+		pack(hbox, item.getWidget())
+		pack(hbox, gtk.Label(), 1, 1)
+		pack(vbox, hbox, padding=10)
+		################################
+		pageVBox = gtk.VBox(spacing=5)
+		####
 		hbox = gtk.HBox(spacing=3)
 		pack(hbox, gtk.Label(label=_("First day of week")))
 		##item = ComboTextPrefItem( ## FIXME
@@ -505,15 +518,7 @@ class PrefDialog(gtk.Window):
 		self.comboFirstWD.append_text(_("Automatic"))
 		self.comboFirstWD.connect("changed", self.comboFirstWDChanged)
 		pack(hbox, self.comboFirstWD)
-		pack(vbox, hbox)
-		#########
-		hbox0 = gtk.HBox(spacing=0)
-		pack(hbox0, gtk.Label(label=_("Holidays") + "    "))
-		item = WeekDayCheckListPrefItem(core, "holidayWeekDays")
-		self.corePrefItems.append(item)
-		self.holiWDItem = item ## Holiday Week Days Item
-		pack(hbox0, item.getWidget(), 1, 1)
-		pack(vbox, hbox0)
+		pack(pageVBox, hbox)
 		#########
 		hbox = gtk.HBox(spacing=3)
 		pack(hbox, gtk.Label(label=_("First week of year containts")))
@@ -530,23 +535,51 @@ class PrefDialog(gtk.Window):
 		#combo.append_text(_("Automatic"))## (as Locale)  # FIXME
 		pack(hbox, combo)
 		pack(hbox, gtk.Label(), 1, 1)
-		pack(vbox, hbox)
+		pack(pageVBox, hbox, padding=5)
 		self.comboWeekYear = combo
 		#########
-		hbox = gtk.HBox(spacing=3)
-		item = CheckPrefItem(
-			locale_man,
-			"enableNumLocale",
-			_("Numbers Localization"),
-		)
-		self.localePrefItems.append(item)
-		pack(hbox, item.getWidget())
-		pack(hbox, gtk.Label(), 1, 1)
-		pack(vbox, hbox)
+		frame = gtk.Frame()
+		frame.set_border_width(10)
+		frame.set_label(_("Holidays"))
+		item = WeekDayCheckListPrefItem(core, "holidayWeekDays", abbreviateNames=False, twoRows=True)
+		self.corePrefItems.append(item)
+		self.holiWDItem = item ## Holiday Week Days Item
+		itemWidget = item.getWidget()
+		itemWidget.set_border_width(10)
+		frame.add(itemWidget)
+		pack(pageVBox, frame)
+		############
+		page = PrefPage()
+		page.pageParent = "regional"
+		page.pageWidget = pageVBox
+		page.pageName = "regional_week"
+		page.pageTitle = _("Week") + " - " + _("Regional")
+		page.pageLabel = _("Week-related Settings")
+		page.pageIcon = ""
+		page.pageExpand = False
+		self.prefPages.append(page)
+		#####
+		button = self.newWideButton(label=page.pageLabel)
+		button.connect("clicked", self.gotoPageCallback(page.pageName))
+		pack(vbox, button, padding=0)
 		##################################################
-		################################
 		options = []
 		for mod in calTypes:
+			if not mod.options:
+				continue
+			pageVBox = gtk.VBox(spacing=10)
+			page = PrefPage()
+			page.pageParent = "regional"
+			page.pageWidget = pageVBox
+			page.pageName = "regional_" + mod.name
+			page.pageTitle = _("%s Calendar") % _(mod.desc) + " - " + _("Regional")
+			page.pageLabel = _("%s Calendar") % _(mod.desc)
+			page.pageExpand = False
+			self.prefPages.append(page)
+			#####
+			button = self.newWideButton(label=page.pageLabel)
+			button.connect("clicked", self.gotoPageCallback(page.pageName))
+			pack(vbox, button, padding=3)
 			for opt in mod.options:
 				if opt[0] == "button":
 					try:
@@ -557,7 +590,8 @@ class PrefDialog(gtk.Window):
 				else:
 					optl = ModuleOptionItem(mod, opt)
 				options.append(optl)
-				pack(vbox, optl.getWidget())
+				pack(pageVBox, optl.getWidget())
+			#####
 		self.moduleOptions = options
 		################################ Page 4 (Advanced) ###################
 		vbox = gtk.VBox()
