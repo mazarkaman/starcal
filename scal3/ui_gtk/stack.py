@@ -38,7 +38,7 @@ class MyStack(gtk.Stack):
 		self._currentName = ""
 		self._titles = {} # Dict[str, str]
 		###
-		self.connect("key-press-event", self.keyPress)
+		self.connect("key-press-event", self._keyPress)
 		###
 		self._titleFontSize = "x-small"
 		self._titleCentered = False
@@ -69,7 +69,7 @@ class MyStack(gtk.Stack):
 		self._windowTitleMain = mainTitle
 		self._windowTitleMainFirst = mainTitleFirst
 
-	def keyPress(self, arg, gevent):
+	def _keyPress(self, arg, gevent):
 		if gdk.keyval_name(gevent.keyval) == "BackSpace":
 			if self._currentName:
 				parentName = self._parentNames[self._currentName]
