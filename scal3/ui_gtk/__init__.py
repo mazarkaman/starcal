@@ -33,7 +33,7 @@ TWO_BUTTON_PRESS = getattr(gdk.EventType, "2BUTTON_PRESS")
 
 def pack(box, child, expand=False, fill=False, padding=0):
 	if isinstance(box, gtk.Box):
-		box.pack_start(child, expand, fill, padding)
+		box.pack_start(child, expand=expand, fill=fill, padding=padding)
 	elif isinstance(box, gtk.CellLayout):
 		box.pack_start(child, expand)
 	else:
