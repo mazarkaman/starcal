@@ -79,7 +79,7 @@ class EventEditorDialog(gtk.Dialog):
 			self.comboEventType = combo
 		else:
 			pack(hbox, gtk.Label(label=":  " + event.desc))
-		pack(hbox, gtk.Label(label=""), 1, 1)
+		pack(hbox, gtk.Label(), 1, 1)
 		hbox.show_all()
 		pack(self.vbox, hbox)
 		#####

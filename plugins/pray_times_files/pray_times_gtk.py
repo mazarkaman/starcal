@@ -166,7 +166,7 @@ class LocationDialog(gtk.Dialog):
 		self.spin_lng = spin
 		####
 		hbox = gtk.HBox()
-		self.lowerLabel = gtk.Label(label="")
+		self.lowerLabel = gtk.Label()
 		pack(hbox, self.lowerLabel, 1, 1)
 		self.lowerLabel.set_alignment(0, 0.5)
 		button = gtk.Button(_("Calculate Nearest City"))
@@ -437,7 +437,7 @@ class TextPluginUI:
 		self.azanFileButton = gtk.FileChooserButton(_("Azan Sound"))
 		#sgroupFcb.add_widget(self.azanFileButton)
 		pack(hbox2, self.azanFileButton, 1, 1)
-		#pack(hbox2, gtk.Label(label=""), 1, 1)
+		#pack(hbox2, gtk.Label(), 1, 1)
 		##
 		pack(hbox1, hbox2, 1, 1)
 		pack(vboxFrame, hbox1)

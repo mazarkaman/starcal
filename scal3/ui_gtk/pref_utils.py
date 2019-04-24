@@ -514,13 +514,13 @@ class RadioListPrefItem(PrefItem):
 		first = self.radios[0]
 		if label is not None:
 			pack(box, gtk.Label(label=label))
-			pack(box, gtk.Label(label=""), 1, 1)
+			pack(box, gtk.Label(), 1, 1)
 		pack(box, first)
 		for r in self.radios[1:]:
-			pack(box, gtk.Label(label=""), 1, 1)
+			pack(box, gtk.Label(), 1, 1)
 			pack(box, r)
 			r.set_group(first)
-		pack(box, gtk.Label(label=""), 1, 1) ## FIXME
+		pack(box, gtk.Label(), 1, 1) ## FIXME
 
 	def get(self):
 		for i in range(self.num):

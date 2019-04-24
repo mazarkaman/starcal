@@ -562,7 +562,7 @@ class CalObj(gtk.HBox, CustomizableCalObj):
 			pack(self, label)
 			self.appendItem(label)
 			###############
-			label = gtk.Label(label="")
+			label = gtk.Label()
 			label.set_property("width-request", 5)
 			pack(self, label)
 			###############

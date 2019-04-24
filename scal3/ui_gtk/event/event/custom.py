@@ -74,7 +74,7 @@ class WidgetClass(common.WidgetClass):
 		###
 		pack(self.ruleAddBox, gtk.Label(label=_("Add Rule") + ":"))
 		pack(self.ruleAddBox, self.addRuleCombo)
-		pack(self.ruleAddBox, gtk.Label(label=""), 1, 1)
+		pack(self.ruleAddBox, gtk.Label(), 1, 1)
 		self.ruleAddButton = labelIconButton(_("_Add"), "gtk-add", gtk.IconSize.BUTTON)
 		pack(self.ruleAddBox, self.ruleAddButton)
 		#############
@@ -90,7 +90,7 @@ class WidgetClass(common.WidgetClass):
 		lab.set_xalign(0)
 		pack(hbox, lab)
 		self.groups[rule.sgroup].add_widget(lab)
-		#pack(hbox, gtk.Label(label=""), 1, 1)
+		#pack(hbox, gtk.Label(), 1, 1)
 		inputWidget = makeWidget(rule)
 		if not inputWidget:
 			print("failed to create inpout widget for rule %s" % rule.name)
@@ -99,7 +99,7 @@ class WidgetClass(common.WidgetClass):
 			pack(hbox, inputWidget, 1, 1)
 		else:
 			pack(hbox, inputWidget)
-			pack(hbox, gtk.Label(label=""), 1, 1)
+			pack(hbox, gtk.Label(), 1, 1)
 		####
 		removeButton = labelIconButton(_("_Remove"), "gtk-remove", gtk.IconSize.BUTTON)
 		removeButton.connect("clicked", self.removeButtonClicked, hbox)## FIXME

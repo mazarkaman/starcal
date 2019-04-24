@@ -68,16 +68,16 @@ class BulkSaveTimeZoneDialog(gtk.Dialog):
 		####
 		hbox = gtk.HBox()
 		self.timeZoneInput = TimeZoneComboBoxEntry()
-		pack(hbox, gtk.Label(label=""), 1, 1)
+		pack(hbox, gtk.Label(), 1, 1)
 		pack(hbox, self.timeZoneInput)
-		pack(hbox, gtk.Label(label=""), 1, 1)
+		pack(hbox, gtk.Label(), 1, 1)
 		hbox.set_border_width(20)
 		pack(self.vbox, hbox, 1, 1)
 		####
 		self.errorLabel = gtk.Label()
 		pack(self.vbox, self.errorLabel, 1, 1)
 		####
-		pack(self.vbox, gtk.Label(label=""), 1, 1)
+		pack(self.vbox, gtk.Label(), 1, 1)
 		####
 		self.vbox.show_all()
 

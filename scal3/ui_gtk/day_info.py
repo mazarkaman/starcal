@@ -99,10 +99,10 @@ class DayInfoJulianDayHBox(gtk.HBox, ud.BaseCalObj):
 		self.initVars()
 		###
 		pack(self, gtk.Label(label=_("Julian Day Number") + ":  "))
-		self.jdLabel = gtk.Label(label="")
+		self.jdLabel = gtk.Label()
 		self.jdLabel.set_selectable(True)
 		pack(self, self.jdLabel)
-		pack(self, gtk.Label(label=""), 1, 1)
+		pack(self, gtk.Label(), 1, 1)
 		###
 		self.show_all()
 

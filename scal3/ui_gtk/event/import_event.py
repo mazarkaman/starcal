@@ -51,7 +51,7 @@ class EventsImportWindow(WizardWindow):
 			##
 			frame.add(radioBox)
 			pack(hbox, frame, 0, 0, 10)
-			pack(hbox, gtk.Label(label=""), 1, 1)
+			pack(hbox, gtk.Label(), 1, 1)
 			pack(self, hbox)
 			####
 			hbox = gtk.HBox()

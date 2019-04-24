@@ -153,7 +153,7 @@ class CalObj(gtk.DrawingArea, CalBase):
 		spin.connect("changed", self.topMarginSpinChanged)
 		pack(hbox, spin)
 		##
-		pack(hbox, gtk.Label(label=""), 1, 1)
+		pack(hbox, gtk.Label(), 1, 1)
 		pack(self.optionsWidget, hbox)
 		########
 		prefItem = LiveCheckColorPrefItem(

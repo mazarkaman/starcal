@@ -69,7 +69,7 @@ class WidgetClass(common.WidgetClass):
 		##
 		pack(hbox, self.endDateHbox, 1, 1)
 		####
-		pack(hbox, gtk.Label(label=""), 1, 1)
+		pack(hbox, gtk.Label(), 1, 1)
 		pack(self, hbox)
 		#############
 		self.notificationBox = common.NotificationBox(event)

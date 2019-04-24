@@ -491,7 +491,7 @@ class WeeklyScheduleWindow(gtk.Dialog):
 		self.currentWOnlyCheck.connect("clicked", lambda obj: self.updateWidget())
 		pack(hbox, self.currentWOnlyCheck)
 		##
-		pack(hbox, gtk.Label(label=""), 1, 1)
+		pack(hbox, gtk.Label(), 1, 1)
 		##
 		button = gtk.Button(_("Export to ") + "SVG")
 		button.connect("clicked", self.exportToSvgClicked)

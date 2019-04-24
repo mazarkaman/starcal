@@ -45,7 +45,7 @@ class WidgetClass(common.WidgetClass):
 		self.startDateInput = DateButton()
 		pack(hbox, self.startDateInput)
 		###
-		pack(hbox, gtk.Label(label=""), 1, 1)
+		pack(hbox, gtk.Label(), 1, 1)
 		pack(self, hbox)
 		######
 		hbox = gtk.HBox()
@@ -56,7 +56,7 @@ class WidgetClass(common.WidgetClass):
 		self.endDateInput = DateButton()
 		pack(hbox, self.endDateInput)
 		###
-		pack(hbox, gtk.Label(label=""), 1, 1)
+		pack(hbox, gtk.Label(), 1, 1)
 		pack(self, hbox)
 		######
 		hbox = gtk.HBox()
@@ -67,7 +67,7 @@ class WidgetClass(common.WidgetClass):
 		self.daySpin = DaySpinButton()
 		pack(hbox, self.daySpin)
 		###
-		pack(hbox, gtk.Label(label=""), 1, 1)
+		pack(hbox, gtk.Label(), 1, 1)
 		pack(self, hbox)
 		#########
 		hbox = gtk.HBox()

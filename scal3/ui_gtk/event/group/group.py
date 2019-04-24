@@ -65,7 +65,7 @@ class WidgetClass(BaseWidgetClass):
 		sizeGroup.add_widget(self.syncCheck)
 		self.syncIntervalInput = common.DurationInputBox()
 		pack(hbox, self.syncIntervalInput)
-		pack(hbox, gtk.Label(label=""), 1, 1)
+		pack(hbox, gtk.Label(), 1, 1)
 		pack(vbox, hbox)
 		self.syncCheck.connect(
 			"clicked",

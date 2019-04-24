@@ -58,14 +58,14 @@ class ExportDialog(gtk.Dialog, MyDialog):
 		for t in ("Current Month", "Whole Current Year", "Custom"):
 			combo.append_text(_(t))
 		pack(hbox, combo)
-		pack(hbox, gtk.Label(label=""), 1, 1)
+		pack(hbox, gtk.Label(), 1, 1)
 		self.combo = combo
 		###
 		hbox2 = gtk.HBox(spacing=2)
 		pack(hbox2, gtk.Label(label=_("from month")))
 		self.ymBox0 = YearMonthButton()
 		pack(hbox2, self.ymBox0)
-		pack(hbox2, gtk.Label(label=""), 1, 1)
+		pack(hbox2, gtk.Label(), 1, 1)
 		pack(hbox2, gtk.Label(label=_("to month")))
 		self.ymBox1 = YearMonthButton()
 		pack(hbox2, self.ymBox1)

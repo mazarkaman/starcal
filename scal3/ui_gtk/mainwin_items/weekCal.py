@@ -329,7 +329,7 @@ class MainMenuToolbarItem(ToolbarItem):
 		self.iconSelect.set_filename(iconPath)
 		self.iconSelect.connect("changed", self.onIconChanged)
 		pack(hbox, self.iconSelect)
-		pack(hbox, gtk.Label(label=""), 1, 1)
+		pack(hbox, gtk.Label(), 1, 1)
 		pack(self.optionsWidget, hbox)
 		self.optionsWidget.show_all()
 
@@ -608,7 +608,7 @@ class EventsTextColumn(Column):
 		check = gtk.CheckButton(label=_("Use the color of event group for event text"))
 		check.set_active(ui.wcal_eventsText_colorize)
 		pack(hbox, check)
-		pack(hbox, gtk.Label(label=""), 1, 1)
+		pack(hbox, gtk.Label(), 1, 1)
 		check.connect("clicked", self.colorizeCheckClicked)
 		pack(self.optionsWidget, hbox)
 		##
@@ -616,7 +616,7 @@ class EventsTextColumn(Column):
 		check = gtk.CheckButton(label=_("Show Description"))
 		check.set_active(ui.wcal_eventsText_showDesc)
 		pack(hbox, check)
-		pack(hbox, gtk.Label(label=""), 1, 1)
+		pack(hbox, gtk.Label(), 1, 1)
 		check.connect("clicked", self.descCheckClicked)
 		pack(self.optionsWidget, hbox)
 		##
@@ -755,7 +755,7 @@ class WcalTypeParamBox(gtk.HBox):
 		sgroupLabel.add_widget(label)
 		###
 		self.fontCheck = gtk.CheckButton(label=_("Font"))
-		pack(self, gtk.Label(label=""), 1, 1)
+		pack(self, gtk.Label(), 1, 1)
 		pack(self, self.fontCheck)
 		###
 		self.fontb = MyFontButton(wcal)

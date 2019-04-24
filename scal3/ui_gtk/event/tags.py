@@ -166,7 +166,7 @@ class TagsListBox(gtk.VBox):
 			self.relatedCheck.set_active(True)
 			self.relatedCheck.connect("clicked", self.optionsChanged)
 			pack(hbox, self.relatedCheck)
-			pack(hbox, gtk.Label(label=""), 1, 1)
+			pack(hbox, gtk.Label(), 1, 1)
 			pack(self, hbox)
 		########
 		treev = gtk.TreeView()
@@ -284,7 +284,7 @@ class ViewEditTagsHbox(gtk.HBox):
 		gtk.HBox.__init__(self)
 		self.tags = []
 		pack(self, gtk.Label(label=_("Tags") + ":  "))
-		self.tagsLabel = gtk.Label(label="")
+		self.tagsLabel = gtk.Label()
 		pack(self, self.tagsLabel, 1, 1)
 		self.dialog = TagEditorDialog(eventType, parent=self.get_toplevel())
 		self.dialog.connect("response", self.dialogResponse)

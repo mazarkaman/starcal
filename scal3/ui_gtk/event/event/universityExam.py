@@ -113,7 +113,7 @@ class WidgetClass(gtk.VBox):
 		self.iconSelect = IconSelectButton()
 		#print(join(pixDir, self.icon))
 		pack(hbox, self.iconSelect)
-		pack(hbox, gtk.Label(label=""), 1, 1)
+		pack(hbox, gtk.Label(), 1, 1)
 		pack(self, hbox)
 		######
 		self.notificationBox = common.NotificationBox(event)

@@ -124,7 +124,7 @@ class PrefDialog(gtk.Dialog):
 		self.corePrefItems.append(itemCals)
 		frame.add(itemCals.getWidget())
 		pack(hbox, frame)
-		pack(hbox, gtk.Label(label=""), 1, 1)
+		pack(hbox, gtk.Label(), 1, 1)
 		hbox.set_border_width(5)
 		#frame.set_border_width(5)
 		pack(vbox, hbox, 1, 1)
@@ -159,7 +159,7 @@ class PrefDialog(gtk.Dialog):
 		self.uiPrefItems.append(item)
 		hbox = gtk.HBox(spacing=3)
 		pack(hbox, item.getWidget())
-		pack(hbox, gtk.Label(label=""), 1, 1)
+		pack(hbox, gtk.Label(), 1, 1)
 		###########
 		pack(vbox, hbox)
 		##########################
@@ -176,12 +176,12 @@ class PrefDialog(gtk.Dialog):
 			self.uiPrefItems.append(item)
 			hbox = gtk.HBox(spacing=3)
 			pack(hbox, item.getWidget())
-			pack(hbox, gtk.Label(label=""), 1, 1)
+			pack(hbox, gtk.Label(), 1, 1)
 			pack(vbox, hbox)
 		##########################
 		hbox = gtk.HBox(spacing=3)
 		pack(hbox, gtk.Label(label=_("Show Digital Clock:")))
-		pack(hbox, gtk.Label(label=""), 1, 1)
+		pack(hbox, gtk.Label(), 1, 1)
 		#item = CheckPrefItem(
 		#	ui,
 		#	"showDigClockTb",
@@ -189,7 +189,7 @@ class PrefDialog(gtk.Dialog):
 		#)  # FIXME
 		#self.uiPrefItems.append(item)
 		#pack(hbox, item.getWidget())
-		pack(hbox, gtk.Label(label=""), 1, 1)
+		pack(hbox, gtk.Label(), 1, 1)
 		item = CheckPrefItem(
 			ui,
 			"showDigClockTr",
@@ -198,7 +198,7 @@ class PrefDialog(gtk.Dialog):
 		)
 		self.uiPrefItems.append(item)
 		pack(hbox, item.getWidget())
-		pack(hbox, gtk.Label(label=""), 1, 1)
+		pack(hbox, gtk.Label(), 1, 1)
 		pack(vbox, hbox)
 		################################ Page 2 (Appearance) ##################
 		vbox = gtk.VBox(spacing=15)
@@ -225,7 +225,7 @@ class PrefDialog(gtk.Dialog):
 		customItem = FontPrefItem(ui, "fontCustom", self)
 		self.uiPrefItems.append(customItem)
 		pack(hbox, customItem.getWidget())
-		pack(hbox, gtk.Label(label=""), 1, 1)
+		pack(hbox, gtk.Label(), 1, 1)
 		customCheckItem.syncSensitive(customItem.getWidget())
 		pack(vbox, hbox, padding=10)
 		########################### Theme #####################
@@ -339,18 +339,18 @@ class PrefDialog(gtk.Dialog):
 		label = gtk.Label(label="<b>%s</b>:" % _("Cursor"))
 		label.set_use_markup(True)
 		pack(hbox, label)
-		pack(hbox, gtk.Label(label=""), 1, 1)
+		pack(hbox, gtk.Label(), 1, 1)
 		pack(hbox, gtk.Label(label=_("Diameter Factor")))
 		item = SpinPrefItem(ui, "cursorDiaFactor", 0, 1, 2)
 		self.uiPrefItems.append(item)
 		pack(hbox, item.getWidget())
 		###
-		pack(hbox, gtk.Label(label=""), 1, 1)
+		pack(hbox, gtk.Label(), 1, 1)
 		pack(hbox, gtk.Label(label=_("Rounding Factor")))
 		item = SpinPrefItem(ui, "cursorRoundingFactor", 0, 1, 2)
 		self.uiPrefItems.append(item)
 		pack(hbox, item.getWidget())
-		pack(hbox, gtk.Label(label=""), 1, 1)
+		pack(hbox, gtk.Label(), 1, 1)
 		###
 		pack(vbox, hbox)
 		###################
@@ -463,7 +463,7 @@ class PrefDialog(gtk.Dialog):
 		label = gtk.Label(label=_("Date Format"))
 		pack(hbox, label)
 		sgroup.add_widget(label)
-		#pack(hbox, gtk.Label(label=""), 1, 1)
+		#pack(hbox, gtk.Label(), 1, 1)
 		item = ComboEntryTextPrefItem(ud, "dateFormat", (
 			"%Y/%m/%d",
 			"%Y-%m-%d",
@@ -511,7 +511,7 @@ class PrefDialog(gtk.Dialog):
 			combo.append_text(text)
 		#combo.append_text(_("Automatic"))## (as Locale)  # FIXME
 		pack(hbox, combo)
-		pack(hbox, gtk.Label(label=""), 1, 1)
+		pack(hbox, gtk.Label(), 1, 1)
 		pack(vbox, hbox)
 		self.comboWeekYear = combo
 		#########
@@ -523,7 +523,7 @@ class PrefDialog(gtk.Dialog):
 		)
 		self.localePrefItems.append(item)
 		pack(hbox, item.getWidget())
-		pack(hbox, gtk.Label(label=""), 1, 1)
+		pack(hbox, gtk.Label(), 1, 1)
 		pack(vbox, hbox)
 		##################################################
 		################################
@@ -553,7 +553,7 @@ class PrefDialog(gtk.Dialog):
 		self.prefPages.append(page)
 		######
 		hbox = gtk.HBox(spacing=5)
-		#pack(hbox, gtk.Label(label=""), 1, 1)
+		#pack(hbox, gtk.Label(), 1, 1)
 		label = gtk.Label(label=_("Digital Clock Format"))
 		pack(hbox, label)
 		#sgroup.add_widget(label)
@@ -605,7 +605,7 @@ class PrefDialog(gtk.Dialog):
 		)
 		self.uiPrefItems.append(item)
 		pack(hbox, item.getWidget())
-		pack(hbox, gtk.Label(label=""), 1, 1)
+		pack(hbox, gtk.Label(), 1, 1)
 		pack(vbox, hbox)
 		#####
 		treev = gtk.TreeView()
@@ -709,7 +709,7 @@ class PrefDialog(gtk.Dialog):
 		button.connect("clicked", self.plugAboutClicked)
 		self.plugButtonAbout = button
 		pack(hboxBut, button)
-		pack(hboxBut, gtk.Label(label=""), 1, 1)
+		pack(hboxBut, gtk.Label(), 1, 1)
 		###
 		button = gtk.Button(_("C_onfigure Plugin"))
 		button.set_use_underline(True)
@@ -721,7 +721,7 @@ class PrefDialog(gtk.Dialog):
 		button.connect("clicked", self.plugConfClicked)
 		self.plugButtonConf = button
 		pack(hboxBut, button)
-		pack(hboxBut, gtk.Label(label=""), 1, 1)
+		pack(hboxBut, gtk.Label(), 1, 1)
 		###
 		pack(vboxPlug, hboxBut)
 		###

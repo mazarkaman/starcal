@@ -32,7 +32,7 @@ class GroupSortDialog(gtk.Dialog):
 		####
 		hbox = gtk.HBox()
 		pack(hbox, gtk.Label(label=_("Sort events of group \"%s\"") % group.title))
-		pack(hbox, gtk.Label(label=""), 1, 1)
+		pack(hbox, gtk.Label(), 1, 1)
 		pack(self.vbox, hbox)
 		###
 		hbox = gtk.HBox()
@@ -49,7 +49,7 @@ class GroupSortDialog(gtk.Dialog):
 		pack(hbox, self.sortByCombo)
 		self.reverseCheck = gtk.CheckButton(label=_("Descending"))
 		pack(hbox, self.reverseCheck)
-		pack(hbox, gtk.Label(label=""), 1, 1)
+		pack(hbox, gtk.Label(), 1, 1)
 		pack(self.vbox, hbox)
 		####
 		self.vbox.show_all()
@@ -96,7 +96,7 @@ class GroupConvertModeDialog(gtk.Dialog):
 		) % group.title)
 		label.set_line_wrap(True)
 		pack(hbox, label)
-		pack(hbox, gtk.Label(label=""), 1, 1)
+		pack(hbox, gtk.Label(), 1, 1)
 		pack(self.vbox, hbox)
 		###
 		hbox = gtk.HBox()
@@ -104,7 +104,7 @@ class GroupConvertModeDialog(gtk.Dialog):
 		combo = CalTypeCombo()
 		combo.set_active(group.calType)
 		pack(hbox, combo)
-		pack(hbox, gtk.Label(label=""), 1, 1)
+		pack(hbox, gtk.Label(), 1, 1)
 		self.calTypeCombo = combo
 		pack(self.vbox, hbox)
 		####

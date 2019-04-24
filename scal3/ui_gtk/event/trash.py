@@ -52,7 +52,7 @@ class TrashEditorDialog(gtk.Dialog):
 		sizeGroup.add_widget(label)
 		self.iconSelect = IconSelectButton()
 		pack(hbox, self.iconSelect)
-		pack(hbox, gtk.Label(label=""), 1, 1)
+		pack(hbox, gtk.Label(), 1, 1)
 		pack(self.vbox, hbox)
 		####
 		self.vbox.show_all()

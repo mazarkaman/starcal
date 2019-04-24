@@ -41,7 +41,7 @@ class GroupEditorDialog(gtk.Dialog):
 			combo.append_text(cls.desc)
 		pack(hbox, gtk.Label(label=_("Group Type")))
 		pack(hbox, combo)
-		pack(hbox, gtk.Label(label=""), 1, 1)
+		pack(hbox, gtk.Label(), 1, 1)
 		pack(self.vbox, hbox)
 		####
 		if self.isNew:

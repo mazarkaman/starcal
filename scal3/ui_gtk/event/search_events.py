@@ -121,7 +121,7 @@ class EventSearchWindow(gtk.Window, MyDialog, ud.BaseCalObj):
 		vboxIn.set_border_width(5)
 		frame.add(vboxIn)
 		pack(hbox, frame)
-		pack(hbox, gtk.Label(label=""), 1, 1)
+		pack(hbox, gtk.Label(), 1, 1)
 		pack(self.vbox, hbox)
 		######
 		hbox = gtk.HBox()
@@ -243,9 +243,9 @@ class EventSearchWindow(gtk.Window, MyDialog, ud.BaseCalObj):
 		vbox.set_border_width(5)
 		###
 		topHbox = gtk.HBox()
-		self.resultLabel = gtk.Label(label="")
+		self.resultLabel = gtk.Label()
 		pack(topHbox, self.resultLabel)
-		pack(topHbox, gtk.Label(label=""), 1, 1)
+		pack(topHbox, gtk.Label(), 1, 1)
 		pack(vbox, topHbox)
 		####
 		columnBox = gtk.HBox(spacing=5)

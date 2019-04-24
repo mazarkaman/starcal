@@ -122,11 +122,11 @@ class TextParamFrame(gtk.Frame):
 		spin = FloatSpinButton(-999, 999, 1)
 		self.spinX = spin
 		pack(hbox, spin)
-		pack(hbox, gtk.Label(label=""), 1, 1)
+		pack(hbox, gtk.Label(), 1, 1)
 		spin = FloatSpinButton(-999, 999, 1)
 		self.spinY = spin
 		pack(hbox, spin)
-		pack(hbox, gtk.Label(label=""), 1, 1)
+		pack(hbox, gtk.Label(), 1, 1)
 		pack(vbox, hbox)
 		####
 		if hasAlign:
@@ -141,7 +141,7 @@ class TextParamFrame(gtk.Frame):
 			self.yalignCombo = YAlignComboBox()
 			pack(hbox, self.yalignCombo)
 			##
-			pack(hbox, gtk.Label(label=""), 1, 1)
+			pack(hbox, gtk.Label(), 1, 1)
 			pack(vbox, hbox)
 		####
 		hbox = gtk.HBox()
@@ -156,7 +156,7 @@ class TextParamFrame(gtk.Frame):
 		self.colorb = colorb
 		##
 		pack(hbox, colorb)
-		pack(hbox, gtk.Label(label=""), 1, 1)
+		pack(hbox, gtk.Label(), 1, 1)
 		pack(hbox, fontb)
 		pack(vbox, hbox)
 		####
