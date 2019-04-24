@@ -796,16 +796,11 @@ class PrefDialog(gtk.Window):
 		###
 		pack(vboxPlug, hboxBut)
 		###
+		size = gtk.IconSize.MENU
 		toolbar = gtk.Toolbar()
 		toolbar.set_orientation(gtk.Orientation.VERTICAL)
-		#try:  # DeprecationWarning, FIXME
-		#	toolbar.set_icon_size(gtk.IconSize.SMALL_TOOLBAR)
-		#	# no different (argument to set_icon_size has no effect) FIXME
-		#except:
-		#	pass
-		size = gtk.IconSize.SMALL_TOOLBAR
-		# no different
-		# argument 2 to image_new_from_icon_name has no affect FIXME
+		toolbar.set_icon_size(size)
+		## argument 2 to image_new_from_icon_name has no affect, must use toolbar.set_icon_size
 		######## gtk.IconSize.SMALL_TOOLBAR or gtk.IconSize.MENU
 		tb = toolButtonFromIcon("gtk-goto-top", size)
 		set_tooltip(tb, _("Move to top"))
@@ -969,16 +964,11 @@ class PrefDialog(gtk.Window):
 		vboxPlug = gtk.VBox()
 		pack(vboxPlug, swin, 1, 1)
 		pack(hbox, vboxPlug, 1, 1)
-		###
+		#####
+		size = gtk.IconSize.SMALL_TOOLBAR
 		toolbar = gtk.Toolbar()
 		toolbar.set_orientation(gtk.Orientation.VERTICAL)
-		#try:  # DeprecationWarning, FIXME
-		#	#toolbar.set_icon_size(gtk.IconSize.SMALL_TOOLBAR)
-		#	# no different, argument to set_icon_size has no affect FIXME
-		#except:
-		#	pass
-		size = gtk.IconSize.SMALL_TOOLBAR
-		# argument 2 to image_new_from_icon_name has no effect FIXME
+		toolbar.set_icon_size(size)
 		######## gtk.IconSize.SMALL_TOOLBAR or gtk.IconSize.MENU
 		tb = toolButtonFromFile("starcal-24.png")
 		set_tooltip(tb, _("Register at StarCalendar.net"))
