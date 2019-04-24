@@ -97,16 +97,17 @@ class PrefDialog(gtk.Dialog):
 		self.gtkPrefItems = []  # FIXME
 		#####
 		self.prefPages = []
-		################################ Page 1 (General) #####################
-		vbox = gtk.VBox()
+		################################ Page 0 (Language and Calendar Types) #####################
+		vbox = gtk.VBox(spacing=20)
 		vbox.set_border_width(5)
 		page = PrefPage()
 		page.pageWidget = vbox
-		page.pageName = "general"
-		page.pageTitle = _("General")
-		page.pageLabel = _("_General")
-		page.pageIcon = "preferences-other.png"
+		page.pageName = "lang_calTypes"
+		page.pageTitle = _("Language and Calendar Types")
+		page.pageLabel = _("_Language and Calendar Types")
+		page.pageIcon = "preferences-desktop-locale.png"
 		self.prefPages.append(page)
+		##########################
 		hbox = gtk.HBox(spacing=3)
 		pack(hbox, gtk.Label(label=_("Language")))
 		itemLang = LangPrefItem()
@@ -122,12 +123,24 @@ class PrefDialog(gtk.Dialog):
 		frame.set_label(_("Calendar Types"))
 		itemCals = AICalsPrefItem()
 		self.corePrefItems.append(itemCals)
-		frame.add(itemCals.getWidget())
+		itemCalsWidget = itemCals.getWidget()
+		itemCalsWidget.set_border_width(10)
+		frame.add(itemCalsWidget)
 		pack(hbox, frame)
 		pack(hbox, gtk.Label(), 1, 1)
 		hbox.set_border_width(5)
-		#frame.set_border_width(5)
+		frame.set_border_width(0)
 		pack(vbox, hbox, 1, 1)
+		################################ Page 1 (General) #####################
+		vbox = gtk.VBox()
+		vbox.set_border_width(5)
+		page = PrefPage()
+		page.pageWidget = vbox
+		page.pageName = "general"
+		page.pageTitle = _("General")
+		page.pageLabel = _("_General")
+		page.pageIcon = "preferences-other.png"
+		self.prefPages.append(page)
 		##########################
 		hbox = gtk.HBox(spacing=3)
 		item = CheckStartupPrefItem()
@@ -947,7 +960,7 @@ class PrefDialog(gtk.Dialog):
 		stack.setTitleCentered(True)
 		self.stack = stack
 		##########################
-		mainVBox = gtk.VBox(spacing=20)
+		mainVBox = gtk.VBox(spacing=5)
 		mainVBox.set_border_width(20)
 		for page in self.prefPages:
 			if page.pageParent:

@@ -815,7 +815,7 @@ msgstr ""
 
 msgid "Calendar Types"
 msgstr ""
-"نوع تقویم‌ها"
+"انواع تقویم‌ها"
 
 msgid "Active"
 msgstr ""
@@ -2057,6 +2057,13 @@ msgstr ""
 "نوع"
 
 
+msgid "Language and Calendar Types"
+msgstr ""
+"زبان و انواع تقویم‌ها"
+
+msgid "_Language and Calendar Types"
+msgstr ""
+"زبان و انواع تقویم‌ها"
 
 msgid "General"
 msgstr ""
