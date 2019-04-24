@@ -91,6 +91,7 @@ class PrefDialog(gtk.Dialog):
 		self.prefPages = []
 		################################ Page 1 (General) #####################
 		vbox = gtk.VBox()
+		vbox.set_border_width(5)
 		page = PrefPage()
 		page.pageWidget = vbox
 		page.pageName = "general"
@@ -193,6 +194,7 @@ class PrefDialog(gtk.Dialog):
 		pack(vbox, hbox)
 		################################ Page 2 (Appearance) ##################
 		vbox = gtk.VBox()
+		vbox.set_border_width(5)
 		page = PrefPage()
 		page.pageWidget = vbox
 		page.pageName = "appearance"
@@ -217,7 +219,7 @@ class PrefDialog(gtk.Dialog):
 		pack(hbox, customItem.getWidget())
 		pack(hbox, gtk.Label(label=""), 1, 1)
 		customCheckItem.syncSensitive(customItem.getWidget())
-		pack(vbox, hbox)
+		pack(vbox, hbox, padding=10)
 		########################### Theme #####################
 		#hbox = gtk.HBox(spacing=3)
 		#item = CheckPrefItem(ui, 'bgUseDesk', _('Use Desktop Background'))
@@ -410,6 +412,7 @@ class PrefDialog(gtk.Dialog):
 		pack(vbox, button, padding=10)
 		################################ Page 3 (Regional) ###################
 		vbox = gtk.VBox()
+		vbox.set_border_width(5)
 		page = PrefPage()
 		page.pageWidget = vbox
 		page.pageName = "regional"
@@ -504,6 +507,7 @@ class PrefDialog(gtk.Dialog):
 		self.moduleOptions = options
 		################################ Page 4 (Advanced) ###################
 		vbox = gtk.VBox()
+		vbox.set_border_width(5)
 		page = PrefPage()
 		page.pageWidget = vbox
 		page.pageName = "advanced"
@@ -548,6 +552,7 @@ class PrefDialog(gtk.Dialog):
 		################################ Page 5 (Plugins) ####################
 		vbox = gtk.VBox()
 		page = PrefPage()
+		vbox.set_border_width(5)
 		page.pageWidget = vbox
 		page.pageName = "plugins"
 		page.pageTitle = _("Plugins")
@@ -801,6 +806,7 @@ class PrefDialog(gtk.Dialog):
 		##self.plugAddItems = []
 		####################################### Page 6 (Accounts)
 		vbox = gtk.VBox()
+		vbox.set_border_width(5)
 		page = PrefPage()
 		page.pageWidget = vbox
 		page.pageName = "accounts"
@@ -918,12 +924,10 @@ class PrefDialog(gtk.Dialog):
 		stack.addPage("main", "", mainVBox)
 		##########################
 		for page in self.prefPages:
-			vbox = page.pageWidget
-			vbox.set_border_width(10)
 			pageParent = page.pageParent
 			if not pageParent:
 				pageParent = "main"
-			stack.addPage(page.pageName, pageParent, vbox, title=page.pageTitle)
+			stack.addPage(page.pageName, pageParent, page.pageWidget, title=page.pageTitle)
 		#######################
 		pack(self.vbox, stack)
 		self.vbox.show_all()
