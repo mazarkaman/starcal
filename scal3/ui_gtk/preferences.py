@@ -179,27 +179,27 @@ class PrefDialog(gtk.Dialog):
 			pack(hbox, gtk.Label(), 1, 1)
 			pack(vbox, hbox)
 		##########################
-		hbox = gtk.HBox(spacing=3)
-		pack(hbox, gtk.Label(label=_("Show Digital Clock:")))
-		pack(hbox, gtk.Label(), 1, 1)
-		#item = CheckPrefItem(
-		#	ui,
-		#	"showDigClockTb",
-		#	_("On Toolbar"),
-		#)  # FIXME
-		#self.uiPrefItems.append(item)
-		#pack(hbox, item.getWidget())
-		pack(hbox, gtk.Label(), 1, 1)
-		item = CheckPrefItem(
-			ui,
-			"showDigClockTr",
-			_("On Status Icon"),
-			"Notification Area",
-		)
-		self.uiPrefItems.append(item)
-		pack(hbox, item.getWidget())
-		pack(hbox, gtk.Label(), 1, 1)
-		pack(vbox, hbox)
+		# hbox = gtk.HBox(spacing=3)
+		# pack(hbox, gtk.Label(label=_("Show Digital Clock:")))
+		# pack(hbox, gtk.Label(), 1, 1)
+		# #item = CheckPrefItem(
+		# #	ui,
+		# #	"showDigClockTb",
+		# #	_("On Toolbar"),
+		# #)  # FIXME
+		# #self.uiPrefItems.append(item)
+		# #pack(hbox, item.getWidget())
+		# pack(hbox, gtk.Label(), 1, 1)
+		# item = CheckPrefItem(
+		# 	ui,
+		# 	"showDigClockTr",
+		# 	_("On Status Icon"),
+		# 	"Notification Area",
+		# )
+		# self.uiPrefItems.append(item)
+		# pack(hbox, item.getWidget())
+		# pack(hbox, gtk.Label(), 1, 1)
+		# pack(vbox, hbox)
 		################################ Page 2 (Appearance) ##################
 		vbox = gtk.VBox(spacing=15)
 		vbox.set_border_width(5)
