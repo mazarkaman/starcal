@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 from scal3.ui_gtk import *
 from scal3.ui_gtk.utils import hideList
+from scal3.ui_gtk.mywidgets.buttonbox import MyHButtonBox
 
 
 class WizardWindow(gtk.Window):
@@ -21,7 +22,7 @@ class WizardWindow(gtk.Window):
 			pack(self.vbox, step, 1, 1)
 		self.stepIndex = 0
 		####
-		self.buttonBox = gtk.HButtonBox()
+		self.buttonBox = MyHButtonBox()
 		self.buttonBox.set_layout(gtk.ButtonBoxStyle.END)
 		self.buttonBox.set_spacing(15)
 		self.buttonBox.set_border_width(15)
