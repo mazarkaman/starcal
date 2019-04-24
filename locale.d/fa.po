@@ -2273,17 +2273,36 @@ msgid "Border"
 msgstr ""
 "حاشیه"
 
+msgid "Border Font"
+msgstr ""
+"فونت حاشیه"
+
+
 msgid "Normal"
 msgstr ""
 "عادی"
+
+msgid "Normal Text"
+msgstr ""
+"متن عادی"
 
 msgid "Holiday"
 msgstr ""
 "روز‌ تعطیل"
 
+msgid "Holidays Font"
+msgstr ""
+"فونت روز‌ تعطیل"
+
+
 msgid "Inactive Day"
 msgstr ""
 "روز‌ غیرفعال"
+
+msgid "Inactive Day Font"
+msgstr ""
+"فونت روز‌ غیرفعال"
+
 
 msgid "Left Margin"
 msgstr ""

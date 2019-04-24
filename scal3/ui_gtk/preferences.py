@@ -40,6 +40,14 @@ from scal3.ui_gtk.pref_utils import *
 from scal3.ui_gtk.pref_utils_extra import *
 from scal3.ui_gtk.stack import MyStack
 
+newHSep = lambda: gtk.Separator(orientation=gtk.Orientation.HORIZONTAL)
+
+def newAlignLabel(sgroup=None, label=""):
+	label = gtk.Label(label=label)
+	label.set_xalign(0)
+	if sgroup:
+		sgroup.add_widget(label)
+	return label
 
 class PrefPage:
 	def __init__(self):
@@ -228,76 +236,104 @@ class PrefDialog(gtk.Dialog):
 		#pack(hbox, gtk.Label(), 1, 1)
 		#pack(vbox, hbox)
 		#####################
-		hbox = gtk.HBox(spacing=3)
-		lab = gtk.Label(label="<b>%s:</b> " % _("Colors"))
-		lab.set_use_markup(True)
-		pack(hbox, lab)
-		pack(hbox, gtk.Label(label=""), 1, 1)
+		pageHBox = gtk.HBox()
+		spacing = 3
 		###
-		pack(hbox, gtk.Label(label=_("Background")))
+		pageVBox = gtk.VBox()
+		sgroup = gtk.SizeGroup(mode=gtk.SizeGroupMode.HORIZONTAL)
+		###
+		hbox = gtk.HBox(spacing=spacing)
+		pack(hbox, newAlignLabel(sgroup=sgroup, label=_("Background")))
 		item = ColorPrefItem(ui, "bgColor", True)
 		self.uiPrefItems.append(item)
 		self.colorbBg = item.getWidget() ## FIXME
 		pack(hbox, item.getWidget())
-		pack(hbox, gtk.Label(label=""), 1, 1)
+		pack(hbox, gtk.Label(), 1, 1)
+		pack(pageVBox, hbox)
 		###
-		pack(hbox, gtk.Label(label=_("Border")))
+		hbox = gtk.HBox(spacing=spacing)
+		pack(hbox, newAlignLabel(sgroup=sgroup, label=_("Border")))
 		item = ColorPrefItem(ui, "borderColor", True)
 		self.uiPrefItems.append(item)
 		pack(hbox, item.getWidget())
-		pack(hbox, gtk.Label(label=""), 1, 1)
+		pack(hbox, gtk.Label(), 1, 1)
+		pack(pageVBox, hbox)
 		###
-		pack(hbox, gtk.Label(label=_("Cursor")))
+		hbox = gtk.HBox(spacing=spacing)
+		pack(hbox, newAlignLabel(sgroup=sgroup, label=_("Cursor")))
 		item = ColorPrefItem(ui, "cursorOutColor", False)
 		self.uiPrefItems.append(item)
 		pack(hbox, item.getWidget())
-		pack(hbox, gtk.Label(label=""), 1, 1)
+		pack(hbox, gtk.Label(), 1, 1)
+		pack(pageVBox, hbox)
 		###
-		pack(hbox, gtk.Label(label=_("Cursor BG")))
+		hbox = gtk.HBox(spacing=spacing)
+		pack(hbox, newAlignLabel(sgroup=sgroup, label=_("Cursor BG")))
 		item = ColorPrefItem(ui, "cursorBgColor", True)
 		self.uiPrefItems.append(item)
 		pack(hbox, item.getWidget())
-		pack(hbox, gtk.Label(label=""), 1, 1)
+		pack(hbox, gtk.Label(), 1, 1)
+		pack(pageVBox, hbox)
 		###
-		pack(hbox, gtk.Label(label=_("Today")))
+		hbox = gtk.HBox(spacing=spacing)
+		pack(hbox, newAlignLabel(sgroup=sgroup, label=_("Today")))
 		item = ColorPrefItem(ui, "todayCellColor", True)
 		self.uiPrefItems.append(item)
 		pack(hbox, item.getWidget())
-		pack(hbox, gtk.Label(label=""), 1, 1)
-		###
-		pack(vbox, hbox)
-		####################
-		hbox = gtk.HBox(spacing=3)
-		lab = gtk.Label(label="<b>%s:</b> " % _("Font Colors"))
-		lab.set_use_markup(True)
-		pack(hbox, lab)
-		pack(hbox, gtk.Label(label=""), 1, 1)
-		####
-		pack(hbox, gtk.Label(label=_("Normal")))
+		pack(hbox, gtk.Label(), 1, 1)
+		pack(pageVBox, hbox)
+		######
+		pack(pageHBox, pageVBox, 1, 1)
+		pack(pageHBox, newHSep(), 0, 0)
+		pageVBox = gtk.VBox()
+		sgroup = gtk.SizeGroup(mode=gtk.SizeGroupMode.HORIZONTAL)
+		######
+		hbox = gtk.HBox(spacing=spacing)
+		pack(hbox, newAlignLabel(sgroup=sgroup, label=_("Normal Text")))
 		item = ColorPrefItem(ui, "textColor", False)
 		self.uiPrefItems.append(item)
 		pack(hbox, item.getWidget())
-		pack(hbox, gtk.Label(label=""), 1, 1)
+		pack(hbox, gtk.Label(), 1, 1)
+		pack(pageVBox, hbox)
 		###
-		pack(hbox, gtk.Label(label=_("Holiday")))
+		hbox = gtk.HBox(spacing=spacing)
+		pack(hbox, newAlignLabel(sgroup=sgroup, label=_("Holidays Font")))
 		item = ColorPrefItem(ui, "holidayColor", False)
 		self.uiPrefItems.append(item)
 		pack(hbox, item.getWidget())
-		pack(hbox, gtk.Label(label=""), 1, 1)
+		pack(hbox, gtk.Label(), 1, 1)
+		pack(pageVBox, hbox)
 		###
-		pack(hbox, gtk.Label(label=_("Inactive Day")))
+		hbox = gtk.HBox(spacing=spacing)
+		pack(hbox, newAlignLabel(sgroup=sgroup, label=_("Inactive Day Font")))
 		item = ColorPrefItem(ui, "inactiveColor", True)
 		self.uiPrefItems.append(item)
 		pack(hbox, item.getWidget())
-		pack(hbox, gtk.Label(label=""), 1, 1)
+		pack(hbox, gtk.Label(), 1, 1)
+		pack(pageVBox, hbox)
 		####
-		pack(hbox, gtk.Label(label=_("Border")))
+		hbox = gtk.HBox(spacing=spacing)
+		pack(hbox, newAlignLabel(sgroup=sgroup, label=_("Border Font")))
 		item = ColorPrefItem(ui, "borderTextColor", False)
 		self.uiPrefItems.append(item)
 		pack(hbox, item.getWidget())
-		pack(hbox, gtk.Label(label=""), 1, 1)
+		pack(hbox, gtk.Label(), 1, 1)
+		pack(pageVBox, hbox)
 		####
-		pack(vbox, hbox)
+		pack(pageHBox, pageVBox, 1, 1, padding=5)
+		####
+		page = PrefPage()
+		page.pageParent = "appearance"
+		page.pageWidget = pageHBox
+		page.pageName = "colors"
+		page.pageTitle = _("Appearance") + " - " + _("Colors")
+		page.pageLabel = _("Colors")
+		page.pageIcon = ""
+		self.prefPages.append(page)
+		#####
+		button = self.newWideButton(label=_("Colors"))
+		button.connect("clicked", self.gotoPageCallback("colors"))
+		pack(vbox, button, padding=10)
 		###################
 		hbox = gtk.HBox(spacing=1)
 		label = gtk.Label(label="<b>%s</b>:" % _("Cursor"))
@@ -320,7 +356,7 @@ class PrefDialog(gtk.Dialog):
 		###################
 		# the header label of gtk.Expander in gtk3 is always on the left (even in RTL mode)
 		# that's why we use gtk.Frame instead
-		pageVBox = gtk.VBox(spacing=1)
+		pageVBox = gtk.VBox(spacing=10)
 		pageVBox.set_border_width(10)
 		sgroup = gtk.SizeGroup(mode=gtk.SizeGroupMode.HORIZONTAL)
 		####
