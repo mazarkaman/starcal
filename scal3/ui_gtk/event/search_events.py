@@ -37,11 +37,13 @@ from scal3.ui_gtk.utils import (
 	labelIconMenuItem,
 	labelImageMenuItem,
 	imageFromIconName,
+	labelIconButton,
 )
 from scal3.ui_gtk.drawing import newColorCheckPixbuf
 from scal3.ui_gtk.mywidgets import TextFrame
 from scal3.ui_gtk.mywidgets.multi_spin.date_time import DateTimeButton
 from scal3.ui_gtk.mywidgets.dialog import MyDialog
+from scal3.ui_gtk.mywidgets.buttonbox import MyHButtonBox
 from scal3.ui_gtk import gtk_ud as ud
 from scal3.ui_gtk.event.utils import confirmEventTrash
 from scal3.ui_gtk.event.common import SingleGroupComboBox
@@ -166,15 +168,10 @@ class EventSearchWindow(gtk.Window, MyDialog, ud.BaseCalObj):
 		self.updateGroupSensitive()
 		pack(self.vbox, hbox)
 		######
-		bbox = gtk.HButtonBox()
+		bbox = MyHButtonBox()
 		bbox.set_layout(gtk.ButtonBoxStyle.START)
 		bbox.set_border_width(5)
-		searchButton = gtk.Button()
-		searchButton.set_label(_("_Search"))
-		searchButton.set_image(imageFromIconName(
-			"gtk-find",
-			gtk.IconSize.BUTTON,
-		))
+		searchButton = labelIconButton(_("_Search"), "gtk-find", gtk.IconSize.BUTTON)
 		searchButton.connect("clicked", self.searchClicked)
 		bbox.add(searchButton)
 		pack(self.vbox, bbox)
@@ -294,15 +291,10 @@ class EventSearchWindow(gtk.Window, MyDialog, ud.BaseCalObj):
 		##
 		pack(self.vbox, frame, 1, 1)
 		###
-		bbox2 = gtk.HButtonBox()
+		bbox2 = MyHButtonBox()
 		bbox2.set_layout(gtk.ButtonBoxStyle.END)
 		bbox2.set_border_width(10)
-		closeButton = gtk.Button()
-		closeButton.set_label(_("_Close"))
-		closeButton.set_image(imageFromIconName(
-			"gtk-close",
-			gtk.IconSize.BUTTON,
-		))
+		closeButton = labelIconButton(_("_Close"), "gtk-close", gtk.IconSize.BUTTON)
 		closeButton.connect("clicked", self.closed)
 		bbox2.add(closeButton)
 		pack(self.vbox, bbox2)
