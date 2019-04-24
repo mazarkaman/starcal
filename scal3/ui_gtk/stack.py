@@ -84,7 +84,10 @@ class MyStack(gtk.Stack):
 		backButton = gtk.Button()
 		backHbox = gtk.HBox(spacing=3)
 		backHbox.set_border_width(5)
-		pack(backHbox, imageFromIconName("gtk-go-back", self._iconSize))
+		pack(backHbox, imageFromIconName(
+			"gtk-go-forward" if self._rtl else "gtk-go-back",
+			self._iconSize,
+		))
 		pack(backHbox, gtk.Label(label=_("Back")))
 		backButton.add(backHbox)
 		backButton.connect(
