@@ -58,6 +58,7 @@ class PrefPage:
 		self.pageTitle = ""
 		self.pageLabel = ""
 		self.pageIcon = ""
+		self.pageExpand = True
 
 class PrefDialog(gtk.Window):
 	def __init__(self, **kwargs):
@@ -345,6 +346,7 @@ class PrefDialog(gtk.Window):
 		page.pageTitle = _("Colors") + " - " + _("Appearance")
 		page.pageLabel = _("Colors")
 		page.pageIcon = ""
+		page.pageExpand = False
 		self.prefPages.append(page)
 		#####
 		button = self.newWideButton(label=_("Colors"))
@@ -999,7 +1001,7 @@ class PrefDialog(gtk.Window):
 				button.connect("clicked", self.gotoPageCallback(page.pageName))
 				grid.attach(button, col_i, row_i, 1, 1)
 		grid.show_all()
-		stack.addPage("main", "", grid, expand=True, fill=True)
+		stack.addPage("main", "", grid, expand=page.pageExpand, fill=page.pageExpand)
 		##########################
 		for page in self.prefPages:
 			pageParent = page.pageParent
@@ -1010,8 +1012,8 @@ class PrefDialog(gtk.Window):
 				pageParent,
 				page.pageWidget,
 				title=page.pageTitle,
-				expand=True,
-				fill=True,
+				expand=page.pageExpand,
+				fill=page.pageExpand,
 			)
 		#######################
 		pack(self.vbox, stack, 1, 1)
