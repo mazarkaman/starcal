@@ -100,8 +100,8 @@ Description: A full-featured international calendar written in Python
 echo "#!/bin/bash
 if [ -d '/usr/share/starcal3' ] ; then
 	echo 'Cleaning up /usr/share/starcal3'
-	find '/usr/share/starcal3' -regex '^.*\(__pycache__\|\.py[co]\)$' -print -delete
-	find '/usr/share/starcal3' -type d -print -delete
+	find '/usr/share/starcal3' -regex '^.*\(__pycache__\|\.py[co]\)$' -print -delete || true
+	find '/usr/share/starcal3' -type d -print -delete || true
 fi
 " > "$tmpDir/DEBIAN/postrm"
 chmod a+x "$tmpDir/DEBIAN/postrm"
