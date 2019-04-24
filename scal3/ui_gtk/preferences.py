@@ -201,7 +201,7 @@ class PrefDialog(gtk.Dialog):
 		pack(hbox, gtk.Label(label=""), 1, 1)
 		pack(vbox, hbox)
 		################################ Page 2 (Appearance) ##################
-		vbox = gtk.VBox()
+		vbox = gtk.VBox(spacing=15)
 		vbox.set_border_width(5)
 		page = PrefPage()
 		page.pageWidget = vbox
