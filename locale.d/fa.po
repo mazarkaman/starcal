@@ -2057,6 +2057,28 @@ msgstr ""
 "نوع"
 
 
+
+msgid "General"
+msgstr ""
+"عمومی"
+
+msgid "Appearance"
+msgstr ""
+"ظاهر"
+
+msgid "Regional"
+msgstr ""
+"منطقه‌ای"
+
+msgid "Plugins"
+msgstr ""
+"افزونه‌ها"
+
+msgid "Advanced"
+msgstr ""
+"پیشرفته"
+
+
 msgid "_General"
 msgstr ""
 "ع_مومی"

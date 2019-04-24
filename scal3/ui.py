@@ -86,7 +86,6 @@ confParams = (
 	"pluginsTextStatusIcon",
 	# "localTzHist",  # FIXME
 	"showYmArrows",
-	"prefPagesOrder",
 )
 
 confParamsLive = (
@@ -1033,7 +1032,6 @@ dragRecMode = core.GREGORIAN   # apply in Pref FIXME
 ####################
 monthRMenuNum = True
 # monthRMenu
-prefPagesOrder = tuple(range(5))
 winControllerButtons = (
 	("sep", True),
 	("min", True),

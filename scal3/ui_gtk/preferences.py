@@ -38,6 +38,7 @@ from scal3.ui_gtk.utils import *
 from scal3.ui_gtk import gtk_ud as ud
 from scal3.ui_gtk.pref_utils import *
 from scal3.ui_gtk.pref_utils_extra import *
+from scal3.ui_gtk.stack import MyStack
 
 
 class PrefDialog(gtk.Dialog):
@@ -81,8 +82,10 @@ class PrefDialog(gtk.Dialog):
 		self.prefPages = []
 		################################ Tab 1 (General) #####################
 		vbox = gtk.VBox()
-		vbox.label = _("_General")
-		vbox.icon = "preferences-other.png"
+		vbox._name = "general"
+		vbox._title = _("General")
+		vbox._label = _("_General")
+		vbox._icon = "preferences-other.png"
 		self.prefPages.append(vbox)
 		hbox = gtk.HBox(spacing=3)
 		pack(hbox, gtk.Label(label=_("Language")))
@@ -179,9 +182,11 @@ class PrefDialog(gtk.Dialog):
 		pack(vbox, hbox)
 		################################ Tab 2 (Appearance) ##################
 		vbox = gtk.VBox()
+		vbox._name = "appearance"
+		vbox._title = _("Appearance")
 		# A is for Apply, P is for Plugins, R is for Regional, C is for Cancel, only "n" is left!
-		vbox.label = _("Appeara_nce")
-		vbox.icon = "preferences-desktop-theme.png"
+		vbox._label = _("Appeara_nce")
+		vbox._icon = "preferences-desktop-theme.png"
 		self.prefPages.append(vbox)
 		########
 		hbox = gtk.HBox(spacing=2)
@@ -387,8 +392,10 @@ class PrefDialog(gtk.Dialog):
 		pack(vbox, exp)
 		################################ Tab 3 (Regional) ###################
 		vbox = gtk.VBox()
-		vbox.label = _("_Regional")
-		vbox.icon = "preferences-desktop-locale.png"
+		vbox._name = "regional"
+		vbox._title = _("Regional")
+		vbox._label = _("_Regional")
+		vbox._icon = "preferences-desktop-locale.png"
 		self.prefPages.append(vbox)
 		######
 		sgroup = gtk.SizeGroup(mode=gtk.SizeGroupMode.HORIZONTAL)
@@ -477,8 +484,10 @@ class PrefDialog(gtk.Dialog):
 		self.moduleOptions = options
 		################################ Tab 4 (Advanced) ###################
 		vbox = gtk.VBox()
-		vbox.label = _("A_dvanced")
-		vbox.icon = "applications-system.png"
+		vbox._name = "advanced"
+		vbox._title = _("Advanced")
+		vbox._label = _("A_dvanced")
+		vbox._icon = "applications-system.png"
 		self.prefPages.append(vbox)
 		######
 		hbox = gtk.HBox(spacing=5)
@@ -516,8 +525,10 @@ class PrefDialog(gtk.Dialog):
 		pack(vbox, hbox)
 		################################ Tab 5 (Plugins) ####################
 		vbox = gtk.VBox()
-		vbox.label = _("_Plugins")
-		vbox.icon = "preferences-plugin.png"
+		vbox._name = "plugins"
+		vbox._title = _("Plugins")
+		vbox._label = _("_Plugins")
+		vbox._icon = "preferences-plugin.png"
 		self.prefPages.append(vbox)
 		#####
 		##pluginsTextStatusIcon:
@@ -766,8 +777,10 @@ class PrefDialog(gtk.Dialog):
 		##self.plugAddItems = []
 		####################################### Tab 6 (Accounts)
 		vbox = gtk.VBox()
-		vbox.label = _("Accounts")
-		vbox.icon = "web-settings.png"
+		vbox._name = "accounts"
+		vbox._title = _("Accounts")
+		vbox._label = _("Accounts")
+		vbox._icon = "web-settings.png"
 		self.prefPages.append(vbox)
 		#####
 		treev = gtk.TreeView()
@@ -861,33 +874,41 @@ class PrefDialog(gtk.Dialog):
 		pack(hbox, toolbar)
 		pack(vbox, hbox, 1, 1)
 		####################################################################
-		notebook = gtk.Notebook()
-		self.notebook = notebook
-		#####################################
+		stack = MyStack()
+		stack.setTitleFontSize("large")
+		stack.setTitleCentered(True)
+		self.stack = stack
+		##########################
+		mainVBox = gtk.VBox(spacing=20)
+		mainVBox.set_border_width(20)
 		for vbox in self.prefPages:
-			l = gtk.Label(label=vbox.label)
-			l.set_use_underline(True)
-			vb = gtk.VBox(spacing=3)
-			pack(vb, imageFromFile(vbox.icon))
-			pack(vb, l)
-			vb.show_all()
-			notebook.append_page(vbox, vb)
-			try:
-				notebook.set_tab_reorderable(vbox, True)
-			except AttributeError:
-				pass
+			name = vbox._name
+			hbox = gtk.HBox(spacing=10)
+			hbox.set_border_width(10)
+			label = gtk.Label(label=vbox._label)
+			label.set_use_underline(True)
+			pack(hbox, gtk.Label(), 1, 1)
+			pack(hbox, imageFromFile(vbox._icon))
+			pack(hbox, label, 0, 0)
+			pack(hbox, gtk.Label(), 1, 1)
+			button = gtk.Button()
+			button.add(hbox)
+			button.connect("clicked", self.gotoPageCallback(name))
+			pack(mainVBox, button, 1, 1)
+		mainVBox.show_all()
+		stack.addPage("main", "", mainVBox)
+		##########################
+		for vbox in self.prefPages:
+			vbox.set_border_width(10)
+			stack.addPage(vbox._name, "main", vbox, title=vbox._title)
 		#######################
-		#notebook.set_property("homogeneous", True)## not in gtk3 FIXME
-		#notebook.set_property("tab-border", 5)## not in gtk3 FIXME
-		#notebook.set_property("tab-hborder", 15)## not in gtk3 FIXME
-		pack(self.vbox, notebook)
+		pack(self.vbox, stack)
 		self.vbox.show_all()
-		for i in ui.prefPagesOrder:
-			try:
-				j = ui.prefPagesOrder[i]
-			except IndexError:
-				continue
-			notebook.reorder_child(self.prefPages[i], j)
+
+	def gotoPageCallback(self, pageName):
+		def callback(*args):
+			self.stack.gotoPage(pageName)
+		return callback
 
 	def comboFirstWDChanged(self, combo):
 		f = self.comboFirstWD.get_active() ## 0 means Sunday
@@ -991,9 +1012,6 @@ class PrefDialog(gtk.Dialog):
 		core.saveConf()
 		del core.version
 		##################### Saving ui config
-		ui.prefPagesOrder = tuple([
-			self.notebook.page_num(page) for page in self.prefPages
-		])
 		ui.saveConf()
 		##################### Saving gtk_ud config
 		ud.saveConf()
