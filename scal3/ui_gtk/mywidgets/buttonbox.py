@@ -24,9 +24,9 @@ from scal3.ui_gtk import *
 from scal3.ui_gtk.utils import labelIconButton
 
 
-class MyHButtonBox(gtk.HButtonBox):
+class MyHButtonBox(gtk.ButtonBox):
 	def __init__(self):
-		gtk.HButtonBox.__init__(self)
+		gtk.ButtonBox.__init__(self, orientation=gtk.Orientation.HORIZONTAL)
 		self.set_layout(gtk.ButtonBoxStyle.END)
 		self.set_spacing(15)
 		self.set_border_width(15)
