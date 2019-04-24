@@ -102,7 +102,7 @@ class PrefDialog(gtk.Window):
 		#####
 		self.prefPages = []
 		################################ Page 0 (Language and Calendar Types) #####################
-		vbox = gtk.VBox(spacing=20)
+		vbox = gtk.VBox(spacing=5)
 		vbox.set_border_width(5)
 		page = PrefPage()
 		page.pageWidget = vbox
