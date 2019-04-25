@@ -575,8 +575,7 @@ class PrefDialog(gtk.Window):
 		page.pageExpand = False
 		self.prefPages.append(page)
 		#####
-		button = self.newWideButton(page)
-		weekButtons = [button]
+		regionalSubPages = [page]
 		##################################################
 		options = []
 		for mod in calTypes:
@@ -592,8 +591,7 @@ class PrefDialog(gtk.Window):
 			page.pageExpand = False
 			self.prefPages.append(page)
 			#####
-			button = self.newWideButton(page)
-			weekButtons.append(button)
+			regionalSubPages.append(page)
 			for opt in mod.options:
 				if opt[0] == "button":
 					try:
@@ -611,8 +609,8 @@ class PrefDialog(gtk.Window):
 		grid.set_row_homogeneous(True)
 		grid.set_column_homogeneous(True)
 		grid.set_row_spacing(4)
-		for index, button in enumerate(weekButtons):
-			grid.attach(button, 0, index, 1, 1)
+		for index, page in enumerate(regionalSubPages):
+			grid.attach(self.newWideButton(page), 0, index, 1, 1)
 		grid.show_all()
 		pack(vbox, grid)
 		###
