@@ -318,6 +318,18 @@ def window_set_size_aspect(win, min_aspect, max_aspect=None):
 	win.resize(1, 1)
 
 
+def newHSep():
+	return gtk.Separator(orientation=gtk.Orientation.HORIZONTAL)
+
+
+def newAlignLabel(sgroup=None, label=""):
+	label = gtk.Label(label=label)
+	label.set_xalign(0)
+	if sgroup:
+		sgroup.add_widget(label)
+	return label
+
+
 class IdComboBox(gtk.ComboBox):
 	def set_active(self, _id):
 		ls = self.get_model()

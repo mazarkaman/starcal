@@ -41,14 +41,6 @@ from scal3.ui_gtk.pref_utils_extra import *
 from scal3.ui_gtk.stack import MyStack
 from scal3.ui_gtk.mywidgets.buttonbox import MyHButtonBox
 
-newHSep = lambda: gtk.Separator(orientation=gtk.Orientation.HORIZONTAL)
-
-def newAlignLabel(sgroup=None, label=""):
-	label = gtk.Label(label=label)
-	label.set_xalign(0)
-	if sgroup:
-		sgroup.add_widget(label)
-	return label
 
 class PrefPage:
 	def __init__(self):
