@@ -353,8 +353,7 @@ class PrefDialog(gtk.Window):
 		page.pageExpand = False
 		self.prefPages.append(page)
 		#####
-		button = self.newWideButton(label=page.pageLabel)
-		button.connect("clicked", self.gotoPageCallback(page.pageName))
+		button = self.newWideButton(page)
 		pack(vbox, button, padding=padding)
 		###################
 		pageVBox = gtk.VBox(spacing=20)
@@ -386,8 +385,7 @@ class PrefDialog(gtk.Window):
 		page.pageIcon = ""
 		self.prefPages.append(page)
 		#####
-		button = self.newWideButton(label=page.pageLabel)
-		button.connect("clicked", self.gotoPageCallback(page.pageName))
+		button = self.newWideButton(page)
 		pack(vbox, button, padding=buttonPadding)
 		###################
 		# the header label of gtk.Expander in gtk3 is always on the left (even in RTL mode)
@@ -479,8 +477,7 @@ class PrefDialog(gtk.Window):
 		page.pageIcon = ""
 		self.prefPages.append(page)
 		#####
-		button = self.newWideButton(label=page.pageLabel)
-		button.connect("clicked", self.gotoPageCallback(page.pageName))
+		button = self.newWideButton(page)
 		pack(vbox, button, padding=buttonPadding)
 		################################ Page 3 (Regional) ###################
 		vbox = gtk.VBox()
@@ -578,8 +575,7 @@ class PrefDialog(gtk.Window):
 		page.pageExpand = False
 		self.prefPages.append(page)
 		#####
-		button = self.newWideButton(label=page.pageLabel)
-		button.connect("clicked", self.gotoPageCallback(page.pageName))
+		button = self.newWideButton(page)
 		weekButtons = [button]
 		##################################################
 		options = []
@@ -596,8 +592,7 @@ class PrefDialog(gtk.Window):
 			page.pageExpand = False
 			self.prefPages.append(page)
 			#####
-			button = self.newWideButton(label=page.pageLabel)
-			button.connect("clicked", self.gotoPageCallback(page.pageName))
+			button = self.newWideButton(page)
 			weekButtons.append(button)
 			for opt in mod.options:
 				if opt[0] == "button":
@@ -1036,8 +1031,7 @@ class PrefDialog(gtk.Window):
 		grid.set_border_width(20)
 		####
 		page = mainPages.pop(0)
-		button = self.newWideButton(label=page.pageLabel, imageName=page.pageIcon)
-		button.connect("clicked", self.gotoPageCallback(page.pageName))
+		button = self.newWideButton(page)
 		grid.attach(button, 0, 0, colN, 1)
 		button.grab_focus()
 		###
@@ -1050,8 +1044,7 @@ class PrefDialog(gtk.Window):
 				if page_i >= N:
 					break
 				page = mainPages[page_i]
-				button = self.newWideButton(label=page.pageLabel, imageName=page.pageIcon)
-				button.connect("clicked", self.gotoPageCallback(page.pageName))
+				button = self.newWideButton(page)
 				grid.attach(button, col_i, row_i, 1, 1)
 		grid.show_all()
 		stack.addPage("main", "", grid, expand=page.pageExpand, fill=page.pageExpand)
@@ -1079,18 +1072,19 @@ class PrefDialog(gtk.Window):
 			self.stack.gotoPage(pageName)
 		return callback
 
-	def newWideButton(self, label="", imageName=""):
+	def newWideButton(self, page: PrefPage):
 		hbox = gtk.HBox(spacing=10)
 		hbox.set_border_width(10)
-		label = gtk.Label(label=label)
+		label = gtk.Label(label=page.pageLabel)
 		label.set_use_underline(True)
 		pack(hbox, gtk.Label(), 1, 1)
-		if imageName:
-			pack(hbox, imageFromFile(imageName))
+		if page.pageIcon:
+			pack(hbox, imageFromFile(page.pageIcon))
 		pack(hbox, label, 0, 0)
 		pack(hbox, gtk.Label(), 1, 1)
 		button = gtk.Button()
 		button.add(hbox)
+		button.connect("clicked", self.gotoPageCallback(page.pageName))
 		return button
 
 	def comboFirstWDChanged(self, combo):
