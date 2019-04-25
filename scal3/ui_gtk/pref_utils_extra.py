@@ -55,55 +55,66 @@ class WeekDayCheckListPrefItem(PrefItem):
 		module,
 		varName,
 		vertical=False,
-		homo=True,
+		homogeneous=True,
 		abbreviateNames=True,
 		twoRows=False
 	):
 		self.module = module
 		self.varName = varName
-		nameList = core.weekDayNameAb if abbreviateNames else core.weekDayName
-		ls = [gtk.ToggleButton(label=item) for item in nameList]
-		s = core.firstWeekDay
-		if twoRows:
-			mainBox = newBox(not vertical, homo)
-			box1 = newBox(vertical, homo)
-			box2 = newBox(vertical, homo)
+		self.vertical = vertical
+		self.homogeneous = homogeneous
+		self.twoRows = twoRows
+		self.start = core.firstWeekDay
+		self.buttons = [
+			gtk.ToggleButton(label=name)
+			for name in \
+				(core.weekDayNameAb if abbreviateNames else core.weekDayName)
+		]
+		if self.twoRows:
+			self._widget = newBox(not self.vertical, self.homogeneous)
+		else:
+			self._widget = newBox(self.vertical, homo)
+		self.updateBoxChildren()
+
+	def updateBoxChildren(self):
+		buttons = self.buttons
+		start = self.start
+		mainBox = self._widget
+		for child in mainBox.get_children():
+			mainBox.remove(child)
+			for child2 in child.get_children():
+				child.remove(child2)
+		if self.twoRows:
+			box1 = newBox(self.vertical, self.homogeneous)
+			box2 = newBox(self.vertical, self.homogeneous)
 			pack(mainBox, box1)
 			pack(mainBox, box2)
 			for i in range(4):
-				pack(box1, ls[(s + i) % 7], 1, 1)
+				pack(box1, buttons[(start + i) % 7], 1, 1)
 			for i in range(4, 7):
-				pack(box2, ls[(s + i) % 7], 1, 1)
-			self._widget = mainBox
+				pack(box2, buttons[(start + i) % 7], 1, 1)
 		else:
-			box = newBox(vertical, homo)
 			for i in range(7):
-				pack(box, ls[(s + i) % 7], 1, 1)
-			self._widget = box
-		self.cbList = ls
-		self.start = s
+				pack(mainBox, buttons[(start + i) % 7], 1, 1)
+		mainBox.show_all()
 
-	def setStart(self, s):
-		b = self._widget
-		ls = self.cbList
-		for j in range(7):## or range(6)
-			b.reorder_child(ls[(s + j) % 7], j)
-		self.start = s
+	def setStart(self, start):
+		self.start = start
+		self.updateBoxChildren()
 
 	def get(self):
-		value = []
-		cbl = self.cbList
-		for j in range(7):
-			if cbl[j].get_active():
-				value.append(j)
-		return value
+		return [
+			index
+			for index, button in enumerate(self.buttons)
+			if button.get_active()
+		]
 
 	def set(self, value):
-		cbl = self.cbList
-		for cb in cbl:
-			cb.set_active(False)
-		for j in value:
-			cbl[j].set_active(True)
+		buttons = self.buttons
+		for button in buttons:
+			button.set_active(False)
+		for index in value:
+			buttons[index].set_active(True)
 
 
 """
