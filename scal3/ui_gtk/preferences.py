@@ -580,7 +580,7 @@ class PrefDialog(gtk.Window):
 		#####
 		button = self.newWideButton(label=page.pageLabel)
 		button.connect("clicked", self.gotoPageCallback(page.pageName))
-		pack(vbox, button, padding=0)
+		weekButtons = [button]
 		##################################################
 		options = []
 		for mod in calTypes:
@@ -598,7 +598,7 @@ class PrefDialog(gtk.Window):
 			#####
 			button = self.newWideButton(label=page.pageLabel)
 			button.connect("clicked", self.gotoPageCallback(page.pageName))
-			pack(vbox, button, padding=buttonPadding)
+			weekButtons.append(button)
 			for opt in mod.options:
 				if opt[0] == "button":
 					try:
@@ -611,6 +611,16 @@ class PrefDialog(gtk.Window):
 				options.append(optl)
 				pack(pageVBox, optl.getWidget())
 			#####
+		#####
+		grid = gtk.Grid()
+		grid.set_row_homogeneous(True)
+		grid.set_column_homogeneous(True)
+		grid.set_row_spacing(4)
+		for index, button in enumerate(weekButtons):
+			grid.attach(button, 0, index, 1, 1)
+		grid.show_all()
+		pack(vbox, grid)
+		###
 		self.moduleOptions = options
 		################################ Page 4 (Advanced) ###################
 		vbox = gtk.VBox()
