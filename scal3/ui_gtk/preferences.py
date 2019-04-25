@@ -353,8 +353,7 @@ class PrefDialog(gtk.Window):
 		page.pageExpand = False
 		self.prefPages.append(page)
 		#####
-		button = self.newWideButton(page)
-		pack(vbox, button, padding=padding)
+		appearanceSubPages = [page]
 		###################
 		pageVBox = gtk.VBox(spacing=20)
 		pageVBox.set_border_width(10)
@@ -385,8 +384,7 @@ class PrefDialog(gtk.Window):
 		page.pageIcon = ""
 		self.prefPages.append(page)
 		#####
-		button = self.newWideButton(page)
-		pack(vbox, button, padding=buttonPadding)
+		appearanceSubPages.append(page)
 		###################
 		# the header label of gtk.Expander in gtk3 is always on the left (even in RTL mode)
 		# that's why we use gtk.Frame instead
@@ -477,8 +475,16 @@ class PrefDialog(gtk.Window):
 		page.pageIcon = ""
 		self.prefPages.append(page)
 		#####
-		button = self.newWideButton(page)
-		pack(vbox, button, padding=buttonPadding)
+		appearanceSubPages.append(page)
+		###############
+		grid = gtk.Grid()
+		grid.set_row_homogeneous(True)
+		grid.set_column_homogeneous(True)
+		grid.set_row_spacing(buttonPadding)
+		for index, page in enumerate(appearanceSubPages):
+			grid.attach(self.newWideButton(page), 0, index, 1, 1)
+		grid.show_all()
+		pack(vbox, grid, padding=padding)
 		################################ Page 3 (Regional) ###################
 		vbox = gtk.VBox()
 		vbox.set_border_width(5)
