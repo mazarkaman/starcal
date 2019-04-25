@@ -66,6 +66,7 @@ class PrefDialog(gtk.Window):
 		###
 		self.vbox = gtk.VBox()
 		self.add(self.vbox)
+		self.defaultWidget = None
 		###
 		self.buttonbox = MyHButtonBox()
 		self.buttonbox.add_button(
@@ -84,7 +85,7 @@ class PrefDialog(gtk.Window):
 			onClick=self.ok,
 			tooltip=_("Apply and Close"),
 		)
-		okB.grab_default()  # FIXME
+		#okB.grab_default()  # FIXME
 		#okB.grab_focus()  # FIXME
 		##############################################
 		self.localePrefItems = []
@@ -1029,7 +1030,7 @@ class PrefDialog(gtk.Window):
 		page = mainPages.pop(0)
 		button = self.newWideButton(page)
 		grid.attach(button, 0, 0, colN, 1)
-		button.grab_focus()
+		self.defaultWidget = button
 		###
 		N = len(mainPages)
 		colBN = int(ceil(N / colN))
@@ -1062,6 +1063,9 @@ class PrefDialog(gtk.Window):
 		pack(self.vbox, self.buttonbox)
 		####
 		self.vbox.show_all()
+		self.defaultWidget.set_can_default(True)
+		self.defaultWidget.grab_default()
+		self.defaultWidget.grab_focus()
 
 	def gotoPageCallback(self, pageName):
 		def callback(*args):
