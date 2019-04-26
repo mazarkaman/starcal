@@ -161,7 +161,7 @@ class DayCal(gtk.DrawingArea, CalBase):
 			params = typeParams[index]
 			#except IndexError:
 			##
-			frame = CalTypeParamFrame(
+			pageWidget = CalTypeParamFrame(
 				self.typeParamsParam,
 				self,
 				params,
@@ -171,10 +171,10 @@ class DayCal(gtk.DrawingArea, CalBase):
 				hasEnable=(index > 0),
 				hasAlign=True,
 			)
-			frame.show_all()
+			pageWidget.show_all()
 			page = StackPage()
-			page.pageWidget = frame
-			page.pageName = module.name
+			page.pageWidget = pageWidget
+			page.pageName = "dayCal." + module.name
 			page.pageTitle = _(module.desc)
 			page.pageLabel = _(module.desc)
 			page.pageExpand = False
@@ -246,7 +246,7 @@ class DayCal(gtk.DrawingArea, CalBase):
 		####
 		if self.weekdayParamsParam:
 			params = self.getWeekDayParams()
-			frame = TextParamFrame(
+			pageWidget = TextParamFrame(
 				self.weekdayParamsParam,
 				self,
 				params,
@@ -255,10 +255,10 @@ class DayCal(gtk.DrawingArea, CalBase):
 				hasEnable=True,
 				hasAlign=True,
 			)
-			frame.show_all()
+			pageWidget.show_all()
 			page = StackPage()
-			page.pageWidget = frame
-			page.pageName = "weekday"
+			page.pageWidget = pageWidget
+			page.pageName = "dayCal.weekday"
 			page.pageTitle = _("Week Day")
 			page.pageLabel = _("Week Day")
 			page.pageExpand = False
