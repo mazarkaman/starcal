@@ -206,7 +206,7 @@ class DayCal(gtk.DrawingArea, CalBase):
 	def getOptionsWidget(self):
 		from scal3.ui_gtk.pref_utils import LiveLabelSpinPrefItem, SpinPrefItem, \
 			CheckPrefItem, ColorPrefItem, LiveCheckPrefItem, LiveColorPrefItem
-		from scal3.ui_gtk.cal_type_params import TextParamFrame
+		from scal3.ui_gtk.cal_type_params import TextParamWidget
 		if self.optionsWidget:
 			return self.optionsWidget
 		optionsWidget = gtk.VBox()
@@ -246,7 +246,7 @@ class DayCal(gtk.DrawingArea, CalBase):
 		####
 		if self.weekdayParamsParam:
 			params = self.getWeekDayParams()
-			pageWidget = TextParamFrame(
+			pageWidget = TextParamWidget(
 				self.weekdayParamsParam,
 				self,
 				params,

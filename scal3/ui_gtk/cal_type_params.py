@@ -87,7 +87,7 @@ class YAlignComboBox(gtk.ComboBoxText):
 		else:
 			self.set_active(1)
 
-class TextParamFrame(gtk.Frame):
+class TextParamWidget(gtk.Frame):
 	def __init__(self, paramName, cal, params, sgroupLabel=None, desc=None, hasEnable=False, hasAlign=False):
 		from scal3.ui_gtk.mywidgets.multi_spin.float_num import FloatSpinButton
 		from scal3.ui_gtk.mywidgets import MyFontButton, MyColorButton
@@ -204,7 +204,7 @@ class TextParamFrame(gtk.Frame):
 		self.cal.queue_draw()
 
 
-class CalTypeParamFrame(TextParamFrame):
+class CalTypeParamFrame(TextParamWidget):
 	def __init__(self, *args, **kwargs):
 		index = kwargs.get("index")
 		if index is None:
@@ -221,7 +221,7 @@ class CalTypeParamFrame(TextParamFrame):
 			raise RuntimeError("cal type %r not found" % calType)
 		kwargs["desc"] = _(module.desc)
 		####
-		TextParamFrame.__init__(self, *args, **kwargs)
+		TextParamWidget.__init__(self, *args, **kwargs)
 
 	def onChange(self, obj=None, event=None):
 		typeParams = getattr(ui, self.paramName)
