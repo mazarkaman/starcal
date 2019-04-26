@@ -217,7 +217,14 @@ class CustomizeDialog(gtk.Dialog):
 			expand=True,
 			fill=True,
 		)
+		for page in item.getSubPages():
+			page.pageParent = pageName
+			self.stack.addPageObj(page)
+		item.connect("goto-page", self.gotoPageCallback)
 
+	def gotoPageCallback(self, item, pageName):
+		self.stack.gotoPage(pageName)
+	
 	def treeviewButtonPress(self, treev, gevent):
 		if gevent.button != 1:
 			return False

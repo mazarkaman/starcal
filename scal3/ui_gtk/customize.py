@@ -46,6 +46,7 @@ class DummyCalObj(Object):
 	signals = [
 		("config-change", []),
 		("date-change", []),
+		("goto-page", [str]),
 	]
 
 	def __init__(self, name, desc, pkg, customizable):
@@ -80,6 +81,9 @@ class DummyCalObj(Object):
 
 	def getOptionsWidget(self):
 		return None
+
+	def getSubPages(self) -> "List[StackPage]":
+		return []
 
 	def showHide(self):
 		pass
@@ -141,6 +145,9 @@ class CustomizableCalObj(ud.BaseCalObj):
 	def getOptionsWidget(self):
 		return None
 
+	def getSubPages(self) -> "List[StackPage]":
+		return []
+
 
 class CustomizableCalBox(CustomizableCalObj):
 	"""for GtkBox (HBox and VBox)"""
@@ -168,3 +175,20 @@ class CustomizableCalBox(CustomizableCalObj):
 
 	def insertItemWidget(self, i):
 		self.repackAll()
+
+
+def newSubPageButton(item: CustomizableCalObj, page: "StackPage"):
+	hbox = gtk.HBox(spacing=10)
+	hbox.set_border_width(10)
+	label = gtk.Label(label=page.pageLabel)
+	label.set_use_underline(True)
+	pack(hbox, gtk.Label(), 1, 1)
+	if page.pageIcon:
+		pack(hbox, imageFromFile(page.pageIcon))
+	pack(hbox, label, 0, 0)
+	pack(hbox, gtk.Label(), 1, 1)
+	button = gtk.Button()
+	button.add(hbox)
+	button.connect("clicked", lambda b: item.emit("goto-page", page.pageName))
+	return button
+

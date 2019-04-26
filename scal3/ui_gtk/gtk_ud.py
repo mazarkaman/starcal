@@ -73,6 +73,7 @@ class BaseCalObj(Object):
 	signals = [
 		("config-change", []),
 		("date-change", []),
+		("goto-page", [str]),
 	]
 
 	def initVars(self):
