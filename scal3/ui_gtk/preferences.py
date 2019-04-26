@@ -1037,17 +1037,9 @@ class PrefDialog(gtk.Window):
 		stack.addPage("main", "", grid, expand=page.pageExpand, fill=page.pageExpand)
 		##########################
 		for page in self.prefPages:
-			pageParent = page.pageParent
-			if not pageParent:
-				pageParent = "main"
-			stack.addPage(
-				page.pageName,
-				pageParent,
-				page.pageWidget,
-				title=page.pageTitle,
-				expand=page.pageExpand,
-				fill=page.pageExpand,
-			)
+			if not page.pageParent:
+				page.pageParent = "main"
+			stack.addPageObj(page)
 		#######################
 		pack(self.vbox, stack, 1, 1)
 		pack(self.vbox, self.buttonbox)

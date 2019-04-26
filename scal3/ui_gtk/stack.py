@@ -155,6 +155,17 @@ class MyStack(gtk.Stack):
 		if not self._currentName:
 			self.gotoPage(name, False)
 
+
+	def addPageObj(self, page: StackPage):
+		self.addPage(
+			page.pageName,
+			page.pageParent,
+			page.pageWidget,
+			title=page.pageTitle,
+			expand=page.pageExpand,
+			fill=page.pageExpand,
+		)
+
 	def hasPage(self, name: str):
 		return self.get_child_by_name(name=name) != None
 
