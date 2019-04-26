@@ -40,8 +40,9 @@ from scal3.ui_gtk import *
 from scal3.ui_gtk.drawing import *
 from scal3.ui_gtk.decorators import *
 from scal3.ui_gtk import gtk_ud as ud
-from scal3.ui_gtk.customize import CustomizableCalObj
+from scal3.ui_gtk.customize import CustomizableCalObj, newSubPageButton
 from scal3.ui_gtk.cal_base import CalBase
+from scal3.ui_gtk.stack import StackPage
 
 
 
@@ -83,6 +84,7 @@ class CalObj(gtk.DrawingArea, CalBase):
 		for child in vbox.get_children():
 			child.destroy()
 		###
+		subPages = []
 		n = len(calTypes.active)
 		while len(ui.mcalTypeParams) < n:
 			ui.mcalTypeParams.append({
@@ -92,11 +94,15 @@ class CalObj(gtk.DrawingArea, CalBase):
 			})
 		sgroupLabel = gtk.SizeGroup(mode=gtk.SizeGroupMode.HORIZONTAL)
 		for index, calType in enumerate(calTypes.active):
+			module, ok = calTypes[calType]
+			if not ok:
+				raise RuntimeError("cal type %r not found" % calType)
+			###
 			#try:
 			params = ui.mcalTypeParams[index]
 			#except IndexError:
 			##
-			frame = CalTypeParamFrame(
+			pageWidget = CalTypeParamFrame(
 				"mcalTypeParams",
 				self,
 				params,
@@ -105,9 +111,19 @@ class CalObj(gtk.DrawingArea, CalBase):
 				calType=calType,
 				hasEnable=(index > 0),
 			)
-			pack(vbox, frame)
+			pageWidget.show_all()
+			page = StackPage()
+			page.pageWidget = pageWidget
+			page.pageName = "monthCal." + module.name
+			page.pageTitle = _(module.desc)
+			page.pageLabel = _(module.desc)
+			page.pageExpand = False
+			subPages.append(page)
+			button = newSubPageButton(self, page)
+			pack(vbox, button, padding=4)
 		###
 		vbox.show_all()
+		self.subPages = subPages
 
 	def __init__(self):
 		gtk.DrawingArea.__init__(self)
@@ -169,6 +185,12 @@ class CalObj(gtk.DrawingArea, CalBase):
 		self.optionsWidget.show_all()
 		self.updateTypeParamsWidget()## FIXME
 		return self.optionsWidget
+
+	def getSubPages(self):
+		if self.subPages is not None:
+			return self.subPages
+		self.getOptionsWidget()
+		return self.subPages
 
 	def drawAll(self, widget=None, cr=None, cursor=True):
 		#gevent = gtk.get_current_event()
