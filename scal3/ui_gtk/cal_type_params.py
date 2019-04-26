@@ -87,14 +87,14 @@ class YAlignComboBox(gtk.ComboBoxText):
 		else:
 			self.set_active(1)
 
-class TextParamWidget(gtk.Frame):
+class TextParamWidget(gtk.Box):
 	def __init__(self, paramName, cal, params, sgroupLabel=None, desc=None, hasEnable=False, hasAlign=False):
 		from scal3.ui_gtk.mywidgets.multi_spin.float_num import FloatSpinButton
 		from scal3.ui_gtk.mywidgets import MyFontButton, MyColorButton
 		if desc is None:
 			raise ValueError("desc is None")
 		###
-		gtk.Frame.__init__(self)
+		gtk.Box.__init__(self, orientation=gtk.Orientation.VERTICAL, spacing=10)
 		###
 		self.set_border_width(5)
 		self.paramName = paramName
@@ -106,14 +106,10 @@ class TextParamWidget(gtk.Frame):
 			sgroupLabel = gtk.SizeGroup(mode=gtk.SizeGroupMode.HORIZONTAL)
 		####
 		if hasEnable:
-			self.enableCheck = gtk.CheckButton(label=desc)
-			self.set_label_widget(self.enableCheck)
-		else:
-			self.set_label(desc)
+			self.enableCheck = gtk.CheckButton(label=_("Enable"))
+			pack(self, self.enableCheck)
 		####
-		vbox = gtk.VBox()
-		vbox.set_border_width(5)
-		self.add(vbox)
+		self.set_border_width(5)
 		###
 		hbox = gtk.HBox()
 		label = gtk.Label(label=_("Position")+": ")
@@ -127,7 +123,7 @@ class TextParamWidget(gtk.Frame):
 		self.spinY = spin
 		pack(hbox, spin)
 		pack(hbox, gtk.Label(), 1, 1)
-		pack(vbox, hbox)
+		pack(self, hbox)
 		####
 		if hasAlign:
 			hbox = gtk.HBox()
@@ -142,7 +138,7 @@ class TextParamWidget(gtk.Frame):
 			pack(hbox, self.yalignCombo)
 			##
 			pack(hbox, gtk.Label(), 1, 1)
-			pack(vbox, hbox)
+			pack(self, hbox)
 		####
 		hbox = gtk.HBox()
 		label = gtk.Label(label=_("Font")+": ")
@@ -158,7 +154,7 @@ class TextParamWidget(gtk.Frame):
 		pack(hbox, colorb)
 		pack(hbox, gtk.Label(), 1, 1)
 		pack(hbox, fontb)
-		pack(vbox, hbox)
+		pack(self, hbox)
 		####
 		self.set(params)
 		####
