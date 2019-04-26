@@ -62,6 +62,8 @@ class CalBase(CustomizableCalObj):
 			self.connect("popup-main-menu", ui.mainWin.menuMainPopup)
 			self.connect("pref-update-bg-color", ui.mainWin.prefUpdateBgColor)
 			self.connect("day-info", ui.mainWin.dayInfoShow)
+		###
+		self.subPages = None
 
 	def gotoJd(self, jd):
 		ui.gotoJd(jd)
