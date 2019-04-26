@@ -783,7 +783,7 @@ class WcalTypeParamBox(gtk.HBox):
 		}
 
 	def set(self, data):
-		font = data["font"]
+		font = ui.getParamsFont(data)
 		self.fontCheck.set_active(bool(font))
 		if not font:
 			font = ui.getFont()
@@ -810,10 +810,7 @@ class DaysOfMonthColumn(Column):
 	def onExposeEvent(self, widget=None, event=None):
 		cr = self.getContext()
 		self.drawBg(cr)
-		try:
-			font = ui.wcalTypeParams[self.index]["font"]
-		except:
-			font = None
+		font = ui.getParamsFont(ui.wcalTypeParams[self.index])
 		self.drawTextList(
 			cr,
 			[

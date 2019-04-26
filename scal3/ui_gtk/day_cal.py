@@ -354,10 +354,11 @@ class DayCal(gtk.DrawingArea, CalBase):
 		#)
 		calType = calTypes.primary
 		params = self.getTypeParams()[0]
+
 		daynum = newTextLayout(
 			self,
 			_(c.dates[calType][2], calType),
-			params["font"],
+			ui.getParamsFont(params),
 		)
 		fontw, fonth = daynum.get_pixel_size()
 		if c.holiday:
@@ -376,7 +377,11 @@ class DayCal(gtk.DrawingArea, CalBase):
 		for calType, params in activeTypeParams[1:]:
 			if not params.get("enable", True):
 				continue
-			daynum = newTextLayout(self, _(c.dates[calType][2], calType), params["font"])
+			daynum = newTextLayout(
+				self,
+				_(c.dates[calType][2], calType),
+				ui.getParamsFont(params),
+			)
 			fontw, fonth = daynum.get_pixel_size()
 			setColor(cr, params["color"])
 			font_x, font_y = self.getRenderPos(params, x0, y0, w, h, fontw, fonth)
@@ -387,7 +392,11 @@ class DayCal(gtk.DrawingArea, CalBase):
 			params = self.getWeekDayParams()
 			if params.get("enable", True):
 				text = core.weekDayName[c.weekDay]
-				daynum = newTextLayout(self, text, params["font"])
+				daynum = newTextLayout(
+					self,
+					text,
+					ui.getParamsFont(params),
+				)
 				fontw, fonth = daynum.get_pixel_size()
 				setColor(cr, params["color"])
 				font_x, font_y = self.getRenderPos(params, x0, y0, w, h, fontw, fonth)

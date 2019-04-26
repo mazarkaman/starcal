@@ -517,7 +517,7 @@ def yearPlus(plus=1):
 	cell = cellCache.getCellByDate(year, month, day)
 
 
-def getFont(scale=1.0):
+def getFont(scale=1.0, familiy=True):
 	(
 		name,
 		bold,
@@ -525,11 +525,21 @@ def getFont(scale=1.0):
 		size,
 	) = fontCustom if fontCustomEnable else fontDefaultInit
 	return [
-		name,
+		name if familiy else None,
 		bold,
 		underline,
 		size * scale,
 	]
+
+
+def getParamsFont(params: dict):
+	font = params.get("font")
+	if not font:
+		return None
+	if font[0] is None:
+		font = list(font) # copy
+		font[0] = getFont()[0]
+	return font
 
 
 def initFonts(fontDefaultNew):
@@ -540,30 +550,30 @@ def initFonts(fontDefaultNew):
 	########
 	###
 	if mcalTypeParams[0]["font"] is None:
-		mcalTypeParams[0]["font"] = getFont(1.0)
+		mcalTypeParams[0]["font"] = getFont(1.0, familiy=False)
 	###
 	for item in mcalTypeParams[1:]:
 		if item["font"] is None:
-			item["font"] = getFont(0.6)
+			item["font"] = getFont(0.6, familiy=False)
 	######
 	if dcalTypeParams[0]["font"] is None:
-		dcalTypeParams[0]["font"] = getFont(10.0)
+		dcalTypeParams[0]["font"] = getFont(10.0, familiy=False)
 	###
 	for item in dcalTypeParams[1:]:
 		if item["font"] is None:
-			item["font"] = getFont(3.0)
+			item["font"] = getFont(3.0, familiy=False)
 	######
 	if dcalWinTypeParams[0]["font"] is None:
-		dcalWinTypeParams[0]["font"] = getFont(5.0)
+		dcalWinTypeParams[0]["font"] = getFont(5.0, familiy=False)
 	###
 	for item in dcalWinTypeParams[1:]:
 		if item["font"] is None:
-			item["font"] = getFont(2.0)
+			item["font"] = getFont(2.0, familiy=False)
 	######
 	if dcalWeekdayParams["font"] is None:
-		dcalWeekdayParams["font"] = getFont(1.0)
+		dcalWeekdayParams["font"] = getFont(1.0, familiy=False)
 	if dcalWinWeekdayParams["font"] is None:
-		dcalWinWeekdayParams["font"] = getFont(1.0)
+		dcalWinWeekdayParams["font"] = getFont(1.0, familiy=False)
 
 
 def getHolidaysJdList(startJd, endJd):

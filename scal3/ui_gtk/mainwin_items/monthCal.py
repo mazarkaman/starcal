@@ -344,7 +344,7 @@ class CalObj(gtk.DrawingArea, CalBase):
 				daynum = newTextLayout(
 					self,
 					_(c.dates[calType][2], calType),
-					params["font"],
+					ui.getParamsFont(params),
 				)
 				fontw, fonth = daynum.get_pixel_size()
 				if cellInactive:
@@ -365,7 +365,7 @@ class CalObj(gtk.DrawingArea, CalBase):
 						daynum = newTextLayout(
 							self,
 							_(c.dates[calType][2], calType),
-							params["font"],
+							ui.getParamsFont(params),
 						)
 						fontw, fonth = daynum.get_pixel_size()
 						setColor(cr, params["color"])
