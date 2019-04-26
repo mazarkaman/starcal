@@ -124,12 +124,12 @@ class CalObj(gtk.DrawingArea, CalBase):
 		######################
 		#self.updateTextWidth()
 
-	def optionsWidgetCreate(self):
+	def getOptionsWidget(self):
 		from scal3.ui_gtk.mywidgets.multi_spin.integer import IntSpinButton
 		from scal3.ui_gtk.pref_utils import LiveLabelSpinPrefItem, SpinPrefItem, \
 			LiveCheckColorPrefItem, CheckPrefItem, ColorPrefItem
 		if self.optionsWidget:
-			return
+			return self.optionsWidget
 		self.optionsWidget = gtk.VBox()
 		####
 		prefItem = LiveLabelSpinPrefItem(
@@ -168,6 +168,7 @@ class CalObj(gtk.DrawingArea, CalBase):
 		pack(self.optionsWidget, self.typeParamsVbox)
 		self.optionsWidget.show_all()
 		self.updateTypeParamsWidget()## FIXME
+		return self.optionsWidget
 
 	def drawAll(self, widget=None, cr=None, cursor=True):
 		#gevent = gtk.get_current_event()

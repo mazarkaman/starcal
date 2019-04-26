@@ -199,15 +199,13 @@ class CustomizeDialog(gtk.Dialog):
 			return
 		item = parentItem.items[itemIndex]
 		###
-		if item.hasOptions:
-			item.optionsWidgetCreate()
 		vbox = gtk.VBox()
 		if item.itemListCustomizable and item.items:
 			treev, childrenBox = self.newItemList(pageName, item, scrolled=True)
 			childrenBox.show_all()
 			pack(vbox, childrenBox, 1, 1)
-		if item.optionsWidget:
-			pack(vbox, item.optionsWidget, 0, 0)
+		if item.hasOptions:
+			pack(vbox, item.getOptionsWidget(), 0, 0)
 		title = item.desc
 		if parentItem._name != "mainWin":
 			title = title + " - " + parentItem.desc

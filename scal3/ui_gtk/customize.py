@@ -78,8 +78,8 @@ class DummyCalObj(Object):
 	#def getData(self):## FIXME a real problem
 	#	return None
 
-	def optionsWidgetCreate(self):
-		pass
+	def getOptionsWidget(self):
+		return None
 
 	def showHide(self):
 		pass
@@ -138,8 +138,8 @@ class CustomizableCalObj(ud.BaseCalObj):
 				if item.keyPress(arg, gevent):
 					break
 
-	def optionsWidgetCreate(self):
-		pass
+	def getOptionsWidget(self):
+		return None
 
 
 class CustomizableCalBox(CustomizableCalObj):

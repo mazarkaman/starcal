@@ -185,12 +185,12 @@ class DayCal(gtk.DrawingArea, CalBase):
 	def getWindow(self):
 		return self._window
 
-	def optionsWidgetCreate(self):
+	def getOptionsWidget(self):
 		from scal3.ui_gtk.pref_utils import LiveLabelSpinPrefItem, SpinPrefItem, \
 			CheckPrefItem, ColorPrefItem, LiveCheckPrefItem, LiveColorPrefItem
 		from scal3.ui_gtk.cal_type_params import TextParamFrame
 		if self.optionsWidget:
-			return
+			return self.optionsWidget
 		self.optionsWidget = gtk.VBox()
 		####
 		if self.backgroundColorParam:
@@ -239,6 +239,7 @@ class DayCal(gtk.DrawingArea, CalBase):
 			pack(self.optionsWidget, frame)
 		####
 		self.optionsWidget.show_all()
+		return self.optionsWidget
 
 	def getRenderPos(self, params, x0, y0, w, h, fontw, fonth):
 		xalign = params.get("xalign")

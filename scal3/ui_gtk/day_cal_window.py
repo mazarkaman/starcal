@@ -92,8 +92,7 @@ class DayCalWindowCustomizeDialog(gtk.Dialog):
 			self.close,
 		)
 		##
-		dayCal.optionsWidgetCreate()
-		pack(self.vbox, dayCal.optionsWidget)
+		pack(self.vbox, dayCal.getOptionsWidget())
 		##
 		# self.vbox.connect("size-allocate", self.vboxSizeRequest)
 		self.vbox.show_all()

@@ -41,10 +41,10 @@ class CalObj(MyProgressBar, CustomizableCalObj):
 		)
 		self.set_fraction(frac)
 
-	def optionsWidgetCreate(self):
+	def getOptionsWidget(self):
 		from scal3.ui_gtk.pref_utils import LiveCheckPrefItem
 		if self.optionsWidget:
-			return
+			return self.optionsWidget
 		####
 		self.optionsWidget = gtk.HBox()
 		prefItem = LiveCheckPrefItem(
@@ -56,4 +56,5 @@ class CalObj(MyProgressBar, CustomizableCalObj):
 		pack(self.optionsWidget, prefItem.getWidget())
 		####
 		self.optionsWidget.show_all()
+		return self.optionsWidget
 

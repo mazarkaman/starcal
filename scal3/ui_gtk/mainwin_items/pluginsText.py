@@ -34,9 +34,9 @@ class CalObj(gtk.VBox, CustomizableCalObj):
 		else:
 			pack(self, self.textview)
 
-	def optionsWidgetCreate(self):
+	def getOptionsWidget(self):
 		if self.optionsWidget:
-			return
+			return self.optionsWidget
 		self.optionsWidget = gtk.HBox()
 		self.enableExpanderCheckb = gtk.CheckButton(label=_("Inside Expander"))
 		self.enableExpanderCheckb.set_active(ui.pluginsTextInsideExpander)
@@ -48,6 +48,7 @@ class CalObj(gtk.VBox, CustomizableCalObj):
 		pack(self.optionsWidget, self.enableExpanderCheckb)
 		####
 		self.optionsWidget.show_all()
+		return self.optionsWidget
 
 	def expanderExpanded(self, exp):
 		ui.pluginsTextIsExpanded = not exp.get_expanded()

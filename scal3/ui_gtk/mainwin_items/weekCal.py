@@ -109,13 +109,14 @@ class ColumnBase(CustomizableCalObj):
 			setattr(ui, self.getFontAttr(), combo.get_value())
 			self.onDateChange()
 
-	def optionsWidgetCreate(self):
+	def getOptionsWidget(self):
 		from scal3.ui_gtk.pref_utils import LiveLabelSpinPrefItem, SpinPrefItem, \
 			LiveCheckColorPrefItem, CheckPrefItem, ColorPrefItem, LiveCheckPrefItem
 		from scal3.ui_gtk.mywidgets.font_family_combo import FontFamilyCombo
 		if self.optionsWidget:
-			return
-		self.optionsWidget = gtk.VBox()
+			return self.optionsWidget
+		
+		optionsWidget = gtk.VBox()
 		####
 		if self.customizeWidth:
 			prefItem = LiveLabelSpinPrefItem(
@@ -123,7 +124,7 @@ class ColumnBase(CustomizableCalObj):
 				SpinPrefItem(ui, self.getWidthAttr(), 1, 999, digits=0),
 				self.widthChanged,
 			)
-			pack(self.optionsWidget, prefItem.getWidget())
+			pack(optionsWidget, prefItem.getWidget())
 		####
 		if self.customizeExpand:
 			prefItem = LiveCheckPrefItem(
@@ -132,7 +133,7 @@ class ColumnBase(CustomizableCalObj):
 				_("Expand"),
 				onChangeFunc=self.expandCheckClicked,
 			)
-			pack(self.optionsWidget, prefItem.getWidget())
+			pack(optionsWidget, prefItem.getWidget())
 		####
 		if self.customizeFont:
 			hbox = gtk.HBox()
@@ -141,7 +142,7 @@ class ColumnBase(CustomizableCalObj):
 			combo.set_value(self.getFontValue())
 			pack(hbox, combo)
 			combo.connect("changed", self.fontFamilyComboChanged)
-			pack(self.optionsWidget, hbox)
+			pack(optionsWidget, hbox)
 		####
 		if self.customizePastTextColor:
 			prefItem = LiveCheckColorPrefItem(
@@ -149,9 +150,11 @@ class ColumnBase(CustomizableCalObj):
 				ColorPrefItem(ui, self.getPastTextColorAttr(), True),
 				self.onDateChange,
 			)
-			pack(self.optionsWidget, prefItem.getWidget())
+			pack(optionsWidget, prefItem.getWidget())
 		####
-		self.optionsWidget.show_all()
+		optionsWidget.show_all()
+		self.optionsWidget = optionsWidget
+		return optionsWidget
 
 	def updatePacking(self):
 		self._parent.set_child_packing(
@@ -312,12 +315,12 @@ class MainMenuToolbarItem(ToolbarItem):
 		self.connect("clicked", self.onClicked)
 		self.updateImage()
 
-	def optionsWidgetCreate(self):
+	def getOptionsWidget(self):
 		from os.path import isabs
 		from scal3.ui_gtk.mywidgets.icon import IconSelectButton
 		if self.optionsWidget:
-			return
-		self.optionsWidget = gtk.VBox()
+			return self.optionsWidget
+		optionsWidget = gtk.VBox()
 		###
 		iconPath = ui.wcal_toolbar_mainMenu_icon
 		if not isabs(iconPath):
@@ -330,8 +333,11 @@ class MainMenuToolbarItem(ToolbarItem):
 		self.iconSelect.connect("changed", self.onIconChanged)
 		pack(hbox, self.iconSelect)
 		pack(hbox, gtk.Label(), 1, 1)
-		pack(self.optionsWidget, hbox)
-		self.optionsWidget.show_all()
+		pack(optionsWidget, hbox)
+		###
+		optionsWidget.show_all()
+		self.optionsWidget = optionsWidget
+		return optionsWidget
 
 	def updateImage(self):
 		from scal3.ui_gtk.utils import imageFromFile
@@ -552,12 +558,10 @@ class EventsCountColumn(Column):
 		##
 		self.connect("draw", self.onExposeEvent)
 
-	def optionsWidgetCreate(self):
-		if self.optionsWidget:
-			return
-		Column.optionsWidgetCreate(self)
-		###
-		self.optionsWidget.show_all()
+	def getOptionsWidget(self):
+		optionsWidget = Column.getOptionsWidget(self)
+		optionsWidget.show_all()
+		return optionsWidget
 
 	def getDayTextData(self, i):
 		n = len(self.wcal.status[i].eventsData)
@@ -599,10 +603,10 @@ class EventsTextColumn(Column):
 		Column.__init__(self, wcal)
 		self.connect("draw", self.onExposeEvent)
 
-	def optionsWidgetCreate(self):
+	def getOptionsWidget(self):
 		if self.optionsWidget:
-			return
-		Column.optionsWidgetCreate(self)
+			return self.optionsWidget
+		optionsWidget = Column.getOptionsWidget(self)
 		#####
 		hbox = gtk.HBox()
 		check = gtk.CheckButton(label=_("Use the color of event group for event text"))
@@ -610,7 +614,7 @@ class EventsTextColumn(Column):
 		pack(hbox, check)
 		pack(hbox, gtk.Label(), 1, 1)
 		check.connect("clicked", self.colorizeCheckClicked)
-		pack(self.optionsWidget, hbox)
+		pack(optionsWidget, hbox)
 		##
 		hbox = gtk.HBox()
 		check = gtk.CheckButton(label=_("Show Description"))
@@ -618,9 +622,11 @@ class EventsTextColumn(Column):
 		pack(hbox, check)
 		pack(hbox, gtk.Label(), 1, 1)
 		check.connect("clicked", self.descCheckClicked)
-		pack(self.optionsWidget, hbox)
+		pack(optionsWidget, hbox)
 		##
-		self.optionsWidget.show_all()
+		optionsWidget.show_all()
+		self.optionsWidget = optionsWidget
+		return optionsWidget
 
 	def descCheckClicked(self, check):
 		ui.wcal_eventsText_showDesc = check.get_active()
@@ -843,11 +849,11 @@ class DaysOfMonthColumnGroup(gtk.HBox, CustomizableCalBox, ColumnBase):
 		self.updateDir()
 		self.show()
 
-	def optionsWidgetCreate(self):
+	def getOptionsWidget(self):
 		from scal3.ui_gtk.mywidgets.direction_combo import DirectionComboBox
 		if self.optionsWidget:
-			return
-		ColumnBase.optionsWidgetCreate(self)
+			return self.optionsWidget
+		optionsWidget = ColumnBase.getOptionsWidget(self)
 		###
 		hbox = gtk.HBox()
 		pack(hbox, gtk.Label(label=_("Direction")))
@@ -855,17 +861,19 @@ class DaysOfMonthColumnGroup(gtk.HBox, CustomizableCalBox, ColumnBase):
 		pack(hbox, combo)
 		combo.setValue(ui.wcal_daysOfMonth_dir)
 		combo.connect("changed", self.dirComboChanged)
-		pack(self.optionsWidget, hbox)
+		pack(optionsWidget, hbox)
 		####
 		frame = gtk.Frame()
 		frame.set_label(_("Calendars"))
 		self.typeParamsVbox = gtk.VBox()
 		frame.add(self.typeParamsVbox)
 		frame.show_all()
-		pack(self.optionsWidget, frame)
+		pack(optionsWidget, frame)
 		self.updateTypeParamsWidget()## FIXME
 		####
-		self.optionsWidget.show_all()
+		optionsWidget.show_all()
+		self.optionsWidget = optionsWidget
+		return optionsWidget
 
 	# overwrites method from ColumnBase
 	def updatePacking(self):
@@ -1062,11 +1070,11 @@ class MoonStatusColumn(Column):
 
 		cr.scale(1 / scaleFact, 1 / scaleFact)
 
-	def optionsWidgetCreate(self):
+	def getOptionsWidget(self):
 		from scal3.ui_gtk.pref_utils import LiveCheckPrefItem
 		if self.optionsWidget:
-			return
-		ColumnBase.optionsWidgetCreate(self)
+			return self.optionsWidget
+		optionsWidget = ColumnBase.getOptionsWidget(self)
 		####
 		prefItem = LiveCheckPrefItem(
 			ui,
@@ -1074,9 +1082,11 @@ class MoonStatusColumn(Column):
 			label=_("Southern Hemisphere"),
 			onChangeFunc=self.onDateChange,
 		)
-		pack(self.optionsWidget, prefItem.getWidget())
+		pack(optionsWidget, prefItem.getWidget())
 		####
-		self.optionsWidget.show_all()
+		optionsWidget.show_all()
+		self.optionsWidget = optionsWidget
+		return optionsWidget
 
 
 @registerSignals
@@ -1139,36 +1149,39 @@ class CalObj(gtk.HBox, CustomizableCalBox, ColumnBase, CalBase):
 			item.enable = False
 			self.appendItem(item)
 
-	def optionsWidgetCreate(self):
+	def getOptionsWidget(self):
 		from scal3.ui_gtk.pref_utils import LiveLabelSpinPrefItem, SpinPrefItem, \
 			LiveCheckColorPrefItem, CheckPrefItem, ColorPrefItem
 
 		if self.optionsWidget:
-			return
-		ColumnBase.optionsWidgetCreate(self)
+			return self.optionsWidget
+		
+		optionsWidget = ColumnBase.getOptionsWidget(self)
 		#####
 		prefItem = LiveLabelSpinPrefItem(
 			_("Height"),
 			SpinPrefItem(ui, "wcalHeight", 1, 9999, digits=0),
 			self.heightUpdate,
 		)
-		pack(self.optionsWidget, prefItem.getWidget())
+		pack(optionsWidget, prefItem.getWidget())
 		###
 		prefItem = LiveLabelSpinPrefItem(
 			_("Text Size Scale"),
 			SpinPrefItem(ui, "wcalTextSizeScale", 0.01, 1, digits=2),
 			self.queue_draw,
 		)
-		pack(self.optionsWidget, prefItem.getWidget())
+		pack(optionsWidget, prefItem.getWidget())
 		########
 		prefItem = LiveCheckColorPrefItem(
 			CheckPrefItem(ui, "wcalGrid", _("Grid")),
 			ColorPrefItem(ui, "wcalGridColor", True),
 			self.queue_draw,
 		)
-		pack(self.optionsWidget, prefItem.getWidget())
+		pack(optionsWidget, prefItem.getWidget())
 		###
-		self.optionsWidget.show_all()
+		optionsWidget.show_all()
+		self.optionsWidget = optionsWidget
+		return optionsWidget
 
 	def heightUpdate(self):
 		self.set_property("height-request", ui.wcalHeight)

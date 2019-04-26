@@ -99,10 +99,10 @@ class CustomizableToolbar(gtk.Toolbar, CustomizableCalObj):
 		#style.border_width = 10
 		#self.set_style(style)
 
-	def optionsWidgetCreate(self):
+	def getOptionsWidget(self):
 		from scal3.ui_gtk.mywidgets.multi_spin.integer import IntSpinButton
 		if self.optionsWidget:
-			return
+			return self.optionsWidget
 		###
 		self.optionsWidget = gtk.VBox()
 		##
@@ -208,7 +208,8 @@ class CustomizableToolbar(gtk.Toolbar, CustomizableCalObj):
 			self.setupItemSignals(item)
 			self.appendItem(item)
 		###
-		self.optionsWidgetCreate() # because we update the Customize dialog widgets as well
+		## FIXME: is this really needed?
+		self.getOptionsWidget() # because we update the Customize dialog widgets as well
 		###
 		iconSize = data["iconSize"]
 		for (i, item) in enumerate(ud.iconSizeList):
