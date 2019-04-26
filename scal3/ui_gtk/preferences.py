@@ -38,19 +38,9 @@ from scal3.ui_gtk.utils import *
 from scal3.ui_gtk import gtk_ud as ud
 from scal3.ui_gtk.pref_utils import *
 from scal3.ui_gtk.pref_utils_extra import *
-from scal3.ui_gtk.stack import MyStack
+from scal3.ui_gtk.stack import MyStack, StackPage
 from scal3.ui_gtk.mywidgets.buttonbox import MyHButtonBox
 
-
-class PrefPage:
-	def __init__(self):
-		self.pageWidget = None
-		self.pageParent = ""
-		self.pageName = ""
-		self.pageTitle = ""
-		self.pageLabel = ""
-		self.pageIcon = ""
-		self.pageExpand = True
 
 class PrefDialog(gtk.Window):
 	def __init__(self, **kwargs):
@@ -97,7 +87,7 @@ class PrefDialog(gtk.Window):
 		################################ Page 0 (Language and Calendar Types) #####################
 		vbox = gtk.VBox(spacing=5)
 		vbox.set_border_width(5)
-		page = PrefPage()
+		page = StackPage()
 		page.pageWidget = vbox
 		page.pageName = "lang_calTypes"
 		page.pageTitle = _("Language and Calendar Types")
@@ -131,7 +121,7 @@ class PrefDialog(gtk.Window):
 		################################ Page 1 (General) #####################
 		vbox = gtk.VBox()
 		vbox.set_border_width(5)
-		page = PrefPage()
+		page = StackPage()
 		page.pageWidget = vbox
 		page.pageName = "general"
 		page.pageTitle = _("General")
@@ -213,7 +203,7 @@ class PrefDialog(gtk.Window):
 		################################ Page 2 (Appearance) ##################
 		vbox = gtk.VBox(spacing=0)
 		vbox.set_border_width(5)
-		page = PrefPage()
+		page = StackPage()
 		page.pageWidget = vbox
 		page.pageName = "appearance"
 		page.pageTitle = _("Appearance")
@@ -336,7 +326,7 @@ class PrefDialog(gtk.Window):
 		####
 		pack(pageHBox, pageVBox, 1, 1, padding=5)
 		####
-		page = PrefPage()
+		page = StackPage()
 		page.pageParent = "appearance"
 		page.pageWidget = pageHBox
 		page.pageName = "colors"
@@ -368,7 +358,7 @@ class PrefDialog(gtk.Window):
 		pack(hbox, gtk.Label(), 1, 1)
 		pack(pageVBox, hbox)
 		####
-		page = PrefPage()
+		page = StackPage()
 		page.pageParent = "appearance"
 		page.pageWidget = pageVBox
 		page.pageName = "cursor"
@@ -459,7 +449,7 @@ class PrefDialog(gtk.Window):
 		########
 		checkItem.syncSensitive(item.getWidget(), reverse=False)
 		####
-		page = PrefPage()
+		page = StackPage()
 		page.pageParent = "appearance"
 		page.pageWidget = pageVBox
 		page.pageName = "statusIcon"
@@ -481,7 +471,7 @@ class PrefDialog(gtk.Window):
 		################################ Page 3 (Regional) ###################
 		vbox = gtk.VBox()
 		vbox.set_border_width(5)
-		page = PrefPage()
+		page = StackPage()
 		page.pageWidget = vbox
 		page.pageName = "regional"
 		page.pageTitle = _("Regional")
@@ -564,7 +554,7 @@ class PrefDialog(gtk.Window):
 		frame.add(itemWidget)
 		pack(pageVBox, frame)
 		############
-		page = PrefPage()
+		page = StackPage()
 		page.pageParent = "regional"
 		page.pageWidget = pageVBox
 		page.pageName = "regional_week"
@@ -581,7 +571,7 @@ class PrefDialog(gtk.Window):
 			if not mod.options:
 				continue
 			pageVBox = gtk.VBox(spacing=10)
-			page = PrefPage()
+			page = StackPage()
 			page.pageParent = "regional"
 			page.pageWidget = pageVBox
 			page.pageName = "regional_" + mod.name
@@ -617,7 +607,7 @@ class PrefDialog(gtk.Window):
 		################################ Page 4 (Advanced) ###################
 		vbox = gtk.VBox()
 		vbox.set_border_width(5)
-		page = PrefPage()
+		page = StackPage()
 		page.pageWidget = vbox
 		page.pageName = "advanced"
 		page.pageTitle = _("Advanced")
@@ -660,7 +650,7 @@ class PrefDialog(gtk.Window):
 		pack(vbox, hbox)
 		################################ Page 5 (Plugins) ####################
 		vbox = gtk.VBox()
-		page = PrefPage()
+		page = StackPage()
 		vbox.set_border_width(5)
 		page.pageWidget = vbox
 		page.pageName = "plugins"
@@ -911,7 +901,7 @@ class PrefDialog(gtk.Window):
 		####################################### Page 6 (Accounts)
 		vbox = gtk.VBox()
 		vbox.set_border_width(5)
-		page = PrefPage()
+		page = StackPage()
 		page.pageWidget = vbox
 		page.pageName = "accounts"
 		page.pageTitle = _("Accounts")
@@ -1072,7 +1062,7 @@ class PrefDialog(gtk.Window):
 			self.stack.gotoPage(pageName)
 		return callback
 
-	def newWideButton(self, page: PrefPage):
+	def newWideButton(self, page: StackPage):
 		hbox = gtk.HBox(spacing=10)
 		hbox.set_border_width(10)
 		label = gtk.Label(label=page.pageLabel)

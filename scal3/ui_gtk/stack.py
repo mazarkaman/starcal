@@ -25,6 +25,18 @@ from scal3.locale_man import tr as _
 from scal3.ui_gtk import *
 from scal3.ui_gtk.utils import imageFromIconName
 
+
+class StackPage:
+	def __init__(self):
+		self.pageWidget = None
+		self.pageParent = ""
+		self.pageName = ""
+		self.pageTitle = ""
+		self.pageLabel = ""
+		self.pageIcon = ""
+		self.pageExpand = True
+
+
 class MyStack(gtk.Stack):
 	def __init__(self, rtl=False, iconSize=gtk.IconSize.BUTTON, vboxSpacing=5):
 		gtk.Stack.__init__(self)
