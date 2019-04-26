@@ -40,8 +40,9 @@ from scal3.ui_gtk import *
 from scal3.ui_gtk.drawing import *
 from scal3.ui_gtk.decorators import *
 from scal3.ui_gtk import gtk_ud as ud
-from scal3.ui_gtk.customize import CustomizableCalObj
+from scal3.ui_gtk.customize import CustomizableCalObj, newSubPageButton
 from scal3.ui_gtk.cal_base import CalBase
+from scal3.ui_gtk.stack import StackPage
 
 
 class DayCal(gtk.DrawingArea, CalBase):
@@ -140,6 +141,8 @@ class DayCal(gtk.DrawingArea, CalBase):
 		for child in vbox.get_children():
 			child.destroy()
 		###
+		subPages = []
+		###
 		n = len(calTypes.active)
 		while len(typeParams) < n:
 			typeParams.append({
@@ -150,6 +153,10 @@ class DayCal(gtk.DrawingArea, CalBase):
 		sgroupLabel = gtk.SizeGroup(mode=gtk.SizeGroupMode.HORIZONTAL)
 		sgroupFont = gtk.SizeGroup(mode=gtk.SizeGroupMode.HORIZONTAL)
 		for index, calType in enumerate(calTypes.active):
+			module, ok = calTypes[calType]
+			if not ok:
+				raise RuntimeError("cal type %r not found" % calType)
+			##
 			#try:
 			params = typeParams[index]
 			#except IndexError:
@@ -164,15 +171,26 @@ class DayCal(gtk.DrawingArea, CalBase):
 				hasEnable=(index > 0),
 				hasAlign=True,
 			)
-			pack(vbox, frame)
+			frame.show_all()
+			page = StackPage()
+			page.pageWidget = frame
+			page.pageName = module.name
+			page.pageTitle = _(module.desc)
+			page.pageLabel = _(module.desc)
+			page.pageExpand = False
+			subPages.append(page)
+			button = newSubPageButton(self, page)
+			pack(vbox, button, padding=4)
 		###
 		vbox.show_all()
+		return subPages
 
 	def __init__(self):
 		gtk.DrawingArea.__init__(self)
 		self._window = None
 		self.add_events(gdk.EventMask.ALL_EVENTS_MASK)
 		self.initCal()
+		self.subPages = None
 		self.heightUpdate(emit=False)
 		######################
 		#self.kTime = 0
@@ -191,7 +209,8 @@ class DayCal(gtk.DrawingArea, CalBase):
 		from scal3.ui_gtk.cal_type_params import TextParamFrame
 		if self.optionsWidget:
 			return self.optionsWidget
-		self.optionsWidget = gtk.VBox()
+		optionsWidget = gtk.VBox()
+		subPages = []
 		####
 		if self.backgroundColorParam:
 			prefItem = LiveColorPrefItem(
@@ -204,14 +223,14 @@ class DayCal(gtk.DrawingArea, CalBase):
 			pack(hbox, gtk.Label(label=_("Background")+": "))
 			pack(hbox, prefItem.getWidget())
 			pack(hbox, gtk.Label(), 1, 1)
-			pack(self.optionsWidget, hbox)
+			pack(optionsWidget, hbox)
 		if self.heightParam:
 			prefItem = LiveLabelSpinPrefItem(
 				_("Height"),
 				SpinPrefItem(ui, self.heightParam, 1, 9999, digits=0),
 				self.heightUpdate,
 			)
-			pack(self.optionsWidget, prefItem.getWidget())
+			pack(optionsWidget, prefItem.getWidget())
 		####
 		prefItem = LiveCheckPrefItem(
 			ui,
@@ -219,11 +238,11 @@ class DayCal(gtk.DrawingArea, CalBase):
 			label=_("Show buttons"),
 			onChangeFunc=self.queue_draw,
 		)
-		pack(self.optionsWidget, prefItem.getWidget())
+		pack(optionsWidget, prefItem.getWidget())
 		########
 		self.typeParamsVbox = gtk.VBox()
-		pack(self.optionsWidget, self.typeParamsVbox)
-		self.updateTypeParamsWidget()
+		pack(optionsWidget, self.typeParamsVbox)
+		subPages += self.updateTypeParamsWidget()
 		####
 		if self.weekdayParamsParam:
 			params = self.getWeekDayParams()
@@ -236,10 +255,28 @@ class DayCal(gtk.DrawingArea, CalBase):
 				hasEnable=True,
 				hasAlign=True,
 			)
-			pack(self.optionsWidget, frame)
+			frame.show_all()
+			page = StackPage()
+			page.pageWidget = frame
+			page.pageName = "weekday"
+			page.pageTitle = _("Week Day")
+			page.pageLabel = _("Week Day")
+			page.pageExpand = False
+			subPages.append(page)
+			button = newSubPageButton(self, page)
+			pack(optionsWidget, button, padding=4)
 		####
+		self.subPages = subPages
+		self.optionsWidget = optionsWidget
+		###
 		self.optionsWidget.show_all()
 		return self.optionsWidget
+
+	def getSubPages(self):
+		if self.subPages is not None:
+			return self.subPages
+		self.getOptionsWidget()
+		return subPages
 
 	def getRenderPos(self, params, x0, y0, w, h, fontw, fonth):
 		xalign = params.get("xalign")
@@ -432,4 +469,4 @@ class DayCal(gtk.DrawingArea, CalBase):
 
 	def onConfigChange(self, *a, **kw):
 		CustomizableCalObj.onConfigChange(self, *a, **kw)
-		self.updateTypeParamsWidget()
+		self.updateTypeParamsWidget() # why is this needed? FIXME

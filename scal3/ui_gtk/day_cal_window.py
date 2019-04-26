@@ -39,6 +39,7 @@ from scal3.ui_gtk.utils import (
 )
 
 from scal3.ui_gtk.day_cal import DayCal
+from scal3.ui_gtk.stack import MyStack
 
 confPathLive = join(confDir, "ui-daycal-live.json")
 
@@ -92,10 +93,26 @@ class DayCalWindowCustomizeDialog(gtk.Dialog):
 			self.close,
 		)
 		##
-		pack(self.vbox, dayCal.getOptionsWidget())
+		self.stack = MyStack(rtl=rtl, vboxSpacing=10)
+		pack(self.vbox, self.stack, 1, 1)
+		pageName = "dayCalWin"
+		self.stack.addPage(
+			pageName,
+			"",
+			dayCal.getOptionsWidget(),
+			expand=True,
+			fill=True,
+		)
+		for page in dayCal.getSubPages():
+			page.pageParent = pageName
+			self.stack.addPageObj(page)
+		dayCal.connect("goto-page", self.gotoPageCallback)
 		##
 		# self.vbox.connect("size-allocate", self.vboxSizeRequest)
 		self.vbox.show_all()
+
+	def gotoPageCallback(self, item, pageName):
+		self.stack.gotoPage(pageName)
 
 	# def vboxSizeRequest(self, widget, req):
 	# 	self.resize(self.get_size()[0], 1)
