@@ -130,7 +130,7 @@ class DayCal(gtk.DrawingArea, CalBase):
 			ui.mainWin.customizeShow()
 
 	def updateTypeParamsWidget(self):
-		from scal3.ui_gtk.cal_type_params import CalTypeParamFrame
+		from scal3.ui_gtk.cal_type_params import CalTypeParamWidget
 		if not self.typeParamsParam:
 			return
 		typeParams = self.getTypeParams()
@@ -161,7 +161,7 @@ class DayCal(gtk.DrawingArea, CalBase):
 			params = typeParams[index]
 			#except IndexError:
 			##
-			pageWidget = CalTypeParamFrame(
+			pageWidget = CalTypeParamWidget(
 				self.typeParamsParam,
 				self,
 				params,

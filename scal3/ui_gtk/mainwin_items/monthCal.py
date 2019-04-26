@@ -76,7 +76,7 @@ class CalObj(gtk.DrawingArea, CalBase):
 		self.queue_draw()
 
 	def updateTypeParamsWidget(self):
-		from scal3.ui_gtk.cal_type_params import CalTypeParamFrame
+		from scal3.ui_gtk.cal_type_params import CalTypeParamWidget
 		try:
 			vbox = self.typeParamsVbox
 		except AttributeError:
@@ -102,7 +102,7 @@ class CalObj(gtk.DrawingArea, CalBase):
 			params = ui.mcalTypeParams[index]
 			#except IndexError:
 			##
-			pageWidget = CalTypeParamFrame(
+			pageWidget = CalTypeParamWidget(
 				"mcalTypeParams",
 				self,
 				params,

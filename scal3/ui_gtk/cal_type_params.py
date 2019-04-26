@@ -204,7 +204,7 @@ class TextParamWidget(gtk.Frame):
 		self.cal.queue_draw()
 
 
-class CalTypeParamFrame(TextParamWidget):
+class CalTypeParamWidget(TextParamWidget):
 	def __init__(self, *args, **kwargs):
 		index = kwargs.get("index")
 		if index is None:
