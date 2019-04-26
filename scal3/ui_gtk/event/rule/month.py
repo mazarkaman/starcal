@@ -11,11 +11,11 @@ from scal3.ui_gtk import *
 from scal3.ui_gtk.utils import set_tooltip
 
 
-class WidgetClass(gtk.HBox):
+class WidgetClass(gtk.Box):
 	def __init__(self, rule):
 		self.rule = rule
 		###
-		gtk.HBox.__init__(self)
+		gtk.Box.__init__(self, orientation=gtk.Orientation.HORIZONTAL)
 		###
 		self.buttons = []
 		calType = self.rule.getCalType()

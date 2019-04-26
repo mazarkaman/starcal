@@ -37,9 +37,9 @@ from scal3.ui_gtk.event.rule.weekNumMode \
 	import WidgetClass as WeekNumModeWidgetClass
 
 
-class WidgetClass(gtk.VBox):
+class WidgetClass(gtk.Box):
 	def __init__(self, event):## FIXME
-		gtk.VBox.__init__(self)
+		gtk.Box.__init__(self, orientation=gtk.Orientation.VERTICAL)
 		self.event = event
 		assert event.parent.name == "universityTerm" ## FIXME
 		sizeGroup = gtk.SizeGroup(mode=gtk.SizeGroupMode.HORIZONTAL)

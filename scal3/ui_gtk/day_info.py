@@ -35,12 +35,12 @@ from scal3.ui_gtk.event.occurrence_view import DayOccurrenceView
 
 
 @registerSignals
-class AllDateLabelsVBox(gtk.VBox, ud.BaseCalObj):
+class AllDateLabelsVBox(gtk.Box, ud.BaseCalObj):
 	_name = "allDateLabels"
 	desc = _("Dates")
 
 	def __init__(self):
-		gtk.VBox.__init__(self, spacing=5)
+		gtk.Box.__init__(self, orientation=gtk.Orientation.VERTICAL, spacing=5)
 		self.initVars()
 
 	def onDateChange(self, *a, **ka):
@@ -91,11 +91,11 @@ class PluginsTextView(gtk.TextView, ud.BaseCalObj):
 
 
 @registerSignals
-class DayInfoJulianDayHBox(gtk.HBox, ud.BaseCalObj):
+class DayInfoJulianDayHBox(gtk.Box, ud.BaseCalObj):
 	_name = "jd"
 	desc = _("Julian Day Number")
 	def __init__(self):
-		gtk.HBox.__init__(self)
+		gtk.Box.__init__(self, orientation=gtk.Orientation.HORIZONTAL)
 		self.initVars()
 		###
 		pack(self, gtk.Label(label=_("Julian Day Number") + ":  "))

@@ -743,10 +743,10 @@ class EventsBoxColumn(Column):
 			self.drawBox(cr, box)
 
 
-class WcalTypeParamBox(gtk.HBox):
+class WcalTypeParamBox(gtk.Box):
 	def __init__(self, wcal, index, calType, params, sgroupLabel, sgroupFont):
 		from scal3.ui_gtk.mywidgets import MyFontButton
-		gtk.HBox.__init__(self)
+		gtk.Box.__init__(self, orientation=gtk.Orientation.HORIZONTAL)
 		self.wcal = wcal
 		self._parent = wcal
 		self.index = index
@@ -828,7 +828,7 @@ class DaysOfMonthColumn(Column):
 
 
 @registerSignals
-class DaysOfMonthColumnGroup(gtk.HBox, CustomizableCalBox, ColumnBase):
+class DaysOfMonthColumnGroup(gtk.Box, CustomizableCalBox, ColumnBase):
 	_name = "daysOfMonth"
 	desc = _("Days of Month")
 	customizeWidth = True
@@ -838,7 +838,7 @@ class DaysOfMonthColumnGroup(gtk.HBox, CustomizableCalBox, ColumnBase):
 		return self.set_direction(ud.textDirDict[ui.wcal_daysOfMonth_dir])
 
 	def __init__(self, wcal):
-		gtk.HBox.__init__(self)
+		gtk.Box.__init__(self, orientation=gtk.Orientation.HORIZONTAL)
 		self.initVars()
 		self.wcal = wcal
 		self._parent = wcal
@@ -1087,7 +1087,7 @@ class MoonStatusColumn(Column):
 
 
 @registerSignals
-class CalObj(gtk.HBox, CustomizableCalBox, ColumnBase, CalBase):
+class CalObj(gtk.Box, CustomizableCalBox, ColumnBase, CalBase):
 	_name = "weekCal"
 	desc = _("Week Calendar")
 	myKeys = CalBase.myKeys + (
@@ -1106,7 +1106,7 @@ class CalObj(gtk.HBox, CustomizableCalBox, ColumnBase, CalBase):
 		return ui.cellCache.getCell(cell.jd + 7 * plus)
 
 	def __init__(self):
-		gtk.HBox.__init__(self)
+		gtk.Box.__init__(self, orientation=gtk.Orientation.HORIZONTAL)
 		self.add_events(gdk.EventMask.ALL_EVENTS_MASK)
 		self.initCal()
 		self.set_property("height-request", ui.wcalHeight)

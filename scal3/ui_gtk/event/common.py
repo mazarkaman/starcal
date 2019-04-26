@@ -66,12 +66,12 @@ def getGroupRow(group):
 	)
 
 
-class WidgetClass(gtk.VBox):
+class WidgetClass(gtk.Box):
 	expandDescription = True
 	def __init__(self, event):
 		from scal3.ui_gtk.mywidgets.cal_type_combo import CalTypeCombo
 		from scal3.ui_gtk.mywidgets.tz_combo import TimeZoneComboBoxEntry
-		gtk.VBox.__init__(self)
+		gtk.Box.__init__(self, orientation=gtk.Orientation.VERTICAL)
 		self.event = event
 		###########
 		hbox = HBox()
@@ -182,9 +182,9 @@ class WidgetClass(gtk.VBox):
 		pass
 
 
-class FilesBox(gtk.VBox):
+class FilesBox(gtk.Box):
 	def __init__(self, event):
-		gtk.VBox.__init__(self)
+		gtk.Box.__init__(self, orientation=gtk.Orientation.VERTICAL)
 		self.event = event
 		self.vbox = VBox()
 		pack(self, self.vbox)
@@ -339,9 +339,9 @@ class NotificationBox(gtk.Expander):## or NotificationBox FIXME
 		self.event.notifiers = notifiers
 
 
-class DurationInputBox(gtk.HBox):
+class DurationInputBox(gtk.Box):
 	def __init__(self):
-		gtk.HBox.__init__(self)
+		gtk.Box.__init__(self, orientation=gtk.Orientation.HORIZONTAL)
 		##
 		self.valueSpin = FloatSpinButton(0, 999, 1)
 		pack(self, self.valueSpin)
@@ -366,11 +366,11 @@ class DurationInputBox(gtk.HBox):
 		self.unitCombo.set_active(durationUnitValues.index(unit))
 
 
-class StrListEditor(gtk.HBox):
+class StrListEditor(gtk.Box):
 	def __init__(self, defaultValue=""):
 		self.defaultValue = defaultValue
 		#####
-		gtk.HBox.__init__(self)
+		gtk.Box.__init__(self, orientation=gtk.Orientation.HORIZONTAL)
 		self.treev = gtk.TreeView()
 		self.treev.set_headers_visible(False)
 		self.trees = gtk.ListStore(str)

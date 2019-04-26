@@ -136,7 +136,7 @@ class WinConButtonSep(WinConButton):
 
 
 @registerSignals
-class CalObj(gtk.HBox, CustomizableCalBox):
+class CalObj(gtk.Box, CustomizableCalBox):
 	hasOptions = False
 	_name = "winContronller"
 	desc = _("Window Controller")
@@ -152,7 +152,7 @@ class CalObj(gtk.HBox, CustomizableCalBox):
 	}
 
 	def __init__(self):
-		gtk.HBox.__init__(self, spacing=ui.winControllerSpacing)
+		gtk.Box.__init__(self, orientation=gtk.Orientation.HORIZONTAL, spacing=ui.winControllerSpacing)
 		self.set_property("height-request", 15)
 		self.set_direction(gtk.TextDirection.LTR)## FIXME
 		self.initVars()

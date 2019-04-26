@@ -36,7 +36,7 @@ from scal3.ui_gtk.decorators import *
 from scal3.ui_gtk.utils import imageFromIconName
 
 @registerSignals
-class MultiSpinButton(gtk.HBox):
+class MultiSpinButton(gtk.Box):
 	signals = [
 		("changed", []),
 		("activate", []),
@@ -71,7 +71,7 @@ class MultiSpinButton(gtk.HBox):
 			raise ValueError("MultiSpinButton: sep is None")
 		if fields is None:
 			raise ValueError("MultiSpinButton: fields is None")
-		gtk.HBox.__init__(self)
+		gtk.Box.__init__(self, orientation=gtk.Orientation.HORIZONTAL)
 		self.entry = gtk.Entry()
 		##
 		self.step_inc = step_inc

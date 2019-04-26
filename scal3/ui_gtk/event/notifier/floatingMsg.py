@@ -25,11 +25,11 @@ from scal3.ui_gtk import *
 from scal3.ui_gtk.mywidgets.floatingMsg import *
 
 
-class WidgetClass(gtk.HBox):
+class WidgetClass(gtk.Box):
 	def __init__(self, notifier):
 		self.notifier = notifier
 		##
-		gtk.HBox.__init__(self)
+		gtk.Box.__init__(self, orientation=gtk.Orientation.HORIZONTAL)
 		# [_] Fill Screen Width   Speed [__]   BG Color [__]  Text Color [__]
 		##
 		self.fillWidthCb = gtk.CheckButton(label=_("Fill Width"))

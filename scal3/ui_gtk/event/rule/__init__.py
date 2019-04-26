@@ -9,12 +9,12 @@ from scal3.ui_gtk import *
 # from scal3.ui_gtk.utils import imageFromIconName
 
 """
-class MultiValueRule(gtk.HBox):
+class MultiValueRule(gtk.Box):
 	def __init__(self, rule, ValueWidgetClass):
 		self.rule = rule
 		self.ValueWidgetClass = ValueWidgetClass
 		##
-		gtk.HBox.__init__(self)
+		gtk.Box.__init__(self, orientation=gtk.Orientation.HORIZONTAL)
 		self.widgetsBox = HBox()
 		pack(self, self.widgetsBox)
 		##

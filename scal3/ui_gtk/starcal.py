@@ -112,7 +112,7 @@ def liveConfChanged():
 
 
 @registerSignals
-class MainWinVbox(gtk.VBox, CustomizableCalBox):
+class MainWinVbox(gtk.Box, CustomizableCalBox):
 	_name = "mainWin"
 	desc = _("Main Window")
 	params = (
@@ -151,7 +151,7 @@ class MainWinVbox(gtk.VBox, CustomizableCalBox):
 	)
 
 	def __init__(self):
-		gtk.VBox.__init__(self)
+		gtk.Box.__init__(self, orientation=gtk.Orientation.VERTICAL)
 		self.initVars()
 
 	def updateVars(self):

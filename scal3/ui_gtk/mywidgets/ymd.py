@@ -9,9 +9,9 @@ from scal3.ui_gtk.mywidgets.multi_spin.year import YearSpinButton
 from scal3.ui_gtk.mywidgets.multi_spin.day import DaySpinButton
 
 
-class YearMonthDayBox(gtk.HBox):
+class YearMonthDayBox(gtk.Box):
 	def __init__(self):
-		gtk.HBox.__init__(self, spacing=4)
+		gtk.Box.__init__(self, orientation=gtk.Orientation.HORIZONTAL, spacing=4)
 		self.calType = calTypes.primary
 		####
 		pack(self, gtk.Label(label=_("Year")))

@@ -34,12 +34,12 @@ from scal3.ui_gtk.utils import (
 from scal3.ui_gtk.mywidgets.icon import IconSelectButton
 
 
-#class EventCategorySelect(gtk.HBox):
+#class EventCategorySelect(gtk.Box):
 
 
-class EventTagsAndIconSelect(gtk.HBox):
+class EventTagsAndIconSelect(gtk.Box):
 	def __init__(self):
-		gtk.HBox.__init__(self)
+		gtk.Box.__init__(self, orientation=gtk.Orientation.HORIZONTAL)
 		#########
 		hbox = HBox()
 		pack(hbox, gtk.Label(label=_("Category") + ":"))
@@ -139,7 +139,7 @@ class EventTagsAndIconSelect(gtk.HBox):
 		}
 
 
-class TagsListBox(gtk.VBox):
+class TagsListBox(gtk.Box):
 	"""
 		[x] Only related tags     tt: Show only tags related to this event type
 		Sort by:
@@ -152,7 +152,7 @@ class TagsListBox(gtk.VBox):
 		Most used for this event type (first)
 	"""
 	def __init__(self, eventType=""):## "" == "custom"
-		gtk.VBox.__init__(self)
+		gtk.Box.__init__(self, orientation=gtk.Orientation.VERTICAL)
 		####
 		self.eventType = eventType
 		########
@@ -279,9 +279,9 @@ class TagEditorDialog(gtk.Dialog):
 		self.setData = self.tagsBox.setData
 
 
-class ViewEditTagsHbox(gtk.HBox):
+class ViewEditTagsHbox(gtk.Box):
 	def __init__(self, eventType=""):
-		gtk.HBox.__init__(self)
+		gtk.Box.__init__(self, orientation=gtk.Orientation.HORIZONTAL)
 		self.tags = []
 		pack(self, gtk.Label(label=_("Tags") + ":  "))
 		self.tagsLabel = gtk.Label()

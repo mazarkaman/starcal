@@ -13,7 +13,7 @@ from scal3.ui_gtk.customize import CustomizableCalObj
 
 
 @registerSignals
-class CalObj(gtk.HBox, CustomizableCalObj):
+class CalObj(gtk.Box, CustomizableCalObj):
 	_name = "statusBar"
 	desc = _("Status Bar")
 	itemListCustomizable = False
@@ -21,7 +21,7 @@ class CalObj(gtk.HBox, CustomizableCalObj):
 
 	def __init__(self):
 		from scal3.ui_gtk.mywidgets.resize_button import ResizeButton
-		gtk.HBox.__init__(self)
+		gtk.Box.__init__(self, orientation=gtk.Orientation.HORIZONTAL)
 		self.initVars()
 		self.labelBox = HBox()
 		pack(self, self.labelBox, 1, 1)

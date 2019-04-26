@@ -22,9 +22,9 @@ class EventsImportWindow(WizardWindow):
 		#self.set_destroy_with_parent(True)
 		self.resize(400, 200)
 
-	class FirstStep(gtk.VBox):
+	class FirstStep(gtk.Box):
 		def __init__(self, win):
-			gtk.VBox.__init__(self)
+			gtk.Box.__init__(self, orientation=gtk.Orientation.VERTICAL)
 			self.set_spacing(20)
 			self.win = win
 			self.buttons = (
@@ -82,9 +82,9 @@ class EventsImportWindow(WizardWindow):
 				return
 			self.win.showStep(1, format, fpath)
 
-	class SecondStep(gtk.VBox):
+	class SecondStep(gtk.Box):
 		def __init__(self, win):
-			gtk.VBox.__init__(self)
+			gtk.Box.__init__(self, orientation=gtk.Orientation.VERTICAL)
 			self.set_spacing(20)
 			self.win = win
 			self.buttons = (

@@ -29,11 +29,11 @@ from scal3.ui_gtk.mywidgets.icon import IconSelectButton
 from scal3.ui_gtk.event import common
 
 
-class BaseWidgetClass(gtk.VBox):
+class BaseWidgetClass(gtk.Box):
 	def __init__(self, group):
 		from scal3.ui_gtk.mywidgets.cal_type_combo import CalTypeCombo
 		from scal3.ui_gtk.mywidgets.tz_combo import TimeZoneComboBoxEntry
-		gtk.VBox.__init__(self)
+		gtk.Box.__init__(self, orientation=gtk.Orientation.VERTICAL)
 		self.group = group
 		########
 		self.sizeGroup = gtk.SizeGroup(mode=gtk.SizeGroupMode.HORIZONTAL)

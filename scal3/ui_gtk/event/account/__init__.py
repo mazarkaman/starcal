@@ -14,9 +14,9 @@ from scal3.ui_gtk.utils import (
 )
 
 
-class BaseWidgetClass(gtk.VBox):
+class BaseWidgetClass(gtk.Box):
 	def __init__(self, account):
-		gtk.VBox.__init__(self)
+		gtk.Box.__init__(self, orientation=gtk.Orientation.VERTICAL)
 		self.account = account
 		########
 		self.sizeGroup = gtk.SizeGroup(mode=gtk.SizeGroupMode.HORIZONTAL)
@@ -93,9 +93,9 @@ class AccountGroupCombo(IdComboBox):
 				])
 
 
-class AccountGroupBox(gtk.HBox):
+class AccountGroupBox(gtk.Box):
 	def __init__(self, accountCombo=None):
-		gtk.HBox.__init__(self)
+		gtk.Box.__init__(self, orientation=gtk.Orientation.HORIZONTAL)
 		self.combo = AccountGroupCombo()
 		pack(self, self.combo)
 		##

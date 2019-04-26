@@ -10,11 +10,11 @@ from scal3.ui_gtk.mywidgets.weekday_combo import WeekDayComboBox
 from scal3.ui_gtk.mywidgets.month_combo import MonthComboBox
 
 
-class WidgetClass(gtk.HBox):
+class WidgetClass(gtk.Box):
 	def __init__(self, rule):
 		self.rule = rule
 		#####
-		gtk.HBox.__init__(self)
+		gtk.Box.__init__(self, orientation=gtk.Orientation.HORIZONTAL)
 		###
 		combo = gtk.ComboBoxText()
 		for item in rule.wmIndexNames:

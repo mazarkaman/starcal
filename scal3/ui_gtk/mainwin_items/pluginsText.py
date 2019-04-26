@@ -9,14 +9,14 @@ from scal3.ui_gtk.customize import CustomizableCalObj
 
 
 @registerSignals
-class CalObj(gtk.VBox, CustomizableCalObj):
+class CalObj(gtk.Box, CustomizableCalObj):
 	_name = "pluginsText"
 	desc = _("Plugins Text")
 	itemListCustomizable = False
 
 	def __init__(self):
 		from scal3.ui_gtk.mywidgets.text_widgets import ReadOnlyTextView
-		gtk.VBox.__init__(self)
+		gtk.Box.__init__(self, orientation=gtk.Orientation.VERTICAL)
 		self.initVars()
 		####
 		self.textview = ReadOnlyTextView()

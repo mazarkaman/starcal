@@ -5,7 +5,7 @@ from scal3.ui_gtk.mywidgets.multi_spin import MultiSpinButton
 
 
 @registerSignals
-class MultiSpinOptionBox(gtk.HBox):
+class MultiSpinOptionBox(gtk.Box):
 	signals = [
 		("activate", [])
 	]
@@ -26,7 +26,7 @@ class MultiSpinOptionBox(gtk.HBox):
 		**kwargs
 	):
 		if not is_hbox:
-			gtk.HBox.__init__(self, spacing=spacing)
+			gtk.Box.__init__(self, orientation=gtk.Orientation.HORIZONTAL, spacing=spacing)
 		self.spin = MultiSpinButton(sep=sep, fields=fields, **kwargs)
 		pack(self, self.spin, 1, 1)
 		self.hist_size = hist_size

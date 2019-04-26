@@ -436,9 +436,9 @@ def newSmallNoFocusButton(iconName, func, tooltip=""):
 	return arrow
 
 
-class YearLabelButtonBox(gtk.HBox, ud.BaseCalObj):
+class YearLabelButtonBox(gtk.Box, ud.BaseCalObj):
 	def __init__(self, calType, **kwargs):
-		gtk.HBox.__init__(self)
+		gtk.Box.__init__(self, orientation=gtk.Orientation.HORIZONTAL)
 		self.initVars()
 		###
 		pack(
@@ -480,9 +480,9 @@ class YearLabelButtonBox(gtk.HBox, ud.BaseCalObj):
 		return self.label.changeCalType(calType)
 
 
-class MonthLabelButtonBox(gtk.HBox, ud.BaseCalObj):
+class MonthLabelButtonBox(gtk.Box, ud.BaseCalObj):
 	def __init__(self, calType, **kwargs):
-		gtk.HBox.__init__(self)
+		gtk.Box.__init__(self, orientation=gtk.Orientation.HORIZONTAL)
 		self.initVars()
 		###
 		pack(
@@ -525,14 +525,14 @@ class MonthLabelButtonBox(gtk.HBox, ud.BaseCalObj):
 
 
 @registerSignals
-class CalObj(gtk.HBox, CustomizableCalObj):
+class CalObj(gtk.Box, CustomizableCalObj):
 	_name = "labelBox"
 	desc = _("Year & Month Labels")
 	itemListCustomizable = False
 	hasOptions = False
 
 	def __init__(self):
-		gtk.HBox.__init__(self)
+		gtk.Box.__init__(self, orientation=gtk.Orientation.HORIZONTAL)
 		self.initVars()
 		#self.set_border_width(2)
 

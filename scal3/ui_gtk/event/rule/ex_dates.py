@@ -45,10 +45,10 @@ def validate(s):
 	return encode(decode(s))
 
 
-class WidgetClass(gtk.HBox):
+class WidgetClass(gtk.Box):
 	def __init__(self, rule):
 		self.rule = rule
-		gtk.HBox.__init__(self)
+		gtk.Box.__init__(self, orientation=gtk.Orientation.HORIZONTAL)
 		###
 		self.countLabel = gtk.Label()
 		pack(self, self.countLabel)

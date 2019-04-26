@@ -8,11 +8,11 @@ from scal3 import event_lib
 from scal3.ui_gtk import *
 
 
-class WidgetClass(gtk.HBox):
+class WidgetClass(gtk.Box):
 	def __init__(self, rule):
 		self.rule = rule
 		###
-		gtk.HBox.__init__(self)
+		gtk.Box.__init__(self, orientation=gtk.Orientation.HORIZONTAL)
 		self.set_homogeneous(True)
 		ls = [gtk.ToggleButton(button=item) for item in core.weekDayNameAb]
 		s = core.firstWeekDay

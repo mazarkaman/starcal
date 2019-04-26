@@ -38,7 +38,7 @@ from scal3.ui_gtk.drawing import *
 from scal3.ui_gtk.event.group.group import WidgetClass as NormalWidgetClass
 
 
-class CourseListEditor(gtk.HBox):
+class CourseListEditor(gtk.Box):
 	def __init__(
 		self,
 		term,
@@ -50,7 +50,7 @@ class CourseListEditor(gtk.HBox):
 		self.defaultCourseName = defaultCourseName
 		self.defaultCourseUnits = defaultCourseUnits
 		#####
-		gtk.HBox.__init__(self)
+		gtk.Box.__init__(self, orientation=gtk.Orientation.HORIZONTAL)
 		self.treev = gtk.TreeView()
 		self.treev.set_headers_visible(True)
 		self.trees = gtk.ListStore(int, str, int)
@@ -193,11 +193,11 @@ class CourseListEditor(gtk.HBox):
 		return [tuple(row) for row in self.trees]
 
 
-class ClassTimeBoundsEditor(gtk.HBox):
+class ClassTimeBoundsEditor(gtk.Box):
 	def __init__(self, term):
 		self.term = term
 		#####
-		gtk.HBox.__init__(self)
+		gtk.Box.__init__(self, orientation=gtk.Orientation.HORIZONTAL)
 		self.treev = gtk.TreeView()
 		self.treev.set_headers_visible(False)
 		self.trees = gtk.ListStore(str)

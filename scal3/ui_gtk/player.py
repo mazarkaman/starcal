@@ -230,7 +230,7 @@ class MPlayer:
 		source_remove(self.statusQuery)
 
 
-class PlayerBox(gtk.HBox):
+class PlayerBox(gtk.Box):
 	adjustvol = 0
 	vollevel0 = 100
 	vollevel1 = 50
@@ -250,7 +250,7 @@ class PlayerBox(gtk.HBox):
 	forbid = [102, 100]
 
 	def __init__(self, hasVol=False):
-		gtk.HBox.__init__(self)
+		gtk.Box.__init__(self, orientation=gtk.Orientation.HORIZONTAL)
 		self.fcb = gtk.FileChooserButton(title="Select Sound")
 		self.fcb.set_local_only(True)
 		self.fcb.set_property("width-request", 150)
