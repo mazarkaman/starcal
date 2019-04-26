@@ -1001,12 +1001,13 @@ class PrefDialog(gtk.Window):
 		stack.setupWindowTitle(self, _("Preferences"), False)
 		self.stack = stack
 		##########################
+		rootPageName = "root"
 		###
 		mainPages = []
 		for page in self.prefPages:
 			if page.pageParent:
 				continue
-			page.pageParent = "main"
+			page.pageParent = rootPageName
 			mainPages.append(page)
 		####
 		colN = 2
@@ -1036,7 +1037,7 @@ class PrefDialog(gtk.Window):
 				grid.attach(button, col_i, row_i, 1, 1)
 		grid.show_all()
 		###############
-		stack.addPage("main", "", grid, expand=True, fill=True)
+		stack.addPage(rootPageName, "", grid, expand=True, fill=True)
 		for page in self.prefPages:
 			stack.addPageObj(page)
 		#######################
