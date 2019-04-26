@@ -21,7 +21,7 @@ class BaseWidgetClass(gtk.VBox):
 		########
 		self.sizeGroup = gtk.SizeGroup(mode=gtk.SizeGroupMode.HORIZONTAL)
 		#####
-		hbox = gtk.HBox()
+		hbox = HBox()
 		label = gtk.Label(label=_("Title"))
 		label.set_xalign(0)
 		pack(hbox, label)

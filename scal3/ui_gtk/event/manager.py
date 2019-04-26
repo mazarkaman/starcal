@@ -304,7 +304,7 @@ class EventManagerDialog(gtk.Dialog, MyDialog, ud.BaseCalObj):## FIXME
 		menubar.show_all()
 		pack(self.vbox, menubar)
 		#######
-		treeBox = gtk.HBox()
+		treeBox = HBox()
 		#####
 		self.treev = gtk.TreeView()
 		self.treev.set_search_column(2)

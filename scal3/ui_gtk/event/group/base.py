@@ -38,7 +38,7 @@ class BaseWidgetClass(gtk.VBox):
 		########
 		self.sizeGroup = gtk.SizeGroup(mode=gtk.SizeGroupMode.HORIZONTAL)
 		#####
-		hbox = gtk.HBox()
+		hbox = HBox()
 		label = gtk.Label(label=_("Title"))
 		label.set_xalign(0)
 		pack(hbox, label)
@@ -47,7 +47,7 @@ class BaseWidgetClass(gtk.VBox):
 		pack(hbox, self.titleEntry, 1, 1)
 		pack(self, hbox)
 		#####
-		hbox = gtk.HBox()
+		hbox = HBox()
 		label = gtk.Label(label=_("Color"))
 		label.set_xalign(0)
 		pack(hbox, label)
@@ -57,7 +57,7 @@ class BaseWidgetClass(gtk.VBox):
 		pack(hbox, self.colorButton)
 		pack(self, hbox)
 		#####
-		hbox = gtk.HBox()
+		hbox = HBox()
 		label = gtk.Label(label=_("Default Icon"))## FIXME
 		label.set_xalign(0)
 		pack(hbox, label)
@@ -66,7 +66,7 @@ class BaseWidgetClass(gtk.VBox):
 		pack(hbox, self.iconSelect)
 		pack(self, hbox)
 		#####
-		hbox = gtk.HBox()
+		hbox = HBox()
 		label = gtk.Label(label=_("Default Calendar Type"))
 		label.set_xalign(0)
 		pack(hbox, label)
@@ -77,7 +77,7 @@ class BaseWidgetClass(gtk.VBox):
 		self.calTypeCombo = combo
 		pack(self, hbox)
 		#####
-		hbox = gtk.HBox()
+		hbox = HBox()
 		self.tzCheck = gtk.CheckButton(label=_("Default Time Zone"))
 		pack(hbox, self.tzCheck)
 		self.sizeGroup.add_widget(self.tzCheck)
@@ -91,7 +91,7 @@ class BaseWidgetClass(gtk.VBox):
 			lambda check: self.tzCombo.set_sensitive(check.get_active()),
 		)
 		#####
-		hbox = gtk.HBox()
+		hbox = HBox()
 		label = gtk.Label(label=_("Show in Calendar"))
 		label.set_xalign(0)
 		pack(hbox, label)
@@ -107,7 +107,7 @@ class BaseWidgetClass(gtk.VBox):
 		pack(hbox, gtk.Label(), 1, 1)
 		pack(self, hbox)
 		#####
-		hbox = gtk.HBox()
+		hbox = HBox()
 		label = gtk.Label(label=_("Show in"))
 		label.set_xalign(0)
 		pack(hbox, label)
@@ -120,7 +120,7 @@ class BaseWidgetClass(gtk.VBox):
 		pack(hbox, gtk.Label(), 1, 1)
 		pack(self, hbox)
 		#####
-		hbox = gtk.HBox()
+		hbox = HBox()
 		label = gtk.Label(label=_("Event Cache Size"))
 		label.set_xalign(0)
 		pack(hbox, label)
@@ -129,7 +129,7 @@ class BaseWidgetClass(gtk.VBox):
 		pack(hbox, self.cacheSizeSpin)
 		pack(self, hbox)
 		#####
-		hbox = gtk.HBox()
+		hbox = HBox()
 		label = gtk.Label(label=_("Event Text Seperator"))
 		label.set_xalign(0)
 		pack(hbox, label)
@@ -141,7 +141,7 @@ class BaseWidgetClass(gtk.VBox):
 			"Using to seperate Summary and Description when displaying event"
 		))
 		#####
-		#hbox = gtk.HBox()
+		#hbox = HBox()
 		#label = gtk.Label(label=_("Show Full Event Description"))
 		#label.set_xalign(0)
 		#pack(hbox, label)

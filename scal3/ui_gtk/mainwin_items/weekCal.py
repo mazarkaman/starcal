@@ -116,7 +116,7 @@ class ColumnBase(CustomizableCalObj):
 		if self.optionsWidget:
 			return self.optionsWidget
 		
-		optionsWidget = gtk.VBox()
+		optionsWidget = VBox()
 		####
 		if self.customizeWidth:
 			prefItem = LiveLabelSpinPrefItem(
@@ -136,7 +136,7 @@ class ColumnBase(CustomizableCalObj):
 			pack(optionsWidget, prefItem.getWidget())
 		####
 		if self.customizeFont:
-			hbox = gtk.HBox()
+			hbox = HBox()
 			pack(hbox, gtk.Label(label=_("Font Family")))
 			combo = FontFamilyCombo(hasAuto=True)
 			combo.set_value(self.getFontValue())
@@ -320,13 +320,13 @@ class MainMenuToolbarItem(ToolbarItem):
 		from scal3.ui_gtk.mywidgets.icon import IconSelectButton
 		if self.optionsWidget:
 			return self.optionsWidget
-		optionsWidget = gtk.VBox()
+		optionsWidget = VBox()
 		###
 		iconPath = ui.wcal_toolbar_mainMenu_icon
 		if not isabs(iconPath):
 			iconPath = join(pixDir, iconPath)
 		###
-		hbox = gtk.HBox()
+		hbox = HBox()
 		pack(hbox, gtk.Label(label=_("Icon") + "  "))
 		self.iconSelect = IconSelectButton()
 		self.iconSelect.set_filename(iconPath)
@@ -608,7 +608,7 @@ class EventsTextColumn(Column):
 			return self.optionsWidget
 		optionsWidget = Column.getOptionsWidget(self)
 		#####
-		hbox = gtk.HBox()
+		hbox = HBox()
 		check = gtk.CheckButton(label=_("Use the color of event group for event text"))
 		check.set_active(ui.wcal_eventsText_colorize)
 		pack(hbox, check)
@@ -616,7 +616,7 @@ class EventsTextColumn(Column):
 		check.connect("clicked", self.colorizeCheckClicked)
 		pack(optionsWidget, hbox)
 		##
-		hbox = gtk.HBox()
+		hbox = HBox()
 		check = gtk.CheckButton(label=_("Show Description"))
 		check.set_active(ui.wcal_eventsText_showDesc)
 		pack(hbox, check)
@@ -852,7 +852,7 @@ class DaysOfMonthColumnGroup(gtk.HBox, CustomizableCalBox, ColumnBase):
 			return self.optionsWidget
 		optionsWidget = ColumnBase.getOptionsWidget(self)
 		###
-		hbox = gtk.HBox()
+		hbox = HBox()
 		pack(hbox, gtk.Label(label=_("Direction")))
 		combo = DirectionComboBox()
 		pack(hbox, combo)
@@ -862,7 +862,7 @@ class DaysOfMonthColumnGroup(gtk.HBox, CustomizableCalBox, ColumnBase):
 		####
 		frame = gtk.Frame()
 		frame.set_label(_("Calendars"))
-		self.typeParamsVbox = gtk.VBox()
+		self.typeParamsVbox = VBox()
 		frame.add(self.typeParamsVbox)
 		frame.show_all()
 		pack(optionsWidget, frame)

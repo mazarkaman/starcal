@@ -52,7 +52,7 @@ class ExportDialog(gtk.Dialog, MyDialog):
 		# parent=None FIXME
 		#self.set_has_separator(False)
 		########
-		hbox = gtk.HBox(spacing=2)
+		hbox = HBox(spacing=2)
 		pack(hbox, gtk.Label(label=_("Month Range")))
 		combo = gtk.ComboBoxText()
 		for t in ("Current Month", "Whole Current Year", "Custom"):
@@ -61,7 +61,7 @@ class ExportDialog(gtk.Dialog, MyDialog):
 		pack(hbox, gtk.Label(), 1, 1)
 		self.combo = combo
 		###
-		hbox2 = gtk.HBox(spacing=2)
+		hbox2 = HBox(spacing=2)
 		pack(hbox2, gtk.Label(label=_("from month")))
 		self.ymBox0 = YearMonthButton()
 		pack(hbox2, self.ymBox0)
@@ -190,7 +190,7 @@ class ExportToIcsDialog(gtk.Dialog, MyDialog):
 		## parent=None FIXME
 		#self.set_has_separator(False)
 		########
-		hbox = gtk.HBox(spacing=2)
+		hbox = HBox(spacing=2)
 		pack(hbox, gtk.Label(label=_("From") + " "))
 		self.startDateInput = DateButton()
 		pack(hbox, self.startDateInput)

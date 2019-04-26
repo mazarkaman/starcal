@@ -35,7 +35,7 @@ class GroupEditorDialog(gtk.Dialog):
 		#######
 		self.activeWidget = None
 		#######
-		hbox = gtk.HBox()
+		hbox = HBox()
 		combo = gtk.ComboBoxText()
 		for cls in event_lib.classes.group:
 			combo.append_text(cls.desc)

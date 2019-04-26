@@ -54,7 +54,7 @@ class PrefDialog(gtk.Window):
 		#self.set_has_separator(False)
 		#self.set_skip_taskbar_hint(True)
 		###
-		self.vbox = gtk.VBox()
+		self.vbox = VBox()
 		self.add(self.vbox)
 		###
 		self.buttonbox = MyHButtonBox()
@@ -84,7 +84,7 @@ class PrefDialog(gtk.Window):
 		#####
 		self.prefPages = []
 		################################ Page 0 (Language and Calendar Types) #####################
-		vbox = gtk.VBox(spacing=5)
+		vbox = VBox(spacing=5)
 		vbox.set_border_width(5)
 		page = StackPage()
 		page.pageWidget = vbox
@@ -94,7 +94,7 @@ class PrefDialog(gtk.Window):
 		page.pageIcon = "preferences-desktop-locale.png"
 		self.prefPages.append(page)
 		##########################
-		hbox = gtk.HBox(spacing=3)
+		hbox = HBox(spacing=3)
 		pack(hbox, gtk.Label(label=_("Language")))
 		itemLang = LangPrefItem()
 		self.localePrefItems.append(itemLang)
@@ -104,7 +104,7 @@ class PrefDialog(gtk.Window):
 			pack(hbox, gtk.Label(label="Language"))
 		pack(vbox, hbox)
 		##########################
-		hbox = gtk.HBox()
+		hbox = HBox()
 		frame = gtk.Frame()
 		frame.set_label(_("Calendar Types"))
 		itemCals = AICalsPrefItem()
@@ -118,7 +118,7 @@ class PrefDialog(gtk.Window):
 		frame.set_border_width(0)
 		pack(vbox, hbox, 1, 1)
 		################################ Page 1 (General) #####################
-		vbox = gtk.VBox()
+		vbox = VBox()
 		vbox.set_border_width(5)
 		page = StackPage()
 		page.pageWidget = vbox
@@ -128,7 +128,7 @@ class PrefDialog(gtk.Window):
 		page.pageIcon = "preferences-other.png"
 		self.prefPages.append(page)
 		##########################
-		hbox = gtk.HBox(spacing=3)
+		hbox = HBox(spacing=3)
 		item = CheckStartupPrefItem()
 		self.uiPrefItems.append(item)
 		pack(hbox, item.getWidget(), 1, 1)
@@ -156,7 +156,7 @@ class PrefDialog(gtk.Window):
 			_("Window in Taskbar"),
 		)
 		self.uiPrefItems.append(item)
-		hbox = gtk.HBox(spacing=3)
+		hbox = HBox(spacing=3)
 		pack(hbox, item.getWidget())
 		pack(hbox, gtk.Label(), 1, 1)
 		###########
@@ -173,12 +173,12 @@ class PrefDialog(gtk.Window):
 				_("Use AppIndicator"),
 			)
 			self.uiPrefItems.append(item)
-			hbox = gtk.HBox(spacing=3)
+			hbox = HBox(spacing=3)
 			pack(hbox, item.getWidget())
 			pack(hbox, gtk.Label(), 1, 1)
 			pack(vbox, hbox)
 		##########################
-		# hbox = gtk.HBox(spacing=3)
+		# hbox = HBox(spacing=3)
 		# pack(hbox, gtk.Label(label=_("Show Digital Clock:")))
 		# pack(hbox, gtk.Label(), 1, 1)
 		# #item = CheckPrefItem(
@@ -200,7 +200,7 @@ class PrefDialog(gtk.Window):
 		# pack(hbox, gtk.Label(), 1, 1)
 		# pack(vbox, hbox)
 		################################ Page 2 (Appearance) ##################
-		vbox = gtk.VBox(spacing=0)
+		vbox = VBox(spacing=0)
 		vbox.set_border_width(5)
 		page = StackPage()
 		page.pageWidget = vbox
@@ -214,7 +214,7 @@ class PrefDialog(gtk.Window):
 		buttonPadding = 7
 		padding = 5
 		###
-		hbox = gtk.HBox(spacing=2)
+		hbox = HBox(spacing=2)
 		###
 		customCheckItem = CheckPrefItem(
 			ui,
@@ -231,21 +231,21 @@ class PrefDialog(gtk.Window):
 		customCheckItem.syncSensitive(customItem.getWidget())
 		pack(vbox, hbox, padding=padding)
 		########################### Theme #####################
-		#hbox = gtk.HBox(spacing=3)
+		#hbox = HBox(spacing=3)
 		#item = CheckPrefItem(ui, 'bgUseDesk', _('Use Desktop Background'))
 		#self.uiPrefItems.append(item)
 		#pack(hbox, item.getWidget())
 		#pack(hbox, gtk.Label(), 1, 1)
 		#pack(vbox, hbox)
 		#####################
-		pageHBox = gtk.HBox()
+		pageHBox = HBox()
 		pageHBox.set_border_width(10)
 		spacing = 3
 		###
-		pageVBox = gtk.VBox()
+		pageVBox = VBox()
 		sgroup = gtk.SizeGroup(mode=gtk.SizeGroupMode.HORIZONTAL)
 		###
-		hbox = gtk.HBox(spacing=spacing)
+		hbox = HBox(spacing=spacing)
 		pack(hbox, newAlignLabel(sgroup=sgroup, label=_("Background")))
 		item = ColorPrefItem(ui, "bgColor", True)
 		self.uiPrefItems.append(item)
@@ -254,7 +254,7 @@ class PrefDialog(gtk.Window):
 		pack(hbox, gtk.Label(), 1, 1)
 		pack(pageVBox, hbox)
 		###
-		hbox = gtk.HBox(spacing=spacing)
+		hbox = HBox(spacing=spacing)
 		pack(hbox, newAlignLabel(sgroup=sgroup, label=_("Border")))
 		item = ColorPrefItem(ui, "borderColor", True)
 		self.uiPrefItems.append(item)
@@ -262,7 +262,7 @@ class PrefDialog(gtk.Window):
 		pack(hbox, gtk.Label(), 1, 1)
 		pack(pageVBox, hbox)
 		###
-		hbox = gtk.HBox(spacing=spacing)
+		hbox = HBox(spacing=spacing)
 		pack(hbox, newAlignLabel(sgroup=sgroup, label=_("Cursor")))
 		item = ColorPrefItem(ui, "cursorOutColor", False)
 		self.uiPrefItems.append(item)
@@ -270,7 +270,7 @@ class PrefDialog(gtk.Window):
 		pack(hbox, gtk.Label(), 1, 1)
 		pack(pageVBox, hbox)
 		###
-		hbox = gtk.HBox(spacing=spacing)
+		hbox = HBox(spacing=spacing)
 		pack(hbox, newAlignLabel(sgroup=sgroup, label=_("Cursor BG")))
 		item = ColorPrefItem(ui, "cursorBgColor", True)
 		self.uiPrefItems.append(item)
@@ -278,7 +278,7 @@ class PrefDialog(gtk.Window):
 		pack(hbox, gtk.Label(), 1, 1)
 		pack(pageVBox, hbox)
 		###
-		hbox = gtk.HBox(spacing=spacing)
+		hbox = HBox(spacing=spacing)
 		pack(hbox, newAlignLabel(sgroup=sgroup, label=_("Today")))
 		item = ColorPrefItem(ui, "todayCellColor", True)
 		self.uiPrefItems.append(item)
@@ -288,10 +288,10 @@ class PrefDialog(gtk.Window):
 		######
 		pack(pageHBox, pageVBox, 1, 1)
 		pack(pageHBox, newHSep(), 0, 0)
-		pageVBox = gtk.VBox()
+		pageVBox = VBox()
 		sgroup = gtk.SizeGroup(mode=gtk.SizeGroupMode.HORIZONTAL)
 		######
-		hbox = gtk.HBox(spacing=spacing)
+		hbox = HBox(spacing=spacing)
 		pack(hbox, newAlignLabel(sgroup=sgroup, label=_("Normal Text")))
 		item = ColorPrefItem(ui, "textColor", False)
 		self.uiPrefItems.append(item)
@@ -299,7 +299,7 @@ class PrefDialog(gtk.Window):
 		pack(hbox, gtk.Label(), 1, 1)
 		pack(pageVBox, hbox)
 		###
-		hbox = gtk.HBox(spacing=spacing)
+		hbox = HBox(spacing=spacing)
 		pack(hbox, newAlignLabel(sgroup=sgroup, label=_("Holidays Font")))
 		item = ColorPrefItem(ui, "holidayColor", False)
 		self.uiPrefItems.append(item)
@@ -307,7 +307,7 @@ class PrefDialog(gtk.Window):
 		pack(hbox, gtk.Label(), 1, 1)
 		pack(pageVBox, hbox)
 		###
-		hbox = gtk.HBox(spacing=spacing)
+		hbox = HBox(spacing=spacing)
 		pack(hbox, newAlignLabel(sgroup=sgroup, label=_("Inactive Day Font")))
 		item = ColorPrefItem(ui, "inactiveColor", True)
 		self.uiPrefItems.append(item)
@@ -315,7 +315,7 @@ class PrefDialog(gtk.Window):
 		pack(hbox, gtk.Label(), 1, 1)
 		pack(pageVBox, hbox)
 		####
-		hbox = gtk.HBox(spacing=spacing)
+		hbox = HBox(spacing=spacing)
 		pack(hbox, newAlignLabel(sgroup=sgroup, label=_("Border Font")))
 		item = ColorPrefItem(ui, "borderTextColor", False)
 		self.uiPrefItems.append(item)
@@ -337,11 +337,11 @@ class PrefDialog(gtk.Window):
 		#####
 		appearanceSubPages = [page]
 		###################
-		pageVBox = gtk.VBox(spacing=20)
+		pageVBox = VBox(spacing=20)
 		pageVBox.set_border_width(10)
 		sgroup = gtk.SizeGroup(mode=gtk.SizeGroupMode.HORIZONTAL)
 		###########
-		hbox = gtk.HBox(spacing=10)
+		hbox = HBox(spacing=10)
 		pack(hbox, newAlignLabel(sgroup=sgroup, label=_("Diameter Factor")))
 		item = SpinPrefItem(ui, "cursorDiaFactor", 0, 1, 2)
 		self.uiPrefItems.append(item)
@@ -349,7 +349,7 @@ class PrefDialog(gtk.Window):
 		pack(hbox, gtk.Label(), 1, 1)
 		pack(pageVBox, hbox)
 		###
-		hbox = gtk.HBox(spacing=10)
+		hbox = HBox(spacing=10)
 		pack(hbox, newAlignLabel(sgroup=sgroup, label=_("Rounding Factor")))
 		item = SpinPrefItem(ui, "cursorRoundingFactor", 0, 1, 2)
 		self.uiPrefItems.append(item)
@@ -370,11 +370,11 @@ class PrefDialog(gtk.Window):
 		###################
 		# the header label of gtk.Expander in gtk3 is always on the left (even in RTL mode)
 		# that's why we use gtk.Frame instead
-		pageVBox = gtk.VBox(spacing=10)
+		pageVBox = VBox(spacing=10)
 		pageVBox.set_border_width(10)
 		sgroup = gtk.SizeGroup(mode=gtk.SizeGroupMode.HORIZONTAL)
 		####
-		hbox = gtk.HBox(spacing=1)
+		hbox = HBox(spacing=1)
 		pack(hbox, gtk.Label(label=" "))
 		label = gtk.Label(label=_("Normal Days"))
 		sgroup.add_widget(label)
@@ -390,7 +390,7 @@ class PrefDialog(gtk.Window):
 		pack(hbox, item.getWidget(), 1, 1)
 		pack(pageVBox, hbox)
 		####
-		hbox = gtk.HBox(spacing=1)
+		hbox = HBox(spacing=1)
 		pack(hbox, gtk.Label(label=" "))
 		label = gtk.Label(label=_("Holidays"))
 		sgroup.add_widget(label)
@@ -406,7 +406,7 @@ class PrefDialog(gtk.Window):
 		pack(hbox, item.getWidget(), 1, 1)
 		pack(pageVBox, hbox)
 		####
-		hbox = gtk.HBox(spacing=1)
+		hbox = HBox(spacing=1)
 		pack(hbox, gtk.Label(label=" "))
 		checkItem = CheckPrefItem(
 			ui,
@@ -425,7 +425,7 @@ class PrefDialog(gtk.Window):
 		pack(hbox, item.getWidget(), 1, 1)
 		pack(pageVBox, hbox)
 		####
-		hbox = gtk.HBox(spacing=1)
+		hbox = HBox(spacing=1)
 		pack(hbox, gtk.Label(label=" "))
 		checkItem = CheckPrefItem(
 			ui,
@@ -468,7 +468,7 @@ class PrefDialog(gtk.Window):
 		grid.show_all()
 		pack(vbox, grid, padding=padding)
 		################################ Page 3 (Regional) ###################
-		vbox = gtk.VBox()
+		vbox = VBox()
 		vbox.set_border_width(5)
 		page = StackPage()
 		page.pageWidget = vbox
@@ -481,7 +481,7 @@ class PrefDialog(gtk.Window):
 		sgroup = gtk.SizeGroup(mode=gtk.SizeGroupMode.HORIZONTAL)
 		buttonPadding = 3
 		######
-		hbox = gtk.HBox(spacing=10)
+		hbox = HBox(spacing=10)
 		label = gtk.Label(label=_("Date Format"))
 		pack(hbox, label)
 		sgroup.add_widget(label)
@@ -500,7 +500,7 @@ class PrefDialog(gtk.Window):
 		pack(hbox, item.getWidget(), 1, 1)
 		pack(vbox, hbox)
 		################################
-		hbox = gtk.HBox(spacing=3)
+		hbox = HBox(spacing=3)
 		item = CheckPrefItem(
 			locale_man,
 			"enableNumLocale",
@@ -511,9 +511,9 @@ class PrefDialog(gtk.Window):
 		pack(hbox, gtk.Label(), 1, 1)
 		pack(vbox, hbox, padding=10)
 		################################
-		pageVBox = gtk.VBox(spacing=5)
+		pageVBox = VBox(spacing=5)
 		####
-		hbox = gtk.HBox(spacing=3)
+		hbox = HBox(spacing=3)
 		pack(hbox, gtk.Label(label=_("First day of week")))
 		##item = ComboTextPrefItem( ## FIXME
 		self.comboFirstWD = gtk.ComboBoxText()
@@ -524,7 +524,7 @@ class PrefDialog(gtk.Window):
 		pack(hbox, self.comboFirstWD)
 		pack(pageVBox, hbox)
 		#########
-		hbox = gtk.HBox(spacing=3)
+		hbox = HBox(spacing=3)
 		pack(hbox, gtk.Label(label=_("First week of year containts")))
 		combo = gtk.ComboBoxText()
 		texts = [
@@ -569,7 +569,7 @@ class PrefDialog(gtk.Window):
 		for mod in calTypes:
 			if not mod.options:
 				continue
-			pageVBox = gtk.VBox(spacing=10)
+			pageVBox = VBox(spacing=10)
 			page = StackPage()
 			page.pageParent = "regional"
 			page.pageWidget = pageVBox
@@ -604,7 +604,7 @@ class PrefDialog(gtk.Window):
 		###
 		self.moduleOptions = options
 		################################ Page 4 (Advanced) ###################
-		vbox = gtk.VBox()
+		vbox = VBox()
 		vbox.set_border_width(5)
 		page = StackPage()
 		page.pageWidget = vbox
@@ -614,7 +614,7 @@ class PrefDialog(gtk.Window):
 		page.pageIcon = "applications-system.png"
 		self.prefPages.append(page)
 		######
-		hbox = gtk.HBox(spacing=5)
+		hbox = HBox(spacing=5)
 		#pack(hbox, gtk.Label(), 1, 1)
 		label = gtk.Label(label=_("Digital Clock Format"))
 		pack(hbox, label)
@@ -639,7 +639,7 @@ class PrefDialog(gtk.Window):
 		pack(hbox, item.getWidget(), 1, 1)
 		pack(vbox, hbox)
 		######
-		hbox = gtk.HBox(spacing=5)
+		hbox = HBox(spacing=5)
 		label = gtk.Label(label=_("Days maximum cache size"))
 		pack(hbox, label)
 		##sgroup.add_widget(label)
@@ -648,7 +648,7 @@ class PrefDialog(gtk.Window):
 		pack(hbox, item.getWidget())
 		pack(vbox, hbox)
 		################################ Page 5 (Plugins) ####################
-		vbox = gtk.VBox()
+		vbox = VBox()
 		page = StackPage()
 		vbox.set_border_width(5)
 		page.pageWidget = vbox
@@ -659,7 +659,7 @@ class PrefDialog(gtk.Window):
 		self.prefPages.append(page)
 		#####
 		##pluginsTextStatusIcon:
-		hbox = gtk.HBox()
+		hbox = HBox()
 		item = CheckPrefItem(
 			ui,
 			"pluginsTextStatusIcon",
@@ -754,12 +754,12 @@ class PrefDialog(gtk.Window):
 		self.plugTreeview = treev
 		self.plugTreestore = trees
 		#######################
-		hbox = gtk.HBox()
-		vboxPlug = gtk.VBox()
+		hbox = HBox()
+		vboxPlug = VBox()
 		pack(vboxPlug, swin, 1, 1)
 		pack(hbox, vboxPlug, 1, 1)
 		###
-		hboxBut = gtk.HBox()
+		hboxBut = HBox()
 		###
 		button = gtk.Button(_("_About Plugin"))
 		button.set_use_underline(True)
@@ -832,7 +832,7 @@ class PrefDialog(gtk.Window):
 		"""
 		vpan = gtk.VPaned()
 		vpan.add1(hbox)
-		vbox2 = gtk.VBox()
+		vbox2 = VBox()
 		pack(vbox2, gtk.Label(label="Test Label"))
 		vpan.add2(vbox2)
 		vpan.set_position(100)
@@ -898,7 +898,7 @@ class PrefDialog(gtk.Window):
 		##treev.set_resize_mode(gtk.RESIZE_IMMEDIATE)
 		##self.plugAddItems = []
 		####################################### Page 6 (Accounts)
-		vbox = gtk.VBox()
+		vbox = VBox()
 		vbox.set_border_width(5)
 		page = StackPage()
 		page.pageWidget = vbox
@@ -951,8 +951,8 @@ class PrefDialog(gtk.Window):
 		self.accountsTreeview = treev
 		self.accountsTreestore = trees
 		#######################
-		hbox = gtk.HBox()
-		vboxPlug = gtk.VBox()
+		hbox = HBox()
+		vboxPlug = VBox()
 		pack(vboxPlug, swin, 1, 1)
 		pack(hbox, vboxPlug, 1, 1)
 		#####
@@ -1026,7 +1026,7 @@ class PrefDialog(gtk.Window):
 		N = len(mainPages)
 		colBN = int(ceil(N / colN))
 		for col_i in range(colN):
-			colVBox = gtk.VBox(spacing=10)
+			colVBox = VBox(spacing=10)
 			for row_i in range(colBN):
 				page_i = col_i * colBN + row_i
 				if page_i >= N:
@@ -1051,7 +1051,7 @@ class PrefDialog(gtk.Window):
 		return callback
 
 	def newWideButton(self, page: StackPage):
-		hbox = gtk.HBox(spacing=10)
+		hbox = HBox(spacing=10)
 		hbox.set_border_width(10)
 		label = gtk.Label(label=page.pageLabel)
 		label.set_use_underline(True)

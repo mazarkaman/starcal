@@ -48,7 +48,7 @@ win.add_buttons(
 	"gtk-cancel",
 	gtk.ResponseType.CANCEL,
 )
-langHbox = gtk.HBox()
+langHbox = HBox()
 pack(langHbox, gtk.Label(label="Select Language:"))
 
 
@@ -82,7 +82,7 @@ else:
 pack(langHbox, langCombo, 1, 1)
 pack(win.vbox, langHbox)
 
-pbarHbox = gtk.HBox()
+pbarHbox = HBox()
 pbar = gtk.ProgressBar()
 pack(pbarHbox, pbar, 1, 1)
 pack(win.vbox, pbarHbox)

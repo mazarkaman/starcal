@@ -16,7 +16,7 @@ class WidgetClass(BaseWidgetClass):
 	def __init__(self, group):
 		BaseWidgetClass.__init__(self, group)
 		####
-		hbox = gtk.HBox()
+		hbox = HBox()
 		label = gtk.Label(label=_("Start"))
 		label.set_xalign(0)
 		pack(hbox, label)
@@ -25,7 +25,7 @@ class WidgetClass(BaseWidgetClass):
 		pack(hbox, self.startDateInput)
 		pack(self, hbox)
 		###
-		hbox = gtk.HBox()
+		hbox = HBox()
 		label = gtk.Label(label=_("End"))
 		label.set_xalign(0)
 		pack(hbox, label)
@@ -36,11 +36,11 @@ class WidgetClass(BaseWidgetClass):
 		######
 		exp = gtk.Expander()
 		exp.set_label(_("Online Service"))
-		vbox = gtk.VBox()
+		vbox = VBox()
 		exp.add(vbox)
 		sizeGroup = gtk.SizeGroup(mode=gtk.SizeGroupMode.HORIZONTAL)
 		##
-		hbox = gtk.HBox()
+		hbox = HBox()
 		label = gtk.Label(label=_("Account"))
 		label.set_xalign(0)
 		pack(hbox, label)
@@ -49,7 +49,7 @@ class WidgetClass(BaseWidgetClass):
 		pack(hbox, self.accountCombo)
 		pack(vbox, hbox)
 		##
-		hbox = gtk.HBox()
+		hbox = HBox()
 		label = gtk.Label(label=_("Remote Group"))
 		label.set_xalign(0)
 		pack(hbox, label)
@@ -59,7 +59,7 @@ class WidgetClass(BaseWidgetClass):
 		pack(vbox, hbox)
 		self.accountGroupCombo = accountGroupBox.combo
 		##
-		hbox = gtk.HBox()
+		hbox = HBox()
 		self.syncCheck = gtk.CheckButton(label=_("Synchronization Interval"))
 		pack(hbox, self.syncCheck)
 		sizeGroup.add_widget(self.syncCheck)

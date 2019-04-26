@@ -52,7 +52,7 @@ class WidgetClass(gtk.VBox):
 		#combo.connect("changed", self.updateSummary)
 		self.courseCombo = combo
 		##
-		hbox = gtk.HBox()
+		hbox = HBox()
 		label = gtk.Label(label=_("Course"))
 		label.set_xalign(0)
 		sizeGroup.add_widget(label)
@@ -61,7 +61,7 @@ class WidgetClass(gtk.VBox):
 		##
 		pack(self, hbox)
 		#####
-		hbox = gtk.HBox()
+		hbox = HBox()
 		label = gtk.Label(label=_("Date"))
 		label.set_xalign(0)
 		sizeGroup.add_widget(label)
@@ -70,7 +70,7 @@ class WidgetClass(gtk.VBox):
 		pack(hbox, self.dateInput)
 		pack(self, hbox)
 		#####
-		hbox = gtk.HBox()
+		hbox = HBox()
 		label = gtk.Label(label=_("Time"))
 		label.set_xalign(0)
 		sizeGroup.add_widget(label)
@@ -87,7 +87,7 @@ class WidgetClass(gtk.VBox):
 		pack(hbox, self.dayTimeEndCombo)
 		pack(self, hbox)
 		###########
-		#hbox = gtk.HBox()
+		#hbox = HBox()
 		#label = gtk.Label(label=_("Summary"))
 		#label.set_xalign(0)
 		#sizeGroup.add_widget(label)
@@ -96,7 +96,7 @@ class WidgetClass(gtk.VBox):
 		#pack(hbox, self.summaryEntry, 1, 1)
 		#pack(self, hbox)
 		#####
-		hbox = gtk.HBox()
+		hbox = HBox()
 		label = gtk.Label(label=_("Description"))
 		label.set_xalign(0)
 		sizeGroup.add_widget(label)
@@ -105,7 +105,7 @@ class WidgetClass(gtk.VBox):
 		pack(hbox, self.descriptionInput, 1, 1)
 		pack(self, hbox)
 		#####
-		hbox = gtk.HBox()
+		hbox = HBox()
 		label = gtk.Label(label=_("Icon"))
 		label.set_xalign(0)
 		sizeGroup.add_widget(label)

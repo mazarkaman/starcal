@@ -17,7 +17,7 @@ class WidgetClass(common.WidgetClass):
 	def __init__(self, event):
 		common.WidgetClass.__init__(self, event)
 		###
-		hbox = gtk.HBox()
+		hbox = HBox()
 		pack(hbox, gtk.Label(label=_("Date")))
 		self.dateInput = DateButton()
 		pack(hbox, self.dateInput)

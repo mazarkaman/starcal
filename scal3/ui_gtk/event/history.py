@@ -104,12 +104,12 @@ class EventHistoryDialog(gtk.Dialog):
 
 		hpan = gtk.HPaned()
 		hpan.add1(treevSwin)
-		leftVbox = gtk.VBox()
+		leftVbox = VBox()
 		hpan.add2(leftVbox)
 		hpan.set_position(600)
 		pack(self.vbox, hpan, expand=True, fill=True)
 
-		actionBox = gtk.VBox(spacing=5)
+		actionBox = VBox(spacing=5)
 		pack(leftVbox, actionBox, padding=30)
 
 		# revertButton = gtk.Button()
@@ -151,7 +151,7 @@ class EventHistoryDialog(gtk.Dialog):
 		combo.connect("changed", self.viewTypeComboChanged)
 		self.viewTypeCombo = combo
 
-		textTypeHbox = gtk.HBox()
+		textTypeHbox = HBox()
 		pack(textTypeHbox, gtk.Label(label=_("View type")+": "))
 		pack(textTypeHbox, self.viewTypeCombo)
 		pack(leftVbox, textTypeHbox)

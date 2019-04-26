@@ -34,7 +34,7 @@ class WidgetClass(common.WidgetClass):
 		######
 		sizeGroup = gtk.SizeGroup(mode=gtk.SizeGroupMode.HORIZONTAL)
 		######
-		hbox = gtk.HBox()
+		hbox = HBox()
 		label = gtk.Label(label=_("Start"))
 		label.set_xalign(0)
 		sizeGroup.add_widget(label)
@@ -48,7 +48,7 @@ class WidgetClass(common.WidgetClass):
 		##
 		pack(self, hbox)
 		######
-		hbox = gtk.HBox()
+		hbox = HBox()
 		self.endTypeCombo = gtk.ComboBoxText()
 		for item in ("Duration", "End"):
 			self.endTypeCombo.append_text(_(item))
@@ -59,7 +59,7 @@ class WidgetClass(common.WidgetClass):
 		self.durationBox = common.DurationInputBox()
 		pack(hbox, self.durationBox, 1, 1)
 		####
-		self.endDateHbox = gtk.HBox()
+		self.endDateHbox = HBox()
 		self.endDateInput = DateButton()
 		pack(self.endDateHbox, self.endDateInput)
 		##

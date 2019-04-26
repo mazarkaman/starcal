@@ -12,7 +12,7 @@ class WizardWindow(gtk.Window):
 		self.set_title(title)
 		self.connect("delete-event", lambda obj, e: self.destroy())
 		self.connect("key-press-event", self.keyPress)
-		self.vbox = gtk.VBox()
+		self.vbox = VBox()
 		self.add(self.vbox)
 		####
 		self.steps = []

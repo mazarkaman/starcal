@@ -45,7 +45,7 @@ class WidgetClass(common.WidgetClass):
 			self.startDateInput = DateButton()
 			self.endDateInput = DateButton()
 		######
-		hbox = gtk.HBox()
+		hbox = HBox()
 		label = gtk.Label(label=_("Start") + ": ")
 		label.set_xalign(0)
 		sizeGroup.add_widget(label)
@@ -53,7 +53,7 @@ class WidgetClass(common.WidgetClass):
 		pack(hbox, self.startDateInput)
 		pack(self, hbox)
 		######
-		hbox = gtk.HBox()
+		hbox = HBox()
 		label = gtk.Label(label=_("End") + ": ")
 		label.set_xalign(0)
 		sizeGroup.add_widget(label)

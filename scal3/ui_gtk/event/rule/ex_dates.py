@@ -117,7 +117,7 @@ class WidgetClass(gtk.HBox):
 		tb.connect("clicked", self.moveDownClicked)
 		toolbar.insert(tb, -1)
 		##
-		dialogHbox = gtk.HBox()
+		dialogHbox = HBox()
 		pack(dialogHbox, self.treev, 1, 1)
 		pack(dialogHbox, toolbar)
 		pack(self.dialog.vbox, dialogHbox, 1, 1)

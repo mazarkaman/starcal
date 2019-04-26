@@ -46,7 +46,7 @@ class CalObj(MyProgressBar, CustomizableCalObj):
 		if self.optionsWidget:
 			return self.optionsWidget
 		####
-		self.optionsWidget = gtk.HBox()
+		self.optionsWidget = HBox()
 		prefItem = LiveCheckPrefItem(
 			ui,
 			"seasonPBar_southernHemisphere",

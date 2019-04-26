@@ -35,7 +35,7 @@ class WidgetClass(common.WidgetClass):
 		######
 		sizeGroup = gtk.SizeGroup(mode=gtk.SizeGroupMode.HORIZONTAL)
 		######
-		hbox = gtk.HBox()
+		hbox = HBox()
 		label = gtk.Label(label=_("Start"))
 		label.set_xalign(0)
 		sizeGroup.add_widget(label)
@@ -45,7 +45,7 @@ class WidgetClass(common.WidgetClass):
 		##
 		pack(self, hbox)
 		######
-		hbox = gtk.HBox()
+		hbox = HBox()
 		self.endTypeCombo = gtk.ComboBoxText()
 		for item in ("Duration", "End"):
 			self.endTypeCombo.append_text(_(item))
@@ -53,7 +53,7 @@ class WidgetClass(common.WidgetClass):
 		sizeGroup.add_widget(self.endTypeCombo)
 		pack(hbox, self.endTypeCombo)
 		####
-		self.durationBox = gtk.HBox()
+		self.durationBox = HBox()
 		self.durationSpin = IntSpinButton(1, 999)
 		pack(self.durationBox, self.durationSpin)
 		pack(self.durationBox, gtk.Label(label=_(" days")))

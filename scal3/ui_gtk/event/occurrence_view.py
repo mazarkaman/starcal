@@ -46,7 +46,7 @@ class DayOccurrenceView(gtk.ScrolledWindow, ud.BaseCalObj):
 		gtk.ScrolledWindow.__init__(self)
 		self.set_policy(gtk.PolicyType.NEVER, gtk.PolicyType.AUTOMATIC)
 		self.connect("size-allocate", self.onSizeRequest)
-		self.vbox = gtk.VBox(spacing=5)
+		self.vbox = VBox(spacing=5)
 		self.add(self.vbox)
 		# Gtk.ScrolledWindow.add_with_viewport is Deprecated since version 3.8:
 		# Gtk.Container.add() will automatically add a Gtk.Viewport if the child doesn't
@@ -92,7 +92,7 @@ class DayOccurrenceView(gtk.ScrolledWindow, ud.BaseCalObj):
 				else occurData["text"][0]
 			)
 			###
-			hbox = gtk.HBox(spacing=5)
+			hbox = HBox(spacing=5)
 			if occurData["icon"]:
 				pack(hbox, imageFromFile(occurData["icon"]))
 			if occurData["time"]:

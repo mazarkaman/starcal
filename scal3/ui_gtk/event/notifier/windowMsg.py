@@ -41,7 +41,7 @@ def notify(notifier, finishFunc):  # FIXME
 	####
 	dialog.set_title(event.getText())
 	####
-	hbox = gtk.HBox(spacing=15)
+	hbox = HBox(spacing=15)
 	hbox.set_border_width(10)
 	if event.icon:
 		pack(hbox, imageFromFile(event.icon))

@@ -46,7 +46,7 @@ class StarCalendarRegisterDialog(gtk.Window, MyDialog):
 		self.connect("delete-event", self.onDeleteEvent)
 		self.set_transient_for(None)
 		self.set_type_hint(gdk.WindowTypeHint.NORMAL)
-		self.vbox = gtk.VBox()
+		self.vbox = VBox()
 		self.add(self.vbox)
 		###
 		self.buttonBox = MyHButtonBox()
@@ -56,7 +56,7 @@ class StarCalendarRegisterDialog(gtk.Window, MyDialog):
 		###
 		sgroupLabel = gtk.SizeGroup(mode=gtk.SizeGroupMode.HORIZONTAL)
 		###
-		hbox = gtk.HBox(spacing=5)
+		hbox = HBox(spacing=5)
 		label = gtk.Label(label=_("Email"))
 		label.set_xalign(0)
 		pack(hbox, label, 0, 0)
@@ -66,7 +66,7 @@ class StarCalendarRegisterDialog(gtk.Window, MyDialog):
 		pack(hbox, self.emailEntry, 1, 1, 10)
 		pack(self.vbox, hbox, 0, 0, 10)
 		###
-		hbox = gtk.HBox(spacing=5)
+		hbox = HBox(spacing=5)
 		label = gtk.Label(label=_("Password"))
 		label.set_xalign(0)
 		pack(hbox, label, 0, 0)
@@ -77,7 +77,7 @@ class StarCalendarRegisterDialog(gtk.Window, MyDialog):
 		pack(hbox, self.passwordEntry, 1, 1, 10)
 		pack(self.vbox, hbox, 0, 0, 10)
 		###
-		hbox = gtk.HBox(spacing=5)
+		hbox = HBox(spacing=5)
 		label = gtk.Label(label=_("Repeat Password"))
 		label.set_xalign(0)
 		pack(hbox, label, 0, 0)
@@ -88,7 +88,7 @@ class StarCalendarRegisterDialog(gtk.Window, MyDialog):
 		pack(hbox, self.passwordEntry2, 1, 1, 10)
 		pack(self.vbox, hbox, 0, 0, 10)
 		###
-		hbox = gtk.HBox(spacing=5)
+		hbox = HBox(spacing=5)
 		label = gtk.Label(label=_("Name (Optional)"))
 		label.set_xalign(0)
 		pack(hbox, label, 0, 0)
@@ -98,7 +98,7 @@ class StarCalendarRegisterDialog(gtk.Window, MyDialog):
 		pack(hbox, self.nameEntry, 1, 1, 10)
 		pack(self.vbox, hbox, 0, 0, 10)
 		###
-		hbox = gtk.HBox(spacing=5)
+		hbox = HBox(spacing=5)
 		label = gtk.Label()
 		label.set_xalign(0)
 		# make text color red

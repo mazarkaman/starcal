@@ -30,12 +30,12 @@ class GroupSortDialog(gtk.Dialog):
 		##
 		self.connect("response", lambda w, e: self.hide())
 		####
-		hbox = gtk.HBox()
+		hbox = HBox()
 		pack(hbox, gtk.Label(label=_("Sort events of group \"%s\"") % group.title))
 		pack(hbox, gtk.Label(), 1, 1)
 		pack(self.vbox, hbox)
 		###
-		hbox = gtk.HBox()
+		hbox = HBox()
 		pack(hbox, gtk.Label(label=_("Based on") + " "))
 		self.sortByNames = []
 		self.sortByCombo = gtk.ComboBoxText()
@@ -87,7 +87,7 @@ class GroupConvertModeDialog(gtk.Dialog):
 		##
 		self.connect("response", lambda w, e: self.hide())
 		####
-		hbox = gtk.HBox()
+		hbox = HBox()
 		label = gtk.Label(_(
 			"This is going to convert calendar types of all events inside "
 			"group \"%s\" to a specific type. This operation does not work "
@@ -99,7 +99,7 @@ class GroupConvertModeDialog(gtk.Dialog):
 		pack(hbox, gtk.Label(), 1, 1)
 		pack(self.vbox, hbox)
 		###
-		hbox = gtk.HBox()
+		hbox = HBox()
 		pack(hbox, gtk.Label(label=_("Calendar Type") + ":"))
 		combo = CalTypeCombo()
 		combo.set_active(group.calType)

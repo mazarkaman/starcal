@@ -31,7 +31,7 @@ class AccountEditorDialog(gtk.Dialog):
 		self.account = account
 		self.activeWidget = None
 		#######
-		hbox = gtk.HBox()
+		hbox = HBox()
 		combo = gtk.ComboBoxText()
 		for cls in event_lib.classes.account:
 			combo.append_text(cls.desc)

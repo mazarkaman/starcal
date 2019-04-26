@@ -75,12 +75,12 @@ class AdjusterDialog(gtk.Dialog):
 		self.buttonSet = self.add_button(_("Set System Time"), 1)
 		#self.buttonSet.connect("clicked", self.setSysTimeClicked)
 		#########
-		hbox = gtk.HBox()
+		hbox = HBox()
 		self.label_cur = gtk.Label(label=_("Current:"))
 		pack(hbox, self.label_cur)
 		pack(self.vbox, hbox)
 		#########
-		hbox = gtk.HBox()
+		hbox = HBox()
 		self.radioMan = gtk.RadioButton.new_with_mnemonic(
 			group=None,
 			label=_("Set _Manully:"),
@@ -89,10 +89,10 @@ class AdjusterDialog(gtk.Dialog):
 		pack(hbox, self.radioMan)
 		pack(self.vbox, hbox)
 		######
-		vb = gtk.VBox()
+		vb = VBox()
 		sg = gtk.SizeGroup(mode=gtk.SizeGroupMode.HORIZONTAL)
 		###
-		hbox = gtk.HBox()
+		hbox = HBox()
 		##
 		l = gtk.Label()
 		l.set_property("width-request", self.xpad)
@@ -107,7 +107,7 @@ class AdjusterDialog(gtk.Dialog):
 		pack(hbox, self.timeInput)
 		pack(vb, hbox)
 		###
-		hbox = gtk.HBox()
+		hbox = HBox()
 		##
 		l = gtk.Label()
 		l.set_property("width-request", self.xpad)
@@ -125,7 +125,7 @@ class AdjusterDialog(gtk.Dialog):
 		pack(self.vbox, vb, 0, 0, 10)#?????
 		self.vboxMan = vb
 		######
-		hbox = gtk.HBox()
+		hbox = HBox()
 		self.radioNtp = gtk.RadioButton.new_with_mnemonic_from_widget(
 			radio_group_member=self.radioMan,
 			label=_("Set from _NTP:"),
@@ -134,7 +134,7 @@ class AdjusterDialog(gtk.Dialog):
 		pack(hbox, self.radioNtp)
 		pack(self.vbox, hbox)
 		###
-		hbox = gtk.HBox()
+		hbox = HBox()
 		##
 		l = gtk.Label()
 		l.set_property("width-request", self.xpad)

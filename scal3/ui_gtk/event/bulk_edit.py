@@ -58,7 +58,7 @@ class EventsBulkEditDialog(gtk.Dialog):
 		label.set_line_wrap(True)
 		pack(self.vbox, label)
 		####
-		hbox = gtk.HBox()
+		hbox = HBox()
 		self.iconRadio = gtk.RadioButton(label=_("Icon"))
 		pack(hbox, self.iconRadio, 1, 1)
 		self.summaryRadio = gtk.RadioButton(
@@ -83,7 +83,7 @@ class EventsBulkEditDialog(gtk.Dialog):
 		self.descriptionRadio.connect("clicked", self.firstRadioChanged)
 		self.timeZoneRadio.connect("clicked", self.firstRadioChanged)
 		####
-		hbox = gtk.HBox()
+		hbox = HBox()
 		self.iconChangeCombo = gtk.ComboBoxText()
 		self.iconChangeCombo.append_text("----")
 		self.iconChangeCombo.append_text(_("Change"))
@@ -100,9 +100,9 @@ class EventsBulkEditDialog(gtk.Dialog):
 		pack(self.vbox, hbox)
 		self.iconHbox = hbox
 		####
-		self.textVbox = gtk.VBox()
+		self.textVbox = VBox()
 		###
-		hbox = gtk.HBox()
+		hbox = HBox()
 		self.textChangeCombo = gtk.ComboBoxText()
 		self.textChangeCombo.append_text("----")
 		self.textChangeCombo.append_text(_("Add to beginning"))
@@ -117,7 +117,7 @@ class EventsBulkEditDialog(gtk.Dialog):
 		self.textInput1 = TextFrame()
 		pack(self.textVbox, self.textInput1, 1, 1)
 		###
-		hbox = gtk.HBox()
+		hbox = HBox()
 		pack(hbox, gtk.Label(label=_("with")))
 		pack(hbox, gtk.Label(), 1, 1)
 		pack(self.textVbox, hbox, 1, 1)
@@ -128,7 +128,7 @@ class EventsBulkEditDialog(gtk.Dialog):
 		####
 		pack(self.vbox, self.textVbox, 1, 1)
 		####
-		hbox = gtk.HBox()
+		hbox = HBox()
 		self.timeZoneChangeCombo = gtk.ComboBoxText()
 		self.timeZoneChangeCombo.append_text("----")
 		self.timeZoneChangeCombo.append_text(_("Change"))

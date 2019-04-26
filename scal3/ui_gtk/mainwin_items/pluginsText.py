@@ -37,7 +37,7 @@ class CalObj(gtk.VBox, CustomizableCalObj):
 	def getOptionsWidget(self):
 		if self.optionsWidget:
 			return self.optionsWidget
-		self.optionsWidget = gtk.HBox()
+		self.optionsWidget = HBox()
 		self.enableExpanderCheckb = gtk.CheckButton(label=_("Inside Expander"))
 		self.enableExpanderCheckb.set_active(ui.pluginsTextInsideExpander)
 		self.enableExpanderCheckb.connect(

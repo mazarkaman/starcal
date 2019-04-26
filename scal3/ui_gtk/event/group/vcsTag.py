@@ -12,7 +12,7 @@ class WidgetClass(BaseWidgetClass):
 	def __init__(self, group):
 		BaseWidgetClass.__init__(self, group)
 		####
-		hbox = gtk.HBox()
+		hbox = HBox()
 		label = gtk.Label(label=_("Tag Description"))
 		label.set_xalign(0)
 		self.sizeGroup.add_widget(label)

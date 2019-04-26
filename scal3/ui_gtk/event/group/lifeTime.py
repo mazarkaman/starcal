@@ -10,7 +10,7 @@ class WidgetClass(NormalWidgetClass):
 	def __init__(self, group):
 		NormalWidgetClass.__init__(self, group)
 		####
-		hbox = gtk.HBox()
+		hbox = HBox()
 		self.showSeperatedYmdInputsCheck = gtk.CheckButton(label=_(
 			"Show Seperated Inputs for Year, Month and Day"
 		))

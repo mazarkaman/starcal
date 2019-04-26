@@ -209,7 +209,7 @@ class DayCal(gtk.DrawingArea, CalBase):
 		from scal3.ui_gtk.cal_type_params import TextParamWidget
 		if self.optionsWidget:
 			return self.optionsWidget
-		optionsWidget = gtk.VBox()
+		optionsWidget = VBox()
 		subPages = []
 		####
 		if self.backgroundColorParam:
@@ -219,7 +219,7 @@ class DayCal(gtk.DrawingArea, CalBase):
 				useAlpha=False,
 				onChangeFunc=self.queue_draw,
 			)
-			hbox = gtk.HBox()
+			hbox = HBox()
 			pack(hbox, gtk.Label(label=_("Background")+": "))
 			pack(hbox, prefItem.getWidget())
 			pack(hbox, gtk.Label(), 1, 1)
@@ -240,7 +240,7 @@ class DayCal(gtk.DrawingArea, CalBase):
 		)
 		pack(optionsWidget, prefItem.getWidget())
 		########
-		self.typeParamsVbox = gtk.VBox()
+		self.typeParamsVbox = VBox()
 		pack(optionsWidget, self.typeParamsVbox)
 		subPages += self.updateTypeParamsWidget()
 		####

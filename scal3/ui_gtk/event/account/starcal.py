@@ -11,7 +11,7 @@ class WidgetClass(BaseWidgetClass):
 	def __init__(self, account):
 		BaseWidgetClass.__init__(self, account)
 		#####
-		hbox = gtk.HBox()
+		hbox = HBox()
 		label = gtk.Label(label=_("Email"))
 		label.set_xalign(0)
 		pack(hbox, label)
@@ -20,7 +20,7 @@ class WidgetClass(BaseWidgetClass):
 		pack(hbox, self.emailEntry, 1, 1)
 		pack(self, hbox)
 		####
-		hbox = gtk.HBox()
+		hbox = HBox()
 		label = gtk.Label(label=_("Password"))
 		label.set_xalign(0)
 		pack(hbox, label)

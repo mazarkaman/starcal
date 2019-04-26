@@ -11,7 +11,7 @@ class VcsBaseWidgetClass(NormalWidgetClass):
 	def __init__(self, group):
 		NormalWidgetClass.__init__(self, group)
 		######
-		hbox = gtk.HBox()
+		hbox = HBox()
 		label = gtk.Label(label=_("VCS Type"))
 		label.set_xalign(0)
 		self.sizeGroup.add_widget(label)
@@ -22,7 +22,7 @@ class VcsBaseWidgetClass(NormalWidgetClass):
 		pack(hbox, self.vcsTypeCombo)
 		pack(self, hbox)
 		######
-		hbox = gtk.HBox()
+		hbox = HBox()
 		label = gtk.Label(label=_("Directory"))
 		label.set_xalign(0)
 		self.sizeGroup.add_widget(label)

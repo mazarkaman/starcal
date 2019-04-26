@@ -103,10 +103,10 @@ class MyStack(gtk.Stack):
 		)
 
 	def _newNavButtonBox(self, parentName: str, title=""):
-		hbox = gtk.HBox()
+		hbox = HBox()
 		# hbox.set_direction(gtk.TextDirection.LTR)
 		backButton = gtk.Button()
-		backHbox = gtk.HBox(spacing=3)
+		backHbox = HBox(spacing=3)
 		backHbox.set_border_width(5)
 		pack(backHbox, imageFromIconName(
 			"gtk-go-forward" if self._rtl else "gtk-go-back",
@@ -141,7 +141,7 @@ class MyStack(gtk.Stack):
 		expand=False,
 		fill=False,
 	):
-		vbox = gtk.VBox(spacing=self._vboxSpacing)
+		vbox = VBox(spacing=self._vboxSpacing)
 		if parentName:
 			pack(vbox, self._newNavButtonBox(parentName, title=title))
 		pack(vbox, widget, expand=expand, fill=fill)

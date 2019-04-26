@@ -111,8 +111,8 @@ class CustomizeDialog(gtk.Dialog):
 					self.itemPixbuf(item),
 				])
 		###
-		hbox = gtk.HBox()
-		vbox_l = gtk.VBox()
+		hbox = HBox()
+		vbox_l = VBox()
 		if scrolled:
 			swin = gtk.ScrolledWindow()
 			swin.set_policy(gtk.PolicyType.AUTOMATIC, gtk.PolicyType.AUTOMATIC)
@@ -140,7 +140,7 @@ class CustomizeDialog(gtk.Dialog):
 		###
 		pack(hbox, toolbar)
 		###
-		vbox = gtk.VBox(spacing=10)
+		vbox = VBox(spacing=10)
 		label = gtk.Label(
 			label="<span font_size=\"xx-small\">" +
 				_("Double-click on each row to see it's settings") +
@@ -199,7 +199,7 @@ class CustomizeDialog(gtk.Dialog):
 			return
 		item = parentItem.items[itemIndex]
 		###
-		vbox = gtk.VBox()
+		vbox = VBox()
 		if item.itemListCustomizable and item.items:
 			treev, childrenBox = self.newItemList(pageName, item, scrolled=True)
 			childrenBox.show_all()

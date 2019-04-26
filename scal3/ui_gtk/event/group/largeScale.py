@@ -17,7 +17,7 @@ class WidgetClass(BaseWidgetClass):
 		######
 		sizeGroup = gtk.SizeGroup(mode=gtk.SizeGroupMode.HORIZONTAL)
 		######
-		hbox = gtk.HBox()
+		hbox = HBox()
 		label = gtk.Label(label=_("Scale"))
 		label.set_xalign(0)
 		sizeGroup.add_widget(label)
@@ -26,7 +26,7 @@ class WidgetClass(BaseWidgetClass):
 		pack(hbox, self.scaleCombo)
 		pack(self, hbox)
 		####
-		hbox = gtk.HBox()
+		hbox = HBox()
 		label = gtk.Label(label=_("Start"))
 		label.set_xalign(0)
 		sizeGroup.add_widget(label)
@@ -35,7 +35,7 @@ class WidgetClass(BaseWidgetClass):
 		pack(hbox, self.startSpin)
 		pack(self, hbox)
 		####
-		hbox = gtk.HBox()
+		hbox = HBox()
 		label = gtk.Label(label=_("End"))
 		label.set_xalign(0)
 		sizeGroup.add_widget(label)

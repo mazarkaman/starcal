@@ -15,7 +15,7 @@ class MultiValueRule(gtk.HBox):
 		self.ValueWidgetClass = ValueWidgetClass
 		##
 		gtk.HBox.__init__(self)
-		self.widgetsBox = gtk.HBox()
+		self.widgetsBox = HBox()
 		pack(self, self.widgetsBox)
 		##
 		self.removeButton = gtk.Button()

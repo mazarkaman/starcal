@@ -49,7 +49,7 @@ class AllDateLabelsVBox(gtk.VBox, ud.BaseCalObj):
 			child.destroy()
 		sgroup = gtk.SizeGroup(mode=gtk.SizeGroupMode.HORIZONTAL)
 		for i, module in calTypes.iterIndexModule():
-			hbox = gtk.HBox()
+			hbox = HBox()
 			label = gtk.Label(label=_(module.desc))
 			label.set_xalign(0)
 			pack(hbox, label)

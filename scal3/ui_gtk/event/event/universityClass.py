@@ -57,7 +57,7 @@ class WidgetClass(gtk.VBox):
 		#combo.connect("changed", self.updateSummary)
 		self.courseCombo = combo
 		##
-		hbox = gtk.HBox()
+		hbox = HBox()
 		label = gtk.Label(label=_("Course"))
 		label.set_xalign(0)
 		sizeGroup.add_widget(label)
@@ -66,7 +66,7 @@ class WidgetClass(gtk.VBox):
 		##
 		pack(self, hbox)
 		#####
-		hbox = gtk.HBox()
+		hbox = HBox()
 		label = gtk.Label(label=_("Week"))
 		label.set_xalign(0)
 		sizeGroup.add_widget(label)
@@ -78,7 +78,7 @@ class WidgetClass(gtk.VBox):
 		pack(hbox, self.weekNumModeCombo)
 		pack(self, hbox)
 		#####
-		hbox = gtk.HBox()
+		hbox = HBox()
 		label = gtk.Label(label=_("Week Day"))
 		label.set_xalign(0)
 		sizeGroup.add_widget(label)
@@ -88,7 +88,7 @@ class WidgetClass(gtk.VBox):
 		pack(hbox, self.weekDayCombo)
 		pack(self, hbox)
 		#####
-		hbox = gtk.HBox()
+		hbox = HBox()
 		label = gtk.Label(label=_("Time"))
 		label.set_xalign(0)
 		sizeGroup.add_widget(label)
@@ -105,7 +105,7 @@ class WidgetClass(gtk.VBox):
 		pack(hbox, self.dayTimeEndCombo)
 		pack(self, hbox)
 		###########
-		#hbox = gtk.HBox()
+		#hbox = HBox()
 		#label = gtk.Label(label=_("Summary"))
 		#label.set_xalign(0)
 		#sizeGroup.add_widget(label)
@@ -114,7 +114,7 @@ class WidgetClass(gtk.VBox):
 		#pack(hbox, self.summaryEntry, 1, 1)
 		#pack(self, hbox)
 		#####
-		hbox = gtk.HBox()
+		hbox = HBox()
 		label = gtk.Label(label=_("Description"))
 		label.set_xalign(0)
 		sizeGroup.add_widget(label)
@@ -123,7 +123,7 @@ class WidgetClass(gtk.VBox):
 		pack(hbox, self.descriptionInput, 1, 1)
 		pack(self, hbox)
 		#####
-		hbox = gtk.HBox()
+		hbox = HBox()
 		label = gtk.Label(label=_("Icon"))
 		label.set_xalign(0)
 		sizeGroup.add_widget(label)

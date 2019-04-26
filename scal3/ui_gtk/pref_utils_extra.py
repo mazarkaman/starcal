@@ -43,9 +43,9 @@ from scal3.ui_gtk.pref_utils import PrefItem
 
 def newBox(vertical: bool, homogeneous: False):
 	if vertical:
-		box = gtk.VBox()
+		box = VBox()
 	else:
-		box = gtk.HBox()
+		box = HBox()
 	box.set_homogeneous(homogeneous)
 	return box
 
@@ -338,7 +338,7 @@ class InactiveCalsTreeView(AICalsTreeview):
 
 class AICalsPrefItem(PrefItem):
 	def __init__(self):
-		self._widget = gtk.HBox()
+		self._widget = HBox()
 		size = gtk.IconSize.SMALL_TOOLBAR
 		######
 		toolbar = gtk.Toolbar()

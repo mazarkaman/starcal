@@ -48,7 +48,7 @@ class ModuleOptionItem:
 		self.module = module
 		self.type = t
 		self.var_name = opt[0]
-		hbox = gtk.HBox()
+		hbox = HBox()
 		if t == bool:
 			w = gtk.CheckButton(label=_(opt[2]))
 			self.get_value = w.get_active
@@ -102,7 +102,7 @@ class ModuleOptionButton:
 			),
 			funcName,
 		)
-		hbox = gtk.HBox()
+		hbox = HBox()
 		button = gtk.Button(_(opt[0]))
 		button.connect("clicked", clickedFunc)
 		pack(hbox, button)
@@ -331,7 +331,7 @@ class LiveCheckColorPrefItem(PrefItem):
 		checkb = self._checkItem.getWidget()
 		colorb = self._colorItem.getWidget()
 
-		hbox = gtk.HBox(spacing=3)
+		hbox = HBox(spacing=3)
 		pack(hbox, checkb)
 		pack(hbox, colorb)
 		self._widget = hbox
@@ -383,7 +383,7 @@ class LiveLabelSpinPrefItem(PrefItem):
 
 		spinb = self._spinItem.getWidget()
 
-		hbox = gtk.HBox(spacing=3)
+		hbox = HBox(spacing=3)
 		pack(hbox, gtk.Label(label=label))
 		pack(hbox, spinb)
 		self._widget = hbox
@@ -415,7 +415,7 @@ class WidthHeightPrefItem(PrefItem):
 		self.widthItem = IntSpinButton(_min, _max)
 		self.heightItem = IntSpinButton(_min, _max)
 		###
-		hbox = self._widget = gtk.HBox()
+		hbox = self._widget = HBox()
 		pack(hbox, gtk.Label(label=_("Width") + ":"))
 		pack(hbox, self.widthItem)
 		pack(hbox, gtk.Label(label="  "))
@@ -503,9 +503,9 @@ class RadioListPrefItem(PrefItem):
 		self.module = module
 		self.varName = varName
 		if vertical:
-			box = gtk.VBox()
+			box = VBox()
 		else:
-			box = gtk.HBox()
+			box = HBox()
 		self._widget = box
 		self.radios = [
 			gtk.RadioButton(label=_(s))
@@ -546,9 +546,9 @@ class ListPrefItem(PrefItem):
 		self.module = module
 		self.varName = varName
 		if vertical:
-			box = gtk.VBox()
+			box = VBox()
 		else:
-			box = gtk.HBox()
+			box = HBox()
 		for item in items:
 			pack(box, Item.getWidget())
 		self.num = len(items)

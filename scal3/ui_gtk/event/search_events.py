@@ -61,7 +61,7 @@ class EventSearchWindow(gtk.Window, MyDialog, ud.BaseCalObj):
 		self.connect("delete-event", self.closed)
 		self.connect("key-press-event", self.keyPress)
 		###
-		self.vbox = gtk.VBox()
+		self.vbox = VBox()
 		self.add(self.vbox)
 		######
 		frame = TextFrame()
@@ -70,7 +70,7 @@ class EventSearchWindow(gtk.Window, MyDialog, ud.BaseCalObj):
 		pack(self.vbox, frame)
 		self.textInput = frame
 		##
-		hbox = gtk.HBox()
+		hbox = HBox()
 		self.textCSensCheck = gtk.CheckButton(label=_("Case Sensitive"))
 		self.textCSensCheck.set_active(False) ## FIXME
 		pack(hbox, self.textCSensCheck)
@@ -79,14 +79,14 @@ class EventSearchWindow(gtk.Window, MyDialog, ud.BaseCalObj):
 		jd = core.getCurrentJd()
 		year, month, day = jd_to_primary(jd)
 		######
-		hbox = gtk.HBox()
+		hbox = HBox()
 		frame = gtk.Frame()
 		frame.set_label(_("Time"))
 		frame.set_border_width(5)
-		vboxIn = gtk.VBox()
+		vboxIn = VBox()
 		sgroup = gtk.SizeGroup(mode=gtk.SizeGroupMode.HORIZONTAL)
 		####
-		hboxIn = gtk.HBox()
+		hboxIn = HBox()
 		##
 		self.timeFromCheck = gtk.CheckButton(label=_("From"))
 		sgroup.add_widget(self.timeFromCheck)
@@ -99,7 +99,7 @@ class EventSearchWindow(gtk.Window, MyDialog, ud.BaseCalObj):
 		##
 		pack(vboxIn, hboxIn)
 		####
-		hboxIn = gtk.HBox()
+		hboxIn = HBox()
 		##
 		self.timeToCheck = gtk.CheckButton(label=_("To"))
 		sgroup.add_widget(self.timeToCheck)
@@ -126,7 +126,7 @@ class EventSearchWindow(gtk.Window, MyDialog, ud.BaseCalObj):
 		pack(hbox, gtk.Label(), 1, 1)
 		pack(self.vbox, hbox)
 		######
-		hbox = gtk.HBox()
+		hbox = HBox()
 		hbox.set_border_width(5)
 		self.modifiedFromCheck = gtk.CheckButton(label=_("Modified From"))
 		pack(hbox, self.modifiedFromCheck)
@@ -139,7 +139,7 @@ class EventSearchWindow(gtk.Window, MyDialog, ud.BaseCalObj):
 		self.updateModifiedFromSensitive()
 		pack(self.vbox, hbox)
 		######
-		hbox = gtk.HBox()
+		hbox = HBox()
 		hbox.set_border_width(5)
 		self.typeCheck = gtk.CheckButton(label=_("Event Type"))
 		pack(hbox, self.typeCheck)
@@ -156,7 +156,7 @@ class EventSearchWindow(gtk.Window, MyDialog, ud.BaseCalObj):
 		self.updateTypeSensitive()
 		pack(self.vbox, hbox)
 		######
-		hbox = gtk.HBox()
+		hbox = HBox()
 		hbox.set_border_width(5)
 		self.groupCheck = gtk.CheckButton(label=_("Group"))
 		pack(hbox, self.groupCheck)
@@ -236,16 +236,16 @@ class EventSearchWindow(gtk.Window, MyDialog, ud.BaseCalObj):
 		swin.set_policy(gtk.PolicyType.AUTOMATIC, gtk.PolicyType.AUTOMATIC)
 		swin.add(treev)
 		####
-		vbox = gtk.VBox(spacing=5)
+		vbox = VBox(spacing=5)
 		vbox.set_border_width(5)
 		###
-		topHbox = gtk.HBox()
+		topHbox = HBox()
 		self.resultLabel = gtk.Label()
 		pack(topHbox, self.resultLabel)
 		pack(topHbox, gtk.Label(), 1, 1)
 		pack(vbox, topHbox)
 		####
-		columnBox = gtk.HBox(spacing=5)
+		columnBox = HBox(spacing=5)
 		pack(columnBox, gtk.Label(label=_("Columns") + ":    "))
 		##
 		check = gtk.CheckButton(label=_("Group"))

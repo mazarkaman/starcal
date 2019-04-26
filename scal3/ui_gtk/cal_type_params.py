@@ -111,7 +111,7 @@ class TextParamWidget(gtk.Box):
 		####
 		self.set_border_width(5)
 		###
-		hbox = gtk.HBox()
+		hbox = HBox()
 		label = gtk.Label(label=_("Position")+": ")
 		pack(hbox, label)
 		sgroupLabel.add_widget(label)
@@ -126,7 +126,7 @@ class TextParamWidget(gtk.Box):
 		pack(self, hbox)
 		####
 		if hasAlign:
-			hbox = gtk.HBox()
+			hbox = HBox()
 			label = gtk.Label(label=_("Alignment")+": ")
 			pack(hbox, label)
 			sgroupLabel.add_widget(label)
@@ -140,7 +140,7 @@ class TextParamWidget(gtk.Box):
 			pack(hbox, gtk.Label(), 1, 1)
 			pack(self, hbox)
 		####
-		hbox = gtk.HBox()
+		hbox = HBox()
 		label = gtk.Label(label=_("Font")+": ")
 		pack(hbox, label)
 		sgroupLabel.add_widget(label)

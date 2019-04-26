@@ -37,7 +37,7 @@ class WidgetClass(common.WidgetClass):
 		######
 		sizeGroup = gtk.SizeGroup(mode=gtk.SizeGroupMode.HORIZONTAL)
 		######
-		hbox = gtk.HBox()
+		hbox = HBox()
 		label = gtk.Label(label=_("Start"))
 		label.set_xalign(0)
 		sizeGroup.add_widget(label)
@@ -48,7 +48,7 @@ class WidgetClass(common.WidgetClass):
 		pack(hbox, gtk.Label(), 1, 1)
 		pack(self, hbox)
 		######
-		hbox = gtk.HBox()
+		hbox = HBox()
 		label = gtk.Label(label=_("End"))
 		label.set_xalign(0)
 		sizeGroup.add_widget(label)
@@ -59,7 +59,7 @@ class WidgetClass(common.WidgetClass):
 		pack(hbox, gtk.Label(), 1, 1)
 		pack(self, hbox)
 		######
-		hbox = gtk.HBox()
+		hbox = HBox()
 		label = gtk.Label(label=_("Day of Month"))
 		label.set_xalign(0)
 		sizeGroup.add_widget(label)
@@ -70,7 +70,7 @@ class WidgetClass(common.WidgetClass):
 		pack(hbox, gtk.Label(), 1, 1)
 		pack(self, hbox)
 		#########
-		hbox = gtk.HBox()
+		hbox = HBox()
 		label = gtk.Label(label=_("Time"))
 		label.set_xalign(0)
 		sizeGroup.add_widget(label)

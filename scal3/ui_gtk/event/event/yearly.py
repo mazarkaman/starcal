@@ -34,7 +34,7 @@ class WidgetClass(common.WidgetClass):
 	def __init__(self, event):## FIXME
 		common.WidgetClass.__init__(self, event)
 		################
-		hbox = gtk.HBox()
+		hbox = HBox()
 		pack(hbox, gtk.Label(label=_("Month")))
 		self.monthCombo = MonthComboBox()
 		self.monthCombo.build(event.calType)
@@ -42,14 +42,14 @@ class WidgetClass(common.WidgetClass):
 		pack(hbox, gtk.Label(), 1, 1)
 		#pack(self, hbox)
 		###
-		#hbox = gtk.HBox()
+		#hbox = HBox()
 		pack(hbox, gtk.Label(label=_("Day")))
 		self.daySpin = DaySpinButton()
 		pack(hbox, self.daySpin)
 		pack(hbox, gtk.Label(), 1, 1)
 		pack(self, hbox)
 		###
-		hbox = gtk.HBox()
+		hbox = HBox()
 		self.startYearCheck = gtk.CheckButton(label=_("Start Year"))
 		pack(hbox, self.startYearCheck)
 		self.startYearSpin = YearSpinButton()

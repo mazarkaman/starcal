@@ -10,7 +10,7 @@ class VcsEpochBaseWidgetClass(VcsBaseWidgetClass):
 	def __init__(self, group):
 		VcsBaseWidgetClass.__init__(self, group)
 		######
-		hbox = gtk.HBox()
+		hbox = HBox()
 		label = gtk.Label(label=_("Show Seconds"))
 		label.set_xalign(0)
 		self.sizeGroup.add_widget(label)

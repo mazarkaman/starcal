@@ -57,14 +57,14 @@ class EventEditorDialog(gtk.Dialog):
 		if isNew and not event.timeZone:
 			event.timeZone = str(core.localTz)## why? FIXME
 		#######
-		hbox = gtk.HBox()
+		hbox = HBox()
 		pack(hbox, gtk.Label(
 			_("Group") + ": " + self._group.title
 		))
 		hbox.show_all()
 		pack(self.vbox, hbox)
 		#######
-		hbox = gtk.HBox()
+		hbox = HBox()
 		pack(hbox, gtk.Label(label=_("Event Type")))
 		if typeChangable:
 			combo = gtk.ComboBoxText()

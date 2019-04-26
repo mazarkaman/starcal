@@ -314,9 +314,9 @@ class WidgetClass(NormalWidgetClass):
 		#####
 		totalFrame = gtk.Frame()
 		totalFrame.set_label(group.desc)
-		totalVbox = gtk.VBox()
+		totalVbox = VBox()
 		###
-		expandHbox = gtk.HBox()## for courseList and classTimeBounds
+		expandHbox = HBox()## for courseList and classTimeBounds
 		##
 		frame = gtk.Frame()
 		frame.set_label(_("Course List"))
@@ -486,7 +486,7 @@ class WeeklyScheduleWindow(gtk.Dialog):
 		self.set_title(_("View Weekly Schedule"))
 		self.connect("delete-event", self.onDeleteEvent)
 		#####
-		hbox = gtk.HBox()
+		hbox = HBox()
 		self.currentWOnlyCheck = gtk.CheckButton(label=_("Current Week Only"))
 		self.currentWOnlyCheck.connect("clicked", lambda obj: self.updateWidget())
 		pack(hbox, self.currentWOnlyCheck)

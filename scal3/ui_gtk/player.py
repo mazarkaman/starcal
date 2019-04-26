@@ -423,7 +423,7 @@ class PlayerBox(gtk.HBox):
 if __name__ == "__main__":
 	window = gtk.Window(gtk.WindowType.TOPLEVEL)
 	window.set_title("Simple PyGTK Interface for MPlayer")
-	mainVbox = gtk.VBox(False, 0)
+	mainVbox = VBox(False, 0)
 	pbox = PlayerBox()
 	pack(mainVbox, pbox)
 	window.connect("destroy", pbox.quit)

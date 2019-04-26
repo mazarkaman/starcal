@@ -42,7 +42,7 @@ class WidgetClass(common.WidgetClass):
 		################
 		self.autoCheck = autoCheck
 		######
-		self.ruleAddBox = gtk.HBox()
+		self.ruleAddBox = HBox()
 		self.warnLabel = gtk.Label()
 		self.warnLabel.modify_fg(gtk.StateType.NORMAL, gdk.Color(65535, 0, 0))
 		self.warnLabel.set_xalign(0)
@@ -52,7 +52,7 @@ class WidgetClass(common.WidgetClass):
 		self.rulesFrame.set_label(_("Rules"))
 		self.rulesFrame.set_border_width(1)
 		self.rulesSwin = gtk.ScrolledWindow()
-		self.rulesBox = gtk.VBox()
+		self.rulesBox = VBox()
 		self.rulesBox.set_border_width(5)
 		self.rulesSwin.add(self.rulesBox)
 		self.rulesFrame.add(self.rulesSwin)
@@ -85,7 +85,7 @@ class WidgetClass(common.WidgetClass):
 		self.ruleAddButton.connect("clicked", self.addClicked)
 
 	def makeRuleHbox(self, rule):
-		hbox = gtk.HBox(spacing=5)
+		hbox = HBox(spacing=5)
 		lab = gtk.Label(label=rule.desc)
 		lab.set_xalign(0)
 		pack(hbox, lab)

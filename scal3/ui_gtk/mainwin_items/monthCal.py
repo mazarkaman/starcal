@@ -146,7 +146,7 @@ class CalObj(gtk.DrawingArea, CalBase):
 			LiveCheckColorPrefItem, CheckPrefItem, ColorPrefItem
 		if self.optionsWidget:
 			return self.optionsWidget
-		self.optionsWidget = gtk.VBox()
+		self.optionsWidget = VBox()
 		####
 		prefItem = LiveLabelSpinPrefItem(
 			_("Height"),
@@ -155,7 +155,7 @@ class CalObj(gtk.DrawingArea, CalBase):
 		)
 		pack(self.optionsWidget, prefItem.getWidget())
 		####
-		hbox = gtk.HBox(spacing=3)
+		hbox = HBox(spacing=3)
 		##
 		pack(hbox, gtk.Label(label=_("Left Margin")))
 		spin = IntSpinButton(0, 99)
@@ -180,7 +180,7 @@ class CalObj(gtk.DrawingArea, CalBase):
 		hbox = prefItem.getWidget()
 		pack(self.optionsWidget, hbox)
 		########
-		self.typeParamsVbox = gtk.VBox()
+		self.typeParamsVbox = VBox()
 		pack(self.optionsWidget, self.typeParamsVbox)
 		self.optionsWidget.show_all()
 		self.updateTypeParamsWidget()## FIXME

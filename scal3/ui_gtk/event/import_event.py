@@ -32,11 +32,11 @@ class EventsImportWindow(WizardWindow):
 				(_("Next"), self.nextClicked),
 			)
 			####
-			hbox = gtk.HBox(spacing=10)
+			hbox = HBox(spacing=10)
 			frame = gtk.Frame()
 			frame.set_label(_("Format"))
 			#frame.set_border_width(10)
-			radioBox = gtk.VBox(spacing=10)
+			radioBox = VBox(spacing=10)
 			radioBox.set_border_width(10)
 			##
 			self.radioJson = gtk.RadioButton(label=_("JSON (StarCalendar)"))
@@ -54,7 +54,7 @@ class EventsImportWindow(WizardWindow):
 			pack(hbox, gtk.Label(), 1, 1)
 			pack(self, hbox)
 			####
-			hbox = gtk.HBox()
+			hbox = HBox()
 			pack(hbox, gtk.Label(label=_("File") + ":"))
 			self.fcb = gtk.FileChooserButton(_("Import: Select File"))
 			self.fcb.set_local_only(True)

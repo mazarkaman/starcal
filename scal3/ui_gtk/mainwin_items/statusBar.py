@@ -23,7 +23,7 @@ class CalObj(gtk.HBox, CustomizableCalObj):
 		from scal3.ui_gtk.mywidgets.resize_button import ResizeButton
 		gtk.HBox.__init__(self)
 		self.initVars()
-		self.labelBox = gtk.HBox()
+		self.labelBox = HBox()
 		pack(self, self.labelBox, 1, 1)
 		resizeB = ResizeButton(ui.mainWin)
 		pack(self, resizeB, 0, 0)

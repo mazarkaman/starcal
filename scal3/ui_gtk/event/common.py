@@ -74,7 +74,7 @@ class WidgetClass(gtk.VBox):
 		gtk.VBox.__init__(self)
 		self.event = event
 		###########
-		hbox = gtk.HBox()
+		hbox = HBox()
 		###
 		pack(hbox, gtk.Label(label=_("Calendar Type")))
 		combo = CalTypeCombo()
@@ -88,7 +88,7 @@ class WidgetClass(gtk.VBox):
 		if event.isAllDay:
 			self.tzCheck = None
 		else:
-			hbox = gtk.HBox()
+			hbox = HBox()
 			self.tzCheck = gtk.CheckButton(label=_("Time Zone"))
 			set_tooltip(self.tzCheck, _("For input times of event"))
 			pack(hbox, self.tzCheck)
@@ -104,7 +104,7 @@ class WidgetClass(gtk.VBox):
 				),
 			)
 		###########
-		hbox = gtk.HBox()
+		hbox = HBox()
 		pack(hbox, gtk.Label(label=_("Summary")))
 		self.summaryEntry = gtk.Entry()
 		pack(hbox, self.summaryEntry, 1, 1)
@@ -120,7 +120,7 @@ class WidgetClass(gtk.VBox):
 		frame.add(swin)
 		pack(self, frame, self.expandDescription, self.expandDescription)
 		###########
-		hbox = gtk.HBox()
+		hbox = HBox()
 		pack(hbox, gtk.Label(label=_("Icon") + ":"))
 		self.iconSelect = IconSelectButton()
 		pack(hbox, self.iconSelect)
@@ -186,9 +186,9 @@ class FilesBox(gtk.VBox):
 	def __init__(self, event):
 		gtk.VBox.__init__(self)
 		self.event = event
-		self.vbox = gtk.VBox()
+		self.vbox = VBox()
 		pack(self, self.vbox)
-		hbox = gtk.HBox()
+		hbox = HBox()
 		pack(hbox, gtk.Label(), 1, 1)
 		addButton = gtk.Button()
 		addButton.set_label(_("_Add File"))
@@ -203,7 +203,7 @@ class FilesBox(gtk.VBox):
 		self.newFiles = []
 
 	def showFile(self, fname):
-		hbox = gtk.HBox()
+		hbox = HBox()
 		link = gtk.LinkButton(
 			self.event.getUrlForFile(fname),
 			_("File") + ": " + fname,
@@ -277,9 +277,9 @@ class NotificationBox(gtk.Expander):## or NotificationBox FIXME
 		self.set_label(_("Notification"))
 		self.event = event
 		self.hboxDict = {}
-		totalVbox = gtk.VBox()
+		totalVbox = VBox()
 		###
-		hbox = gtk.HBox()
+		hbox = HBox()
 		pack(hbox, gtk.Label(label=_("Notify") + " "))
 		self.notifyBeforeInput = DurationInputBox()
 		pack(hbox, self.notifyBeforeInput, 0, 0)
@@ -296,7 +296,7 @@ class NotificationBox(gtk.Expander):## or NotificationBox FIXME
 					inputWidget,
 				))
 				continue
-			hbox = gtk.HBox()
+			hbox = HBox()
 			cb = gtk.CheckButton(label=notifier.desc)
 			cb.inputWidget = inputWidget
 			cb.connect(
@@ -590,7 +590,7 @@ class SingleGroupComboBox(gtk.ComboBox):
 if __name__ == "__main__":
 	from pprint import pformat
 	dialog = gtk.Window()
-	dialog.vbox = gtk.VBox()
+	dialog.vbox = VBox()
 	dialog.add(dialog.vbox)
 	#widget = ViewEditTagsHbox()
 	#widget = EventTagsAndIconSelect()

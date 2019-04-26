@@ -4,6 +4,8 @@ __all__ = [
 	"gdk",
 	"GdkPixbuf",
 	"pack",
+	"VBox",
+	"HBox",
 	"TWO_BUTTON_PRESS",
 	"MenuItem",
 	"ImageMenuItem",
@@ -38,6 +40,14 @@ def pack(box, child, expand=False, fill=False, padding=0):
 		box.pack_start(child, expand)
 	else:
 		raise TypeError("pack: unkown type %s" % type(box))
+
+
+def VBox(**kwargs):
+	return gtk.Box(orientation=gtk.Orientation.VERTICAL, **kwargs)
+
+
+def HBox(**kwargs):
+	return gtk.Box(orientation=gtk.Orientation.HORIZONTAL, **kwargs)
 
 
 def getScrollValue(gevent):

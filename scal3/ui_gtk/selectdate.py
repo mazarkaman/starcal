@@ -57,14 +57,14 @@ class SelectDateDialog(gtk.Dialog):
 		self.drag_dest_add_text_targets()
 		self.connect("drag-data-received", self.dragRec)
 		######
-		hb0 = gtk.HBox(spacing=4)
+		hb0 = HBox(spacing=4)
 		pack(hb0, gtk.Label(label=_("Date Mode")))
 		combo = CalTypeCombo()
 		combo.set_active(self.calType)
 		pack(hb0, combo)
 		pack(self.vbox, hb0)
 		#######################
-		hbox = gtk.HBox(spacing=5)
+		hbox = HBox(spacing=5)
 		rb1 = gtk.RadioButton.new_with_label(None, "")
 		rb1.num = 1
 		pack(hbox, rb1)
@@ -72,14 +72,14 @@ class SelectDateDialog(gtk.Dialog):
 		pack(hbox, self.ymdBox)
 		pack(self.vbox, hbox)
 		########
-		hb2 = gtk.HBox(spacing=4)
+		hb2 = HBox(spacing=4)
 		pack(hb2, gtk.Label(label="yyyy/mm/dd"))
 		dateInput = DateButtonOption(hist_size=16)
 		pack(hb2, dateInput)
 		rb2 = gtk.RadioButton.new_with_label_from_widget(rb1, "")
 		rb2.num = 2
 		#rb2.set_group([rb1])
-		hb2i = gtk.HBox(spacing=5)
+		hb2i = HBox(spacing=5)
 		pack(hb2i, rb2)
 		pack(hb2i, hb2)
 		pack(self.vbox, hb2i)

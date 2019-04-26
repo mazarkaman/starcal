@@ -20,9 +20,9 @@ class CalObj(DayOccurrenceView, CustomizableCalObj):  # FIXME
 		from scal3.ui_gtk.mywidgets.multi_spin.integer import IntSpinButton
 		if self.optionsWidget:
 			return self.optionsWidget
-		self.optionsWidget = gtk.HBox()
+		self.optionsWidget = HBox()
 		###
-		hbox = gtk.HBox()
+		hbox = HBox()
 		spin = IntSpinButton(1, 9999)
 		spin.set_value(ui.eventViewMaxHeight)
 		spin.connect("changed", self.heightSpinChanged)

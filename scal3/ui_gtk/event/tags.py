@@ -41,7 +41,7 @@ class EventTagsAndIconSelect(gtk.HBox):
 	def __init__(self):
 		gtk.HBox.__init__(self)
 		#########
-		hbox = gtk.HBox()
+		hbox = HBox()
 		pack(hbox, gtk.Label(label=_("Category") + ":"))
 		#####
 		ls = gtk.ListStore(GdkPixbuf.Pixbuf, str)
@@ -72,7 +72,7 @@ class EventTagsAndIconSelect(gtk.HBox):
 		self.typeStore = ls
 
 		###
-		vbox = gtk.VBox()
+		vbox = VBox()
 		pack(vbox, hbox)
 		pack(self, vbox)
 		#########
@@ -82,7 +82,7 @@ class EventTagsAndIconSelect(gtk.HBox):
 		pack(hbox, self.iconSelect)
 		tagsLabel = gtk.Label(label=_("Tags"))
 		pack(hbox, tagsLabel)
-		hbox3 = gtk.HBox()
+		hbox3 = HBox()
 		self.tagButtons = []
 		for item in ui.eventTags:
 			button = gtk.ToggleButton(label=item.desc)
@@ -157,7 +157,7 @@ class TagsListBox(gtk.VBox):
 		self.eventType = eventType
 		########
 		if eventType:
-			hbox = gtk.HBox()
+			hbox = HBox()
 			self.relatedCheck = gtk.CheckButton(label=_("Only related tags"))
 			set_tooltip(
 				self.relatedCheck,

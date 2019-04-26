@@ -61,7 +61,7 @@ class EditDbDialog(gtk.Dialog):
 		self.altMode = 0
 		self.altModeDesc = "Gregorian"
 		############
-		hbox = gtk.HBox()
+		hbox = HBox()
 		self.topLabel = gtk.Label()
 		pack(hbox, self.topLabel)
 		self.startDateInput = DateButton()
@@ -128,7 +128,7 @@ class EditDbDialog(gtk.Dialog):
 		self.treev = treev
 		self.trees = trees
 		#####
-		mainHbox = gtk.HBox()
+		mainHbox = HBox()
 		pack(mainHbox, swin, 1, 1)
 		pack(mainHbox, toolbar)
 		pack(self.vbox, mainHbox, 1, 1)
@@ -333,7 +333,7 @@ Otherwise, Hijri dates and Iranian official holidays would be incorrect.""")
 		###
 		pack(self.vbox, gtk.Label(label=self.message + "\n\n"), 1, 1)
 		###
-		hbox = gtk.HBox()
+		hbox = HBox()
 		checkb = gtk.CheckButton(label=_("Don't show this again"))
 		pack(hbox, checkb)
 		pack(self.vbox, hbox)

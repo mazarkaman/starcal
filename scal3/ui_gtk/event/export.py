@@ -34,10 +34,10 @@ class SingleGroupExportDialog(gtk.Dialog, MyDialog):
 		)
 		self.connect("response", lambda w, e: self.hide())
 		####
-		hbox = gtk.HBox()
+		hbox = HBox()
 		frame = gtk.Frame()
 		frame.set_label(_("Format"))
-		radioBox = gtk.VBox()
+		radioBox = VBox()
 		##
 		self.radioIcs = gtk.RadioButton(label="iCalendar")
 		self.radioJsonCompact = gtk.RadioButton(
@@ -129,10 +129,10 @@ class MultiGroupExportDialog(gtk.Dialog, MyDialog):
 			gtk.ResponseType.OK,
 		)
 		####
-		hbox = gtk.HBox()
+		hbox = HBox()
 		frame = gtk.Frame()
 		frame.set_label(_("Format"))
-		radioBox = gtk.VBox()
+		radioBox = VBox()
 		##
 		self.radioIcs = gtk.RadioButton(
 			label="iCalendar",
@@ -160,7 +160,7 @@ class MultiGroupExportDialog(gtk.Dialog, MyDialog):
 		pack(hbox, gtk.Label(), 1, 1)
 		pack(self.vbox, hbox)
 		########
-		hbox = gtk.HBox(spacing=2)
+		hbox = HBox(spacing=2)
 		pack(hbox, gtk.Label(label=_("File") + ":"))
 		self.fpathEntry = gtk.Entry()
 		self.fpathEntry.set_text(join(
