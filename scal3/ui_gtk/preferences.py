@@ -56,7 +56,6 @@ class PrefDialog(gtk.Window):
 		###
 		self.vbox = gtk.VBox()
 		self.add(self.vbox)
-		self.defaultWidget = None
 		###
 		self.buttonbox = MyHButtonBox()
 		self.buttonbox.add_button(
@@ -1034,7 +1033,7 @@ class PrefDialog(gtk.Window):
 					break
 				page = mainPages[page_i]
 				button = self.newWideButton(page)
-				grid.attach(button, col_i, row_i, 1, 1)
+				grid.attach(button, col_i, row_i+1, 1, 1)
 		grid.show_all()
 		###############
 		stack.addPage(rootPageName, "", grid, expand=True, fill=True)
@@ -1045,9 +1044,6 @@ class PrefDialog(gtk.Window):
 		pack(self.vbox, self.buttonbox)
 		####
 		self.vbox.show_all()
-		self.defaultWidget.set_can_default(True)
-		self.defaultWidget.grab_default()
-		self.defaultWidget.grab_focus()
 
 	def gotoPageCallback(self, pageName):
 		def callback(*args):
