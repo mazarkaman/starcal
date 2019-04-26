@@ -1006,6 +1006,7 @@ class PrefDialog(gtk.Window):
 		for page in self.prefPages:
 			if page.pageParent:
 				continue
+			page.pageParent = "main"
 			mainPages.append(page)
 		####
 		colN = 2
@@ -1034,11 +1035,9 @@ class PrefDialog(gtk.Window):
 				button = self.newWideButton(page)
 				grid.attach(button, col_i, row_i, 1, 1)
 		grid.show_all()
-		stack.addPage("main", "", grid, expand=page.pageExpand, fill=page.pageExpand)
-		##########################
+		###############
+		stack.addPage("main", "", grid, expand=True, fill=True)
 		for page in self.prefPages:
-			if not page.pageParent:
-				page.pageParent = "main"
 			stack.addPageObj(page)
 		#######################
 		pack(self.vbox, stack, 1, 1)
