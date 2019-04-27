@@ -38,11 +38,11 @@ class StackPage:
 
 
 class MyStack(gtk.Stack):
-	def __init__(self, rtl=False, iconSize=gtk.IconSize.BUTTON, vboxSpacing=5):
+	def __init__(self, iconSize=gtk.IconSize.BUTTON, vboxSpacing=5):
 		gtk.Stack.__init__(self)
 		self.set_transition_duration(300) # milliseconds
 		###
-		self._rtl = rtl # type: bool
+		self._rtl = self.get_direction() == gtk.TextDirection.RTL # type: bool
 		self._iconSize = iconSize # type: int
 		self._vboxSpacing = vboxSpacing # type: int
 		###

@@ -45,7 +45,7 @@ class CustomizeDialog(gtk.Dialog):
 		gtk.Dialog.__init__(self, **kwargs)
 		self.vbox.set_border_width(10)
 		##
-		self.stack = MyStack(rtl=rtl, vboxSpacing=10)
+		self.stack = MyStack(vboxSpacing=10)
 		pack(self.vbox, self.stack, 1, 1)
 		##
 		self.set_title(_("Customize"))

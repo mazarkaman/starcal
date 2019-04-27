@@ -93,7 +93,7 @@ class DayCalWindowCustomizeDialog(gtk.Dialog):
 			self.close,
 		)
 		##
-		self.stack = MyStack(rtl=rtl, vboxSpacing=10)
+		self.stack = MyStack(vboxSpacing=10)
 		pack(self.vbox, self.stack, 1, 1)
 		pageName = "dayCalWin"
 		self.stack.addPage(

@@ -994,7 +994,7 @@ class PrefDialog(gtk.Window):
 		pack(hbox, toolbar)
 		pack(vbox, hbox, 1, 1)
 		####################################################################
-		stack = MyStack(rtl=rtl)
+		stack = MyStack()
 		stack.setTitleFontSize("large")
 		stack.setTitleCentered(True)
 		stack.setupWindowTitle(self, _("Preferences"), False)
