@@ -164,14 +164,19 @@ class ComboTextPrefItem(PrefItem):
 
 class FontFamilyPrefItem(ComboTextPrefItem):
 	def makeWidget(self):
-		from scal3.ui_gtk.mywidgets.font_family_combo import FontFamilyCombo
-		return FontFamilyCombo(True)
+		from scal3.ui_gtk.mywidgets.font_family_button import FontFamilyButton
+		return FontFamilyButton()
 
 	def get(self):
 		return self._widget.get_value()
 
 	def set(self, value):
 		self._widget.set_value(value)
+
+# TODO: can we support get/set font style (Bold and Italic) properties?
+# perhaps a FontFamilyStylePrefItem, that is compatible with FontFamilyPrefItem
+# meaning get() returns string, and set() takes string, but that string also may
+# contain Bold or Italic (or equavalent words)
 
 
 class ComboEntryTextPrefItem(PrefItem):
