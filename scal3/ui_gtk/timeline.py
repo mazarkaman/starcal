@@ -492,7 +492,7 @@ class TimeLine(gtk.DrawingArea, ud.BaseCalObj):
 	def keyboardZoom(self, zoomIn):
 		self.zoom(zoomIn, keyboardZoomStep, 0.5)
 
-	def keyPress(self, arg, gevent):
+	def keyPress(self, arg: gtk.Widget, gevent: gdk.EventKey):
 		k = gdk.keyval_name(gevent.keyval).lower()
 		#print("%.3f"%now())
 		if k in ("space", "home"):

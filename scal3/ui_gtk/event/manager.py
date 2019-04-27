@@ -837,7 +837,7 @@ class EventManagerDialog(gtk.Dialog, MyDialog, ud.BaseCalObj):## FIXME
 		elif len(path) == 2:
 			self.editEventByPath(path)
 
-	def keyPress(self, treev, gevent):
+	def keyPress(self, treev: gtk.TreeView, gevent: gdk.EventKey):
 		#from scal3.time_utils import getGtkTimeFromEpoch
 		#print(gevent.time-getGtkTimeFromEpoch(now())## FIXME)
 		#print(now()-gdk.CURRENT_TIME/1000.0)

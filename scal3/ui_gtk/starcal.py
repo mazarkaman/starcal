@@ -158,7 +158,7 @@ class MainWinVbox(gtk.Box, CustomizableCalBox):
 		CustomizableCalBox.updateVars(self)
 		ui.mainWinItems = self.getItemsData()
 
-	def keyPress(self, arg, gevent):
+	def keyPress(self, arg: gtk.Widget, gevent: gdk.EventKey):
 		CustomizableCalBox.keyPress(self, arg, gevent)
 		return True ## FIXME
 
@@ -367,7 +367,7 @@ class MainWin(gtk.ApplicationWindow, ud.BaseCalObj):
 		ui.changeDate(y, m, d)
 		self.onDateChange()
 
-	def keyPress(self, arg, gevent):
+	def keyPress(self, arg: gtk.Widget, gevent: gdk.EventKey):
 		kname = gdk.keyval_name(gevent.keyval).lower()
 		#print(now(), "MainWin.keyPress", kname)
 		if kname == "escape":

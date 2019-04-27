@@ -1257,7 +1257,7 @@ class CalObj(gtk.Box, CustomizableCalBox, ColumnBase, CalBase):
 			self.emit("popup-cell-menu", gevent.time, x, y)
 		return True
 
-	def keyPress(self, arg, gevent):
+	def keyPress(self, arg: gtk.Widget, gevent: gdk.EventKey):
 		if CalBase.keyPress(self, arg, gevent):
 			return True
 		kname = gdk.keyval_name(gevent.keyval).lower()

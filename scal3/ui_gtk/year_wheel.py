@@ -291,7 +291,7 @@ class YearWheel(gtk.DrawingArea, ud.BaseCalObj):
 		self.queue_draw()
 		return True
 
-	def keyPress(self, arg, gevent):
+	def keyPress(self, arg: gtk.Widget, gevent: gdk.EventKey):
 		k = gdk.keyval_name(gevent.keyval).lower()
 		#print("%.3f"%now())
 		if k in ("space", "home"):

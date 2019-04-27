@@ -174,7 +174,7 @@ class CalBase(CustomizableCalObj):
 	def getCellPos(self):
 		raise NotImplementedError
 
-	def keyPress(self, arg, gevent):
+	def keyPress(self, arg: gtk.Widget, gevent: gdk.EventKey):
 		CustomizableCalObj.keyPress(self, arg, gevent)
 		kname = gdk.keyval_name(gevent.keyval).lower()
 		if kname in ("space", "home", "t"):

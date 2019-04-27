@@ -33,7 +33,7 @@ class WizardWindow(gtk.Window):
 		#self.vbox.pack_end(
 		#print(id(self.get_action_area()))
 
-	def keyPress(self, arg, gevent):
+	def keyPress(self, arg: gtk.Widget, gevent: gdk.EventKey):
 		kname = gdk.keyval_name(gevent.keyval).lower()
 		if kname == "escape":
 			self.destroy()

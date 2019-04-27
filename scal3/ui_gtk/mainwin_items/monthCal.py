@@ -481,7 +481,7 @@ class CalObj(gtk.DrawingArea, CalBase):
 		ui.monthPlus(p)
 		self.onDateChange()
 
-	def keyPress(self, arg, gevent):
+	def keyPress(self, arg: gtk.Widget, gevent: gdk.EventKey):
 		if CalBase.keyPress(self, arg, gevent):
 			return True
 		kname = gdk.keyval_name(gevent.keyval).lower()

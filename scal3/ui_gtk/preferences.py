@@ -1079,7 +1079,7 @@ class PrefDialog(gtk.Window):
 		self.hide()
 		return True
 
-	def keyPress(self, arg, gevent):
+	def keyPress(self, arg: gtk.Widget, gevent: gdk.EventKey):
 		if gdk.keyval_name(gevent.keyval) == "Escape":
 			self.hide()
 			return True
