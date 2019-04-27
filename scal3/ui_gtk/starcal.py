@@ -1105,7 +1105,7 @@ class MainWin(gtk.ApplicationWindow, ud.BaseCalObj):
 			ui.statusIconImageHoli if ui.todayCell.holiday
 			else ui.statusIconImage
 		)
-		ext = os.path.splitext(imagePath)[1][1:].lower()
+		ext = os.path.splitext(imagePath)[1].lstrip(".").lower()
 		loader = GdkPixbuf.PixbufLoader.new_with_type(ext)
 		if ui.statusIconFixedSizeEnable:
 			try:
@@ -1136,6 +1136,11 @@ class MainWin(gtk.ApplicationWindow, ud.BaseCalObj):
 		loader.write(data)
 		loader.close()
 		pixbuf = loader.get_pixbuf()
+
+		# alternative way:
+		# stream = Gio.MemoryInputStream.new_from_bytes(GLib.Bytes.new(data))
+		# pixbuf = GdkPixbuf.Pixbuf.new_from_stream(stream, None)
+
 		self.sicon.set_from_pixbuf(pixbuf)
 
 	def statusIconUpdateTooltip(self):
