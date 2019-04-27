@@ -383,7 +383,7 @@ class PrefDialog(gtk.Window):
 			ui,
 			"statusIconImage",
 			title=_("Select Icon"),
-			currentFolder=pixDir,
+			currentFolder=join(rootDir, "status-icons"),
 			defaultVarName="statusIconImageDefault",
 		)
 		self.uiPrefItems.append(item)
@@ -399,7 +399,7 @@ class PrefDialog(gtk.Window):
 			ui,
 			"statusIconImageHoli",
 			title=_("Select Icon"),
-			currentFolder=pixDir,
+			currentFolder=join(rootDir, "status-icons"),
 			defaultVarName="statusIconImageHoliDefault",
 		)
 		self.uiPrefItems.append(item)
