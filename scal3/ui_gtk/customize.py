@@ -20,6 +20,8 @@
 
 from os.path import join, isfile
 
+from typing import Optional, List, Tuple
+
 from scal3.path import confDir
 from scal3.utils import myRaise
 from scal3.json_utils import *
@@ -41,7 +43,7 @@ class DummyCalObj(Object):
 	hasOptions = False
 	signals = ud.BaseCalObj.signals
 
-	def __init__(self, name, desc, pkg, customizable):
+	def __init__(self, name: str, desc: str, pkg: str, customizable: bool) -> None:
 		Object.__init__(self)
 		self.enable = False
 		self._name = name
@@ -51,7 +53,7 @@ class DummyCalObj(Object):
 		self.optionsWidget = None
 		self.items = []
 
-	def getLoadedObj(self):
+	def getLoadedObj(self) -> ud.BaseCalObj:
 		try:
 			module = __import__(
 				self.moduleName,
@@ -65,19 +67,19 @@ class DummyCalObj(Object):
 		obj.enable = self.enable
 		return obj
 
-	def updateVars(self):
+	def updateVars(self) -> None:
 		pass
 
 	#def getData(self):## FIXME a real problem
 	#	return None
 
-	def getOptionsWidget(self):
+	def getOptionsWidget(self) -> Optional[gtk.Widget]:
 		return None
 
 	def getSubPages(self) -> "List[StackPage]":
 		return []
 
-	def showHide(self):
+	def showHide(self) -> None:
 		pass
 
 
@@ -89,7 +91,7 @@ class CustomizableCalObj(ud.BaseCalObj):
 	params = ()
 	myKeys = ()
 
-	def initVars(self, optionsWidget=None):
+	def initVars(self, optionsWidget: Optional[gtk.Widget] = None) -> None:
 		ud.BaseCalObj.initVars(self)
 		self.itemWidgets = {} ## for lazy construction of widgets
 		self.optionsWidget = optionsWidget
@@ -100,13 +102,13 @@ class CustomizableCalObj(ud.BaseCalObj):
 		except:
 			pass
 
-	def getItemsData(self):
+	def getItemsData(self) -> List[Tuple[str, bool]]:
 		return [
 			(item._name, item.enable)
 			for item in self.items
 		]
 
-	def updateVars(self):
+	def updateVars(self) -> None:
 		for item in self.items:
 			if item.customizable:
 				item.updateVars()
@@ -127,7 +129,7 @@ class CustomizableCalObj(ud.BaseCalObj):
 	#				data.update(itemData)
 	#	return data
 
-	def keyPress(self, arg, gevent):
+	def keyPress(self, arg: gtk.Widget, gevent: gdk.EventKey):
 		kname = gdk.keyval_name(gevent.keyval).lower()
 		for item in self.items:
 			if item.enable and kname in item.myKeys:
