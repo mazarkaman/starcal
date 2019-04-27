@@ -43,11 +43,7 @@ class DummyCalObj(Object):
 	loaded = False
 	itemListCustomizable = False
 	hasOptions = False
-	signals = [
-		("config-change", []),
-		("date-change", []),
-		("goto-page", [str]),
-	]
+	signals = ud.BaseCalObj.signals
 
 	def __init__(self, name, desc, pkg, customizable):
 		Object.__init__(self)
