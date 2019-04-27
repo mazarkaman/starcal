@@ -502,6 +502,20 @@ class FileChooserPrefItem(PrefItem):
 		self.set(defaultValue)
 
 
+class ImageFileChooserPrefItem(FileChooserPrefItem):
+	def __init__(self, *args, **kwargs):
+		FileChooserPrefItem.__init__(self, *args, **kwargs)
+		self._preview = gtk.Image()
+		self._widget.set_preview_widget(self._preview)
+		self._widget.set_preview_widget_active(True)
+		self._widget.connect("update-preview", self._updatePreview)
+
+	def _updatePreview(self, w):
+		from os.path import splitext
+		fpath = self._widget.get_preview_filename()
+		self._preview.set_from_file(fpath)
+	
+
 class RadioListPrefItem(PrefItem):
 	def __init__(self, vertical, module, varName, texts, label=None):
 		self.num = len(texts)

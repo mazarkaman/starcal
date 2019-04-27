@@ -379,7 +379,7 @@ class PrefDialog(gtk.Window):
 		label = gtk.Label(label=_("Normal Days"))
 		sgroup.add_widget(label)
 		pack(hbox, label)
-		item = FileChooserPrefItem(
+		item = ImageFileChooserPrefItem(
 			ui,
 			"statusIconImage",
 			title=_("Select Icon"),
@@ -395,7 +395,7 @@ class PrefDialog(gtk.Window):
 		label = gtk.Label(label=_("Holidays"))
 		sgroup.add_widget(label)
 		pack(hbox, label)
-		item = FileChooserPrefItem(
+		item = ImageFileChooserPrefItem(
 			ui,
 			"statusIconImageHoli",
 			title=_("Select Icon"),
