@@ -34,10 +34,6 @@ from scal3.ui_gtk.decorators import registerSignals
 from scal3.ui_gtk import gtk_ud as ud
 
 
-if "mainMenu" not in dict(ud.wcalToolbarData["items"]):
-	ud.wcalToolbarData["items"].insert(0, ("mainMenu", True))
-
-
 @registerSignals
 class DummyCalObj(Object):
 	loaded = False
