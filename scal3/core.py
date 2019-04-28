@@ -28,6 +28,8 @@ from io import StringIO
 import os.path
 from os.path import join, isfile, isdir
 
+from typing import Union, Tuple, List
+
 import scal3
 from scal3.path import *
 from scal3.time_utils import *
@@ -110,7 +112,7 @@ confEncoders = {
 }
 
 
-def loadConf():
+def loadConf() -> None:
 	global version, prefVersion, activeCalTypes, inactiveCalTypes
 	###########
 	loadModuleJsonConf(__name__)
@@ -134,7 +136,7 @@ def loadConf():
 	calTypes.update()
 
 
-def saveConf():
+def saveConf() -> None:
 	global activeCalTypes, inactiveCalTypes
 	activeCalTypes, inactiveCalTypes = (
 		calTypes.activeNames,
@@ -151,11 +153,11 @@ log = logger.get()
 # __________________ class and function defenitions __________________ #
 
 
-def popen_output(cmd):
+def popen_output(cmd: Union[List[str], str]) -> str:
 	return Popen(cmd, stdout=subprocess.PIPE).communicate()[0]
 
 
-def getVersion():
+def getVersion() -> str:
 	gitDir = os.path.join(rootDir, ".git")
 	if os.path.isdir(gitDir):
 		try:
@@ -180,15 +182,15 @@ def getVersion():
 	return VERSION
 
 
-def primary_to_jd(y, m, d):
+def primary_to_jd(y: int, m: int, d: int) -> int:
 	return calTypes.primaryModule().to_jd(y, m, d)
 
 
-def jd_to_primary(jd):
+def jd_to_primary(jd: int) -> Tuple[int, int, int]:
 	return calTypes.primaryModule().jd_to(jd)
 
 
-def getCurrentJd():
+def getCurrentJd() -> int:
 	# time.time() and mktime(localtime()) both return GMT, not local
 	module, ok = calTypes[GREGORIAN]
 	if not ok:
@@ -197,13 +199,13 @@ def getCurrentJd():
 	return module.to_jd(y, m, d)
 
 
-def getWeekDateHmsFromEpoch(epoch):
+def getWeekDateHmsFromEpoch(epoch: int) -> Tuple[int, int, int, int, int]:
 	jd, hour, minute, sec = getJhmsFromEpoch(epoch)
 	absWeekNumber, weekDay = getWeekDateFromJd(jd)
 	return (absWeekNumber, weekDay, hour, minute, sec)
 
 
-def getMonthWeekNth(jd, calType):
+def getMonthWeekNth(jd: int, calType: int) -> Tuple[int, int, int]:
 	module, ok = calTypes[calType]
 	if not ok:
 		raise RuntimeError("cal type %r not found" % calType)
@@ -214,28 +216,28 @@ def getMonthWeekNth(jd, calType):
 	return month, dayDiv, weekDay
 
 
-def getWeekDay(y, m, d):
+def getWeekDay(y: int, m: int, d: int) -> int:
 	return jwday(primary_to_jd(y, m, d) - firstWeekDay)
 
 
-def getWeekDayN(i):
+def getWeekDayN(i: int) -> int:
 	# 0 <= i < 7	(0 = first day)
 	return weekDayName[(i + firstWeekDay) % 7]
 
 
-def getWeekDayAuto(i, abr=False):
+def getWeekDayAuto(i: int, abr: bool = False):
 	if abr:
 		return weekDayNameAb[(i + firstWeekDay) % 7]
 	else:
 		return weekDayName[(i + firstWeekDay) % 7]
 
 
-def getLocaleFirstWeekDay():
+def getLocaleFirstWeekDay() -> int:
 	return int(popen_output(["locale", "first_weekday"])) - 1
 
 
 # week number in year
-def getWeekNumberByJdAndDate(jd, year, month, day):
+def getWeekNumberByJdAndDate(jd: int, year: int, month: int, day: int) -> int:
 	if primary_to_jd(year + 1, 1, 1) - jd < 7:  # FIXME
 		if getWeekNumber(*jd_to_primary(jd + 14)) == 3:
 			return 1
