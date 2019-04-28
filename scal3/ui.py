@@ -26,10 +26,13 @@ from os import listdir
 import os.path
 from os.path import dirname, join, isfile, splitext, isabs
 
-from scal3.utils import NullObj, cleanCacheDict, myRaise, myRaiseTback
+from typing import Any, Optional, Tuple, List, Sequence, Dict, Callable
+
+from scal3.utils import cleanCacheDict, myRaise, myRaiseTback
 from scal3.utils import toBytes
 from scal3.json_utils import *
 from scal3.path import *
+from scal3.types import CellType, CompiledTimeFormat
 
 from scal3.cal_types import calTypes, jd_to
 
@@ -37,13 +40,13 @@ from scal3 import locale_man
 from scal3.locale_man import tr as _
 from scal3.locale_man import numDecode
 
+
 from scal3 import core
 
 from scal3 import event_lib
 from scal3.event_diff import EventDiff
 
 uiName = ""
-null = NullObj()
 
 
 #######################################################
@@ -154,27 +157,27 @@ confParamsCustomize = (
 )
 
 
-def loadConf():
+def loadConf() -> None:
 	loadModuleJsonConf(__name__)
 	loadJsonConf(__name__, confPathCustomize)
 	loadJsonConf(__name__, confPathLive)
 
 
-def saveConf():
+def saveConf() -> None:
 	saveModuleJsonConf(__name__)
 
 
-def saveConfCustomize():
+def saveConfCustomize() -> None:
 	saveJsonConf(__name__, confPathCustomize, confParamsCustomize)
 
 
-def saveLiveConf():  # rename to saveConfLive FIXME
+def saveLiveConf() -> None:  # rename to saveConfLive FIXME
 	if core.debugMode:
 		print("saveLiveConf", winX, winY, winWidth)
 	saveJsonConf(__name__, confPathLive, confParamsLive)
 
 
-def saveLiveConfLoop():  # rename to saveConfLiveLoop FIXME
+def saveLiveConfLoop() -> None:  # rename to saveConfLiveLoop FIXME
 	tm = now()
 	if tm - lastLiveConfChangeTime > saveLiveConfDelay:
 		saveLiveConf()
@@ -184,7 +187,7 @@ def saveLiveConfLoop():  # rename to saveConfLiveLoop FIXME
 
 #######################################################
 
-def parseDroppedDate(text):
+def parseDroppedDate(text) -> Tuple[int, int, int]:
 	part = text.split("/")
 	if len(part) == 3:
 		try:
@@ -237,7 +240,7 @@ def parseDroppedDate(text):
 	return (year, month, day)
 
 
-def dictsTupleConfStr(data):
+def dictsTupleConfStr(data: Sequence[Dict]) -> str:
 	n = len(data)
 	st = "("
 	for i in range(n):
@@ -261,7 +264,7 @@ def dictsTupleConfStr(data):
 	return st
 
 
-def checkNeedRestart():
+def checkNeedRestart() -> bool:
 	for key in needRestartPref.keys():
 		if needRestartPref[key] != eval(key):
 			print("\"%s\", \"%s\", \"%s\"" % (
@@ -273,14 +276,7 @@ def checkNeedRestart():
 	return False
 
 
-def getPywPath():  # remove FIXME
-	return join(
-		rootDir,
-		core.APP_NAME + ("-qt" if uiName == "qt" else "") + ".pyw"
-	)
-
-
-def dayOpenEvolution(arg=None):
+def dayOpenEvolution(arg: Any = None) -> None:
 	from subprocess import Popen
 	# y, m, d = jd_to(cell.jd-1, core.GREGORIAN)
 	# in gnome-cal opens prev day! why??
@@ -296,7 +292,7 @@ def dayOpenEvolution(arg=None):
 	# evolution calendar:///?startdate=$(date +"%Y%m%dT%H%M%SZ")
 
 
-def dayOpenSunbird(arg=None):
+def dayOpenSunbird(arg: Any = None):
 	from subprocess import Popen
 	# does not work on latest version of Sunbird, FIXME
 	# and Sunbird seems to be a dead project
@@ -313,15 +309,15 @@ def dayOpenSunbird(arg=None):
 #######################################################################
 
 
-class Cell:
+class Cell(CellType):
 	"""
 	status and information of a cell
 	"""
 	# ocTimeMax = 0
 	# ocTimeCount = 0
 	# ocTimeSum = 0
-	def __init__(self, jd):
-		self.eventsData = []
+	def __init__(self, jd: int):
+		self.eventsData = [] # type: List[Dict]
 		# self.eventsDataIsSet = False  # not used
 		self.pluginsText = ""
 		###
@@ -380,17 +376,27 @@ class Cell:
 		# Cell.ocTimeCount += 1
 		# Cell.ocTimeMax = max(Cell.ocTimeMax, dt)
 
-	def format(self, binFmt, calType=None, tm=null):  # FIXME
+	def format(
+		self,
+		compiledFmt: CompiledTimeFormat,
+		calType: Optional[int] = None,
+		tm: Optional[Tuple[int, int, int]] = None,
+	):
 		if calType is None:
 			calType = calTypes.primary
-		pyFmt, funcs = binFmt
+		if tm is None:
+			tm = (0, 0, 0)
+		pyFmt, funcs = compiledFmt
 		return pyFmt % tuple(f(self, calType, tm) for f in funcs)
 
-	def inSameMonth(self, other):
-		return self.dates[calTypes.primary][:2] == \
-			other.dates[calTypes.primary][:2]
+	def getDate(self, calType: int) -> Tuple[int, int, int]:
+		return self.dates[calType]
 
-	def getEventIcons(self, showIndex):
+	def inSameMonth(self, other: CellType) -> bool:
+		return self.getDate(calTypes.primary)[:2] == \
+			other.getDate(calTypes.primary)[:2]
+
+	def getEventIcons(self, showIndex: int) -> List[str]:
 		iconList = []
 		for item in self.eventsData:
 			if not item["show"][showIndex]:
@@ -400,30 +406,37 @@ class Cell:
 				iconList.append(icon)
 		return iconList
 
-	def getDayEventIcons(self):
+	def getDayEventIcons(self) -> List[str]:
 		return self.getEventIcons(0)
 
-	def getWeekEventIcons(self):
+	def getWeekEventIcons(self) -> List[str]:
 		return self.getEventIcons(1)
 
-	def getMonthEventIcons(self):
+	def getMonthEventIcons(self) -> List[str]:
 		return self.getEventIcons(2)
 
 
 class CellCache:
-	def __init__(self):
-		self.jdCells = {}  # a mapping from julan_day to Cell instance
-		self.plugins = {}
-		self.weekEvents = {}
+	def __init__(self) -> None:
+		# a mapping from julan_day to Cell instance
+		self.jdCells = {} # type: Dict[int, CellType]
+		self.plugins = {} # type: Dict[str, Tuple[Callable[[CellType], None], Callable[[CellCache, ...], List[CellType]]]]
+		self.weekEvents = {} # type Dict[int, List[Dict]]
 
-	def clear(self):
+	def clear(self) -> None:
 		global cell, todayCell
 		self.jdCells = {}
 		self.weekEvents = {}
 		cell = self.getCell(cell.jd)
 		todayCell = self.getCell(todayCell.jd)
 
-	def registerPlugin(self, name, setParamsCallable, getCellGroupCallable):
+	def registerPlugin(
+		self,
+		name: str,
+		setParamsCallable: Callable[[CellType], None],
+		getCellGroupCallable: "Callable[[CellCache, ...], List[CellType]]", # FIXME: ...
+		# `...` is `absWeekNumber` for weekCal, and `year, month` for monthCal
+	):
 		"""
 			setParamsCallable(cell): cell.attr1 = value1 ....
 			getCellGroupCallable(cellCache, *args): return cell_group
@@ -436,26 +449,26 @@ class CellCache:
 		for localCell in self.jdCells.values():
 			setParamsCallable(localCell)
 
-	def getCell(self, jd):
+	def getCell(self, jd: int) -> CellType:
 		c = self.jdCells.get(jd)
 		if c is not None:
 			return c
 		return self.buildCell(jd)
 
-	def getTmpCell(self, jd):
+	def getTmpCell(self, jd: int) -> CellType:
 		# don't keep, no eventsData, no plugin params
 		c = self.jdCells.get(jd)
 		if c is not None:
 			return c
 		return Cell(jd)
 
-	def getCellByDate(self, y, m, d):
+	def getCellByDate(self, y: int, m: int, d: int) -> CellType:
 		return self.getCell(core.primary_to_jd(y, m, d))
 
-	def getTodayCell(self):
+	def getTodayCell(self) -> CellType:
 		return self.getCell(core.getCurrentJd())
 
-	def buildCell(self, jd):
+	def buildCell(self, jd: int) -> CellType:
 		localCell = Cell(jd)
 		for pluginData in self.plugins.values():
 			pluginData[0](localCell)
@@ -463,10 +476,10 @@ class CellCache:
 		cleanCacheDict(self.jdCells, maxDayCacheSize, jd)
 		return localCell
 
-	def getCellGroup(self, pluginName, *args):
+	def getCellGroup(self, pluginName: int, *args) -> List[CellType]:
 		return self.plugins[pluginName][1](self, *args)
 
-	def getWeekData(self, absWeekNumber):
+	def getWeekData(self, absWeekNumber: int) -> Tuple[List[CellType], List[Dict]]:
 		cells = self.getCellGroup("WeekCal", absWeekNumber)
 		wEventData = self.weekEvents.get(absWeekNumber)
 		if wEventData is None:
@@ -481,35 +494,35 @@ class CellCache:
 	# def getMonthData(self, year, month):  # needed? FIXME
 
 
-def changeDate(year, month, day, calType=None):
+def changeDate(year: int, month: int, day: int, calType: Optional[int] = None) -> None:
 	global cell
 	if calType is None:
 		calType = calTypes.primary
 	cell = cellCache.getCell(core.to_jd(year, month, day, calType))
 
 
-def gotoJd(jd):
+def gotoJd(jd: int) -> None:
 	global cell
 	cell = cellCache.getCell(jd)
 
 
-def jdPlus(plus=1):
+def jdPlus(plus: int = 1) -> None:
 	global cell
 	cell = cellCache.getCell(cell.jd + plus)
 
 
-def getMonthPlus(tmpCell, plus):
+def getMonthPlus(tmpCell: CellType, plus: int) -> CellType:
 	year, month = core.monthPlus(tmpCell.year, tmpCell.month, plus)
 	day = min(tmpCell.day, core.getMonthLen(year, month, calTypes.primary))
 	return cellCache.getCellByDate(year, month, day)
 
 
-def monthPlus(plus=1):
+def monthPlus(plus: int = 1) -> None:
 	global cell
 	cell = getMonthPlus(cell, plus)
 
 
-def yearPlus(plus=1):
+def yearPlus(plus: int = 1) -> None:
 	global cell
 	year = cell.year + plus
 	month = cell.month
@@ -517,7 +530,7 @@ def yearPlus(plus=1):
 	cell = cellCache.getCellByDate(year, month, day)
 
 
-def getFont(scale=1.0, familiy=True):
+def getFont(scale=1.0, familiy=True) -> Tuple[Optional[str], bool, bool, float]:
 	(
 		name,
 		bold,
@@ -532,7 +545,7 @@ def getFont(scale=1.0, familiy=True):
 	]
 
 
-def getParamsFont(params: dict):
+def getParamsFont(params: Dict) -> Optional[Tuple[str, bool, bool, float]]:
 	font = params.get("font")
 	if not font:
 		return None
@@ -542,7 +555,7 @@ def getParamsFont(params: dict):
 	return font
 
 
-def initFonts(fontDefaultNew):
+def initFonts(fontDefaultNew: Tuple[str, bool, bool, float]) -> None:
 	global fontDefault, fontCustom, mcalTypeParams
 	fontDefault = fontDefaultNew
 	if not fontCustom:
@@ -576,7 +589,7 @@ def initFonts(fontDefaultNew):
 		dcalWinWeekdayParams["font"] = getFont(1.0, familiy=False)
 
 
-def getHolidaysJdList(startJd, endJd):
+def getHolidaysJdList(startJd: int, endJd: int) -> List[int]:
 	jdList = []
 	for jd in range(startJd, endJd):
 		tmpCell = cellCache.getTmpCell(jd)
@@ -587,7 +600,7 @@ def getHolidaysJdList(startJd, endJd):
 
 ######################################################################
 
-def checkMainWinItems():
+def checkMainWinItems() -> None:
 	global mainWinItems
 	# print(mainWinItems)
 	# cleaning and updating mainWinItems
@@ -622,11 +635,11 @@ def checkMainWinItems():
 		mainWinItems.append((name, False))  # FIXME
 
 
-def deleteEventGroup(group):
+def deleteEventGroup(group: event_lib.EventGroup) -> None:
 	eventGroups.moveToTrash(group, eventTrash)
 
 
-def moveEventToTrash(group, event):
+def moveEventToTrash(group: event_lib.EventGroup, event: event_lib.Event) -> int:
 	eventIndex = group.remove(event)
 	group.save()
 	eventTrash.insert(0, event)  # or append? FIXME
@@ -634,18 +647,18 @@ def moveEventToTrash(group, event):
 	return eventIndex
 
 
-def moveEventToTrashFromOutside(group, event):
+def moveEventToTrashFromOutside(group: event_lib.EventGroup, event: event_lib.Event) -> None:
 	global reloadGroups, reloadTrash
 	moveEventToTrash(group, event)
 	reloadGroups.append(group.id)
 	reloadTrash = True
 
 
-def getEvent(groupId, eventId):
+def getEvent(groupId: int, eventId: int) -> event_lib.Event:
 	return eventGroups[groupId][eventId]
 
 
-def duplicateGroupTitle(group):
+def duplicateGroupTitle(group: event_lib.EventGroup) -> None:
 	title = group.title
 	titleList = [g.title for g in eventGroups]
 	parts = title.split("#")
@@ -664,7 +677,7 @@ def duplicateGroupTitle(group):
 		index += 1
 
 
-def init():
+def init() -> None:
 	global todayCell, cell, fs, eventAccounts, eventGroups, eventTrash
 	core.init()
 
@@ -678,7 +691,7 @@ def init():
 	todayCell = cell = cellCache.getTodayCell()  # FIXME
 
 
-def withFS(obj):
+def withFS(obj: "SObj") -> "SObj":
 	obj.fs = fs
 	return obj
 

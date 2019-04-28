@@ -26,6 +26,7 @@ from scal3.time_utils import getUtcOffsetByGDate
 from scal3.cal_types import calTypes, gregorian, to_jd
 from scal3 import core
 from scal3.locale_man import tr as _
+from scal3.types import CompiledTimeFormat
 
 
 def iso_to_jd(year, week, day):
@@ -51,7 +52,7 @@ def isow(jd):## iso week number
 	return (jd - iso_to_jd(year, 1, 1)) // 7 + 1
 
 
-def compileTmFormat(format, hasTime=True):
+def compileTmFormat(format, hasTime=True) -> CompiledTimeFormat:
 	## format:     "Today: %Y/%m/%d"
 	## pyFmt:      "Today: %s/%s/%s"
 	## funcs:      (get_y, get_m, get_d)
@@ -426,7 +427,7 @@ def compileTmFormat(format, hasTime=True):
 				continue
 		pyFmt += ("%" + c1)
 		i += 2
-	return (pyFmt, funcs) ## binFmt
+	return (pyFmt, funcs) ## compiledFmt
 
 
 def testSpeed():
@@ -437,7 +438,7 @@ def testSpeed():
 	format2 = "%OY/%Om/%Od - %OH:%OM:%OS"
 	n = 1
 	########
-	binFmt = compileTmFormat(format)
+	compiledFmt = compileTmFormat(format)
 	calType = core.GREGORIAN
 	tm = list(time.localtime())
 	jd = to_jd(tm[0], tm[1], tm[2], calType)
@@ -451,7 +452,7 @@ def testSpeed():
 	jd = to_jd(tm[0], tm[1], tm[2], calType)
 	t0 = now()
 	for i in range(n):
-		formatTime(binFmt, calType, jd, tm)
+		formatTime(compiledFmt, calType, jd, tm)
 	t1 = now()
 	print("My strftime:     %s sec" % (t1 - t0))
 	########
@@ -465,13 +466,13 @@ def testSpeed():
 
 def testOutput():
 	from time import strftime
-	binFmt = compileTmFormat("%Y/%m/%d")
+	compiledFmt = compileTmFormat("%Y/%m/%d")
 	year = 2010
 	month = 1
 	day = 4
 	jd = to_jd(year, month, day, core.GREGORIAN)
 	tm = (year, month, day, 12, 10, 0, 15, 1, 1)
-	print(formatTime(binFmt, core.GREGORIAN, jd, tm))
+	print(formatTime(compiledFmt, core.GREGORIAN, jd, tm))
 	print(strftime("%OY/%Om/%Od", tm))
 
 
