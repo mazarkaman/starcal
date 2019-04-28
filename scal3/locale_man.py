@@ -30,6 +30,8 @@ from os.path import splitext
 import locale
 import gettext
 
+from typing import Optional, Union, Set, Tuple, Dict, Callable
+
 import natz
 
 from .path import *
@@ -56,11 +58,11 @@ confParams = (
 )
 
 
-def loadConf():
+def loadConf() -> None:
 	loadModuleJsonConf(__name__)
 
 
-def saveConf():
+def saveConf() -> None:
 	saveModuleJsonConf(__name__)
 
 
@@ -80,8 +82,8 @@ digits = {
 }
 
 
-def getLangDigits(langSh0):
-	d = digits.get(langSh0)
+def getLangDigits(langShortArg: str) -> Tuple[str, str, str, str, str, str, str, str, str, str]:
+	d = digits.get(langShortArg)
 	if d is not None:
 		return d
 	return digits["en"]
@@ -122,7 +124,7 @@ loadConf()
 ##########################################################
 
 
-def tr(s, *a, **ka):
+def tr(s: Union[str, int], *a, **ka) -> str:
 	"""
 	string translator function
 	"""
@@ -140,7 +142,7 @@ class LangData(JsonSObj):
 		"timeZoneList",
 	)
 
-	def __init__(self, _file):
+	def __init__(self, _file: str) -> None:
 		self.file = _file ## json file path
 		####
 		self.code = ""
@@ -151,9 +153,9 @@ class LangData(JsonSObj):
 		self.rtl = False
 		self.transPath = ""
 		##
-		self.timeZoneList = []
+		self.timeZoneList = [] # type: List[str]
 
-	def setData(self, data):
+	def setData(self, data: Dict):
 		JsonSObj.setData(self, data)
 		#####
 		for param in (
@@ -227,7 +229,7 @@ for fname in os.listdir(langDir):
 langDict.sort("name") ## OR "code" or "nativeName" ????????????
 
 
-def prepareLanguage():
+def prepareLanguage() -> str:
 	global lang, langActive, langSh, rtl
 	if lang == "":
 		#langActive = locale.setlocale(locale.LC_ALL, "")
@@ -257,7 +259,7 @@ def prepareLanguage():
 	return langSh
 
 
-def loadTranslator(ui_is_qt=False):
+def loadTranslator(ui_is_qt=False) -> Callable:
 	global tr
 	# FIXME: How to say to gettext that itself detects coding(charset)
 	# from locale name and return a unicode object instead of str?
@@ -308,22 +310,22 @@ def loadTranslator(ui_is_qt=False):
 	return tr
 
 
-def rtlSgn():
+def rtlSgn() -> int:
 	return 1 if rtl else -1
 
 
-def getMonthName(calType, month, year=None):
+def getMonthName(calType: int, month: int, year: Optional[int] = None) -> str:
 	module, ok = calTypes[calType]
 	if not ok:
 		raise RuntimeError("cal type %r not found" % calType)
 	return tr(module.getMonthName(month, year))
 
 
-def getNumSep():
+def getNumSep() -> str:
 	return tr(".") if enableNumLocale else "."
 
 
-def getDigits():
+def getDigits() -> Tuple[str, str, str, str, str, str, str, str, str, str]:
 	if enableNumLocale:
 		d = digits.get(langSh)
 		if d is not None:
@@ -331,7 +333,7 @@ def getDigits():
 	return digits["en"]
 
 
-def getAvailableDigitKeys():
+def getAvailableDigitKeys() -> Set[str]:
 	keys = set(digits["en"])
 	if langSh != "en":
 		locDigits = digits.get(langSh)
@@ -340,7 +342,12 @@ def getAvailableDigitKeys():
 	return keys
 
 
-def numEncode(num, localeMode=None, fillZero=0, negEnd=False):
+def numEncode(
+	num: int,
+	localeMode: Union[None, str, int] = None,
+	fillZero: int = 0,
+	negEnd: bool = False,
+) -> str:
 	if not enableNumLocale:
 		localeMode = "en"
 	if localeMode is None:
@@ -379,7 +386,12 @@ def numEncode(num, localeMode=None, fillZero=0, negEnd=False):
 	return res
 
 
-def textNumEncode(st, localeMode=None, changeSpecialChars=True, changeDot=False):
+def textNumEncode(
+	st: str,
+	localeMode: Union[None, str, int] = None,
+	changeSpecialChars: bool = True,
+	changeDot: bool = False,
+) -> str:
 	if not enableNumLocale:
 		localeMode = "en"
 	if localeMode is None:
@@ -412,11 +424,14 @@ def textNumEncode(st, localeMode=None, changeSpecialChars=True, changeDot=False)
 	return res ## .encode("utf8")
 
 
-def floatEncode(st, localeMode=None):
+def floatEncode(
+	st: str,
+	localeMode: Union[None, str, int] = None,
+):
 	return textNumEncode(st, localeMode, changeSpecialChars=False, changeDot=True)
 
 
-def numDecode(numSt):
+def numDecode(numSt: str) -> int:
 	numSt = numSt.strip()
 	try:
 		return int(numSt)
@@ -445,7 +460,8 @@ def numDecode(numSt):
 	raise ValueError("invalid locale number %s" % numSt)
 
 
-def textNumDecode(text):## converts "۱۲:۰۰, ۱۳" to "12:00, 13"
+# converts "۱۲:۰۰, ۱۳" to "12:00, 13"
+def textNumDecode(text: str) -> str:
 	text = toStr(text)
 	textEn = ""
 	langDigits = getLangDigits(langSh)
@@ -461,7 +477,7 @@ def textNumDecode(text):## converts "۱۲:۰۰, ۱۳" to "12:00, 13"
 	return textEn
 
 
-def dateLocale(year, month, day):
+def dateLocale(year: int, month: int, day: int) -> str:
 	return (
 		numEncode(year, fillZero=4) +
 		"/" +
@@ -471,7 +487,7 @@ def dateLocale(year, month, day):
 	)
 
 
-def cutText(text, n):
+def cutText(text: str, n: int) -> str:
 	text = toStr(text)
 	newText = text[:n]
 	if len(text) > n:
@@ -483,11 +499,11 @@ def cutText(text, n):
 	return newText
 
 
-def addLRM(text):
+def addLRM(text: str) -> str:
 	return LRM + toStr(text)
 
 
-def popenDefaultLang(*args, **kwargs):
+def popenDefaultLang(*args, **kwargs) -> "subprocess.Popen":
 	global sysLangDefault, lang
 	from subprocess import Popen
 	os.environ["LANG"] = sysLangDefault
