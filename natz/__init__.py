@@ -50,3 +50,5 @@ def gettz(*args, **kwargs) -> Optional[TimeZone]:
 			return None
 	return TimeZone(tz)
 
+UTC = gettz("UTC")
+
