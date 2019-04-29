@@ -22,22 +22,20 @@ import sys
 import os
 from math import floor, ceil
 
-from collections import OrderedDict
-from collections.abc import (
-	Iterable,
-	Iterator,
-)
+import typing
+from typing import Union, Optional, Any, List, Tuple, Dict
 
 
-def ifloor(x):
+def ifloor(x: float) -> int:
 	return int(floor(x))
 
 
-def iceil(x):
+def iceil(x: float) -> int:
 	return int(ceil(x))
 
 
-def arange(start, stop, step):
+# replacement for numpy.core.multiarray.arange, in the lack of numpy
+def arange(start: Union[int, float], stop: Union[int, float], step: Union[int, float]) -> List[Union[int, float]]:
 	l = []
 	x = start
 	stop -= 0.000001
@@ -47,19 +45,19 @@ def arange(start, stop, step):
 	return l
 
 
-def toBytes(s):
+def toBytes(s: Union[bytes, str]) -> bytes:
 	return s.encode("utf8") if isinstance(s, str) else bytes(s)
 
 
-def toStr(s):
+def toStr(s: Union[bytes, str]) -> str:
 	return str(s, "utf8") if isinstance(s, bytes) else str(s)
 
 
-def cmp(a, b):
+def cmp(a: Any, b: Any) -> bool:
 	return 0 if a == b else (1 if a > b else -1)
 
 
-def versionLessThan(v0, v1):
+def versionLessThan(v0: str, v1: str) -> bool:
 	if v0 == "":
 		if v1 == "":
 			return 0
@@ -74,7 +72,7 @@ def versionLessThan(v0, v1):
 	]
 
 
-def printError(text):
+def printError(text: str) -> None:
 	sys.stderr.write("%s\n" % text)
 
 
@@ -92,7 +90,7 @@ class FallbackLogger:
 		print(text)
 
 
-def myRaise(File=None):
+def myRaise(File: Optional[str] = None) -> None:
 	i = sys.exc_info()
 	typ, value, tback = sys.exc_info()
 	text = "line %s: %s: %s\n" % (tback.tb_lineno, typ.__name__, value)
@@ -102,7 +100,7 @@ def myRaise(File=None):
 
 
 # FIXME: move to logger.py
-def myRaiseTback():
+def myRaiseTback() -> None:
 	import traceback
 	typ, value, tback = sys.exc_info()
 	sys.stderr.write(
@@ -110,8 +108,8 @@ def myRaiseTback():
 	)
 
 
-def restartLow():
-	return os.execl(
+def restartLow() -> None:
+	os.execl(
 		sys.executable,
 		sys.executable,
 		*sys.argv
@@ -121,7 +119,9 @@ def restartLow():
 class StrOrderedDict(dict):
 	# A dict from strings to objects, with ordered keys
 	# and some looks like a list
-	def __init__(self, arg=[], reorderOnModify=True):
+	def __init__(self, arg: Union[None, List, Tuple, Dict] = None, reorderOnModify: bool = True) -> None:
+		if arg is None:
+			arg = []
 		self.reorderOnModify = reorderOnModify
 		if isinstance(arg, (list, tuple)):
 			self.keyList = [item[0] for item in arg]
@@ -133,22 +133,22 @@ class StrOrderedDict(dict):
 			)
 		dict.__init__(self, arg)
 
-	def keys(self):
+	def keys(self) -> List[str]:
 		return self.keyList
 
-	def values(self):
+	def values(self) -> List[Any]:
 		return [
 			dict.__getitem__(self, key)
 			for key in self.keyList
 		]
 
-	def items(self):
+	def items(self) -> List[Tuple[str, Any]]:
 		return [
 			(key, dict.__getitem__(self, key))
 			for key in self.keyList
 		]
 
-	def __getitem__(self, arg):
+	def __getitem__(self, arg: Union[int, str, slice]) -> Any:
 		if isinstance(arg, int):
 			return dict.__getitem__(self, self.keyList[arg])
 		elif isinstance(arg, str):
@@ -164,7 +164,7 @@ class StrOrderedDict(dict):
 				": %s" % type(arg)
 			)
 
-	def __setitem__(self, arg, value):
+	def __setitem__(self, arg: Union[int, str], value) -> None:
 		if isinstance(arg, int):
 			dict.__setitem__(self, self.keyList[arg], value)
 		elif isinstance(arg, str):
@@ -185,7 +185,7 @@ class StrOrderedDict(dict):
 				": %s" % type(item)
 			)
 
-	def __delitem__(self, arg):
+	def __delitem__(self, arg: Union[int, str, slice]) -> None:
 		if isinstance(arg, int):
 			self.keyList.__delitem__(arg)
 			dict.__delitem__(self, self.keyList[arg])
@@ -202,26 +202,26 @@ class StrOrderedDict(dict):
 				": %s" % type(arg)
 			)
 
-	#def pop(self, key):  # FIXME
+	#def pop(self, key: str) -> Any:  # FIXME
 	#	value = dict.pop(self, key)
 	#	del self.keyList[key]
 	#	return value
 
-	def clear(self):
+	def clear(self) -> None:
 		self.keyList = []
 		dict.clear(self)
 
-	def append(self, key, value):
+	def append(self, key: str, value: Any):
 		assert isinstance(key, str) and key not in self.keyList
 		self.keyList.append(key)
 		dict.__setitem__(self, key, value)
 
-	def insert(self, index, key, value):
+	def insert(self, index: int, key: str, value: Any):
 		assert isinstance(key, str) and key not in self.keyList
 		self.keyList.insert(index, key)
 		dict.__setitem__(self, key, value)
 
-	def sort(self, attr=None):
+	def sort(self, attr: Optional[str] = None) -> typing.Iterator:
 		if attr is None:
 			self.keyList.sort()
 		else:
@@ -248,35 +248,36 @@ class StrOrderedDict(dict):
 		return "StrOrderedDict(%r)" % self.items()
 
 
-class NullObj:## a fully transparent object
-	def __setattr__(self, attr, value):
+# a fully transparent object
+class NullObj:
+	def __setattr__(self, attr: str, value: Any) -> None:
 		pass
 
-	def __getattr__(self, attr):
+	def __getattr__(self, attr: str) -> "NullObj":
 		return self
 
-	def __call__(self, *args, **kwargs):
+	def __call__(self, *args, **kwargs) -> "NullObj":
 		return self
 
-	def __str__(self):
+	def __str__(self) -> str:
 		return ""
 
-	def __repr__(self):
+	def __repr__(self) -> str:
 		return ""
 
-	def __int__(self):
+	def __int__(self) -> int:
 		return 0
 
 
-def int_split(s):
+def int_split(s: str) -> List[int]:
 	return [int(x) for x in s.split()]
 
 
-def s_join(l):
-	return " ".join([str(x) for x in l])
+def s_join(ls: List[Any]) -> str:
+	return " ".join([str(x) for x in ls])
 
 
-def cleanCacheDict(cache, maxSize, currentValue):
+def cleanCacheDict(cache: Dict[Any, Any], maxSize: int, currentValue: Any):
 	n = len(cache)
 	if n >= maxSize > 2:
 		keys = sorted(cache.keys())
@@ -287,7 +288,7 @@ def cleanCacheDict(cache, maxSize, currentValue):
 		cache.pop(rm)
 
 
-def urlToPath(url):
+def urlToPath(url: str) -> str:
 	if not url.startswith("file://"):
 		return url
 	path = url[7:]
@@ -312,7 +313,7 @@ def urlToPath(url):
 	return path2
 
 
-def findNearestNum(lst, num):
+def findNearestNum(lst: List[int], num: int) -> int:
 	if not lst:
 		return
 	best = lst[0]
@@ -322,7 +323,7 @@ def findNearestNum(lst, num):
 	return best
 
 
-def findNearestIndex(lst, num):
+def findNearestIndex(lst: List[int], num: int) -> int:
 	if not lst:
 		return
 	index = 0
@@ -333,7 +334,7 @@ def findNearestIndex(lst, num):
 	return index
 
 
-def strFindNth(st, sub, n):
+def strFindNth(st: str, sub: str, n: int) -> int:
 	pos = 0
 	for i in range(n):
 		pos = st.find(sub, pos + 1)
@@ -342,7 +343,7 @@ def strFindNth(st, sub, n):
 	return pos
 
 
-def numRangesEncode(values, sep):
+def numRangesEncode(values: List[Union[int, Tuple[int, int], List[int]]], sep: str):
 	parts = []
 	for value in values:
 		if isinstance(value, int):
@@ -352,7 +353,7 @@ def numRangesEncode(values, sep):
 	return sep.join(parts)
 
 
-def numRangesDecode(text):
+def numRangesDecode(text: str) -> List[Union[int, Tuple[int, int]]]:
 	values = []
 	for part in text.split(","):
 		pparts = part.strip().split("-")
@@ -369,7 +370,7 @@ def numRangesDecode(text):
 	return values
 
 
-def inputDate(msg):
+def inputDate(msg: str) -> Optional[Tuple[int, int, int]]:
 	while True:
 		try:
 			date = input(msg)
@@ -383,7 +384,7 @@ def inputDate(msg):
 			print(str(e))
 
 
-def inputDateJd(msg):
+def inputDateJd(msg: str) -> Optional[int]:
 	date = inputDate(msg)
 	if date:
 		y, m, d = date
