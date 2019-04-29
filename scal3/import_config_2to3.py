@@ -29,6 +29,8 @@ from collections import OrderedDict
 import shutil
 import re
 
+from typing import Any, Generator
+
 from scal3.path import confDir as newConfDir
 from scal3.os_utils import makeDir
 from scal3.json_utils import dataToPrettyJson, dataToCompactJson
@@ -51,7 +53,7 @@ newAccountsDir = join(newEventDir, "accounts")
 fsNew = DefaultFileSystem(newConfDir)
 
 
-def loadConf(confPath):
+def loadConf(confPath) -> None:
 	if not isfile(confPath):
 		return
 	try:
@@ -66,7 +68,7 @@ def loadConf(confPath):
 	return data
 
 
-def loadCoreConf():
+def loadCoreConf() -> None:
 	confPath = join(oldConfDir, "core.conf")
 	#####
 
@@ -91,7 +93,7 @@ def loadCoreConf():
 	return data
 
 
-def loadUiCustomizeConf():
+def loadUiCustomizeConf() -> None:
 	confPath = join(oldConfDir, "ui-customize.conf")
 	#####
 	if not isfile(confPath):
@@ -113,7 +115,7 @@ def loadUiCustomizeConf():
 	return data
 
 
-def writeJsonConf(name, data):
+def writeJsonConf(name: str, data: Any):
 	if data is None:
 		return
 	fname = name + ".json"
@@ -125,7 +127,7 @@ def writeJsonConf(name, data):
 		print("failed to write file %r: %s" % (jsonPath, e))
 
 
-def importEventsIter():
+def importEventsIter() -> Generator[int, None, None]:
 	makeDir(newEventEventsDir)
 	oldFiles = os.listdir(oldEventEventsDir)
 	yield len(oldFiles)
@@ -177,7 +179,7 @@ def importEventsIter():
 		)
 
 
-def importGroupsIter():
+def importGroupsIter() -> Generator[int, None, None]:
 	groupsEnableDict = {} ## {groupId -> enable}
 	###
 	makeDir(newGroupsDir)
@@ -265,7 +267,7 @@ def importGroupsIter():
 			)
 
 
-def importAccountsIter():
+def importAccountsIter() -> Generator[int, None, None]:
 	makeDir(newAccountsDir)
 	###
 	oldFiles = os.listdir(oldAccountsDir)
@@ -319,7 +321,7 @@ def importAccountsIter():
 		)
 
 
-def importTrashIter():
+def importTrashIter() -> Generator[int, None, None]:
 	yield 1
 	yield 0
 	jsonPath = join(oldEventDir, "trash.json")
@@ -355,7 +357,7 @@ def importTrashIter():
 	open(newJsonPath, "w").write(dataToPrettyJson(basicData, sort_keys=True))
 
 
-def importBasicConfigIter():
+def importBasicConfigIter() -> Generator[int, None, None]:
 	yield 8  # number of steps
 	index = 0
 	####
@@ -380,7 +382,7 @@ def importBasicConfigIter():
 		writeJsonConf(name, loadConf(confPath))
 
 
-def importEventBasicJsonIter():
+def importEventBasicJsonIter() -> Generator[int, None, None]:
 	yield 4 ## number of steps
 	index = 0
 	####
@@ -400,7 +402,7 @@ def importEventBasicJsonIter():
 			print(e)
 
 
-def importPluginsIter():
+def importPluginsIter() -> Generator[int, None, None]:
 	oldPlugConfDir = join(oldConfDir, "plugins.conf")
 	if isdir(oldPlugConfDir):
 		files = os.listdir(oldPlugConfDir)
@@ -420,7 +422,7 @@ def importPluginsIter():
 		yield index; index += 1
 
 
-def importConfigIter():
+def importConfigIter() -> Generator[int, None, None]:
 	makeDir(newConfDir)
 	makeDir(newEventDir)
 	#########
@@ -452,7 +454,7 @@ def importConfigIter():
 	yield 1.0
 
 
-def getOldVersion():
+def getOldVersion() -> str:
 	"""
 	return version of installed starcal 2.3.x or 2.4.x
 	from user"s configuration directory (file ~/.starcal2/core.conf)
