@@ -108,12 +108,15 @@ def myRaiseTback() -> None:
 	)
 
 
-def restartLow() -> None:
+def restartLow() -> typing.NoReturn:
+	"""
+	will not return from the function
+	"""
 	os.execl(
 		sys.executable,
 		sys.executable,
 		*sys.argv
-	)  # will not return from the function
+	)
 
 
 class StrOrderedDict(dict):

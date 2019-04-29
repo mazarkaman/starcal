@@ -28,6 +28,7 @@ from io import StringIO
 import os.path
 from os.path import join, isfile, isdir
 
+import typing
 from typing import Union, Tuple, List, Any
 
 import scal3
@@ -422,7 +423,7 @@ def getDeletedPluginsTable() -> List[List]:
 # _____________________________________________________ #
 
 
-def restart() -> None:
+def restart() -> typing.NoReturn:
 	"""
 	will not return from function
 	"""
