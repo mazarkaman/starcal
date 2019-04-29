@@ -18,12 +18,14 @@
 # Also avalable in /usr/share/common-licenses/GPL on Debian systems
 # or /usr/share/licenses/common/GPL3/license.txt on ArchLinux
 
+from typing import Tuple, List, Union
+
 from scal3.utils import s_join
 
 CLOSED_START, OPEN_START, OPEN_END, CLOSED_END = range(4)
 
 
-def ab_overlaps(a0, b0, a1, b1):
+def ab_overlaps(a0: float, b0: float, a1: float, b1: float) -> None:
 	return (
 		b0 - a0
 		+ b1 - a1
@@ -31,11 +33,11 @@ def ab_overlaps(a0, b0, a1, b1):
 	)
 
 
-def md_overlaps(m0, d0, m1, d1):
+def md_overlaps(m0: float, d0: float, m1: float, d1: float) -> None:
 	return d0 + d1 - abs(m0 - m1) > 0.01
 
 
-def simplifyNumList(nums, minCount=3):
+def simplifyNumList(nums: List[int], minCount: int = 3) -> List[Union[int, Tuple[int, int]]]:
 	"""
 	nums must be sorted
 	minCount >= 2
@@ -58,7 +60,7 @@ def simplifyNumList(nums, minCount=3):
 	return ranges
 
 
-def getIntervalPoints(lst, lst_index=0):
+def getIntervalPoints(lst: List[Union[Tuple[int, int], Tuple[int, int, bool]]], lst_index: int = 0) -> List[Tuple[int, int, int]]:
 	"""
 	lst is a list of (start, end, closedEnd) or (start, end) tuples
 		start (int)
@@ -91,7 +93,16 @@ def getIntervalPoints(lst, lst_index=0):
 	return points
 
 
-def getIntervalListByPoints(points):
+def getIntervalListByPoints(points: List[Tuple[int, int, int]]) -> List[Tuple[int, int, bool]]:
+	"""
+	points: a list of (pos, ptype, lst_index) tuples
+		ptype in (CLOSED_START, OPEN_START, OPEN_END, CLOSED_END)
+	
+	return a list of (start, end, closedEnd) tuples
+		start (int)
+		end (int)
+		closedEnd (bool)
+	"""
 	lst = []
 	startedStack = []
 	for pos, ptype, _ in points:
