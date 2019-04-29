@@ -21,6 +21,8 @@ from time import strftime, gmtime, strptime, mktime
 
 import sys
 
+from typing import List
+
 from os.path import join, split, splitext
 
 from scal3.path import *
@@ -40,14 +42,14 @@ PRODID:-//Mozilla.org/NONSGML Mozilla Calendar V1.1//EN
 icsWeekDays = ("SU", "MO", "TU", "WE", "TH", "FR", "SA")
 
 
-def encodeIcsWeekDayList(weekDayList):
+def encodeIcsWeekDayList(weekDayList: List[int]) -> str:
 	return ",".join([
 		icsWeekDays[wd]
 		for wd in weekDayList
 	])
 
 
-def getIcsTimeByEpoch(epoch, pretty=False):
+def getIcsTimeByEpoch(epoch: int, pretty: bool = False) -> str:
 	return strftime(
 		icsTmFormatPretty if pretty else icsTmFormat,
 		gmtime(epoch)
@@ -58,21 +60,21 @@ def getIcsTimeByEpoch(epoch, pretty=False):
 	#return strftime(format, (year, month, day, hour, minute, second, 0, 0, 0))
 
 
-def getIcsDate(y, m, d, pretty=False):
+def getIcsDate(y: int, m: int, d: int, pretty: bool = False) -> str:
 	return ("%.4d-%.2d-%.2d" if pretty else "%.4d%.2d%.2d") % (y, m, d)
 
 
-def getIcsDateByJd(jd, pretty=False):
+def getIcsDateByJd(jd: int, pretty: bool = False) -> str:
 	y, m, d = jd_to(jd, GREGORIAN)
 	return getIcsDate(y, m, d, pretty)
 
 
-def getJdByIcsDate(dateStr):
+def getJdByIcsDate(dateStr: str) -> int:
 	tm = strptime(dateStr, "%Y%m%d")
 	return to_jd(tm.tm_year, tm.tm_mon, tm.tm_mday, GREGORIAN)
 
 
-def getEpochByIcsTime(tmStr):
+def getEpochByIcsTime(tmStr: str) -> int:
 	## python-dateutil
 	from dateutil.parser import parse
 	return int(
@@ -98,7 +100,7 @@ def getEpochByIcsTime(tmStr):
 #	return int(mktime(tm))
 
 
-def splitIcsValue(value):
+def splitIcsValue(value: str) -> List[str]:
 	data = []
 	for p in value.split(";"):
 		pp = p.split("=")
@@ -111,13 +113,13 @@ def splitIcsValue(value):
 	return data
 
 
-def convertHolidayPlugToIcs(plug, startJd, endJd, namePostfix=""):
+def convertHolidayPlugToIcs(plug: "BasePlugin", startJd: int, endJd: int, namePostfix: str = "") -> None:
 	fname = split(plug.fpath)[-1]
 	fname = splitext(fname)[0] + "%s.ics" % namePostfix
 	plug.exportToIcs(fname, startJd, endJd)
 
 
-def convertBuiltinTextPlugToIcs(plug, startJd, endJd, namePostfix=""):
+def convertBuiltinTextPlugToIcs(plug: "BasePlugin", startJd: int, endJd: int, namePostfix: str = "") -> None:
 	plug.load() ## FIXME
 	calType = plug.calType
 	icsText = icsHeader
@@ -152,7 +154,7 @@ def convertBuiltinTextPlugToIcs(plug, startJd, endJd, namePostfix=""):
 	open(fname, "w").write(icsText)
 
 # FIXME: what is the purpose of this?
-def convertAllPluginsToIcs(startYear: int, endYear: int):
+def convertAllPluginsToIcs(startYear: int, endYear: int) -> None:
 	module, ok = calTypes[GREGORIAN]
 	if not ok:
 		raise RuntimeError("cal type %r not found" % GREGORIAN)
