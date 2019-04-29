@@ -26,7 +26,7 @@ from scal3.time_utils import getUtcOffsetByGDate
 from scal3.cal_types import calTypes, gregorian, to_jd
 from scal3 import core
 from scal3.locale_man import tr as _
-from scal3.types import CompiledTimeFormat
+from scal3.types_starcal import CompiledTimeFormat
 
 
 def iso_to_jd(year, week, day):

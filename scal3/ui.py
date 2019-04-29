@@ -32,7 +32,7 @@ from scal3.utils import cleanCacheDict, myRaise, myRaiseTback
 from scal3.utils import toBytes
 from scal3.json_utils import *
 from scal3.path import *
-from scal3.types import CellType, CompiledTimeFormat
+from scal3.types_starcal import CellType, CompiledTimeFormat
 
 from scal3.cal_types import calTypes, jd_to
 
