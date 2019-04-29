@@ -28,7 +28,7 @@ from io import StringIO
 import os.path
 from os.path import join, isfile, isdir
 
-from typing import Union, Tuple, List
+from typing import Union, Tuple, List, Any
 
 import scal3
 from scal3.path import *
@@ -225,7 +225,7 @@ def getWeekDayN(i: int) -> int:
 	return weekDayName[(i + firstWeekDay) % 7]
 
 
-def getWeekDayAuto(i: int, abr: bool = False):
+def getWeekDayAuto(i: int, abr: bool = False) -> str:
 	if abr:
 		return weekDayNameAb[(i + firstWeekDay) % 7]
 	else:
@@ -258,21 +258,21 @@ def getWeekNumberByJdAndDate(jd: int, year: int, month: int, day: int) -> int:
 	return weekNum
 
 
-def getWeekNumber(year, month, day):
+def getWeekNumber(year: int, month: int, day: int) -> int:
 	jd = primary_to_jd(year, month, day)
 	return getWeekNumberByJdAndDate(jd, year, month, day)
 
 
-def getWeekNumberByJd(jd):
+def getWeekNumberByJd(jd: int) -> int:
 	year, month, day = jd_to_primary(jd)
 	return getWeekNumberByJdAndDate(jd, year, month, day)
 
 # FIXME
-# def getYearWeeksCount(year):
+# def getYearWeeksCount(year: int) -> int:
 #	return getWeekNumberByJd(primary_to_jd(year+1, 1, 1) - 7)
 
 
-def getJdFromWeek(year, weekNumber):  # FIXME
+def getJdFromWeek(year: int, weekNumber: int) -> int:  # FIXME
 	# weekDay == 0
 	wd0 = getWeekDay(year, 1, 1) - 1
 	wn0 = getWeekNumber(year, 1, 1, False)
@@ -280,18 +280,18 @@ def getJdFromWeek(year, weekNumber):  # FIXME
 	return jd0 - wd0 + (weekNumber - wn0) * 7
 
 
-def getWeekDateFromJd(jd):
+def getWeekDateFromJd(jd: int) -> Tuple[int, int]:
 	"""
 	return (absWeekNumber, weekDay)
 	"""
 	return divmod(jd - firstWeekDay + 1, 7)
 
 
-def getAbsWeekNumberFromJd(jd):
+def getAbsWeekNumberFromJd(jd: int) -> int:
 	return getWeekDateFromJd(jd)[0]
 
 
-def getStartJdOfAbsWeekNumber(absWeekNumber):
+def getStartJdOfAbsWeekNumber(absWeekNumber: int) -> int:
 	return absWeekNumber * 7 + firstWeekDay - 1
 
 
@@ -308,7 +308,7 @@ def getStartJdOfAbsWeekNumber(absWeekNumber):
 
 ######################################################
 
-def validatePlugList():
+def validatePlugList() -> None:
 	global allPlugList, plugIndex
 	n = len(allPlugList)
 	i = 0
@@ -334,7 +334,7 @@ def validatePlugList():
 			m -= 1
 
 
-def initPlugins():
+def initPlugins() -> None:
 	# log.debug("----------------------- initPlugins")
 	global allPlugList, plugIndex
 	# Assert that user configuarion for plugins is OK
@@ -377,7 +377,7 @@ def initPlugins():
 	updatePlugins()
 
 
-def getHolidayPlugins():
+def getHolidayPlugins() -> List[BasePlugin]:
 	hPlugs = []
 	for i in plugIndex:
 		plug = allPlugList[i]
@@ -386,7 +386,7 @@ def getHolidayPlugins():
 	return hPlugs
 
 
-def updatePlugins():
+def updatePlugins() -> None:
 	for i in plugIndex:
 		plug = allPlugList[i]
 		if plug is None:
@@ -397,7 +397,7 @@ def updatePlugins():
 			plug.clear()
 
 
-def getPluginsTable():
+def getPluginsTable() -> List[List]:
 	# returns a list of [i, enable, show_date, description]
 	table = []
 	for i in plugIndex:
@@ -406,7 +406,7 @@ def getPluginsTable():
 	return table
 
 
-def getDeletedPluginsTable():
+def getDeletedPluginsTable() -> List[List]:
 	"""
 	returns a list of (index description)
 	"""
@@ -419,25 +419,10 @@ def getDeletedPluginsTable():
 	return table
 
 
-def convertAllPluginsToIcs(startYear, endYear):
-	module, ok = calTypes[GREGORIAN]
-	if not ok:
-		raise RuntimeError("cal type %r not found" % GREGORIAN)
-	startJd = module.to_jd(startYear, 1, 1)
-	endJd = module.to_jd(endYear + 1, 1, 1)
-	namePostfix = "-%d-%d" % (startYear, endYear)
-	for plug in core.allPlugList:
-		if isinstance(plug, HolidayPlugin):
-			convertHolidayPlugToIcs(plug, startJd, endJd, namePostfix)
-		elif isinstance(plug, BuiltinTextPlugin):
-			convertBuiltinTextPlugToIcs(plug, startJd, endJd, namePostfix)
-		else:
-			print("Ignoring unsupported plugin %s" % plug.file)
-
 # _____________________________________________________ #
 
 
-def restart():
+def restart() -> None:
 	"""
 	will not return from function
 	"""
@@ -447,7 +432,7 @@ def restart():
 # _____________________________________________________ #
 
 
-def mylocaltime(sec=None, calType=None):
+def mylocaltime(sec: Optional[int] = None, calType: Optional[int] = None) -> List[int]:
 	from scal3.cal_types import convert
 	if calType is None:  # GREGORIAN
 		return list(localtime(sec))
@@ -456,7 +441,10 @@ def mylocaltime(sec=None, calType=None):
 	return t
 
 
-def compressLongInt(num):
+def compressLongInt(num: int) -> str:
+	"""
+	num must be less than 2**64
+	"""
 	from struct import pack
 	from base64 import b64encode
 	return b64encode(
@@ -464,7 +452,7 @@ def compressLongInt(num):
 	)[:-3].decode("ascii").replace("/", "_")
 
 
-def getCompactTime(maxDays=1000, minSec=0.1):
+def getCompactTime(maxDays: int = 1000, minSec: float = 0.1) -> str:
 	return compressLongInt(
 		int(
 			now() % (maxDays * 24 * 3600) / minSec
@@ -472,7 +460,7 @@ def getCompactTime(maxDays=1000, minSec=0.1):
 	)
 
 
-def floatJdEncode(jd, calType):
+def floatJdEncode(jd: int, calType: int) -> str:
 	jd, hour, minute, second = getJhmsFromEpoch(getEpochFromJd(jd))
 	module, ok = calTypes[calType]
 	if not ok:
@@ -483,7 +471,7 @@ def floatJdEncode(jd, calType):
 	)
 
 
-def epochDateTimeEncode(epoch):
+def epochDateTimeEncode(epoch: int) -> str:
 	jd, hour, minute, sec = getJhmsFromEpoch(epoch)
 	return "%s, %s" % (
 		dateEncode(jd_to_primary(jd)),
@@ -491,45 +479,53 @@ def epochDateTimeEncode(epoch):
 	)
 
 
-def fixStrForFileName(fname):
+def fixStrForFileName(fname: str) -> str:
 	fname = fname.replace("/", "_").replace("\\", "_")
 	#if osName=="win":  # FIXME
 	return fname
 
 
-def openUrl(url):
+# returns False if could not find any browser or command to open the URL
+def openUrl(url: str) -> bool:
 	if osName == "win":
-		return Popen([url])
+		Popen([url])
+		return True
 	if osName == "mac":
-		return Popen(["open", url])
+		Popen(["open", url])
+		return True
 	try:
 		Popen(["xdg-open", url])
 	except:
 		myRaise()
 	else:
-		return
+		return True
 	#if not url.startswith("http"):  # FIXME
 	#	return
 	try:
 		import webbrowser
-		return webbrowser.open(url)
 	except ImportError:
 		pass
+	else:
+		webbrowser.open(url)
+		return True
 	try:
 		import gnomevfs
-		return gnomevfs.url_show(url)
 	except ImportError:
 		pass
+	else:
+		gnomevfs.url_show(url)
+		return True
 	for command in ("gnome-www-browser", "firefox", "iceweasel", "konqueror"):
 		try:
 			Popen([command, url])
 		except:
 			pass
 		else:
-			return
+			return True
+	return False
 
 
-def stopRunningThreads():
+def stopRunningThreads() -> None:
 	"""
 	Stopping running timer threads
 	"""
@@ -545,19 +541,19 @@ def stopRunningThreads():
 			cancel()
 
 
-def dataToJson(data):
+def dataToJson(data: Any) -> str:
 	return dataToCompactJson(data, useAsciiJson) if useCompactJson \
 		else dataToPrettyJson(data, useAsciiJson)
 
 
-def init():
+def init() -> None:
 	global VERSION
 	VERSION = getVersion()  # right place?
 	loadConf()
 	initPlugins()
 
 
-def prefIsOlderThan(v):
+def prefIsOlderThan(v: str) -> bool:
 	return versionLessThan(prefVersion, v)
 
 

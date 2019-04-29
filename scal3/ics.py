@@ -150,3 +150,20 @@ def convertBuiltinTextPlugToIcs(plug, startJd, endJd, namePostfix=""):
 	fname = split(plug.fpath)[-1]
 	fname = splitext(fname)[0] + "%s.ics" % namePostfix
 	open(fname, "w").write(icsText)
+
+# FIXME: what is the purpose of this?
+def convertAllPluginsToIcs(startYear: int, endYear: int):
+	module, ok = calTypes[GREGORIAN]
+	if not ok:
+		raise RuntimeError("cal type %r not found" % GREGORIAN)
+	startJd = module.to_jd(startYear, 1, 1)
+	endJd = module.to_jd(endYear + 1, 1, 1)
+	namePostfix = "-%d-%d" % (startYear, endYear)
+	for plug in core.allPlugList:
+		if isinstance(plug, HolidayPlugin):
+			convertHolidayPlugToIcs(plug, startJd, endJd, namePostfix)
+		elif isinstance(plug, BuiltinTextPlugin):
+			convertBuiltinTextPlugToIcs(plug, startJd, endJd, namePostfix)
+		else:
+			print("Ignoring unsupported plugin %s" % plug.file)
+
