@@ -1063,7 +1063,6 @@ statusIconFontFamily = None
 statusIconFixedSizeEnable = False
 statusIconFixedSizeWH = (24, 24)
 ####################
-menuActiveLabelColor = "#ff0000"
 pluginsTextStatusIcon = False
 pluginsTextInsideExpander = True
 pluginsTextIsExpanded = True  # effects only if pluginsTextInsideExpander

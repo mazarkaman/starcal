@@ -231,8 +231,7 @@ class IntLabel(BaseLabel):
 	]
 
 	def getActiveStr(self, s):
-		return "<span color=\"%s\">%s</span>" % (ui.menuActiveLabelColor, s)
-		#return "<b>%s</b>"%s
+		return colorize(s, ui.labelBoxMenuActiveColor)
 
 	def __init__(self, height=9, active=0):
 		BaseLabel.__init__(self)
