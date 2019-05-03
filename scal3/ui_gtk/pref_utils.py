@@ -328,13 +328,22 @@ class LiveColorPrefItem(ColorPrefItem):
 
 # combination of CheckPrefItem and ColorPrefItem in a HBox, with auto-update / auto-apply, for use in Customize window
 class LiveCheckColorPrefItem(PrefItem):
-	def __init__(self, checkItem: CheckPrefItem, colorItem: ColorPrefItem, onChangeFunc: "Optional[Callable]" = None):
+	def __init__(
+		self,
+		checkItem: CheckPrefItem,
+		colorItem: ColorPrefItem,
+		onChangeFunc: "Optional[Callable]" = None,
+		checkSizeGroup: Optional[gtk.SizeGroup] = None,
+	):
 		self._checkItem = checkItem
 		self._colorItem = colorItem
 		self._onChangeFunc = onChangeFunc
 
 		checkb = self._checkItem.getWidget()
 		colorb = self._colorItem.getWidget()
+
+		if checkSizeGroup:
+			checkSizeGroup.add_widget(checkb)
 
 		hbox = HBox(spacing=3)
 		pack(hbox, checkb)
