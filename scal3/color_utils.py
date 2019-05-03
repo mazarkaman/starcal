@@ -1,5 +1,7 @@
 #!/usr/bin/env python3
 
+from typing import Tuple, Union
+
 def invertColor(r, g, b):
 	return (
 		255 - r,
@@ -82,7 +84,7 @@ def htmlColorToRgb(hc):
 	)
 
 
-def rgbToHtmlColor(r, g, b):
+def rgbToHtmlColor(color: Union[Tuple[int, int, int], Tuple[int, int, int, int]]):
 	return "#" + "".join([
-		"%.2x" % x for x in (r, g, b)
+		"%.2x" % x for x in color
 	])
