@@ -2657,6 +2657,10 @@ msgid "Status Bar"
 msgstr ""
 "نوار وضعیت"
 
+msgid "Reverse the order of dates"
+msgstr ""
+"برعکس کردن ترتیب تاریخ‌ها"
+
 msgid "Plugins Text"
 msgstr ""
 "متن افزونه‌ها"

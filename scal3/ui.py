@@ -152,6 +152,7 @@ confParamsCustomize = (
 	"pluginsTextInsideExpander",
 	"seasonPBar_southernHemisphere",
 	"wcal_moonStatus_southernHemisphere",
+	"statusBarDatesReverseOrder",
 	"ud__wcalToolbarData",
 	"ud__mainToolbarData",
 )
@@ -1020,6 +1021,10 @@ dcalWinButtons = [
 		"autoDir": False,
 	},
 ]
+
+####################
+
+statusBarDatesReverseOrder = False
 
 
 ####################

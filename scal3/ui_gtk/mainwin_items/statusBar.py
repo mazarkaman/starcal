@@ -17,12 +17,13 @@ class CalObj(gtk.Box, CustomizableCalObj):
 	_name = "statusBar"
 	desc = _("Status Bar")
 	itemListCustomizable = False
-	hasOptions = False
+	hasOptions = True
 
 	def __init__(self):
 		from scal3.ui_gtk.mywidgets.resize_button import ResizeButton
 		gtk.Box.__init__(self, orientation=gtk.Orientation.HORIZONTAL)
 		self.initVars()
+		####
 		self.labelBox = HBox()
 		pack(self, self.labelBox, 1, 1)
 		resizeB = ResizeButton(ui.mainWin)
@@ -37,7 +38,10 @@ class CalObj(gtk.Box, CustomizableCalObj):
 		for label in self.labelBox.get_children():
 			label.destroy()
 		###
-		for calType in calTypes.active:
+		activeCalTypes = calTypes.active
+		if ui.statusBarDatesReverseOrder:
+			activeCalTypes = reversed(activeCalTypes)
+		for calType in activeCalTypes:
 			label = DateLabel(None)
 			label.calType = calType
 			pack(self.labelBox, label, 1)
@@ -47,8 +51,26 @@ class CalObj(gtk.Box, CustomizableCalObj):
 
 	def onDateChange(self, *a, **kw):
 		CustomizableCalObj.onDateChange(self, *a, **kw)
-		for i, label in enumerate(self.labelBox.get_children()):
+		labels = self.labelBox.get_children()
+		for i, label in enumerate(labels):
 			text = ui.cell.format(ud.dateFormatBin, label.calType)
-			if i == 0:
+			if label.calType == calTypes.primary:
 				text = "<b>%s</b>" % text
 			label.set_label(text)
+
+	def getOptionsWidget(self):
+		from scal3.ui_gtk.pref_utils import LiveCheckPrefItem
+		if self.optionsWidget:
+			return self.optionsWidget
+		####
+		self.optionsWidget = HBox()
+		prefItem = LiveCheckPrefItem(
+			ui,
+			"statusBarDatesReverseOrder",
+			label=_("Reverse the order of dates"),
+			onChangeFunc=self.onConfigChange,
+		)
+		pack(self.optionsWidget, prefItem.getWidget())
+		####
+		self.optionsWidget.show_all()
+		return self.optionsWidget
