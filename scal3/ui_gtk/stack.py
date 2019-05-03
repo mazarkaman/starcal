@@ -38,7 +38,7 @@ class StackPage:
 
 
 class MyStack(gtk.Stack):
-	def __init__(self, iconSize=gtk.IconSize.BUTTON, header=True, headerSpacing=5):
+	def __init__(self, iconSize=gtk.IconSize.BUTTON, header=True, headerSpacing=5, verticalSlide=False):
 		gtk.Stack.__init__(self)
 		self.set_transition_duration(300) # milliseconds
 		###
@@ -46,6 +46,7 @@ class MyStack(gtk.Stack):
 		self._rtl = self.get_direction() == gtk.TextDirection.RTL # type: bool
 		self._iconSize = iconSize # type: int
 		self._headerSpacing = headerSpacing # type: int
+		self._verticalSlide = verticalSlide # type: bool
 		###
 		self._parentNames = {} # Dict[str, str]
 		self._currentName = ""
@@ -93,11 +94,13 @@ class MyStack(gtk.Stack):
 
 	def _setSlideForward(self):
 		self.set_transition_type(
+			gtk.RevealerTransitionType.SLIDE_DOWN if self._verticalSlide else
 			gtk.RevealerTransitionType.SLIDE_LEFT
 		)
 
 	def _setSlideBackward(self):
 		self.set_transition_type(
+			gtk.RevealerTransitionType.SLIDE_UP if self._verticalSlide else
 			gtk.RevealerTransitionType.SLIDE_RIGHT
 		)
 
