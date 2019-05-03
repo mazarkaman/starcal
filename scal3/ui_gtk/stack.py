@@ -101,7 +101,7 @@ class MyStack(gtk.Stack):
 			gtk.RevealerTransitionType.SLIDE_RIGHT
 		)
 
-	def _newNavButtonBox(self, parentName: str, title=""):
+	def _newHeaderBox(self, parentName: str, title=""):
 		hbox = HBox()
 		# hbox.set_direction(gtk.TextDirection.LTR)
 		backButton = gtk.Button()
@@ -142,7 +142,7 @@ class MyStack(gtk.Stack):
 	):
 		vbox = VBox(spacing=self._vboxSpacing)
 		if self._header and parentName:
-			pack(vbox, self._newNavButtonBox(parentName, title=title))
+			pack(vbox, self._newHeaderBox(parentName, title=title))
 		pack(vbox, widget, expand=expand, fill=fill)
 		self.add_named(vbox, name=name)
 		widget.show()
