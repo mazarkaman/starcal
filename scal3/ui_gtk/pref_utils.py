@@ -22,6 +22,8 @@ import sys
 import os
 from os.path import join, isabs
 
+from typing import Optional, Callable
+
 from scal3.path import *
 from scal3 import core
 from scal3.locale_man import tr as _
@@ -281,7 +283,7 @@ class CheckPrefItem(PrefItem):
 
 
 class LiveCheckPrefItem(CheckPrefItem):
-	def __init__(self, module, varName, label="", tooltip="", onChangeFunc: "Optional[Callable]" = None):
+	def __init__(self, module, varName, label="", tooltip="", onChangeFunc: Optional[Callable] = None):
 		CheckPrefItem.__init__(self, module, varName, label=label, tooltip=tooltip)
 		self._onChangeFunc = onChangeFunc
 		# updateWidget needs to be called before following connect() calls
@@ -313,7 +315,7 @@ class ColorPrefItem(PrefItem):
 
 
 class LiveColorPrefItem(ColorPrefItem):
-	def __init__(self, module, varName, useAlpha=False, onChangeFunc: "Optional[Callable]" = None):
+	def __init__(self, module, varName, useAlpha=False, onChangeFunc: Optional[Callable] = None):
 		ColorPrefItem.__init__(self, module, varName, useAlpha=useAlpha)
 		self._onChangeFunc = onChangeFunc
 		# updateWidget needs to be called before following connect() calls
@@ -332,7 +334,7 @@ class LiveCheckColorPrefItem(PrefItem):
 		self,
 		checkItem: CheckPrefItem,
 		colorItem: ColorPrefItem,
-		onChangeFunc: "Optional[Callable]" = None,
+		onChangeFunc: Optional[Callable] = None,
 		checkSizeGroup: Optional[gtk.SizeGroup] = None,
 	):
 		self._checkItem = checkItem
@@ -391,7 +393,7 @@ class SpinPrefItem(PrefItem):
 
 
 class LiveLabelSpinPrefItem(PrefItem):
-	def __init__(self, label: str, spinItem: SpinPrefItem, onChangeFunc: "Optional[Callable]" = None):
+	def __init__(self, label: str, spinItem: SpinPrefItem, onChangeFunc: Optional[Callable] = None):
 		self._spinItem = spinItem
 		self._onChangeFunc = onChangeFunc
 
