@@ -155,6 +155,7 @@ confParamsCustomize = (
 	"statusBarDatesReverseOrder",
 	"statusBarDatesColorEnable",
 	"statusBarDatesColor",
+	"labelBoxMenuActiveColor",
 	"ud__wcalToolbarData",
 	"ud__mainToolbarData",
 )
@@ -1029,6 +1030,9 @@ dcalWinButtons = [
 statusBarDatesReverseOrder = False
 statusBarDatesColorEnable = False
 statusBarDatesColor = (255, 132, 255, 255)
+
+labelBoxMenuActiveColor = (0, 255, 0, 255)
+
 
 ####################
 

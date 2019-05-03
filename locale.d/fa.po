@@ -2642,6 +2642,10 @@ msgid "Year & Month Labels"
 msgstr ""
 "برچسب‌های سال و ماه"
 
+msgid "Active menu item color"
+msgstr ""
+"رنگ گزینهٔ فعال در منو"
+
 msgid "Month Calendar"
 msgstr ""
 "تقویم ماه"

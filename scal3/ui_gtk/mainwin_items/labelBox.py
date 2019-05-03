@@ -37,6 +37,7 @@ from scal3.ui_gtk.utils import (
 from scal3.ui_gtk.drawing import newTextLayout, setColor
 from scal3.ui_gtk.mywidgets.button import ConButton
 from scal3.ui_gtk import gtk_ud as ud
+from scal3.ui_gtk.color_utils import colorize
 from scal3.ui_gtk.customize import CustomizableCalObj
 
 
@@ -89,10 +90,7 @@ class MonthLabel(BaseLabel, ud.BaseCalObj):
 		return _(i + 1, fillZero=2)
 
 	def getActiveStr(self, s):
-		return "<span color=\"%s\">%s</span>" % (
-			ui.menuActiveLabelColor,
-			s,
-		)
+		return colorize(s, ui.labelBoxMenuActiveColor)
 
 	#def getActiveStr(self, s):
 	#	return "<b>%s</b>"%s
@@ -529,7 +527,7 @@ class CalObj(gtk.Box, CustomizableCalObj):
 	_name = "labelBox"
 	desc = _("Year & Month Labels")
 	itemListCustomizable = False
-	hasOptions = False
+	hasOptions = True
 
 	def __init__(self):
 		gtk.Box.__init__(self, orientation=gtk.Orientation.HORIZONTAL)
@@ -589,6 +587,28 @@ class CalObj(gtk.Box, CustomizableCalObj):
 		self.show_all()
 		#####
 		self.onDateChange()
+
+	def getOptionsWidget(self):
+		from scal3.ui_gtk.pref_utils import LiveColorPrefItem, LiveCheckPrefItem, \
+			CheckPrefItem, ColorPrefItem, LiveCheckColorPrefItem
+		if self.optionsWidget:
+			return self.optionsWidget
+		####
+		optionsWidget = VBox(spacing=10)
+		####
+		hbox = HBox(spacing=5)
+		pack(hbox, gtk.Label(label=_("Active menu item color")))
+		prefItem = LiveColorPrefItem(
+			ui,
+			"labelBoxMenuActiveColor",
+			onChangeFunc=self.onConfigChange,
+		)
+		pack(hbox, prefItem.getWidget())
+		pack(optionsWidget, hbox)
+		####
+		optionsWidget.show_all()
+		self.optionsWidget = optionsWidget
+		return self.optionsWidget
 
 
 if __name__ == "__main__":
