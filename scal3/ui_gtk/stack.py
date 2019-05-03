@@ -38,14 +38,14 @@ class StackPage:
 
 
 class MyStack(gtk.Stack):
-	def __init__(self, iconSize=gtk.IconSize.BUTTON, vboxSpacing=5, header=True):
+	def __init__(self, iconSize=gtk.IconSize.BUTTON, header=True, headerSpacing=5):
 		gtk.Stack.__init__(self)
 		self.set_transition_duration(300) # milliseconds
 		###
 		self._header = header
 		self._rtl = self.get_direction() == gtk.TextDirection.RTL # type: bool
 		self._iconSize = iconSize # type: int
-		self._vboxSpacing = vboxSpacing # type: int
+		self._headerSpacing = headerSpacing # type: int
 		###
 		self._parentNames = {} # Dict[str, str]
 		self._currentName = ""
@@ -142,7 +142,7 @@ class MyStack(gtk.Stack):
 	):
 		widget.show()
 		if self._header and parentName:
-			vbox = VBox(spacing=self._vboxSpacing)
+			vbox = VBox(spacing=self._headerSpacing)
 			pack(vbox, self._newHeaderBox(parentName, title=title))
 			pack(vbox, widget, expand=expand, fill=fill)
 			vbox.show()
