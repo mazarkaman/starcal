@@ -38,10 +38,11 @@ class StackPage:
 
 
 class MyStack(gtk.Stack):
-	def __init__(self, iconSize=gtk.IconSize.BUTTON, vboxSpacing=5):
+	def __init__(self, iconSize=gtk.IconSize.BUTTON, vboxSpacing=5, header=True):
 		gtk.Stack.__init__(self)
 		self.set_transition_duration(300) # milliseconds
 		###
+		self._header = header
 		self._rtl = self.get_direction() == gtk.TextDirection.RTL # type: bool
 		self._iconSize = iconSize # type: int
 		self._vboxSpacing = vboxSpacing # type: int
@@ -140,7 +141,7 @@ class MyStack(gtk.Stack):
 		fill=False,
 	):
 		vbox = VBox(spacing=self._vboxSpacing)
-		if parentName:
+		if self._header and parentName:
 			pack(vbox, self._newNavButtonBox(parentName, title=title))
 		pack(vbox, widget, expand=expand, fill=fill)
 		self.add_named(vbox, name=name)
