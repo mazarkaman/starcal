@@ -135,6 +135,15 @@ class MonthLabel(BaseLabel, ud.BaseCalObj):
 			self.menuLabels.append(label)
 		self.menu.show_all()
 
+	def getMainLabelText(self, active):
+		text = getMonthName(self.calType, active + 1)
+		if ui.labelBoxMonthColorEnable:
+			text = colorize(text, ui.labelBoxMonthColor)
+		if ui.boldYmLabel:
+			text = "<b>%s</b>" % text
+		return text
+
+
 	def setActive(self, active):
 		# (Performance) update menu here, or make menu entirly
 		# before popup?
@@ -157,28 +166,12 @@ class MonthLabel(BaseLabel, ud.BaseCalObj):
 			else:
 				self.menuLabels[self.active].set_label(s2)
 				self.menuLabels[active].set_label(self.getActiveStr(s))
-		if ui.boldYmLabel:
-			self.label.set_label("<b>%s</b>" % s)
-		else:
-			self.label.set_label(s)
+		self.label.set_label(self.getMainLabelText(self.active))
 		self.active = active
 
 	def changeCalType(self, calType):
 		self.calType = calType
-		if ui.boldYmLabel:
-			self.label.set_label(
-				"<b>%s</b>" % getMonthName(
-					self.calType,
-					self.active + 1,
-				)
-			)
-		else:
-			self.label.set_label(
-				getMonthName(
-					self.calType,
-					self.active + 1,
-				),
-			)
+		self.label.set_label(self.getMainLabelText(self.active))
 		for i in range(12):
 			if ui.monthRMenuNum:
 				s = "%s: %s" % (
@@ -246,11 +239,7 @@ class IntLabel(BaseLabel):
 		#self.set_border_width(1)#???????????
 		self.height = height
 		#self.delay = delay
-		if ui.boldYmLabel:
-			s = "<b>%s</b>" % _(active)
-		else:
-			s = _(active)
-		self.label = gtk.Label(label=s)
+		self.label = gtk.Label()
 		self.label.set_use_markup(True)
 		self.add(self.label)
 		self.menu = None
@@ -264,10 +253,8 @@ class IntLabel(BaseLabel):
 		self.step = 0
 
 	def setActive(self, active):
-		if ui.boldYmLabel:
-			self.label.set_label("<b>%s</b>" % _(active))
-		else:
-			self.label.set_label(_(active))
+		text = _(active)
+		self.label.set_label(text)
 		self.active = active
 
 	def createMenu(self):
@@ -418,6 +405,15 @@ class YearLabel(IntLabel, ud.BaseCalObj):
 	def onDateChange(self, *a, **ka):
 		ud.BaseCalObj.onDateChange(self, *a, **ka)
 		self.setActive(ui.cell.dates[self.calType][0])
+
+	def setActive(self, active):
+		text = _(active)
+		if ui.labelBoxYearColorEnable:
+			text = colorize(text, ui.labelBoxYearColor)
+		if ui.boldYmLabel:
+			text = "<b>%s</b>" % text
+		self.label.set_label(text)
+		self.active = active
 
 
 def newSmallNoFocusButton(iconName, func, tooltip=""):
@@ -605,7 +601,25 @@ class CalObj(gtk.Box, CustomizableCalObj):
 		)
 		pack(hbox, prefItem.getWidget())
 		pack(optionsWidget, hbox)
-		####
+		###
+		checkSizeGroup = gtk.SizeGroup(mode=gtk.SizeGroupMode.HORIZONTAL)
+		###
+		prefItem = LiveCheckColorPrefItem(
+			CheckPrefItem(ui, "labelBoxYearColorEnable", _("Year Color")),
+			ColorPrefItem(ui, "labelBoxYearColor", True),
+			onChangeFunc=self.onDateChange,
+			checkSizeGroup=checkSizeGroup,
+		)
+		pack(optionsWidget, prefItem.getWidget())
+		###
+		prefItem = LiveCheckColorPrefItem(
+			CheckPrefItem(ui, "labelBoxMonthColorEnable", _("Month Color")),
+			ColorPrefItem(ui, "labelBoxMonthColor", True),
+			onChangeFunc=self.onDateChange,
+			checkSizeGroup=checkSizeGroup,
+		)
+		pack(optionsWidget, prefItem.getWidget())
+		###
 		optionsWidget.show_all()
 		self.optionsWidget = optionsWidget
 		return self.optionsWidget

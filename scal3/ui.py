@@ -156,6 +156,10 @@ confParamsCustomize = (
 	"statusBarDatesColorEnable",
 	"statusBarDatesColor",
 	"labelBoxMenuActiveColor",
+	"labelBoxYearColorEnable",
+	"labelBoxYearColor",
+	"labelBoxMonthColorEnable",
+	"labelBoxMonthColor",
 	"ud__wcalToolbarData",
 	"ud__mainToolbarData",
 )
@@ -1032,6 +1036,10 @@ statusBarDatesColorEnable = False
 statusBarDatesColor = (255, 132, 255, 255)
 
 labelBoxMenuActiveColor = (0, 255, 0, 255)
+labelBoxYearColorEnable = False
+labelBoxYearColor = (255, 132, 255, 255)
+labelBoxMonthColorEnable = False
+labelBoxMonthColor = (255, 132, 255, 255)
 
 
 ####################

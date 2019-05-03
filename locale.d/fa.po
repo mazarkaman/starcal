@@ -2646,6 +2646,14 @@ msgid "Active menu item color"
 msgstr ""
 "رنگ گزینهٔ فعال در منو"
 
+msgid "Year Color"
+msgstr ""
+"رنگ سال"
+
+msgid "Month Color"
+msgstr ""
+"رنگ ماه"
+
 msgid "Month Calendar"
 msgstr ""
 "تقویم ماه"
