@@ -1087,7 +1087,7 @@ class MoonStatusColumn(Column):
 
 
 @registerSignals
-class CalObj(gtk.Box, CustomizableCalBox, ColumnBase, CalBase):
+class CalObj(gtk.Box, CustomizableCalBox, CalBase):
 	_name = "weekCal"
 	desc = _("Week Calendar")
 	myKeys = CalBase.myKeys + (
@@ -1153,7 +1153,7 @@ class CalObj(gtk.Box, CustomizableCalBox, ColumnBase, CalBase):
 		if self.optionsWidget:
 			return self.optionsWidget
 		
-		optionsWidget = ColumnBase.getOptionsWidget(self)
+		optionsWidget = VBox()
 		#####
 		prefItem = LiveLabelSpinPrefItem(
 			_("Height"),
@@ -1199,7 +1199,7 @@ class CalObj(gtk.Box, CustomizableCalBox, ColumnBase, CalBase):
 
 	def onConfigChange(self, *a, **kw):
 		self.updateStatus()
-		ColumnBase.onConfigChange(self, *a, **kw)
+		CalBase.onConfigChange(self, *a, **kw)
 		self.queue_draw()
 
 	def onDateChange(self, *a, **kw):
