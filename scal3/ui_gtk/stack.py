@@ -140,13 +140,14 @@ class MyStack(gtk.Stack):
 		expand=False,
 		fill=False,
 	):
-		vbox = VBox(spacing=self._vboxSpacing)
-		if self._header and parentName:
-			pack(vbox, self._newHeaderBox(parentName, title=title))
-		pack(vbox, widget, expand=expand, fill=fill)
-		self.add_named(vbox, name=name)
 		widget.show()
-		vbox.show()
+		if self._header and parentName:
+			vbox = VBox(spacing=self._vboxSpacing)
+			pack(vbox, self._newHeaderBox(parentName, title=title))
+			pack(vbox, widget, expand=expand, fill=fill)
+			vbox.show()
+			widget = vbox
+		self.add_named(widget, name=name)
 		##
 		self._parentNames[name] = parentName
 		self._titles[name] = title
