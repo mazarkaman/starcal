@@ -10,6 +10,7 @@ from scal3.ui_gtk.mywidgets.datelabel import DateLabel
 from scal3.ui_gtk.decorators import *
 from scal3.ui_gtk import gtk_ud as ud
 from scal3.ui_gtk.customize import CustomizableCalObj
+from scal3.ui_gtk.color_utils import colorize
 
 
 @registerSignals
@@ -56,21 +57,33 @@ class CalObj(gtk.Box, CustomizableCalObj):
 			text = ui.cell.format(ud.dateFormatBin, label.calType)
 			if label.calType == calTypes.primary:
 				text = "<b>%s</b>" % text
+			if ui.statusBarDatesColorEnable:
+				text = colorize(text, ui.statusBarDatesColor)
 			label.set_label(text)
 
 	def getOptionsWidget(self):
-		from scal3.ui_gtk.pref_utils import LiveCheckPrefItem
+		from scal3.ui_gtk.pref_utils import LiveCheckPrefItem, CheckPrefItem, \
+			ColorPrefItem, LiveCheckColorPrefItem
 		if self.optionsWidget:
 			return self.optionsWidget
 		####
-		self.optionsWidget = HBox()
+		optionsWidget = VBox(spacing=10)
+		####
 		prefItem = LiveCheckPrefItem(
 			ui,
 			"statusBarDatesReverseOrder",
 			label=_("Reverse the order of dates"),
 			onChangeFunc=self.onConfigChange,
 		)
-		pack(self.optionsWidget, prefItem.getWidget())
+		pack(optionsWidget, prefItem.getWidget())
 		####
-		self.optionsWidget.show_all()
+		prefItem = LiveCheckColorPrefItem(
+			CheckPrefItem(ui, "statusBarDatesColorEnable", _("Dates Color")),
+			ColorPrefItem(ui, "statusBarDatesColor", True),
+			self.onDateChange,
+		)
+		pack(optionsWidget, prefItem.getWidget())
+		####
+		optionsWidget.show_all()
+		self.optionsWidget = optionsWidget
 		return self.optionsWidget

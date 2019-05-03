@@ -2661,6 +2661,10 @@ msgid "Reverse the order of dates"
 msgstr ""
 "برعکس کردن ترتیب تاریخ‌ها"
 
+msgid "Dates Color"
+msgstr ""
+"رنگ تاریخ‌ها"
+
 msgid "Plugins Text"
 msgstr ""
 "متن افزونه‌ها"

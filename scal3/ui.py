@@ -153,6 +153,8 @@ confParamsCustomize = (
 	"seasonPBar_southernHemisphere",
 	"wcal_moonStatus_southernHemisphere",
 	"statusBarDatesReverseOrder",
+	"statusBarDatesColorEnable",
+	"statusBarDatesColor",
 	"ud__wcalToolbarData",
 	"ud__mainToolbarData",
 )
@@ -1025,7 +1027,8 @@ dcalWinButtons = [
 ####################
 
 statusBarDatesReverseOrder = False
-
+statusBarDatesColorEnable = False
+statusBarDatesColor = (255, 132, 255, 255)
 
 ####################
 
