@@ -2590,11 +2590,11 @@ msgstr ""
 "انتخاب _تاریخ..."
 
 
-msgid "Need Restart StarCalendar"
+msgid "Restart StarCalendar"
 msgstr ""
 "نیاز به شروع دوباره"
 
-msgid "Some preferences need for restart StarCalendar to apply."
+msgid "Some preferences need restarting StarCalendar to apply."
 msgstr ""
 "بعضی از تنظیمات برای اعمال شدن نیاز دارند که StarCalendar دوباره راه‌اندازی شود"
 
