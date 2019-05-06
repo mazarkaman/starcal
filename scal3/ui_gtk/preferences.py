@@ -1209,13 +1209,18 @@ class PrefDialog(gtk.Window):
 					% core.APP_DESC
 				))
 				label.set_line_wrap(True)
-				pack(d.vbox, label)
+				vbox = VBox()
+				vbox.set_border_width(15)
+				pack(vbox, label)
+				pack(d.vbox, vbox)
 				resBut = d.add_button(_("_Restart"), 1)
 				resBut.set_image(imageFromIconName(
 					"gtk-refresh",
 					gtk.IconSize.BUTTON,
 				))
 				resBut.grab_default()
+				d.vbox.set_border_width(5)
+				d.resize(400, 150)
 				d.vbox.show_all()
 				if d.run() == 1:
 					core.restart()
