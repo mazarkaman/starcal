@@ -143,7 +143,7 @@ class CustomizeDialog(gtk.Dialog):
 		vbox = VBox(spacing=10)
 		label = gtk.Label(
 			label="<span font_size=\"xx-small\">" +
-				_("Double-click on each row to see it's settings") +
+				_("Double-click on each row to see its settings") +
 				"</span>"
 		)
 		label.set_use_markup(True)

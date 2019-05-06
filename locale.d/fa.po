@@ -2709,7 +2709,7 @@ msgid "Moon Status"
 msgstr ""
 "وضعیت ماه"
 
-msgid "Double-click on each row to see it's settings"
+msgid "Double-click on each row to see its settings"
 msgstr ""
 "با دبل-کلیک روی هر سطر، تنظیمات مربوط به آن را ببینید"
 
