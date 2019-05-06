@@ -18,9 +18,9 @@ msgid "_Add"
 msgstr ""
 "_افزودن"
 
-msgid "_Add to"
+msgid "_Add Event to"
 msgstr ""
-"_افزودن به"
+"_افزودن رویداد به"
 
 msgid "_Apply"
 msgstr ""
