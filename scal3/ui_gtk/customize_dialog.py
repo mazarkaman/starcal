@@ -261,6 +261,16 @@ class CustomizeDialog(gtk.Dialog):
 		self.addPage(pageName, parentPageName, parentItem, itemIndex)
 		self.stack.gotoPage(pageName)
 
+	def loadItem(self, parentItem, itemIndex):
+		item = parentItem.items[itemIndex]
+		if not item.loaded:
+			item = item.getLoadedObj()
+			parentItem.replaceItem(itemIndex, item)
+			parentItem.insertItemWidget(itemIndex)
+		item.onConfigChange()
+		item.onDateChange()
+		return item
+
 	def enableCellToggled(self, cell, path, treev):
 		model = treev.get_model()
 		active = not cell.get_active()
@@ -272,12 +282,7 @@ class CustomizeDialog(gtk.Dialog):
 		assert parentItem.items[itemIndex] == item
 		###
 		if active:
-			if not item.loaded:
-				item = item.getLoadedObj()
-				parentItem.replaceItem(itemIndex, item)
-				parentItem.insertItemWidget(itemIndex)
-			item.onConfigChange()
-			item.onDateChange()
+			item = self.loadItem(parentItem, itemIndex)
 		item.enable = active
 		model.set_value(itr, 3, self.itemPixbuf(item))
 		item.showHide()

@@ -171,11 +171,7 @@ class MainWinVbox(gtk.Box, CustomizableCalBox):
 			elif item._name == "monthCal":
 				mi = i
 		for itemIndex in (wi, mi):
-			customizeDialog.loadItem(
-				self,
-				itemIndex,
-				(itemIndex,),
-			)
+			customizeDialog.loadItem(self, itemIndex)
 		wcal, mcal = self.items[wi], self.items[mi]
 		wcal.enable, mcal.enable = mcal.enable, wcal.enable
 		## FIXME
