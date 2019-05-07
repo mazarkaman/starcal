@@ -77,8 +77,6 @@ confParams = (
 	"holidayColor",
 	"inactiveColor",
 	"borderTextColor",
-	"cursorLineWidthFactor",
-	"cursorRoundingFactor",
 	"statusIconImage",
 	"statusIconImageHoli",
 	"statusIconFontFamilyEnable",
@@ -115,6 +113,8 @@ confParamsCustomize = (
 	"mcalTypeParams",
 	"mcalGrid",
 	"mcalGridColor",
+	"mcalCursorLineWidthFactor",
+	"mcalCursorRoundingFactor",
 	"wcalHeight",
 	"wcalTextSizeScale",
 	"wcalItems",
@@ -139,6 +139,8 @@ confParamsCustomize = (
 	"wcal_eventsCount_expand",
 	"wcalFont_eventsBox",
 	"wcal_moonStatus_width",
+	"wcalCursorLineWidthFactor",
+	"wcalCursorRoundingFactor",
 	"dcalHeight",
 	"dcalButtonsEnable",
 	# "dcalButtons",
@@ -941,8 +943,13 @@ todayCellColor = (0, 255, 0, 50)
 ##########
 cursorOutColor = (213, 207, 0, 255)
 cursorBgColor = (41, 41, 41, 255)
-cursorLineWidthFactor = 0.12
-cursorRoundingFactor = 0.50
+###
+wcalCursorLineWidthFactor = 0.12
+wcalCursorRoundingFactor = 0.50
+###
+mcalCursorLineWidthFactor = 0.12
+mcalCursorRoundingFactor = 0.50
+###
 mcalGrid = False
 mcalGridColor = (255, 252, 0, 82)
 ##########

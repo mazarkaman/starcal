@@ -32,7 +32,7 @@ from scal3 import ui
 from gi.repository import GdkPixbuf
 
 from scal3.ui_gtk import *
-from scal3.ui_gtk.utils import set_tooltip, dialog_add_button
+from scal3.ui_gtk.utils import set_tooltip, dialog_add_button, newAlignLabel
 
 
 from scal3.ui_gtk.mywidgets.multi_spin.integer import IntSpinButton
@@ -393,14 +393,20 @@ class SpinPrefItem(PrefItem):
 
 
 class LiveLabelSpinPrefItem(PrefItem):
-	def __init__(self, label: str, spinItem: SpinPrefItem, onChangeFunc: Optional[Callable] = None):
+	def __init__(
+		self,
+		label: str,
+		spinItem: SpinPrefItem,
+		onChangeFunc: Optional[Callable] = None,
+		labelSizeGroup: Optional[gtk.SizeGroup] = None,
+	):
 		self._spinItem = spinItem
 		self._onChangeFunc = onChangeFunc
 
 		spinb = self._spinItem.getWidget()
 
 		hbox = HBox(spacing=3)
-		pack(hbox, gtk.Label(label=label))
+		pack(hbox, newAlignLabel(sgroup=labelSizeGroup, label=label))
 		pack(hbox, spinb)
 		self._widget = hbox
 

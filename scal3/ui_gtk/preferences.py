@@ -337,37 +337,6 @@ class PrefDialog(gtk.Window):
 		#####
 		appearanceSubPages = [page]
 		###################
-		pageVBox = VBox(spacing=20)
-		pageVBox.set_border_width(10)
-		sgroup = gtk.SizeGroup(mode=gtk.SizeGroupMode.HORIZONTAL)
-		###########
-		hbox = HBox(spacing=10)
-		pack(hbox, newAlignLabel(sgroup=sgroup, label=_("Line Width Factor")))
-		item = SpinPrefItem(ui, "cursorLineWidthFactor", 0, 1, 2)
-		self.uiPrefItems.append(item)
-		pack(hbox, item.getWidget())
-		pack(hbox, gtk.Label(), 1, 1)
-		pack(pageVBox, hbox)
-		###
-		hbox = HBox(spacing=10)
-		pack(hbox, newAlignLabel(sgroup=sgroup, label=_("Rounding Factor")))
-		item = SpinPrefItem(ui, "cursorRoundingFactor", 0, 1, 2)
-		self.uiPrefItems.append(item)
-		pack(hbox, item.getWidget())
-		pack(hbox, gtk.Label(), 1, 1)
-		pack(pageVBox, hbox)
-		####
-		page = StackPage()
-		page.pageParent = "appearance"
-		page.pageWidget = pageVBox
-		page.pageName = "cursor"
-		page.pageTitle = _("Cursor") + " - " + _("Appearance")
-		page.pageLabel = _("Cursor")
-		page.pageIcon = ""
-		self.prefPages.append(page)
-		#####
-		appearanceSubPages.append(page)
-		###################
 		# the header label of gtk.Expander in gtk3 is always on the left (even in RTL mode)
 		# that's why we use gtk.Frame instead
 		pageVBox = VBox(spacing=10)

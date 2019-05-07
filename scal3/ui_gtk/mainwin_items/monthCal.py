@@ -84,7 +84,7 @@ class CalObj(gtk.DrawingArea, CalBase):
 		for child in vbox.get_children():
 			child.destroy()
 		###
-		subPages = []
+		subPages = [self.cursorPage]
 		n = len(calTypes.active)
 		while len(ui.mcalTypeParams) < n:
 			ui.mcalTypeParams.append({
@@ -119,11 +119,16 @@ class CalObj(gtk.DrawingArea, CalBase):
 			page.pageLabel = _(module.desc)
 			page.pageExpand = False
 			subPages.append(page)
-			button = newSubPageButton(self, page)
-			pack(vbox, button, padding=4)
+			button = newSubPageButton(self, page, borderWidth=7)
+			pack(vbox, button, padding=3)
 		###
 		vbox.show_all()
 		self.subPages = subPages
+
+	def drawCursorOutline(self, cr, cx0, cy0, cw, ch):
+		cursorRadius = ui.mcalCursorRoundingFactor * min(cw, ch) * 0.5
+		cursorLineWidth = ui.mcalCursorLineWidthFactor * min(cw, ch) * 0.5
+		drawOutlineRoundedRect(cr, cx0, cy0, cw, ch, cursorRadius, cursorLineWidth)
 
 	def __init__(self):
 		gtk.DrawingArea.__init__(self)
@@ -179,9 +184,42 @@ class CalObj(gtk.DrawingArea, CalBase):
 		)
 		hbox = prefItem.getWidget()
 		pack(self.optionsWidget, hbox)
+		############
+		pageVBox = VBox(spacing=20)
+		pageVBox.set_border_width(10)
+		sgroup = gtk.SizeGroup(mode=gtk.SizeGroupMode.HORIZONTAL)
+		####
+		prefItem = LiveLabelSpinPrefItem(
+			_("Line Width Factor"),
+			SpinPrefItem(ui, "mcalCursorLineWidthFactor", 0, 1, 2),
+			self.queue_draw,
+			labelSizeGroup=sgroup,
+		)
+		pack(pageVBox, prefItem.getWidget())
+		###
+		prefItem = LiveLabelSpinPrefItem(
+			_("Rounding Factor"),
+			SpinPrefItem(ui, "mcalCursorRoundingFactor", 0, 1, 2),
+			self.queue_draw,
+			labelSizeGroup=sgroup,
+		)
+		pack(pageVBox, prefItem.getWidget())
+		###
+		pageVBox.show_all()
+		###
+		page = StackPage()
+		page.pageWidget = pageVBox
+		page.pageName = "cursor"
+		page.pageTitle = _("Cursor")
+		page.pageLabel = _("Cursor")
+		page.pageIcon = ""
+		self.cursorPage = page
+		###
+		button = newSubPageButton(self, page, borderWidth=7)
+		pack(self.optionsWidget, button, padding=5)
 		########
 		self.typeParamsVbox = VBox()
-		pack(self.optionsWidget, self.typeParamsVbox)
+		pack(self.optionsWidget, self.typeParamsVbox, padding=5)
 		self.optionsWidget.show_all()
 		self.updateTypeParamsWidget()## FIXME
 		return self.optionsWidget
@@ -381,7 +419,7 @@ class CalObj(gtk.DrawingArea, CalBase):
 						cw = self.dx - 1
 						ch = self.dy - 1
 						######### Circular Rounded
-						drawCursorOutline(cr, cx0, cy0, cw, ch)
+						self.drawCursorOutline(cr, cx0, cy0, cw, ch)
 						fillColor(cr, ui.cursorOutColor)
 						##### end of Drawing Cursor Outline
 		################ end of drawing cells

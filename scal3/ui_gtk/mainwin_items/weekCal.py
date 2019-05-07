@@ -39,11 +39,12 @@ from gi.repository import GdkPixbuf
 from scal3.ui_gtk import *
 from scal3.ui_gtk.decorators import *
 from scal3.ui_gtk.drawing import *
+from scal3.ui_gtk.stack import StackPage
 
 from scal3.ui_gtk import gtk_ud as ud
 
 from scal3.ui_gtk.cal_base import CalBase
-from scal3.ui_gtk.customize import CustomizableCalObj, CustomizableCalBox
+from scal3.ui_gtk.customize import CustomizableCalObj, CustomizableCalBox, newSubPageButton
 from scal3.ui_gtk.toolbar import ToolbarItem, CustomizableToolbar
 
 
@@ -235,6 +236,11 @@ class Column(gtk.DrawingArea, ColumnBase):
 				)
 				cr.fill()
 
+	def drawCursorOutline(self, cr, cx0, cy0, cw, ch):
+		cursorRadius = ui.wcalCursorRoundingFactor * min(cw, ch) * 0.5
+		cursorLineWidth = ui.wcalCursorLineWidthFactor * min(cw, ch) * 0.5
+		drawOutlineRoundedRect(cr, cx0, cy0, cw, ch, cursorRadius, cursorLineWidth)
+
 	def drawCursorFg(self, cr):
 		if not self.showCursor:
 			return
@@ -242,7 +248,7 @@ class Column(gtk.DrawingArea, ColumnBase):
 		w = alloc.width
 		h = alloc.height
 		rowH = h / 7
-		drawCursorOutline(
+		self.drawCursorOutline(
 			cr,
 			0, # x0
 			self.wcal.cellIndex * rowH, # y0
@@ -1168,17 +1174,56 @@ class CalObj(gtk.Box, CustomizableCalBox, CalBase):
 			self.queue_draw,
 		)
 		pack(optionsWidget, prefItem.getWidget())
-		########
+		###
 		prefItem = LiveCheckColorPrefItem(
 			CheckPrefItem(ui, "wcalGrid", _("Grid")),
 			ColorPrefItem(ui, "wcalGridColor", True),
 			self.queue_draw,
 		)
 		pack(optionsWidget, prefItem.getWidget())
+		############
+		pageVBox = VBox(spacing=20)
+		pageVBox.set_border_width(10)
+		sgroup = gtk.SizeGroup(mode=gtk.SizeGroupMode.HORIZONTAL)
+		####
+		prefItem = LiveLabelSpinPrefItem(
+			_("Line Width Factor"),
+			SpinPrefItem(ui, "wcalCursorLineWidthFactor", 0, 1, 2),
+			self.queue_draw,
+			labelSizeGroup=sgroup,
+		)
+		pack(pageVBox, prefItem.getWidget())
 		###
+		prefItem = LiveLabelSpinPrefItem(
+			_("Rounding Factor"),
+			SpinPrefItem(ui, "wcalCursorRoundingFactor", 0, 1, 2),
+			self.queue_draw,
+			labelSizeGroup=sgroup,
+		)
+		pack(pageVBox, prefItem.getWidget())
+		###
+		pageVBox.show_all()
+		###
+		page = StackPage()
+		page.pageWidget = pageVBox
+		page.pageName = "cursor"
+		page.pageTitle = _("Cursor")
+		page.pageLabel = _("Cursor")
+		page.pageIcon = ""
+		self.subPages = [page]
+		###
+		button = newSubPageButton(self, page, borderWidth=3)
+		pack(optionsWidget, button, padding=3)
+		#########
 		optionsWidget.show_all()
 		self.optionsWidget = optionsWidget
 		return optionsWidget
+
+	def getSubPages(self):
+		if self.subPages is not None:
+			return self.subPages
+		self.getOptionsWidget()
+		return self.subPages
 
 	def heightUpdate(self):
 		self.set_property("height-request", ui.wcalHeight)

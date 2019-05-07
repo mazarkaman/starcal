@@ -171,9 +171,9 @@ class CustomizableCalBox(CustomizableCalObj):
 		self.repackAll()
 
 
-def newSubPageButton(item: CustomizableCalObj, page: "StackPage"):
+def newSubPageButton(item: CustomizableCalObj, page: "StackPage", borderWidth: int = 10):
 	hbox = HBox(spacing=10)
-	hbox.set_border_width(10)
+	hbox.set_border_width(borderWidth)
 	label = gtk.Label(label=page.pageLabel)
 	label.set_use_underline(True)
 	pack(hbox, gtk.Label(), 1, 1)
