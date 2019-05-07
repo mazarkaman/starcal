@@ -77,7 +77,7 @@ confParams = (
 	"holidayColor",
 	"inactiveColor",
 	"borderTextColor",
-	"cursorDiaFactor",
+	"cursorLineWidthFactor",
 	"cursorRoundingFactor",
 	"statusIconImage",
 	"statusIconImageHoli",
@@ -941,7 +941,7 @@ todayCellColor = (0, 255, 0, 50)
 ##########
 cursorOutColor = (213, 207, 0, 255)
 cursorBgColor = (41, 41, 41, 255)
-cursorDiaFactor = 0.15
+cursorLineWidthFactor = 0.12
 cursorRoundingFactor = 0.50
 mcalGrid = False
 mcalGridColor = (255, 252, 0, 82)

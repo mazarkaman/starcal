@@ -430,8 +430,8 @@ def drawOutlineRoundedRect(cr, cx0, cy0, cw, ch, ro, d):
 
 def drawCursorOutline(cr, cx0, cy0, cw, ch):
 	cursorRadius = ui.cursorRoundingFactor * min(cw, ch) * 0.5
-	cursorDia = ui.cursorDiaFactor * min(cw, ch) * 0.5
-	drawOutlineRoundedRect(cr, cx0, cy0, cw, ch, cursorRadius, cursorDia)
+	cursorLineWidth = ui.cursorLineWidthFactor * min(cw, ch) * 0.5
+	drawOutlineRoundedRect(cr, cx0, cy0, cw, ch, cursorRadius, cursorLineWidth)
 
 
 def drawCircle(cr, cx, cy, r):

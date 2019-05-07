@@ -342,8 +342,8 @@ class PrefDialog(gtk.Window):
 		sgroup = gtk.SizeGroup(mode=gtk.SizeGroupMode.HORIZONTAL)
 		###########
 		hbox = HBox(spacing=10)
-		pack(hbox, newAlignLabel(sgroup=sgroup, label=_("Diameter Factor")))
-		item = SpinPrefItem(ui, "cursorDiaFactor", 0, 1, 2)
+		pack(hbox, newAlignLabel(sgroup=sgroup, label=_("Line Width Factor")))
+		item = SpinPrefItem(ui, "cursorLineWidthFactor", 0, 1, 2)
 		self.uiPrefItems.append(item)
 		pack(hbox, item.getWidget())
 		pack(hbox, gtk.Label(), 1, 1)

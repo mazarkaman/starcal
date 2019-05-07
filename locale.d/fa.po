@@ -2332,9 +2332,9 @@ msgid "Cursor BG"
 msgstr ""
 "زمینهٔ مکان‌نما"
 
-msgid "Diameter Factor"
+msgid "Line Width Factor"
 msgstr ""
-"ضریب ضخامت"
+"ضریب ضخامت خط"
 
 
 msgid "Rounding Factor"
