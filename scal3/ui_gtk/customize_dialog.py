@@ -37,7 +37,8 @@ from scal3.ui_gtk.utils import (
 	pixbufFromFile,
 )
 from scal3.ui_gtk.tree_utils import tree_path_split
-from scal3.ui_gtk.stack import MyStack
+from scal3.ui_gtk.stack import MyStack, StackPage
+from scal3.ui_gtk.customize import newSubPageButton
 
 
 class CustomizeDialog(gtk.Dialog):
@@ -199,16 +200,29 @@ class CustomizeDialog(gtk.Dialog):
 			return
 		item = parentItem.items[itemIndex]
 		###
-		vbox = VBox()
-		if item.itemListCustomizable and item.items:
-			treev, childrenBox = self.newItemList(pageName, item, scrolled=True)
-			childrenBox.show_all()
-			pack(vbox, childrenBox, 1, 1)
-		if item.hasOptions:
-			pack(vbox, item.getOptionsWidget(), 0, 0)
 		title = item.desc
 		if parentItem._name != "mainWin":
 			title = title + " - " + parentItem.desc
+		###
+		vbox = VBox(spacing=item.optionsPageSpacing)
+		if item.itemListCustomizable and item.items:
+			childrenBox = self.newItemList(pageName, item, scrolled=True)[1]
+			childrenBox.show_all()
+			if item.itemsPageEnable:
+				itemsPageName = pageName + ".items"
+				itemsPage = StackPage()
+				itemsPage.pageWidget = childrenBox
+				itemsPage.pageParent = pageName
+				itemsPage.pageName = itemsPageName
+				itemsPage.pageTitle = title + " - " + item.itemsPageTitle
+				itemsPage.pageLabel = item.itemsPageTitle
+				itemsPage.pageExpand = True
+				self.stack.addPageObj(itemsPage)
+				pack(vbox, newSubPageButton(item, itemsPage, borderWidth=item.itemsPageButtonBorder))
+			else:
+				pack(vbox, childrenBox, 1, 1)
+		if item.hasOptions:
+			pack(vbox, item.getOptionsWidget(), 0, 0)
 		self.stack.addPage(
 			pageName,
 			parentPageName,

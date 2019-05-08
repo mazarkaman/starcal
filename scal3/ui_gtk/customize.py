@@ -41,6 +41,7 @@ class DummyCalObj(Object):
 	loaded = False
 	itemListCustomizable = False
 	hasOptions = False
+	itemsPageEnable = False
 	signals = ud.BaseCalObj.signals
 
 	def __init__(self, name: str, desc: str, pkg: str, customizable: bool) -> None:
@@ -87,6 +88,10 @@ class CustomizableCalObj(ud.BaseCalObj):
 	customizable = True
 	itemListCustomizable = True
 	hasOptions = True
+	optionsPageSpacing = 0
+	itemsPageEnable = False
+	itemsPageTitle = ""
+	itemsPageButtonBorder = 5
 	expand = False
 	params = ()
 	myKeys = ()
@@ -184,5 +189,6 @@ def newSubPageButton(item: CustomizableCalObj, page: "StackPage", borderWidth: i
 	button = gtk.Button()
 	button.add(hbox)
 	button.connect("clicked", lambda b: item.emit("goto-page", page.pageName))
+	button.show_all()
 	return button
 

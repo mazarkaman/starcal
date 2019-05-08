@@ -1096,6 +1096,10 @@ class MoonStatusColumn(Column):
 class CalObj(gtk.Box, CustomizableCalBox, CalBase):
 	_name = "weekCal"
 	desc = _("Week Calendar")
+	optionsPageSpacing = 20
+	itemsPageEnable = True
+	itemsPageTitle = _("Columns")
+	itemsPageButtonBorder = 15
 	myKeys = CalBase.myKeys + (
 		"up", "down",
 		"left", "right",
@@ -1159,7 +1163,7 @@ class CalObj(gtk.Box, CustomizableCalBox, CalBase):
 		if self.optionsWidget:
 			return self.optionsWidget
 		
-		optionsWidget = VBox()
+		optionsWidget = VBox(spacing=10)
 		#####
 		prefItem = LiveLabelSpinPrefItem(
 			_("Height"),
@@ -1212,8 +1216,8 @@ class CalObj(gtk.Box, CustomizableCalBox, CalBase):
 		page.pageIcon = ""
 		self.subPages = [page]
 		###
-		button = newSubPageButton(self, page, borderWidth=3)
-		pack(optionsWidget, button, padding=3)
+		button = newSubPageButton(self, page, borderWidth=10)
+		pack(optionsWidget, button, padding=10)
 		#########
 		optionsWidget.show_all()
 		self.optionsWidget = optionsWidget
