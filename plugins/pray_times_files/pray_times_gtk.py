@@ -28,7 +28,7 @@ from pray_times_backend import timeNames, methodsList
 from pray_times_utils import *
 
 from scal3.ui_gtk import *
-from scal3.ui_gtk.utils import imageFromIconName
+from scal3.ui_gtk.utils import imageFromIconName, showMsg
 from scal3.ui_gtk.app_info import popenFile
 from scal3.ui_gtk.about import AboutDialog
 ## do I have to duplicate AboutDialog class code?
@@ -50,6 +50,21 @@ def buffer_select_all(b):
 	return b.select_range(
 		b.get_start_iter(),
 		b.get_end_iter(),
+	)
+
+
+def showDisclaimer(plug):
+	showMsg(
+		"\n".join([
+			_("Please note that a few minutes error in Pray Times is unavoidable, specially for large cities."),
+			_("For example in Tehran, there is a 2 minutes difference between far-east and far-west points of city."),
+			_("(Usually the center of cities are taken into account)"),
+			_("But also calculations are never accurate."),
+			_("Please allow at least 2 minutes as a precaution (for Fajr, at least 3 minutes)"),
+		]),
+		iconName="",
+		parent=None,
+		title=_("Pray Times"),
 	)
 
 

@@ -3047,11 +3047,21 @@ msgstr "محاسبهٔ نزدیک‌ترین شهر"
 msgid "%s kilometers from %s"
 msgstr "%s کیلومتر تا %s"
 
-# Please note that a few minutes error in Pray Times is unavoidable, specially for large cities.
-# For example in Tehran, there is a 2 minutes difference between far-east and far-west points of city.
-# (Usually the center of cities are taken into account)
-# But also calculations are never accurate.
-# Please allow at least 2 minutes as a precaution (for Fajr, at least 3 minutes)
+msgid "Please note that a few minutes error in Pray Times is unavoidable, specially for large cities."
+msgstr ""
+"لطفاً در نظر داشته باشید که یک یا دو دقیقه خطا در اوقات شرعی اجتناب‌ناپذیر است، مخصوصا برای شهرهای بزرگ."
+msgid "For example in Tehran, there is a 2 minutes difference between far-east and far-west points of city."
+msgstr ""
+"مثلاً در شهر تهران، بین شرقی‌ترین و غربی‌ترین نطقهٔ شهر، حدود ۲ دقیقه اختلاف وجود دارد."
+msgid "(Usually the center of cities are taken into account)"
+msgstr ""
+"(عموما مراکز شهرها لحاظ می‌شوند در محاسبه و اعلام اوقات شرعی)"
+msgid "But also calculations are never accurate."
+msgstr ""
+"همینطور محاسبات مربوطه هرگز دقیق نیستند."
+msgid "Please allow at least 2 minutes as a precaution (for Fajr, at least 3 minutes)"
+msgstr ""
+"لطفاً حداقل ۲ دقیقه (و برای اذان صبح ۳ دقیقه) بعنوان احتیاط در نظر بگیرید"
 
 ###############################
 

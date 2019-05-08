@@ -52,6 +52,7 @@ from scal3.json_utils import *
 from scal3.time_utils import floatHourToTime
 from scal3.locale_man import tr as _
 from scal3.cal_types.gregorian import to_jd as gregorian_to_jd
+from scal3.cal_types import hijri
 from scal3.time_utils import (
 	getUtcOffsetByJd,
 	getUtcOffsetCurrent,
@@ -72,9 +73,12 @@ from pray_times_gtk import *
 
 localTz = natz.gettz()
 
-
 ####################### Methods and Classes ##################
 
+
+def getCurrentJd() -> int:
+	y, m, d = time.localtime()[:3]
+	return gregorian_to_jd(y, m, d)
 
 def readLocationData():
 	lines = open(dataDir + "/locations.txt").read().split("\n")
@@ -149,6 +153,7 @@ class TextPlugin(BaseJsonPlugin, TextPluginUI):
 		"preAzanEnable",
 		"preAzanFile",
 		"preAzanMinutes",
+		"disclaimerLastEpoch",
 	)
 	azanTimeNamesAll = (
 		"fajr",
@@ -195,6 +200,8 @@ class TextPlugin(BaseJsonPlugin, TextPluginUI):
 		self.preAzanEnable = False
 		self.preAzanFile = None
 		self.preAzanMinutes = 2.0
+		##
+		self.disclaimerLastEpoch = 0
 		####
 		loadModuleJsonConf(self)
 		####
@@ -226,6 +233,31 @@ class TextPlugin(BaseJsonPlugin, TextPluginUI):
 		#self.doPlayPreAzan()
 		#time.sleep(2)
 		#self.doPlayAzan() ## for testing ## FIXME
+		###
+		self.checkShowDisclaimer()
+
+	def checkShowDisclaimer(self):
+		if not self.shouldShowDisclaimer():
+			return
+		showDisclaimer(self)
+		self.disclaimerLastEpoch = int(now())
+		self.saveConfig()
+
+	def shouldShowDisclaimer(self) -> bool:
+		if self.disclaimerLastEpoch <= 0:
+			return True
+
+		tm = now()
+		dt = tm - self.disclaimerLastEpoch
+		if dt > 256 * 24 * 3600:
+			return True
+
+		hyear, hmonth, hday = hijri.jd_to(getCurrentJd())
+		if hmonth == 9: # Ramadan
+			if dt > hday * 24 * 3600:
+				return True
+
+		return False
 
 	def saveConfig(self):
 		self.lat = self.backend.lat
