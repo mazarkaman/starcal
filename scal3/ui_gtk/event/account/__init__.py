@@ -135,7 +135,7 @@ class AccountGroupBox(gtk.Box):
 			self.msgLabel.set_label(_("Error"))
 			showError(
 				_("Error in fetching remote groups") + "\n" + str(e),
-				ui.eventManDialog,
+				parent=ui.eventManDialog,
 			)
 			return
 		else:

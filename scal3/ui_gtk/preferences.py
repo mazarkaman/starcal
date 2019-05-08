@@ -1495,7 +1495,7 @@ class PrefDialog(gtk.Window):
 		accountId = self.accountsTreestore[index][0]
 		account = ui.eventAccounts[accountId]
 		if not account.loaded:
-			showError(_("Account must be enabled before editing"), self)
+			showError(_("Account must be enabled before editing"), parent=self)
 			return
 		account = AccountEditorDialog(account, parent=self).run()
 		if account is None:

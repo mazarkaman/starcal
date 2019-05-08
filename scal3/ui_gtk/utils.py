@@ -33,6 +33,7 @@ from scal3.locale_man import tr as _
 from scal3 import ui
 
 from gi.repository import GdkPixbuf
+from gi.repository import Pango as pango
 
 from scal3.ui_gtk import *
 
@@ -213,14 +214,23 @@ def confirm(msg, parent=None):
 	return ok
 
 
-def showMsg(msg, parent, msg_type):
-	win = gtk.MessageDialog(
-		parent=parent,
-		flags=0,
-		type=msg_type,
-		buttons=gtk.ButtonsType.NONE,
-		message_format=msg,
-	)
+def showMsg(msg, iconName="", parent=None, title="", borderWidth=10, iconSize=gtk.IconSize.DIALOG):
+	win = gtk.Dialog(parent=parent) # flags=0 makes it skip task bar
+	if title:
+		win.set_title(title)
+	hbox = HBox(spacing=10)
+	hbox.set_border_width(borderWidth)
+	if iconName:
+		# win.set_icon(...)
+		pack(hbox, imageFromIconName(iconName, iconSize))
+	label = gtk.Label(label=msg)
+	label.set_selectable(True)
+	# FIXME: set_line_wrap(True) makes the window go crazy tall (taller than screen)
+	# label.set_line_wrap(True)
+	label.set_line_wrap_mode(pango.WrapMode.WORD)
+	pack(hbox, label, 1, 1)
+	hbox.show_all()
+	pack(win.vbox, hbox)
 	dialog_add_button(
 		win,
 		"gtk-close",
@@ -231,12 +241,17 @@ def showMsg(msg, parent, msg_type):
 	win.destroy()
 
 
-def showError(msg, parent=None):
-	showMsg(msg, parent, gtk.MessageType.ERROR)
+def showError(msg, **kwargs):
+	# gtk-dialog-error is deprecated since version 3.10: Use named icon “dialog-error”.
+	showMsg(msg, iconName="gtk-dialog-error", **kwargs)
 
+def showWarning(msg, **kwargs):
+	# gtk-dialog-warning is deprecated since version 3.10: Use named icon “dialog-warning”.
+	showMsg(msg, iconName="gtk-dialog-warning", **kwargs)
 
-def showInfo(msg, parent=None):
-	showMsg(msg, parent, gtk.MessageType.INFO)
+def showInfo(msg, **kwargs):
+	# gtk-dialog-info is deprecated since version 3.10: Use named icon “dialog-information”.
+	showMsg(msg, iconName="gtk-dialog-info", **kwargs)
 
 
 def openWindow(win):

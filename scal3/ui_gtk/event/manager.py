@@ -406,7 +406,7 @@ class EventManagerDialog(gtk.Dialog, MyDialog, ud.BaseCalObj):## FIXME
 					group.desc,
 					event.desc,
 				),
-				self,
+				parent=self,
 			)
 			raise RuntimeError("Invalid event type for this group")
 
@@ -1164,7 +1164,7 @@ class EventManagerDialog(gtk.Dialog, MyDialog, ud.BaseCalObj):## FIXME
 					"Error in synchronizing group "%(group)s" with "
 					"account "%(account)s""
 				) % info + "\n" + str(e),
-				self,
+				parent=self,
 			)
 		else:
 			showInfo(
@@ -1172,7 +1172,7 @@ class EventManagerDialog(gtk.Dialog, MyDialog, ud.BaseCalObj):## FIXME
 					"Successful synchronizing of group "%(group)s" with "
 					"account "%(account)s""
 				) % info,
-				self,
+				parent=self,
 			)
 		"""
 		self.reloadGroupEvents(group.id)
@@ -1200,9 +1200,10 @@ class EventManagerDialog(gtk.Dialog, MyDialog, ud.BaseCalObj):## FIXME
 		if group.name == "trash":
 			self.editTrash()
 		elif group.isReadOnly():
-			showError(_(
-				"Event group \"%s\" is synchronizing and read-only"
-			) % group.title, parent=self)
+			showError(
+				_("Event group \"%s\" is synchronizing and read-only") % group.title,
+				parent=self,
+			)
 		else:
 			group = GroupEditorDialog(group, parent=self).run()
 			if group is None:

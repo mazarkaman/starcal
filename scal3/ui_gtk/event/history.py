@@ -15,7 +15,6 @@ from scal3.ui_gtk import *
 from scal3.ui_gtk import gtk_ud as ud
 from scal3.ui_gtk.utils import (
 	dialog_add_button,
-	showInfo,
 	imageFromIconName,
 )
 from scal3.ui_gtk.mywidgets.text_widgets import ReadOnlyTextView
