@@ -268,10 +268,8 @@ class CustomizeDialog(gtk.Dialog):
 		itemIndex = tree_path_split(path)[0]
 		item = parentItem.items[itemIndex]
 		if not item.enable:
-			showInfo(
-				_("%s is disabled.\nCheck the checkbox if you want to enable it.") % item.desc,
-				parent=self,
-			)
+			msg = _("%s is disabled.\nCheck the checkbox if you want to enable it.") % item.desc
+			showInfo(msg, parent=self)
 			return
 		parentPageName = treev.pageName
 		self.addPage(pageName, parentPageName, parentItem, itemIndex)

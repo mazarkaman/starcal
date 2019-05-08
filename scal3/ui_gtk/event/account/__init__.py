@@ -133,10 +133,8 @@ class AccountGroupBox(gtk.Box):
 			account.fetchGroups()
 		except Exception as e:
 			self.msgLabel.set_label(_("Error"))
-			showError(
-				_("Error in fetching remote groups") + "\n" + str(e),
-				parent=ui.eventManDialog,
-			)
+			msg = _("Error in fetching remote groups") + "\n" + str(e)
+			showError(msg, parent=ui.eventManDialog)
 			return
 		else:
 			self.msgLabel.set_label("")

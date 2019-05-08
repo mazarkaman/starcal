@@ -130,13 +130,12 @@ class EventEditorDialog(gtk.Dialog):
 				self.event.parent.endJd,
 			)
 			if not occur:
-				showInfo(
-					_(
-						"This event is outside of date range specified in "
-						"it\'s group. You probably need to edit group "
-						"\"%s\" and change \"Start\" or \"End\" values"
-					) % self.event.parent.title
-				)
+				msg = _(
+					"This event is outside of date range specified in "
+					"it\'s group. You probably need to edit group "
+					"\"%s\" and change \"Start\" or \"End\" values"
+				) % self.event.parent.title
+				showInfo(msg)
 		#####
 		return self.event
 
