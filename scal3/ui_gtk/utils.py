@@ -214,7 +214,15 @@ def confirm(msg, parent=None):
 	return ok
 
 
-def showMsg(msg, iconName="", parent=None, title="", borderWidth=10, iconSize=gtk.IconSize.DIALOG):
+def showMsg(
+	msg,
+	iconName="",
+	parent=None,
+	title="",
+	borderWidth=10,
+	iconSize=gtk.IconSize.DIALOG,
+	selectable=False,
+):
 	win = gtk.Dialog(parent=parent) # flags=0 makes it skip task bar
 	if title:
 		win.set_title(title)
@@ -224,11 +232,14 @@ def showMsg(msg, iconName="", parent=None, title="", borderWidth=10, iconSize=gt
 		# win.set_icon(...)
 		pack(hbox, imageFromIconName(iconName, iconSize))
 	label = gtk.Label(label=msg)
-	label.set_selectable(True)
-	# FIXME: set_line_wrap(True) makes the window go crazy tall (taller than screen)
-	# label.set_line_wrap(True)
+	# set_line_wrap(True) makes the window go crazy tall (taller than screen)
+	# and that's the reason for label.set_size_request and win.resize
+	label.set_line_wrap(True)
 	label.set_line_wrap_mode(pango.WrapMode.WORD)
-	pack(hbox, label, 1, 1)
+	label.set_size_request(500, 1)
+	if selectable:
+		label.set_selectable(True)
+	pack(hbox, label)
 	hbox.show_all()
 	pack(win.vbox, hbox)
 	dialog_add_button(
@@ -237,6 +248,7 @@ def showMsg(msg, iconName="", parent=None, title="", borderWidth=10, iconSize=gt
 		_("_Close"),
 		gtk.ResponseType.OK,
 	)
+	win.resize(600, 1)
 	win.run()
 	win.destroy()
 
