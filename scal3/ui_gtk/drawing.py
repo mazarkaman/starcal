@@ -287,11 +287,6 @@ def drawRoundedRect(cr, cx0, cy0, cw, ch, ro):
 	cr.close_path()
 
 
-def drawCursorBg(cr, cx0, cy0, cw, ch):
-	cursorRadius = ui.cursorRoundingFactor * min(cw, ch) * 0.5
-	drawRoundedRect(cr, cx0, cy0, cw, ch, cursorRadius)
-
-
 def drawOutlineRoundedRect(cr, cx0, cy0, cw, ch, ro, d):
 	ro = min(ro, cw / 2.0, ch / 2.0)
 	#a = min(cw, ch); ri = ro*(a-2*d)/a

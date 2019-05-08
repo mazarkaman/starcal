@@ -130,6 +130,10 @@ class CalObj(gtk.DrawingArea, CalBase):
 		cursorLineWidth = ui.mcalCursorLineWidthFactor * min(cw, ch) * 0.5
 		drawOutlineRoundedRect(cr, cx0, cy0, cw, ch, cursorRadius, cursorLineWidth)
 
+	def drawCursorBg(self, cr, cx0, cy0, cw, ch):
+		cursorRadius = ui.mcalCursorRoundingFactor * min(cw, ch) * 0.5
+		drawRoundedRect(cr, cx0, cy0, cw, ch, cursorRadius)
+
 	def __init__(self):
 		gtk.DrawingArea.__init__(self)
 		self.add_events(gdk.EventMask.ALL_EVENTS_MASK)
@@ -339,7 +343,7 @@ class CalObj(gtk.DrawingArea, CalBase):
 					cw = self.dx - 1
 					ch = self.dy - 1
 					######### Circular Rounded
-					drawCursorBg(cr, cx0, cy0, cw, ch)
+					self.drawCursorBg(cr, cx0, cy0, cw, ch)
 					fillColor(cr, ui.cursorBgColor)
 				######## end of Drawing Cursor
 				if not cellInactive:

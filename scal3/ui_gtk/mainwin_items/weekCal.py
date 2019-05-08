@@ -208,7 +208,7 @@ class Column(gtk.DrawingArea, ColumnBase):
 				)
 				fillColor(cr, ui.todayCellColor)
 			if self.showCursor and c.jd == ui.cell.jd:
-				drawCursorBg(
+				self.drawCursorBg(
 					cr,
 					0, # x0
 					i * rowH, # y0
@@ -240,6 +240,11 @@ class Column(gtk.DrawingArea, ColumnBase):
 		cursorRadius = ui.wcalCursorRoundingFactor * min(cw, ch) * 0.5
 		cursorLineWidth = ui.wcalCursorLineWidthFactor * min(cw, ch) * 0.5
 		drawOutlineRoundedRect(cr, cx0, cy0, cw, ch, cursorRadius, cursorLineWidth)
+
+
+	def drawCursorBg(self, cr, cx0, cy0, cw, ch):
+		cursorRadius = ui.wcalCursorRoundingFactor * min(cw, ch) * 0.5
+		drawRoundedRect(cr, cx0, cy0, cw, ch, cursorRadius)
 
 	def drawCursorFg(self, cr):
 		if not self.showCursor:
