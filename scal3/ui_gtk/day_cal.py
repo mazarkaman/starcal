@@ -174,7 +174,7 @@ class DayCal(gtk.DrawingArea, CalBase):
 			pageWidget.show_all()
 			page = StackPage()
 			page.pageWidget = pageWidget
-			page.pageName = "dayCal." + module.name
+			page.pageName = module.name
 			page.pageTitle = _(module.desc)
 			page.pageLabel = _(module.desc)
 			page.pageExpand = False
