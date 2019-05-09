@@ -10,7 +10,7 @@ from scal3.ui_gtk.mywidgets.datelabel import DateLabel
 from scal3.ui_gtk.decorators import *
 from scal3.ui_gtk import gtk_ud as ud
 from scal3.ui_gtk.customize import CustomizableCalObj
-from scal3.ui_gtk.color_utils import colorize
+from scal3.ui_gtk.color_utils import colorizeSpan
 
 
 @registerSignals
@@ -58,7 +58,7 @@ class CalObj(gtk.Box, CustomizableCalObj):
 			if label.calType == calTypes.primary:
 				text = "<b>%s</b>" % text
 			if ui.statusBarDatesColorEnable:
-				text = colorize(text, ui.statusBarDatesColor)
+				text = colorizeSpan(text, ui.statusBarDatesColor)
 			label.set_label(text)
 
 	def getOptionsWidget(self):

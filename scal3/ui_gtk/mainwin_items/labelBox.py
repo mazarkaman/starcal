@@ -37,7 +37,7 @@ from scal3.ui_gtk.utils import (
 from scal3.ui_gtk.drawing import newTextLayout, setColor
 from scal3.ui_gtk.mywidgets.button import ConButton
 from scal3.ui_gtk import gtk_ud as ud
-from scal3.ui_gtk.color_utils import colorize
+from scal3.ui_gtk.color_utils import colorizeSpan
 from scal3.ui_gtk.customize import CustomizableCalObj
 
 
@@ -90,7 +90,7 @@ class MonthLabel(BaseLabel, ud.BaseCalObj):
 		return _(i + 1, fillZero=2)
 
 	def getActiveStr(self, s):
-		return colorize(s, ui.labelBoxMenuActiveColor)
+		return colorizeSpan(s, ui.labelBoxMenuActiveColor)
 
 	#def getActiveStr(self, s):
 	#	return "<b>%s</b>"%s
@@ -138,7 +138,7 @@ class MonthLabel(BaseLabel, ud.BaseCalObj):
 	def getMainLabelText(self, active):
 		text = getMonthName(self.calType, active + 1)
 		if ui.labelBoxMonthColorEnable:
-			text = colorize(text, ui.labelBoxMonthColor)
+			text = colorizeSpan(text, ui.labelBoxMonthColor)
 		if ui.boldYmLabel:
 			text = "<b>%s</b>" % text
 		return text
@@ -231,7 +231,7 @@ class IntLabel(BaseLabel):
 	]
 
 	def getActiveStr(self, s):
-		return colorize(s, ui.labelBoxMenuActiveColor)
+		return colorizeSpan(s, ui.labelBoxMenuActiveColor)
 
 	def __init__(self, height=9, active=0):
 		BaseLabel.__init__(self)
@@ -408,7 +408,7 @@ class YearLabel(IntLabel, ud.BaseCalObj):
 	def setActive(self, active):
 		text = _(active)
 		if ui.labelBoxYearColorEnable:
-			text = colorize(text, ui.labelBoxYearColor)
+			text = colorizeSpan(text, ui.labelBoxYearColor)
 		if ui.boldYmLabel:
 			text = "<b>%s</b>" % text
 		self.label.set_label(text)
