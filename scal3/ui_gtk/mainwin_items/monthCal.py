@@ -246,9 +246,6 @@ class CalObj(gtk.DrawingArea, CalBase):
 			#cr.scale(0.5, 0.5)
 		wx = ui.winX
 		wy = ui.winY
-		#if ui.bgUseDesk: # FIXME: should be re-implemented
-		#	from scal3.ui_gtk import desktop
-		#	from scal3.ui_gtk import wallpaper
 		cr.rectangle(0, 0, w, h)
 		fillColor(cr, ui.bgColor)
 		status = getCurrentMonthStatus()

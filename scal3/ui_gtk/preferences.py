@@ -231,13 +231,6 @@ class PrefDialog(gtk.Window):
 		customCheckItem.syncSensitive(customItem.getWidget())
 		pack(vbox, hbox, padding=padding)
 		########################### Theme #####################
-		#hbox = HBox(spacing=3)
-		#item = CheckPrefItem(ui, 'bgUseDesk', _('Use Desktop Background'))
-		#self.uiPrefItems.append(item)
-		#pack(hbox, item.getWidget())
-		#pack(hbox, gtk.Label(), 1, 1)
-		#pack(vbox, hbox)
-		#####################
 		pageHBox = HBox()
 		pageHBox.set_border_width(10)
 		spacing = 3
@@ -1148,20 +1141,6 @@ class PrefDialog(gtk.Window):
 		######################### Updating GUI ###########################
 		ud.windowList.onConfigChange()
 		if ui.mainWin:
-			"""
-			if ui.bgUseDesk and ui.bgColor[3] == 255:
-				msg = gtk.MessageDialog(
-					buttons=gtk.ButtonsType.OK_CANCEL,
-					message_format=_(
-						"If you want to have a transparent calendar " +
-						"(and see your desktop)," +
-						"change the opacity of calendar background color!"
-					)
-				)
-				if msg.run() == gtk.ResponseType.OK:
-					self.colorbBg.emit("clicked")
-				msg.destroy()
-			"""
 			if ui.checkNeedRestart():
 				d = gtk.Dialog(
 					title=_("Restart " + core.APP_DESC),

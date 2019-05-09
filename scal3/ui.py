@@ -67,7 +67,6 @@ confParams = (
 	"showDigClockTr",
 	"fontCustomEnable",
 	"fontCustom",
-	"bgUseDesk",
 	"bgColor",
 	"borderColor",
 	"cursorOutColor",
@@ -931,7 +930,6 @@ showDigClockTr = True  # On Status Icon
 toolbarIconSizePixel = 24  # used in pyqt ui
 ####
 bgColor = (26, 0, 1, 255)  # or None
-bgUseDesk = False
 borderColor = (123, 40, 0, 255)
 borderTextColor = (255, 255, 255, 255)  # text of weekDays and weekNumbers
 # menuBgColor = borderColor ##???????????????
