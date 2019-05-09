@@ -20,6 +20,7 @@
 
 from time import time as now
 
+from scal3.color_utils import colorizeSpan
 from scal3.cal_types import calTypes
 from scal3 import core
 from scal3.locale_man import getMonthName, rtl
@@ -37,7 +38,6 @@ from scal3.ui_gtk.utils import (
 from scal3.ui_gtk.drawing import newTextLayout, setColor
 from scal3.ui_gtk.mywidgets.button import ConButton
 from scal3.ui_gtk import gtk_ud as ud
-from scal3.ui_gtk.color_utils import colorizeSpan
 from scal3.ui_gtk.customize import CustomizableCalObj
 
 

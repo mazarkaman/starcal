@@ -1,4 +1,6 @@
 #!/usr/bin/env python3
+
+from scal3.color_utils import colorizeSpan
 from scal3.cal_types import calTypes
 from scal3 import core
 from scal3.locale_man import tr as _
@@ -10,7 +12,6 @@ from scal3.ui_gtk.mywidgets.datelabel import DateLabel
 from scal3.ui_gtk.decorators import *
 from scal3.ui_gtk import gtk_ud as ud
 from scal3.ui_gtk.customize import CustomizableCalObj
-from scal3.ui_gtk.color_utils import colorizeSpan
 
 
 @registerSignals

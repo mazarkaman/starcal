@@ -88,3 +88,10 @@ def rgbToHtmlColor(color: Union[Tuple[int, int, int], Tuple[int, int, int, int]]
 	return "#" + "".join([
 		"%.2x" % x for x in color
 	])
+
+
+def colorizeSpan(text, color):
+	return "<span color=\"%s\">%s</span>" % (
+		rgbToHtmlColor(color),
+		text,
+	)

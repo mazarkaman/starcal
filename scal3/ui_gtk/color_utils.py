@@ -34,9 +34,3 @@ def gdkColorToRgb(gc):
 #def htmlColorToGdk(hc):
 #	return gdk.color_parse(hc)
 
-
-def colorizeSpan(text, color):
-	return "<span color=\"%s\">%s</span>" % (
-		rgbToHtmlColor(color),
-		text,
-	)
