@@ -34,8 +34,12 @@ class CalObj(MyProgressBar, CustomizableCalObj):
 		length = jd2 - jd0
 		past = jd1 - jd0
 		fraction = float(past) / length
-		percent = "%%%d" % (fraction * 100)
+		if rtl:
+			percent = "%d%%" % (fraction * 100)
+		else:
+			percent = "%%%d" % (fraction * 100)
 		self.set_text(
+			_("Year") + ":  " +
 			textNumEncode(
 				percent,
 				changeDot=True,
