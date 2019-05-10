@@ -2704,6 +2704,10 @@ msgid "Year Progress Bar"
 msgstr ""
 "نوار پیشروی سال"
 
+msgid "Month Progress Bar"
+msgstr ""
+"نوار پیشروی ماه"
+
 
 msgid "Moon Status"
 msgstr ""

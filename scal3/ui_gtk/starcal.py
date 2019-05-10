@@ -86,6 +86,7 @@ mainWinItemsDesc = {
 	"labelBox": _("Year & Month Labels"),
 	"monthCal": _("Month Calendar"),
 	"pluginsText": _("Plugins Text"),
+	"monthPBar": _("Month Progress Bar"),
 	"seasonPBar": _("Season Progress Bar"),
 	"yearPBar": _("Year Progress Bar"),
 	"statusBar": _("Status Bar"),

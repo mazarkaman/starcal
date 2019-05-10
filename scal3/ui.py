@@ -1106,6 +1106,7 @@ mainWinItems = (
 	("weekCal", True),
 	("dayCal", False),
 	("statusBar", True),
+	("monthPBar", False),
 	("seasonPBar", True),
 	("yearPBar", False),
 	("pluginsText", True),
