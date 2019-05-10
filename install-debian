@@ -98,6 +98,9 @@ Description: A full-featured international calendar written in Python
 
 
 echo "#!/bin/bash
+if [ -f /usr/share/starcal3/scal3/core.py ] ; then
+	exit 0
+fi
 if [ -d '/usr/share/starcal3' ] ; then
 	echo 'Cleaning up /usr/share/starcal3'
 	find '/usr/share/starcal3' -regex '^.*\(__pycache__\|\.py[co]\)$' -print -delete || true
