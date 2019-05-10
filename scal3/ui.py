@@ -635,11 +635,6 @@ def checkMainWinItems() -> None:
 	newNames = defaultNames.difference(names)
 	# print("mainWinItems: newNames =", newNames)
 	##
-	name = "winContronller"
-	if name in newNames:
-		mainWinItems.insert(0, (name, True))
-		newNames.remove(name)
-	##
 	for name in newNames:
 		mainWinItems.append((name, False))  # FIXME
 
