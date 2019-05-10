@@ -2678,7 +2678,7 @@ msgstr ""
 
 msgid "Season Progress Bar"
 msgstr ""
-"نوار پیشروی فصل‌ها"
+"نوار پیشروی فصل"
 
 msgid "Southern Hemisphere"
 msgstr ""
