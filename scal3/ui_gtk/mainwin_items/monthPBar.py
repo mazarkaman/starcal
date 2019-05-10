@@ -4,7 +4,7 @@ from scal3.date_utils import monthPlus
 from scal3 import core
 from scal3.locale_man import tr as _
 from scal3.locale_man import rtl, textNumEncode, getMonthName
-from scal3.cal_types import calTypes
+from scal3.cal_types import calTypes, to_jd
 from scal3 import ui
 
 from scal3.ui_gtk import *
@@ -18,12 +18,11 @@ class CalObj(MyProgressBar, CustomizableCalObj):
 	_name = "monthPBar"
 	desc = _("Month Progress Bar")
 	itemListCustomizable = False
-	hasOptions = False
+	hasOptions = True
 
 	def __init__(self):
 		MyProgressBar.__init__(self)
 		self.initVars()
-		self.calType = calTypes.primary
 
 	def onConfigChange(self, *a, **kw):
 		self.update_font()
@@ -31,11 +30,18 @@ class CalObj(MyProgressBar, CustomizableCalObj):
 	def onDateChange(self, *a, **kw):
 		CustomizableCalObj.onDateChange(self, *a, **kw)
 
-		c = ui.cell
-		jd0 = core.primary_to_jd(c.year, c.month, 1)
-		jd1 = c.jd
-		nyear, nmonth = monthPlus(c.year, c.month, 1)
-		jd2 = core.primary_to_jd(nyear, nmonth, 1)
+		calType = ui.monthPBarCalType
+		if calType == -1:
+			calType = calTypes.primary
+
+		dates = ui.cell.dates[calType]
+		year = dates[0]
+		month = dates[1]
+		print("year=%s, month=%s" % (year, month))
+		jd0 = to_jd(year, month, 1, calType)
+		jd1 = ui.cell.jd
+		nyear, nmonth = monthPlus(year, month, 1)
+		jd2 = to_jd(nyear, nmonth, 1, calType)
 		length = jd2 - jd0
 		past = jd1 - jd0
 		fraction = float(past) / length
@@ -44,7 +50,7 @@ class CalObj(MyProgressBar, CustomizableCalObj):
 		else:
 			percent = "%%%d" % (fraction * 100)
 		self.set_text(
-			getMonthName(self.calType, c.month, c.year) +
+			getMonthName(calType, month, year) +
 			":   " +
 			textNumEncode(
 				percent,
@@ -54,3 +60,21 @@ class CalObj(MyProgressBar, CustomizableCalObj):
 			"%s%s / %s%s" %(_(past), _(" days"), _(length), _(" days"))
 		)
 		self.set_fraction(fraction)
+
+	def getOptionsWidget(self):
+		from scal3.ui_gtk.pref_utils_extra import LiveCalTypePrefItem
+		if self.optionsWidget:
+			return self.optionsWidget
+		####
+		self.optionsWidget = HBox()
+		prefItem = LiveCalTypePrefItem(
+			ui,
+			"monthPBarCalType",
+			self.onDateChange,
+		)
+		pack(self.optionsWidget, prefItem.getWidget())
+		####
+		self.optionsWidget.show_all()
+		return self.optionsWidget
+
+

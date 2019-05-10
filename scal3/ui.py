@@ -151,6 +151,7 @@ confParamsCustomize = (
 	"dcalWinTypeParams",
 	"dcalWinWeekdayParams",
 	"pluginsTextInsideExpander",
+	"monthPBarCalType",
 	"seasonPBar_southernHemisphere",
 	"wcal_moonStatus_southernHemisphere",
 	"statusBarDatesReverseOrder",
@@ -1126,6 +1127,10 @@ wcalItems = (
 )
 
 wcalItemsDefault = wcalItems[:]
+
+####################
+
+monthPBarCalType = -1
 
 ####################
 

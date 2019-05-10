@@ -18,6 +18,7 @@
 # Also avalable in /usr/share/common-licenses/GPL on Debian systems
 # or /usr/share/licenses/common/GPL3/license.txt on ArchLinux
 
+from typing import Optional, Callable
 from os.path import join, isabs
 
 from scal3.path import *
@@ -138,6 +139,39 @@ class ToolbarIconSizePrefItem(PrefItem):
 """
 
 ############################################################
+
+
+class CalTypePrefItem(PrefItem):
+	def __init__(self, module, varName):
+		from scal3.ui_gtk.mywidgets.cal_type_combo import CalTypeCombo
+		self.module = module
+		self.varName = varName
+		##
+		hbox = gtk.HBox()
+		pack(hbox, gtk.Label(label=_("Calendar Type") + " "))
+		self._combo = CalTypeCombo(hasDefault=True)
+		pack(hbox, self._combo)
+		self._widget = hbox
+
+	def get(self):
+		return self._combo.get_active()
+
+	def set(self, value):
+		self._combo.set_active(value)
+
+
+class LiveCalTypePrefItem(CalTypePrefItem):
+	def __init__(self, module, varName, onChangeFunc: Optional[Callable] = None):
+		CalTypePrefItem.__init__(self, module, varName)
+		self._onChangeFunc = onChangeFunc
+		# updateWidget needs to be called before following connect() calls
+		self.updateWidget()
+		self._combo.connect("changed", self.onClicked)
+
+	def onClicked(self, w):
+		self.updateVar()
+		if self._onChangeFunc:
+			self._onChangeFunc()
 
 
 class LangPrefItem(PrefItem):

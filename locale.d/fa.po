@@ -1507,6 +1507,11 @@ msgid "Default Calendar Type"
 msgstr ""
 "نوع تقویم پیش‌فرض"
 
+msgid "Default Calendar"
+msgstr ""
+"تقویم پیش‌فرض"
+
+
 msgid "Event Cache Size"
 msgstr ""
 "اندازهٔ cache رویدادها"
