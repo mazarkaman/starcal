@@ -37,7 +37,6 @@ class CalObj(MyProgressBar, CustomizableCalObj):
 		dates = ui.cell.dates[calType]
 		year = dates[0]
 		month = dates[1]
-		print("year=%s, month=%s" % (year, month))
 		jd0 = to_jd(year, month, 1, calType)
 		jd1 = ui.cell.jd
 		nyear, nmonth = monthPlus(year, month, 1)
