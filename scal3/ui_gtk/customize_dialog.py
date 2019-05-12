@@ -42,7 +42,7 @@ from scal3.ui_gtk.customize import newSubPageButton
 
 
 class CustomizeDialog(gtk.Dialog):
-	def __init__(self, widget: "CustomizableCalObj", **kwargs):
+	def __init__(self, widget: "CustomizableCalObj", scrolled=True, **kwargs):
 		gtk.Dialog.__init__(self, **kwargs)
 		self.vbox.set_border_width(10)
 		##
@@ -60,12 +60,16 @@ class CustomizeDialog(gtk.Dialog):
 			self.close,
 		)
 		###
-		treev, childrenBox = self.newItemList("mainWin", widget)
+		treev, childrenBox = self.newItemList("mainWin", widget, scrolled=scrolled)
 		self.treev_root = treev
 		self.stack.addPage("mainWin", "", childrenBox, expand=True, fill=True)
 		###
 		self.vbox.connect("size-allocate", self.vboxSizeRequest)
 		self.vbox.show_all()
+		###
+		if scrolled:
+			# self.resize does not work
+			self.vbox.set_size_request(300, 450)
 
 	def itemPixbuf(self, item):
 		if not item.enable:
