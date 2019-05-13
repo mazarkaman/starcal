@@ -61,8 +61,8 @@ class ReadOnlyLabel(gtk.Label, ReadOnlyTextWidget):
 		end = max(bound, cursor)
 		setClipboard(toStr(self.get_text())[start:end])
 
-	def __init__(self, *args, **kwargs):
-		gtk.Label.__init__(self, *args, **kwargs)
+	def __init__(self, **kwargs):
+		gtk.Label.__init__(self, **kwargs)
 		self.set_selectable(True)## to be selectable, with visible cursor
 		self.connect("populate-popup", self.onPopup)
 

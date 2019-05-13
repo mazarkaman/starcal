@@ -96,7 +96,7 @@ class DayOccurrenceView(gtk.ScrolledWindow, ud.BaseCalObj):
 			if occurData["icon"]:
 				pack(hbox, imageFromFile(occurData["icon"]))
 			if occurData["time"]:
-				label = ReadOnlyLabel(occurData["time"])
+				label = ReadOnlyLabel(label=occurData["time"])
 				self.labels.append(label)
 				label.set_direction(gtk.TextDirection.LTR)
 				label.connect(
@@ -106,7 +106,7 @@ class DayOccurrenceView(gtk.ScrolledWindow, ud.BaseCalObj):
 				)
 				pack(hbox, label)
 				pack(hbox, gtk.Label(label="  "))
-			label = ReadOnlyLabel(text)
+			label = ReadOnlyLabel(label=text)
 			self.labels.append(label)
 			label.set_line_wrap(True)
 			label.set_use_markup(False)
