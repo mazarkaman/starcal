@@ -105,7 +105,7 @@ class ModuleOptionButton:
 			funcName,
 		)
 		hbox = HBox()
-		button = gtk.Button(_(opt[0]))
+		button = gtk.Button(label=_(opt[0]))
 		button.connect("clicked", clickedFunc)
 		pack(hbox, button)
 		self._widget = hbox
