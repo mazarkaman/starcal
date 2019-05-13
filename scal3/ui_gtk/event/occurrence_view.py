@@ -56,7 +56,7 @@ class DayOccurrenceView(gtk.ScrolledWindow, ud.BaseCalObj):
 		self.showDesc = True
 
 	def onSizeRequest(self, widget, requisition):
-		# minimum_size, natural_size = widget.get_preferred_size()
+		minimum_size, natural_size = widget.get_preferred_size()
 		# print("onSizeRequest:", minimum_size.height, natural_size.height)
 		# FIXME: requisition.height is always the same (75),
 		# same as widget.get_allocation().height, and same as widget.size_request().height
@@ -68,7 +68,7 @@ class DayOccurrenceView(gtk.ScrolledWindow, ud.BaseCalObj):
 		# print(dir(requisition))
 		requisition.height = min(
 			self.maxHeight,## FIXME
-			self.vbox.size_request().height + 10,## >=2 FIXME
+			minimum_size.height + 10,## >=2 FIXME
 		)
 		# self.set_allocation(requisition)
 		# self.queue_resize()

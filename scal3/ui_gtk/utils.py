@@ -280,8 +280,8 @@ def get_menu_width(menu):
 		menu.get_border_width(),
 		max_item_width,
 		menu.get_allocation().width,
-		menu.size_request().width,
-		menu.get_size_request()[0],
+		menu.get_preferred_size()[1].width,
+		menu.get_preferred_size()[0],
 		menu.get_preferred_width(),
 		#menu.do_get_preferred_width(),
 		menu.get_preferred_size()[0].width,
@@ -289,12 +289,13 @@ def get_menu_width(menu):
 		)
 	"""
 	w = menu.get_allocation().width
+	# get_preferred_size() returns (minimum_size: Gtk.Requisition, natural_size: Gtk.Requisition)
 	if w > 1:
-		#print(w-max(item.size_request().width for item in menu.get_children()))
+		#print(w-max(item.get_preferred_size()[1].width for item in menu.get_children()))
 		return w
 	items = menu.get_children()
 	if items:
-		mw = max(item.size_request().width for item in items)
+		mw = max(item.get_preferred_size()[1].width for item in items)
 		return mw + 56 ## FIXME
 	return 0
 
@@ -306,10 +307,11 @@ def get_menu_height(menu):
 	items = menu.get_children()
 	if not items:
 		return 0
-	h = sum(item.size_request().height for item in items)
+	# get_preferred_size() returns (minimum_size: Gtk.Requisition, natural_size: Gtk.Requisition)
+	h = sum(item.get_preferred_size()[1].height for item in items)
 	# FIXME: does not work, all items are zero
 	# print("menu height from sum:", h)
-	# print([item.size_request().height for item in items])
+	# print([item.get_preferred_size()[1].height for item in items])
 	return h
 
 def get_pixbuf_hash(pbuf):
