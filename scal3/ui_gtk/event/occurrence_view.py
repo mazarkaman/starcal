@@ -258,7 +258,7 @@ class DayOccurrenceView(gtk.ScrolledWindow, ud.BaseCalObj):
 		event = EventEditorDialog(
 			event,
 			title=winTitle,
-			#parent=self,## FIXME
+			#transient_for=self,## FIXME
 		).run()
 		if event is None:
 			return
@@ -267,7 +267,7 @@ class DayOccurrenceView(gtk.ScrolledWindow, ud.BaseCalObj):
 
 	def moveEventToTrash(self, item, event, groupId):
 		from scal3.ui_gtk.event.utils import confirmEventTrash
-		if not confirmEventTrash(event, parent=ui.mainWin):
+		if not confirmEventTrash(event, transient_for=ui.mainWin):
 			return
 		ui.moveEventToTrashFromOutside(ui.eventGroups[groupId], event)
 		self.onConfigChange()

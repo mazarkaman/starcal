@@ -405,7 +405,7 @@ class EventManagerDialog(gtk.Dialog, MyDialog, ud.BaseCalObj):## FIXME
 				group.desc,
 				event.desc,
 			)
-			showError(msg, parent=self)
+			showError(msg, transient_for=self)
 			raise RuntimeError("Invalid event type for this group")
 
 	def getGroupRow(self, group):
@@ -520,7 +520,7 @@ class EventManagerDialog(gtk.Dialog, MyDialog, ud.BaseCalObj):## FIXME
 
 	def historyOfEventFromMenu(self, menu, path):
 		group, event = self.getObjsByPath(path)
-		EventHistoryDialog(event, parent=self).run()
+		EventHistoryDialog(event, transient_for=self).run()
 
 	def genRightClickMenu(self, path):
 		## how about multi-selection? FIXME
@@ -877,7 +877,7 @@ class EventManagerDialog(gtk.Dialog, MyDialog, ud.BaseCalObj):## FIXME
 		return True
 
 	def mbarExportClicked(self, obj):
-		MultiGroupExportDialog(parent=self).run()
+		MultiGroupExportDialog(transient_for=self).run()
 
 	def mbarImportClicked(self, obj):
 		EventsImportWindow(self).present()
@@ -1080,7 +1080,7 @@ class EventManagerDialog(gtk.Dialog, MyDialog, ud.BaseCalObj):## FIXME
 
 	def insertNewGroup(self, groupIndex):
 		from scal3.ui_gtk.event.group.editor import GroupEditorDialog
-		group = GroupEditorDialog(parent=self).run()
+		group = GroupEditorDialog(transient_for=self).run()
 		if group is None:
 			return
 		ui.eventGroups.insert(groupIndex, group)
@@ -1161,13 +1161,13 @@ class EventManagerDialog(gtk.Dialog, MyDialog, ud.BaseCalObj):## FIXME
 				"Error in synchronizing group "%(group)s" with "
 				"account "%(account)s""
 			) % info + "\n" + str(e)
-			showError(msg, parent=self)
+			showError(msg, transient_for=self)
 		else:
 			msg = _(
 				"Successful synchronizing of group "%(group)s" with "
 				"account "%(account)s""
 			) % info
-			showInfo(msg, parent=self)
+			showInfo(msg, transient_for=self)
 		"""
 		self.reloadGroupEvents(group.id)
 
@@ -1195,9 +1195,9 @@ class EventManagerDialog(gtk.Dialog, MyDialog, ud.BaseCalObj):## FIXME
 			self.editTrash()
 		elif group.isReadOnly():
 			msg = _("Event group \"%s\" is synchronizing and read-only") % group.title
-			showError(msg, parent=self)
+			showError(msg, transient_for=self)
 		else:
-			group = GroupEditorDialog(group, parent=self).run()
+			group = GroupEditorDialog(group, transient_for=self).run()
 			if group is None:
 				return
 			groupIter = self.trees.get_iter(path)
@@ -1235,7 +1235,7 @@ class EventManagerDialog(gtk.Dialog, MyDialog, ud.BaseCalObj):## FIXME
 					_(eventCount),
 					ui.eventTrash.title,
 				),
-				parent=self,
+				transient_for=self,
 			):
 				return
 		self.waitingDo(self._do_deleteGroup, path, group)
@@ -1248,7 +1248,7 @@ class EventManagerDialog(gtk.Dialog, MyDialog, ud.BaseCalObj):## FIXME
 			group,
 			eventType,
 			title=title,
-			parent=self,
+			transient_for=self,
 		)
 		if event is None:
 			return
@@ -1263,7 +1263,7 @@ class EventManagerDialog(gtk.Dialog, MyDialog, ud.BaseCalObj):## FIXME
 			group.acceptsEventTypes[0],
 			typeChangable=True,
 			title=_("Add Event"),
-			parent=self,
+			transient_for=self,
 		)
 		if event is None:
 			return
@@ -1291,7 +1291,7 @@ class EventManagerDialog(gtk.Dialog, MyDialog, ud.BaseCalObj):## FIXME
 		event = EventEditorDialog(
 			event,
 			title=_("Edit ") + event.desc,
-			parent=self,
+			transient_for=self,
 		).run()
 		if event is None:
 			return
@@ -1306,7 +1306,7 @@ class EventManagerDialog(gtk.Dialog, MyDialog, ud.BaseCalObj):## FIXME
 
 	def moveEventToTrash(self, path):
 		group, event = self.getObjsByPath(path)
-		if not confirmEventTrash(event, parent=self):
+		if not confirmEventTrash(event, transient_for=self):
 			return
 		ui.moveEventToTrash(group, event)
 		self.trees.remove(self.trees.get_iter(path))
@@ -1347,7 +1347,7 @@ class EventManagerDialog(gtk.Dialog, MyDialog, ud.BaseCalObj):## FIXME
 		self.treeviewCursorChanged()
 
 	def editTrash(self, obj=None):
-		TrashEditorDialog(parent=self).run()
+		TrashEditorDialog(transient_for=self).run()
 		self.trees.set_value(
 			self.trashIter,
 			1,
@@ -1479,12 +1479,12 @@ class EventManagerDialog(gtk.Dialog, MyDialog, ud.BaseCalObj):## FIXME
 		self.moveDown(path)
 
 	def groupExportFromMenu(self, menu, group):
-		SingleGroupExportDialog(group, parent=self).run()
+		SingleGroupExportDialog(group, transient_for=self).run()
 
 	def groupSortFromMenu(self, menu, path):
 		index, = path
 		group, = self.getObjsByPath(path)
-		if GroupSortDialog(group, parent=self).run():
+		if GroupSortDialog(group, transient_for=self).run():
 			if group.id in self.loadedGroupIds:
 				groupIter = self.trees.get_iter(path)
 				expanded = self.treev.row_expanded(path)
@@ -1495,7 +1495,7 @@ class EventManagerDialog(gtk.Dialog, MyDialog, ud.BaseCalObj):## FIXME
 					self.treev.expand_row(path, False)
 
 	def groupConvertModeFromMenu(self, menu, group):
-		GroupConvertModeDialog(group, parent=self).run()
+		GroupConvertModeDialog(group, transient_for=self).run()
 
 	def _do_groupConvertTo(self, group, newGroupType):
 		idsCount = len(group.idList)
@@ -1522,7 +1522,7 @@ class EventManagerDialog(gtk.Dialog, MyDialog, ud.BaseCalObj):## FIXME
 
 	def groupBulkEditFromMenu(self, menu, group, path):
 		from scal3.ui_gtk.event.bulk_edit import EventsBulkEditDialog
-		dialog = EventsBulkEditDialog(group, parent=self)
+		dialog = EventsBulkEditDialog(group, transient_for=self)
 		if dialog.run() == gtk.ResponseType.OK:
 			self.waitingDo(self._do_groupBulkEdit, dialog, group, path)
 

@@ -42,13 +42,13 @@ _ = str ## FIXME
 iceil = lambda f: int(ceil(f))
 
 
-def error_exit(resCode, text, parent=None):
+def error_exit(resCode, text, **kwargs):
 	d = gtk.MessageDialog(
-		parent,
 		gtk.DialogFlags.DESTROY_WITH_PARENT,
 		gtk.MessageType.ERROR,
 		gtk.ButtonsType.OK,
 		text.strip(),
+		**kwargs
 	)
 	d.set_title("Error")
 	d.run()
@@ -282,7 +282,7 @@ class AdjusterDialog(gtk.Dialog):
 			error_exit(
 				resCode,
 				error,
-				parent=self,
+				transient_for=self,
 			)
 		#else:
 		#	sys.exit(0)
@@ -293,7 +293,7 @@ if __name__ == "__main__":
 		error_exit(1, "This program must be run as root")
 		#raise OSError("This program must be run as root")
 		###os.setuid(0)  # FIXME
-	d = AdjusterDialog(parent=None)
+	d = AdjusterDialog()
 	#d.set_keap_above(True)
 	if d.run() == 1:
 		d.setSysTimeClicked()

@@ -1281,7 +1281,7 @@ class MainWin(gtk.ApplicationWindow, ud.BaseCalObj):
 		checkEventsReadOnly() ## FIXME
 		if not ui.eventManDialog:
 			from scal3.ui_gtk.event.manager import EventManagerDialog
-			ui.eventManDialog = EventManagerDialog(parent=self)
+			ui.eventManDialog = EventManagerDialog(transient_for=self)
 
 	def eventManShow(self, obj=None, data=None):
 		self.eventManCreate()

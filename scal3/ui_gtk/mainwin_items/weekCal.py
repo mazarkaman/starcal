@@ -1374,7 +1374,7 @@ class CalObj(gtk.Box, CustomizableCalBox, CalBase):
 
 if __name__ == "__main__":
 	ui.init()
-	win = gtk.Dialog(parent=None)
+	win = gtk.Dialog()
 	cal = CalObj()
 	win.add_events(gdk.EventMask.ALL_EVENTS_MASK)
 	pack(win.vbox, cal, 1, 1)

@@ -59,7 +59,7 @@ class ConButton(gtk.Button, ConButtonBase):
 
 
 if __name__ == "__main__":
-	win = gtk.Dialog(parent=None)
+	win = gtk.Dialog()
 	button = ConButton("Press")
 
 	def con_clicked(arg):

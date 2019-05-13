@@ -14,13 +14,13 @@ from scal3.ui_gtk.utils import (
 from scal3.ui_gtk.drawing import newColorCheckPixbuf
 
 
-def confirmEventTrash(event, parent=None):
+def confirmEventTrash(event, **kwargs):
 	return confirm(
 		_("Press OK if you want to move event \"%s\" to %s") % (
 			event.summary,
 			ui.eventTrash.title,
 		),
-		parent=parent,
+		**kwargs
 	)
 
 

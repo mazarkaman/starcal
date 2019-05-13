@@ -306,7 +306,7 @@ class EditDbDialog(gtk.Dialog):
 
 
 def tuneHijriMonthes(widget=None):
-	dialog = EditDbDialog(parent=ui.prefDialog)
+	dialog = EditDbDialog(transient_for=ui.prefDialog)
 	dialog.resize(400, 400)
 	dialog.run()
 
@@ -362,7 +362,7 @@ def checkHijriMonthsExpiration():
 	if isfile(hijri.monthDbExpiredIgnoreFile):
 		# user previously checked "Don't show this again" checkbox
 		return
-	dialog = HijriMonthsExpirationDialog(parent=ui.mainWin)
+	dialog = HijriMonthsExpirationDialog(transient_for=ui.mainWin)
 	dialog.run()
 
 class HijriMonthsExpirationListener():

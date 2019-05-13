@@ -156,7 +156,7 @@ class FClockWidget(gtk.DrawingArea): ## Time is in Local
 		"""
 
 if __name__ == "__main__":
-	d = gtk.Dialog(parent=None)
+	d = gtk.Dialog()
 	widget = ClockLabel()
 	pack(d.vbox, widget, 1, 1)
 	d.vbox.show_all()

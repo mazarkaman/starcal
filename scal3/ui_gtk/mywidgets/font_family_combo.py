@@ -44,7 +44,7 @@ class FontFamilyCombo(gtk.ComboBox):
 
 
 if __name__ == "__main__":
-	d = gtk.Dialog(parent=None)
+	d = gtk.Dialog()
 	combo = FontFamilyCombo(1)
 	pack(d.vbox, combo, 1, 1)
 	d.vbox.show_all()

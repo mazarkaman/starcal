@@ -31,7 +31,7 @@ def hideWindow(widget, dialog):
 
 def notify(notifier, finishFunc):  # FIXME
 	event = notifier.event
-	dialog = gtk.Dialog(parent=None)
+	dialog = gtk.Dialog()
 	####
 	lines = []
 	lines.append(event.getText())

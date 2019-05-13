@@ -42,7 +42,7 @@ def getTimerWidget():
 
 
 if __name__ == "__main__":
-	d = gtk.Dialog(parent=None)
+	d = gtk.Dialog()
 	btn = getTimerWidget()
 	pack(d.vbox, btn, 1, 1)
 	d.vbox.show_all()

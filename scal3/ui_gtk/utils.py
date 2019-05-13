@@ -189,13 +189,13 @@ def dialog_add_button(dialog, iconName, label, resId, onClicked=None, tooltip=""
 	return b
 
 
-def confirm(msg, parent=None):
+def confirm(msg, **kwargs):
 	win = gtk.MessageDialog(
-		parent=parent,
 		flags=0,
 		type=gtk.MessageType.INFO,
 		buttons=gtk.ButtonsType.NONE,
 		message_format=msg,
+		**kwargs
 	)
 	dialog_add_button(
 		win,
@@ -218,12 +218,17 @@ def showMsg(
 	msg,
 	iconName="",
 	parent=None,
+	transient_for=None,
 	title="",
 	borderWidth=10,
 	iconSize=gtk.IconSize.DIALOG,
 	selectable=False,
 ):
-	win = gtk.Dialog(parent=parent) # flags=0 makes it skip task bar
+	win = gtk.Dialog(
+		parent=parent,
+		transient_for=transient_for,
+	)
+	# flags=0 makes it skip task bar
 	if title:
 		win.set_title(title)
 	hbox = HBox(spacing=10)
@@ -388,7 +393,7 @@ class CopyLabelMenuItem(MenuItem):
 
 
 if __name__ == "__main__":
-	diolog = gtk.Dialog(parent=None)
+	diolog = gtk.Dialog()
 	w = TimeZoneComboBoxEntry()
 	pack(diolog.vbox, w)
 	diolog.vbox.show_all()

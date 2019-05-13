@@ -802,7 +802,7 @@ class PrefDialog(gtk.Window):
 		"""
 		pack(vbox, hbox, 1, 1)
 		##########################
-		d = gtk.Dialog(parent=self)
+		d = gtk.Dialog(transient_for=self)
 		d.set_transient_for(self)
 		# dialog.set_transient_for(parent) makes the window on top of parent
 		# and at the center point of parent
@@ -1144,7 +1144,7 @@ class PrefDialog(gtk.Window):
 			if ui.checkNeedRestart():
 				d = gtk.Dialog(
 					title=_("Restart " + core.APP_DESC),
-					parent=self,
+					transient_for=self,
 					flags=(
 						gtk.DialogFlags.MODAL |
 						gtk.DialogFlags.DESTROY_WITH_PARENT
@@ -1474,9 +1474,9 @@ class PrefDialog(gtk.Window):
 		accountId = self.accountsTreestore[index][0]
 		account = ui.eventAccounts[accountId]
 		if not account.loaded:
-			showError(_("Account must be enabled before editing"), parent=self)
+			showError(_("Account must be enabled before editing"), transient_for=self)
 			return
-		account = AccountEditorDialog(account, parent=self).run()
+		account = AccountEditorDialog(account, transient_for=self).run()
 		if account is None:
 			return
 		account.save()
@@ -1492,12 +1492,12 @@ class PrefDialog(gtk.Window):
 
 	def accountsRegisterClicked(self, button):
 		from scal3.ui_gtk.event.register_starcal import StarCalendarRegisterDialog
-		win = StarCalendarRegisterDialog(parent=self)
+		win = StarCalendarRegisterDialog(transient_for=self)
 		win.present()
 
 	def accountsAddClicked(self, button):
 		from scal3.ui_gtk.event.account_op import AccountEditorDialog
-		account = AccountEditorDialog(parent=self).run()
+		account = AccountEditorDialog(transient_for=self).run()
 		if account is None:
 			return
 		account.save()
@@ -1526,7 +1526,7 @@ class PrefDialog(gtk.Window):
 		account = ui.eventAccounts[accountId]
 		if not confirm(
 			_("Do you want to delete account \"%s\"") % account.title,
-			parent=self,
+			transient_for=self,
 		):
 			return
 		ui.eventAccounts.delete(account)

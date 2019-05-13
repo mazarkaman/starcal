@@ -88,7 +88,7 @@ class WidgetClass(common.WidgetClass):
 if __name__ == "__main__":
 	combo = Scale10PowerComboBox()
 	combo.set_value(200)
-	win = gtk.Dialog(parent=None)
+	win = gtk.Dialog()
 	pack(win.vbox, combo)
 	win.vbox.show_all()
 	win.run()

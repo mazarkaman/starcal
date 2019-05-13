@@ -526,7 +526,7 @@ class WeeklyScheduleWindow(gtk.Dialog):
 		surface.finish()
 
 	def exportToSvgClicked(self, obj=None):
-		fcd = gtk.FileChooserDialog(parent=self, action=gtk.FileChooserAction.SAVE)
+		fcd = gtk.FileChooserDialog(transient_for=self, action=gtk.FileChooserAction.SAVE)
 		fcd.set_current_folder(deskDir)
 		fcd.set_current_name(self.term.title + ".svg")
 		canB = fcd.add_button("gtk-cancel", gtk.ResponseType.CANCEL)
@@ -548,4 +548,4 @@ class WeeklyScheduleWindow(gtk.Dialog):
 
 
 def viewWeeklySchedule(group):
-	WeeklyScheduleWindow(group, parent=ui.prefDialog).show()
+	WeeklyScheduleWindow(group, transient_for=ui.prefDialog).show()

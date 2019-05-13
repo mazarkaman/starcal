@@ -149,7 +149,7 @@ class TextFrame(gtk.Frame):
 
 
 if __name__ == "__main__":
-	d = gtk.Dialog(parent=None)
+	d = gtk.Dialog()
 	clock = FClockLabel()
 	clock.start()
 	pack(d.vbox, clock, 1, 1)

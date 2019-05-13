@@ -77,7 +77,7 @@ class WidgetClass(gtk.Box):
 		print("----- toplevel", self.get_toplevel())
 		self.dialog = gtk.Dialog(
 			title=self.rule.desc,
-			parent=self.get_toplevel(),
+			transient_for=self.get_toplevel(),
 		)
 		###
 		self.treev = gtk.TreeView()

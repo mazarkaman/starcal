@@ -625,7 +625,7 @@ class CalObj(gtk.Box, CustomizableCalObj):
 
 
 if __name__ == "__main__":
-	win = gtk.Dialog(parent=None)
+	win = gtk.Dialog()
 	box = CalObj()
 	win.add_events(
 		gdk.EventMask.POINTER_MOTION_MASK |

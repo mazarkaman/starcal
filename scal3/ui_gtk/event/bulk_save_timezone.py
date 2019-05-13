@@ -109,4 +109,4 @@ class BulkSaveTimeZoneDialog(gtk.Dialog):
 
 
 if __name__ == "__main__":
-	BulkSaveTimeZoneDialog(parent=None).run()
+	BulkSaveTimeZoneDialog().run()

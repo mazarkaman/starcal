@@ -447,7 +447,7 @@ class TimeLine(gtk.DrawingArea, ud.BaseCalObj):
 		event = EventEditorDialog(
 			event,
 			title=winTitle,
-			#parent=self,## FIXME
+			#transient_for=self,## FIXME
 		).run()
 		if event is None:
 			return
@@ -458,7 +458,7 @@ class TimeLine(gtk.DrawingArea, ud.BaseCalObj):
 		from scal3.ui_gtk.event.group.editor import GroupEditorDialog
 		group = GroupEditorDialog(
 			group,
-			parent=self.get_toplevel(),
+			transient_for=self.get_toplevel(),
 		).run()
 		if group is not None:
 			group.afterModify()

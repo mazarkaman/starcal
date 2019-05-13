@@ -286,7 +286,7 @@ class ViewEditTagsHbox(gtk.Box):
 		pack(self, gtk.Label(label=_("Tags") + ":  "))
 		self.tagsLabel = gtk.Label()
 		pack(self, self.tagsLabel, 1, 1)
-		self.dialog = TagEditorDialog(eventType, parent=self.get_toplevel())
+		self.dialog = TagEditorDialog(eventType, transient_for=self.get_toplevel())
 		self.dialog.connect("response", self.dialogResponse)
 		self.editButton = gtk.Button()
 		self.editButton.set_label(_("_Edit"))

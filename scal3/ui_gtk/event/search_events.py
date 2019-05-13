@@ -381,7 +381,7 @@ class EventSearchWindow(gtk.Window, MyDialog, ud.BaseCalObj):
 		event = EventEditorDialog(
 			event,
 			title=_("Edit ") + event.desc,
-			parent=self,
+			transient_for=self,
 		).run()
 		if event is None:
 			return
