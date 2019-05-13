@@ -22,4 +22,4 @@ class FontFamilyButton(gtk.FontButton):
 	def set_value(self, fontFamilyName):
 		if fontFamilyName is None:
 			fontFamilyName = ui.getFont()[0]
-		self.set_font_name(gfontEncode((fontFamilyName, False, False, 15)))
+		self.set_font(gfontEncode((fontFamilyName, False, False, 15)))
