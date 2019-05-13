@@ -81,7 +81,8 @@ def getCurrentJd() -> int:
 	return gregorian_to_jd(y, m, d)
 
 def readLocationData():
-	lines = open(dataDir + "/locations.txt").read().split("\n")
+	with open(dataDir + "/locations.txt") as fp:
+		lines = fp.read().split("\n")
 	cityData = []
 	country = ""
 	for l in lines:
