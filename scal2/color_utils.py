@@ -71,4 +71,8 @@ def rgbToHtmlColor(r, g, b):
 	return '#' + ''.join(['%.2x'%x for x in (r, g, b)])
 
 
-
+def colorizeSpan(text, color):
+	return '<span color="%s">%s</span>' % (
+		rgbToHtmlColor(*color),
+		text,
+	)
