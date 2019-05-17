@@ -19,6 +19,7 @@
 
 from time import time as now
 
+from scal2.color_utils import colorizeSpan
 from scal2.cal_types import calTypes
 from scal2 import core
 from scal2.locale_man import getMonthName, rtl
@@ -78,8 +79,7 @@ class BaseLabel(gtk.EventBox):
 @registerSignals
 class MonthLabel(BaseLabel, ud.BaseCalObj):
 	getItemStr = lambda self, i: _(i+1, fillZero=2)
-	getActiveStr = lambda self, s: '<span color="%s">%s</span>'%(ui.menuActiveLabelColor, s)
-	#getActiveStr = lambda self, s: '<b>%s</b>'%s
+	getActiveStr = lambda self, s: colorizeSpan(s, ui.labelBoxMenuActiveColor)
 	def __init__(self, mode, active=0):
 		BaseLabel.__init__(self)
 		#self.set_border_width(1)#???????????
@@ -115,6 +115,15 @@ class MonthLabel(BaseLabel, ud.BaseCalObj):
 			self.menu.append(item)
 			self.menuLabels.append(label)
 		self.menu.show_all()
+
+	def getMainLabelText(self, active):
+		text = getMonthName(self.mode, active + 1)
+		if ui.labelBoxMonthColorEnable:
+			text = colorizeSpan(text, ui.labelBoxMonthColor)
+		if ui.boldYmLabel:
+			text = "<b>%s</b>" % text
+		return text
+
 	def setActive(self, active):
 	## (Performance) update menu here, or make menu entirly before popup ????????????????
 		s = getMonthName(self.mode, active+1)
@@ -131,17 +140,11 @@ class MonthLabel(BaseLabel, ud.BaseCalObj):
 			else:
 				self.menuLabels[self.active].set_label(s2)
 				self.menuLabels[active].set_label(self.getActiveStr(s))
-		if ui.boldYmLabel:
-			self.label.set_label('<b>%s</b>'%s)
-		else:
-			self.label.set_label(s)
+		self.label.set_label(self.getMainLabelText(self.active))
 		self.active = active
 	def changeMode(self, mode):
 		self.mode = mode
-		if ui.boldYmLabel:
-			self.label.set_label('<b>%s</b>'%getMonthName(self.mode, self.active+1))
-		else:
-			self.label.set_label(getMonthName(self.mode, self.active+1))
+		self.label.set_label(self.getMainLabelText(self.active))
 		for i in range(12):
 			if ui.monthRMenuNum:
 				s = '%s: %s'%(self.getItemStr(i), getMonthName(self.mode, i+1))
@@ -178,8 +181,7 @@ class MonthLabel(BaseLabel, ud.BaseCalObj):
 
 @registerSignals
 class IntLabel(BaseLabel):
-	#getActiveStr = lambda self, s: '<b>%s</b>'%s
-	getActiveStr = lambda self, s: '<span color="%s">%s</span>'%(ui.menuActiveLabelColor, s)
+	getActiveStr = lambda self, s: colorizeSpan(s, ui.labelBoxMenuActiveColor)
 	signals = [
 		('changed', [int]),
 	]
@@ -330,6 +332,14 @@ class YearLabel(IntLabel, ud.BaseCalObj):
 	def onDateChange(self, *a, **ka):
 		ud.BaseCalObj.onDateChange(self, *a, **ka)
 		self.setActive(ui.cell.dates[self.mode][0])
+	def setActive(self, active):
+		text = _(active)
+		if ui.labelBoxYearColorEnable:
+			text = colorizeSpan(text, ui.labelBoxYearColor)
+		if ui.boldYmLabel:
+			text = "<b>%s</b>" % text
+		self.label.set_label(text)
+		self.active = active
 
 
 def newSmallNoFocusButton(stock, func, tooltip=''):
@@ -458,6 +468,47 @@ class CalObj(gtk.HBox, CustomizableCalObj):
 		self.show_all()
 		#####
 		self.onDateChange()
+
+	def optionsWidgetCreate(self):
+		from scal2.ui_gtk.pref_utils import LiveColorPrefItem, LiveCheckPrefItem, \
+			CheckPrefItem, ColorPrefItem, LiveCheckColorPrefItem
+		if self.optionsWidget:
+			return self.optionsWidget
+		####
+		optionsWidget = VBox(spacing=10)
+		####
+		hbox = HBox(spacing=5)
+		pack(hbox, gtk.Label(_("Active menu item color")))
+		prefItem = LiveColorPrefItem(
+			ui,
+			"labelBoxMenuActiveColor",
+			onChangeFunc=self.onConfigChange,
+		)
+		pack(hbox, prefItem.getWidget())
+		pack(optionsWidget, hbox)
+		###
+		checkSizeGroup = gtk.SizeGroup(gtk.SIZE_GROUP_HORIZONTAL)
+		###
+		prefItem = LiveCheckColorPrefItem(
+			CheckPrefItem(ui, "labelBoxYearColorEnable", _("Year Color")),
+			ColorPrefItem(ui, "labelBoxYearColor", True),
+			onChangeFunc=self.onDateChange,
+			checkSizeGroup=checkSizeGroup,
+		)
+		pack(optionsWidget, prefItem.getWidget())
+		###
+		prefItem = LiveCheckColorPrefItem(
+			CheckPrefItem(ui, "labelBoxMonthColorEnable", _("Month Color")),
+			ColorPrefItem(ui, "labelBoxMonthColor", True),
+			onChangeFunc=self.onDateChange,
+			checkSizeGroup=checkSizeGroup,
+		)
+		pack(optionsWidget, prefItem.getWidget())
+		###
+		optionsWidget.show_all()
+		self.optionsWidget = optionsWidget
+		return self.optionsWidget
+
 
 
 if __name__=='__main__':

@@ -2,11 +2,14 @@ __all__ = [
 	'gtk',
 	'gdk',
 	'pack',
+	"VBox",
+	"HBox",
 	'TWO_BUTTON_PRESS',
 ]
 
 import gtk
 from gtk import gdk
+from gtk import VBox, HBox
 
 def pack(box, child, expand=False, fill=False, padding=0):
 	if isinstance(box, gtk.Box):

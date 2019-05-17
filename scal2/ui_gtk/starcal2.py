@@ -140,6 +140,12 @@ class MainWinVbox(gtk.VBox, CustomizableCalBox):
 		'ui.wcalFont_eventsBox',
 		'ui.pluginsTextInsideExpander',
 		'ud.mainToolbarData',
+
+		"ui.labelBoxMenuActiveColor",
+		"ui.labelBoxYearColorEnable",
+		"ui.labelBoxYearColor",
+		"ui.labelBoxMonthColorEnable",
+		"ui.labelBoxMonthColor",
 	)
 	def __init__(self):
 		gtk.VBox.__init__(self)

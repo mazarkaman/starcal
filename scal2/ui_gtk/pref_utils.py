@@ -82,6 +82,9 @@ class ModuleOptionItem:
 		self.updateVar = lambda: setattr(self.module, self.var_name, self.get_value())
 		self.updateWidget = lambda: self.set_value(getattr(self.module, self.var_name))
 
+	def getWidget(self):
+		return self._widget
+
 
 ## ('button', LABEL, CLICKED_MODULE_NAME, CLICKED_FUNCTION_NAME)
 class ModuleOptionButton:
@@ -98,6 +101,8 @@ class ModuleOptionButton:
 	def updateWidget(self):
 		pass
 
+	def getWidget(self):
+		return self._widget
 
 
 class PrefItem():
@@ -122,6 +127,9 @@ class PrefItem():
 		## yet another reason to switch to JSON for config files
 		## FIXME
 		return '%s=%s\n'%(self.varName, valueStr)
+
+	def getWidget(self):
+		return self._widget
 
 
 class ComboTextPrefItem(PrefItem):
@@ -224,6 +232,19 @@ class CheckPrefItem(PrefItem):
 		self._sensitiveWidget.set_sensitive(active)
 
 
+class LiveCheckPrefItem(CheckPrefItem):
+	def __init__(self, module, varName, label="", tooltip="", onChangeFunc=None):
+		CheckPrefItem.__init__(self, module, varName, label=label, tooltip=tooltip)
+		self._onChangeFunc = onChangeFunc
+		# updateWidget needs to be called before following connect() calls
+		self.updateWidget()
+		self._widget.connect("clicked", self.onClicked)
+
+	def onClicked(self, w):
+		self.updateVar()
+		if self._onChangeFunc:
+			self._onChangeFunc()
+
 
 class ColorPrefItem(PrefItem):
 	def __init__(self, module, varName, useAlpha=False):
@@ -254,6 +275,66 @@ class ColorPrefItem(PrefItem):
 				raise ValueError
 		else:
 			self._widget.set_color(color)
+
+class LiveColorPrefItem(ColorPrefItem):
+	def __init__(self, module, varName, useAlpha=False, onChangeFunc=None):
+		ColorPrefItem.__init__(self, module, varName, useAlpha=useAlpha)
+		self._onChangeFunc = onChangeFunc
+		# updateWidget needs to be called before following connect() calls
+		self.updateWidget()
+		self._widget.connect("color-set", self.onColorSet)
+
+	def onColorSet(self, w):
+		self.updateVar()
+		if self._onChangeFunc:
+			self._onChangeFunc()
+
+# combination of CheckPrefItem and ColorPrefItem in a HBox, with auto-update / auto-apply, for use in Customize window
+class LiveCheckColorPrefItem(PrefItem):
+	def __init__(
+		self,
+		checkItem, # type: CheckPrefItem
+		colorItem, # type: ColorPrefItem
+		onChangeFunc = None, # type: Optional[Callable]
+		checkSizeGroup = None, # type: Optional[gtk.SizeGroup]
+	):
+		self._checkItem = checkItem
+		self._colorItem = colorItem
+		self._onChangeFunc = onChangeFunc
+
+		checkb = self._checkItem.getWidget()
+		colorb = self._colorItem.getWidget()
+
+		if checkSizeGroup:
+			checkSizeGroup.add_widget(checkb)
+
+		hbox = HBox(spacing=3)
+		pack(hbox, checkb)
+		pack(hbox, colorb)
+		self._widget = hbox
+
+		# updateWidget needs to be called before following connect() calls
+		self.updateWidget()
+
+		checkb.connect("clicked", self.onChange)
+		colorb.connect("color-set", self.onChange)
+
+	def updateVar(self):
+		self._checkItem.updateVar()
+		self._colorItem.updateVar()
+
+	def updateWidget(self):
+		# FIXME: this func is triggering onChange func, can we avoid that?
+		self._checkItem.updateWidget()
+		self._colorItem.updateWidget()
+		self._colorItem.getWidget().set_sensitive(self._checkItem.get())
+
+	def onChange(self, w):
+		self.updateVar()
+		self._colorItem.getWidget().set_sensitive(self._checkItem.get())
+		if self._onChangeFunc:
+			self._onChangeFunc()
+
 
 class SpinPrefItem(PrefItem):
 	def __init__(self, module, varName, _min, _max, digits=1):

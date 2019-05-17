@@ -657,6 +657,14 @@ except NameError:
 	pass
 
 ####################
+
+labelBoxMenuActiveColor = (0, 255, 0, 255)
+labelBoxYearColorEnable = False
+labelBoxYearColor = (255, 132, 255, 255)
+labelBoxMonthColorEnable = False
+labelBoxMonthColor = (255, 132, 255, 255)
+
+####################
 boldYmLabel = True ## apply in Pref FIXME
 showYmArrows = True ## apply in Pref FIXME
 labelMenuDelay = 0.1 ## delay for shift up/down items of menu for right click on YearLabel
@@ -669,7 +677,6 @@ statusIconFontFamily = None
 statusIconFixedSizeEnable = False
 statusIconFixedSizeWH = (24, 24)
 ####################
-menuActiveLabelColor = "#ff0000"
 pluginsTextStatusIcon = False
 pluginsTextInsideExpander = True
 pluginsTextIsExpanded = True ## affect only if pluginsTextInsideExpander
