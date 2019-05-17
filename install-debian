@@ -19,8 +19,8 @@ function installPackage(){
 }
 
 if [ "$UID" != "0" ] ; then
-  echo "Run this script as root"
-  exit 1
+	echo "Run this script as root" >&2
+	exit 1
 fi
 
 if ! git --version ; then
@@ -46,7 +46,7 @@ sourceDir="`dirname \"$myPath\"`"
 version=`"$sourceDir/scal2/get_version.py"`
 
 
-tmpDir=/tmp/starcal2-install-deb
+tmpDir=/tmp/$pkgName-install-deb
 mkdir -p $tmpDir
 mkdir -p "$tmpDir/DEBIAN"
 
