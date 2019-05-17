@@ -131,7 +131,7 @@ class PrefDialog(gtk.Dialog):
 		pack(vbox, hbox)
 		################################ Tab 2 (Appearance) ###########################################
 		vbox = gtk.VBox()
-		vbox.label = _('A_ppearance')
+		vbox.label = _('Appeara_nce')
 		vbox.icon = 'preferences-desktop-theme.png'
 		self.prefPages.append(vbox)
 		########
