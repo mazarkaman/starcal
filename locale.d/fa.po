@@ -33,7 +33,7 @@ msgstr ""
 
 msgid "_Cancel"
 msgstr ""
-"_انصراف"
+"ا_نصراف"
 
 msgid "_Close"
 msgstr ""
@@ -173,6 +173,10 @@ msgid "Calendar"
 msgstr ""
 "تقویم"
 
+msgid "%s Calendar"
+msgstr ""
+"تقویم %s"
+
 msgid "Apply and Close"
 msgstr ""
 "اعمال و بستن"
@@ -252,6 +256,10 @@ msgstr ""
 msgid "Ethiopian"
 msgstr ""
 "اتیوپیایی"
+
+msgid "Julian Day Number"
+msgstr ""
+"عدد روز جولی"
 
 
 msgid "Language"
@@ -763,11 +771,35 @@ msgstr ""
 
 msgid "Use (Iranian) database for Hijri months length"
 msgstr ""
-"از دیتابیس طول ماه‌های قمری استفاده‌کن (تقویم رسمی ایران)"
+"استفاده از دادهٔ طول ماه‌های قمری (تقویم رسمی ایران)"
 
 msgid "Tune Hijri Monthes"
 msgstr ""
 "تنظیم ماه‌های قمری"
+
+
+msgid "Hijri months expired"
+msgstr ""
+"ماه‌های قمری منقضی شده‌اند"
+
+msgid "Hijri months are expired."
+"\n"
+"Please update StarCalendar."
+"\n"
+"Otherwise, Hijri dates and Iranian official holidays would be incorrect."
+msgstr ""
+"ماه‌های قمری منقضی شده‌اند"
+"\n"
+"لطفا StarCalendar را به‌روزرسانی کنید"
+"\n"
+"در غیر این صورت، تاریخ‌های قمری و تعطیلات رسمی ایران نادرست خواهند بود"
+
+
+msgid "Don't show this again"
+msgstr ""
+"دیگر این را نمایش نده"
+
+
 
 msgid "Equals to"
 msgstr ""
@@ -787,7 +819,7 @@ msgstr ""
 
 msgid "Calendar Types"
 msgstr ""
-"نوع تقویم‌ها"
+"انواع تقویم‌ها"
 
 msgid "Active"
 msgstr ""
@@ -837,7 +869,15 @@ msgid "Enable/Disable"
 msgstr ""
 "فعال/غیرفعال کردن"
 
+msgid "Disabled"
+msgstr ""
+"غیرفعال"
+
 msgid "position"
+msgstr ""
+"مکان"
+
+msgid "Position"
 msgstr ""
 "مکان"
 
@@ -894,6 +934,10 @@ msgstr ""
 msgid "Yearly Events Group"
 msgstr ""
 "گروه رویدادهای سالیانه"
+
+msgid "Monthly Event"
+msgstr ""
+"رویداد ماهیانه"
 
 msgid "Weekly Event"
 msgstr ""
@@ -1115,6 +1159,118 @@ msgid "Edit Trash"
 msgstr ""
 "ویرایش زباله‌دان"
 
+msgid "History"
+msgstr ""
+"تاریخچه"
+
+msgid "Event History"
+msgstr ""
+"تاریخچهٔ رویداد"
+
+msgid "Group History"
+msgstr ""
+"تاریخچهٔ گروه"
+
+msgid "Change Summary"
+msgstr ""
+"خلاصهٔ تغییرات"
+
+msgid "(Added Event)"
+msgstr ""
+"(رویداد اضافه شد)"
+
+msgid "%s parameters"
+msgstr ""
+"%s پارامتر"
+
+msgid "Revert"
+msgstr ""
+"خنثی‌سازی"
+
+msgid "Revert this vhange"
+msgstr ""
+"خنثی‌سازی این تغییر"
+
+msgid "Select revision after this change"
+msgstr ""
+"انتخاب نسخهٔ بعد از این تغییر"
+
+msgid "Select revision before this change"
+msgstr ""
+"انتخاب نسخهٔ قبل از این تغییر"
+
+msgid "View type"
+msgstr ""
+"نوع نمایش"
+
+msgid "Change Table"
+msgstr ""
+"جدول تغییرات"
+
+msgid "Full Table"
+msgstr ""
+"جدول کامل"
+
+msgid "After change (Text)"
+msgstr ""
+"بعد از تغییر (متنی)"
+
+msgid "After change (JSON)"
+msgstr ""
+"بعد از تغییر (JSON)"
+
+msgid "After change (Plain JSON)"
+msgstr ""
+"بعد از تغییر (JSON هموار)"
+
+msgid "Before change (Text)"
+msgstr ""
+"قبل از تغییر (متنی)"
+
+msgid "Before change (JSON)"
+msgstr ""
+"قبل از تغییر (JSON)"
+
+msgid "Before change (Plain JSON)"
+msgstr ""
+"قبل از تغییر (JSON هموار)"
+
+msgid "Change (JSON Diff)"
+msgstr ""
+"تغییر (JSON Diff)"
+
+msgid "Key"
+msgstr ""
+"کلید"
+
+msgid "Old Value"
+msgstr ""
+"مقدار قبلی"
+
+msgid "New Value"
+msgstr ""
+"مقدار جدید"
+
+msgid "%s seconds"
+msgstr ""
+"%s ثانیه"
+
+msgid "%s minutes"
+msgstr ""
+"%s دقیقه"
+
+msgid "%s hours"
+msgstr ""
+"%s ساعت"
+
+msgid "%s days"
+msgstr ""
+"%s روز"
+
+msgid "%s weeks"
+msgstr ""
+"%s هفته"
+
 msgid "Move to %s"
 msgstr ""
 "جابجایی به %s"
@@ -1142,6 +1298,10 @@ msgstr ""
 msgid "Copy _Date"
 msgstr ""
 "کپی _تاریخ"
+
+msgid "Copy %s Date"
+msgstr ""
+"کپی تاریخ %s"
 
 msgid "Copy _Time"
 msgstr ""
@@ -1181,6 +1341,14 @@ msgstr ""
 msgid "Duplicate with All Events"
 msgstr ""
 "دوتا کردن با تمام رویدادها"
+
+msgid "Enable All Groups"
+msgstr ""
+"فعال کردن تمام گروه‌ها"
+
+msgid "Disable All Groups"
+msgstr ""
+"غیرفعال کردن تمام گروه‌ها"
 
 msgid "Convert to %s"
 msgstr ""
@@ -1338,6 +1506,11 @@ msgstr ""
 msgid "Default Calendar Type"
 msgstr ""
 "نوع تقویم پیش‌فرض"
+
+msgid "Default Calendar"
+msgstr ""
+"تقویم پیش‌فرض"
+
 
 msgid "Event Cache Size"
 msgstr ""
@@ -1515,13 +1688,17 @@ msgid "Time Line"
 msgstr ""
 "خط زمان"
 
+msgid "Year Wheel"
+msgstr ""
+"چرخ سال"
+
 msgid "Week Calendar"
 msgstr ""
-"تقویم هفتگی"
+"تقویم هفته"
 
 msgid "Switch to Week Calendar"
 msgstr ""
-"تغییر به تقویم هفتگی"
+"تغییر به تقویم هفته"
 
 msgid "Switch to Month Calendar"
 msgstr ""
@@ -1544,6 +1721,14 @@ msgid "Events Box"
 msgstr ""
 "جعبهٔ رویدادها"
 
+msgid "Past Event Color"
+msgstr ""
+"رنگ رویداد گذشته"
+
+msgid "Use the color of event group for event text"
+msgstr ""
+"از رنگ گروه رویدادها بعنوان رنگ متن رویداد استفاده کن"
+
 msgid "Days of Month"
 msgstr ""
 "روزهای ماه"
@@ -1565,12 +1750,37 @@ msgstr ""
 "خودکار"
 
 
+msgid "Alignment"
+msgstr ""
+"جهت"
+
+msgid "Center"
+msgstr ""
+"وسط"
+
+msgid "Left"
+msgstr ""
+"چپ"
+
+msgid "Right"
+msgstr ""
+"راست"
+
+msgid "Top"
+msgstr ""
+"بالا"
+
+msgid "Buttom"
+msgstr ""
+"پایین"
+
+
 
 msgid "aboutText"
 msgstr ""
 
 "یک برنامهٔ کامل تقویم که با زبان پایتون نوشته شده است\n"
-"کپی‌لفت © ۲۰۰۸-۲۰۱۷ سعید رسولی\n"
+"کپی‌لفت © ۲۰۰۸-۲۰۱۸ سعید رسولی\n"
 "برنامهٔ StarCalendar تحت مجوز همگانی عمومی گنو (GNU GPL) منتشر شده است\n"
 "«من برای کاربران می‌جنگم!» (نقل قول از TRON)"
 
@@ -1578,7 +1788,7 @@ msgstr ""
 msgid "licenseText"
 msgstr ""
 "‫StarCalendar - یک برنامهٔ کامل تقویم که با زبان پایتون نوشته شده است\n"
-"کپی‌رایت © ۲۰۰۸-۲۰۱۷ سعید رسولی\n"
+"کپی‌رایت © ۲۰۰۸-۲۰۱۸ سعید رسولی\n"
 "این یک نرم‌افزار آزاد است؛ شما می‌توانید آن را مجدداً توزیع کنید و/یا تغییر دهید، به شرطی که تحت بندهای مجوز همگانی عمومی گنو (GNU GPL) که توسط بنیاد نرم‌افزار آزاد منتشر شده است، باشد؛ چه نسخهٔ ۳ یا (بنا به انتخاب خود) هر نسخهٔ بعدی این مجوز.\n"
 "\n"
 "این برنامه منتشر شده است با این امید که مفید واقع شود، اما بدون هیچ گونه ضمانتی؛ حتی بدون ضمانت قابل ارائهٔ تجاری بودنِ کار و یا مناسب بودن برای یک منظور خاص. برای جزئیّات بیشتر، مجوز همگانی عمومی گنو را ببینید.\n"
@@ -1855,13 +2065,47 @@ msgid "Type"
 msgstr ""
 "نوع"
 
+
+msgid "Language and Calendar Types"
+msgstr ""
+"زبان و انواع تقویم‌ها"
+
+msgid "_Language and Calendar Types"
+msgstr ""
+"زبان و انواع تقویم‌ها"
+
+msgid "General"
+msgstr ""
+"عمومی"
+
+msgid "Appearance"
+msgstr ""
+"ظاهر"
+
+msgid "Regional"
+msgstr ""
+"منطقه‌ای"
+
+msgid "Plugins"
+msgstr ""
+"افزونه‌ها"
+
+msgid "Advanced"
+msgstr ""
+"پیشرفته"
+
+
 msgid "_General"
 msgstr ""
 "ع_مومی"
 
-msgid "A_ppearance"
+msgid "Appeara_nce"
 msgstr ""
 "_ظاهر"
+
+msgid "_Regional"
+msgstr ""
+"من_طقه‌ای"
 
 msgid "_Plugins"
 msgstr ""
@@ -1871,14 +2115,15 @@ msgid "A_dvanced"
 msgstr ""
 "_پیشرفته"
 
-msgid "Account"
-msgstr ""
-"حساب"
-
-
 msgid "Accounts"
 msgstr ""
 "حساب‌ها"
+
+
+
+msgid "Account"
+msgstr ""
+"حساب"
 
 msgid "Edit Account"
 msgstr ""
@@ -1935,6 +2180,11 @@ msgid "Synchronize"
 msgstr ""
 "همگام‌سازی"
 
+msgid "Synchronization Interval"
+msgstr ""
+"بازهٔ همگام‌سازی"
+
+
 msgid "Error in synchronizing group \"%(group)s\" with account \"%(account)s\""
 msgstr ""
 "خطا در همگام‌سازی گروه «%(group)s» با حساب «%(account)s»"
@@ -1973,15 +2223,22 @@ msgstr ""
 #msgid "Failed to find \"code\" in the query parameters of the redirect."
 
 
-msgid "Show main window on start"
+msgid "Open main window on start"
 msgstr ""
-"در هنگام شروع، پنجرهٔ اصلی را نمایش بده"
+"باز کردن پنجرهٔ اصلی در هنگام شروع"
 
+msgid "Open desktop widget on start"
+msgstr ""
+"باز کردن ویجت دسکتاپ در هنگام شروع"
 
 msgid "Run on session startup"
 msgstr ""
 "در شروعِ نشست اجرا شو"
 
+
+msgid "Week-related Settings"
+msgstr ""
+"تنظیمات مربوط به هفته"
 
 msgid "First day of week"
 msgstr ""
@@ -2036,25 +2293,41 @@ msgid "Border"
 msgstr ""
 "حاشیه"
 
+msgid "Border Font"
+msgstr ""
+"فونت حاشیه"
+
+
 msgid "Normal"
 msgstr ""
 "عادی"
+
+msgid "Normal Text"
+msgstr ""
+"متن عادی"
 
 msgid "Holiday"
 msgstr ""
 "روز‌ تعطیل"
 
+msgid "Holidays Font"
+msgstr ""
+"فونت روز‌ تعطیل"
+
+
 msgid "Inactive Day"
 msgstr ""
 "روز‌ غیرفعال"
+
+msgid "Inactive Day Font"
+msgstr ""
+"فونت روز‌ غیرفعال"
+
 
 msgid "Left Margin"
 msgstr ""
 "حاشیهٔ راست"
 
-msgid "Top"
-msgstr ""
-"بالا"
 
 msgid "Cursor"
 msgstr ""
@@ -2334,11 +2607,6 @@ msgid "_Restart"
 msgstr ""
 "شروع _دوباره"
 
-msgid "Seems that you are using a Unity desktop and StarCalendar is not allowed to use Status Icon. Press OK to add StarCalendar to Unity's white list and then restart Unity"
-msgstr ""
-"به نظر می‌رسد که شما از یک میزکار Unity استفاده می‌کنید و StarCalendar اجازهٔ استفاده از نماد وضعیت را ندارد. دکمهٔ تائید را فشار دهید تا StarCalendar به لیست سفید Unity اضافه شده و سپس Unity دوباره راه‌اندازی شود"
-
-
 
 msgid "Error"
 msgstr "خطا"
@@ -2374,13 +2642,40 @@ msgid "Year & Month Labels"
 msgstr ""
 "برچسب‌های سال و ماه"
 
+msgid "Active menu item color"
+msgstr ""
+"رنگ گزینهٔ فعال در منو"
+
+msgid "Year Color"
+msgstr ""
+"رنگ سال"
+
+msgid "Month Color"
+msgstr ""
+"رنگ ماه"
+
 msgid "Month Calendar"
 msgstr ""
 "تقویم ماه"
+msgid "Day Calendar"
+msgstr ""
+"تقویم روز"
+
+msgid "Day Calendar (Desktop Widget)"
+msgstr ""
+"تقویم روز (ویجت دسکتاپ)"
 
 msgid "Status Bar"
 msgstr ""
 "نوار وضعیت"
+
+msgid "Reverse the order of dates"
+msgstr ""
+"برعکس کردن ترتیب تاریخ‌ها"
+
+msgid "Dates Color"
+msgstr ""
+"رنگ تاریخ‌ها"
 
 msgid "Plugins Text"
 msgstr ""
@@ -2388,7 +2683,11 @@ msgstr ""
 
 msgid "Season Progress Bar"
 msgstr ""
-"نوار پیشروی فصل‌ها"
+"نوار پیشروی فصل"
+
+msgid "Southern Hemisphere"
+msgstr ""
+"نیمکرهٔ جنوبی"
 
 msgid "Spring"
 msgstr ""
@@ -2406,7 +2705,26 @@ msgid "Winter"
 msgstr ""
 "زمستان"
 
+msgid "Year Progress Bar"
+msgstr ""
+"نوار پیشروی سال"
 
+msgid "Month Progress Bar"
+msgstr ""
+"نوار پیشروی ماه"
+
+
+msgid "Moon Status"
+msgstr ""
+"وضعیت ماه"
+
+msgid "Double-click on each row to see its settings"
+msgstr ""
+"با دبل-کلیک روی هر سطر، تنظیمات مربوط به آن را ببینید"
+
+msgid "%s is disabled.\nCheck the checkbox if you want to enable it."
+msgstr ""
+"‌%s غیرفعال است.\nبرای فعال کردنش مربع مربوط به آن را تیک بزنید."
 
 msgid "Icon Size"
 msgstr ""
@@ -2436,6 +2754,9 @@ msgid "Buttons Border"
 msgstr ""
 "حاشیهٔ دکمه‌ها"
 
+msgid "Show buttons"
+msgstr ""
+"نمایش دکمه‌ها"
 
 msgid "Inside Expander"
 msgstr ""
@@ -2735,6 +3056,22 @@ msgstr "محاسبهٔ نزدیک‌ترین شهر"
 msgid "%s kilometers from %s"
 msgstr "%s کیلومتر تا %s"
 
+msgid "Please note that a few minutes error in Pray Times is unavoidable, specially for large cities."
+msgstr ""
+"لطفاً در نظر داشته باشید که یک یا دو دقیقه خطا در اوقات شرعی اجتناب‌ناپذیر است، مخصوصا برای شهرهای بزرگ."
+msgid "For example in Tehran, there is a 2 minutes difference between far-east and far-west points of city."
+msgstr ""
+"مثلاً در شهر تهران، بین شرقی‌ترین و غربی‌ترین نطقهٔ شهر، حدود ۲ دقیقه اختلاف وجود دارد."
+msgid "(Usually the center of cities are taken into account)"
+msgstr ""
+"(عموما مراکز شهرها لحاظ می‌شوند در محاسبه و اعلام اوقات شرعی)"
+msgid "But also calculations are never accurate."
+msgstr ""
+"همینطور محاسبات مربوطه هرگز دقیق نیستند."
+msgid "Please allow at least 2 minutes as a precaution (for Fajr, at least 3 minutes)"
+msgstr ""
+"لطفاً حداقل ۲ دقیقه (و برای اذان صبح ۳ دقیقه) بعنوان احتیاط در نظر بگیرید"
+
 ###############################
 
 msgid "Time Zone"
@@ -2742,6 +3079,9 @@ msgstr "منطقهٔ زمانی"
 
 msgid "Timezone"
 msgstr "منطقهٔ زمانی"
+
+msgid "Default Time Zone"
+msgstr "منطقهٔ زمانی پیش‌فرض"
 
 msgid "Daylight Saving"
 msgstr "صرفه‌جویی نور روز"
@@ -2783,10 +3123,14 @@ msgid "Invalid Time Zone: %s"
 msgstr ""
 "منطقهٔ زمانی نامعتبر: %s"
 
+msgid "Events are Read-Only because they are locked by another StarCalendar 3.x process"
+msgstr ""
+"رویدادها قابل تغییر نیستند چون توسط یک پروسهٔ دیگر از StarCalendar 3 قفل شده‌اند"
 
 
-
-
+msgid "This event is outside of date range specified in it's group. You probably need to edit group \"%s\" and change \"Start\" or \"End\" values"
+msgstr ""
+"این رویداد خارج از بازهٔ زمانی است که در گروهش مشخص شده. احتمالاً نیاز دارید که گروه «%s» را ویرایش کرده و مقادیر «شروع» یا «پایان» را تغییر دهید"
 
 
 
@@ -3985,9 +4329,9 @@ msgid "Hamid Zarrabi-Zadeh <zarrabi@scs.carleton.ca>"
 msgstr ""
 "حمید ضرابی‌زاده <zarrabi@scs.carleton.ca>"
 
-msgid "Reza Moradi Ghiasabadi(http://www.ghiasabadi.com)"
+msgid "Reza Moradi Ghiasabadi (www.ghiasabadi.com)"
 msgstr ""
-"رضا مرادی غیاث‌آبادی(http://www.ghiasabadi.com)"
+"رضا مرادی غیاث‌آبادی (www.ghiasabadi.com)"
 
 msgid "translator-credits"
 msgstr "Saeed Rasooli <saeed.gnu@gmail.com>"
