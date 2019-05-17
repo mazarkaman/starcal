@@ -67,12 +67,12 @@ def hslToRgb(h, s, l):
 
 htmlColorToRgb = lambda hc: (int(hc[1:3], 16), int(hc[3:5], 16), int(hc[5:7], 16))
 
-def rgbToHtmlColor(r, g, b):
-	return '#' + ''.join(['%.2x'%x for x in (r, g, b)])
+def rgbToHtmlColor(color): # color is Union[Tuple[int, int, int], Tuple[int, int, int, int]]
+	return '#' + ''.join(['%.2x'%x for x in color])
 
 
 def colorizeSpan(text, color):
 	return '<span color="%s">%s</span>' % (
-		rgbToHtmlColor(*color),
+		rgbToHtmlColor(color),
 		text,
 	)
