@@ -566,6 +566,11 @@ class MainWin(gtk.ApplicationWindow, ud.BaseCalObj):
 		ui.eventDiff.add("e", event)
 		self.onConfigChange()
 
+	def trimMenuItemLabel(self, s: str, maxLen: int):
+		if len(s) > maxLen-3:
+			s = s[:maxLen-3].rstrip(" ") + "..."
+		return s
+
 	def addEditEventCellMenuItems(self, menu):
 		if event_lib.allReadOnly:
 			return
@@ -576,7 +581,7 @@ class MainWin(gtk.ApplicationWindow, ud.BaseCalObj):
 			for eData in eventsData:
 				groupId, eventId = eData["ids"]
 				menu.add(labelImageMenuItem(
-					_("Edit") + ": " + eData["text"][0],
+					_("Edit") + ": " + self.trimMenuItemLabel(eData["text"][0], 25),
 					eData["icon"],
 					self.editEventFromMenu, groupId, eventId,
 				))
