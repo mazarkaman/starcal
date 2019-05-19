@@ -103,7 +103,20 @@ class YearWheel(gtk.DrawingArea, ud.BaseCalObj):
 		)
 
 	def onDraw(self, widget=None, event=None):
-		cr = self.get_window().cairo_create()
+		win = self.get_window()
+		region = win.get_visible_region()
+		# FIXME: This must be freed with cairo_region_destroy() when you are done.
+		# where is cairo_region_destroy? No region.destroy() method
+		dctx = win.begin_draw_frame(region)
+		if dctx is None:
+			raise RuntimeError("begin_draw_frame returned None")
+		cr = dctx.get_cairo_context()
+		try:
+			self.drawWithContext(cr)
+		finally:
+			win.end_draw_frame(dctx)
+
+	def drawWithContext(self, cr: "cairo.Context"):
 		width = float(self.get_allocation().width)
 		height = float(self.get_allocation().height)
 		dia = min(width, height)
