@@ -24,6 +24,8 @@ from time import time as now
 import sys
 import os
 
+from typing import Tuple, List, Callable, Optional
+
 from scal3.utils import myRaise
 from scal3 import core
 from scal3.locale_man import tr as _
@@ -187,10 +189,27 @@ class Column(gtk.DrawingArea, ColumnBase):
 		if self.customizeExpand:
 			self.expand = self.getExpandValue()
 
-	def getContext(self):
-		return self.get_window().cairo_create()
+	def getContext(self) -> Tuple["cairo.Context", Callable]:
+		win = self.get_window()
+		region = win.get_visible_region()
+		# FIXME: This must be freed with cairo_region_destroy() when you are done.
+		# where is cairo_region_destroy? No region.destroy() method
+		dctx = win.begin_draw_frame(region)
+		if dctx is None:
+			raise RuntimeError("begin_draw_frame returned None")
+		ctx = dctx.get_cairo_context()
+		def end():
+			win.end_draw_frame(dctx)
+		return ctx, end
 
-	def drawBg(self, cr):
+	def onExposeEvent(self, widget=None, event=None):
+		cr, end = self.getContext()
+		try:
+			self.drawColumn(cr)
+		finally:
+			end()
+
+	def drawBg(self, cr: "cairo.Context"):
 		alloc = self.get_allocation()
 		w = alloc.width
 		h = alloc.height
@@ -236,17 +255,17 @@ class Column(gtk.DrawingArea, ColumnBase):
 				)
 				cr.fill()
 
-	def drawCursorOutline(self, cr, cx0, cy0, cw, ch):
+	def drawCursorOutline(self, cr: "cairo.Context", cx0: float, cy0: float, cw: float, ch: float):
 		cursorRadius = ui.wcalCursorRoundingFactor * min(cw, ch) * 0.5
 		cursorLineWidth = ui.wcalCursorLineWidthFactor * min(cw, ch) * 0.5
 		drawOutlineRoundedRect(cr, cx0, cy0, cw, ch, cursorRadius, cursorLineWidth)
 
 
-	def drawCursorBg(self, cr, cx0, cy0, cw, ch):
+	def drawCursorBg(self, cr: "cairo.Context", cx0: float, cy0: float, cw: float, ch: float):
 		cursorRadius = ui.wcalCursorRoundingFactor * min(cw, ch) * 0.5
 		drawRoundedRect(cr, cx0, cy0, cw, ch, cursorRadius)
 
-	def drawCursorFg(self, cr):
+	def drawCursorFg(self, cr: "cairo.Context"):
 		if not self.showCursor:
 			return
 		alloc = self.get_allocation()
@@ -263,7 +282,12 @@ class Column(gtk.DrawingArea, ColumnBase):
 		fillColor(cr, ui.cursorOutColor)
 		return
 
-	def drawTextList(self, cr, textData, font=None):
+	def drawTextList(
+		self,
+		cr: "cairo.Context",
+		textData: List[List[str]],
+		font: Optional[Tuple[str, bool, bool, float]] = None,
+	):
 		alloc = self.get_allocation()
 		w = alloc.width
 		h = alloc.height
@@ -311,6 +335,9 @@ class Column(gtk.DrawingArea, ColumnBase):
 	def onDateChange(self, *a, **kw):
 		CustomizableCalObj.onDateChange(self, *a, **kw)
 		self.queue_draw()
+
+	def drawColumn(self, cr: "cairo.Context"):
+		pass
 
 
 class MainMenuToolbarItem(ToolbarItem):
@@ -462,8 +489,7 @@ class WeekDaysColumn(Column):
 		Column.__init__(self, wcal)
 		self.connect("draw", self.onExposeEvent)
 
-	def onExposeEvent(self, widget=None, event=None):
-		cr = self.getContext()
+	def drawColumn(self, cr):
 		self.drawBg(cr)
 		self.drawTextList(
 			cr,
@@ -489,8 +515,7 @@ class PluginsTextColumn(Column):
 		Column.__init__(self, wcal)
 		self.connect("draw", self.onExposeEvent)
 
-	def onExposeEvent(self, widget=None, event=None):
-		cr = self.getContext()
+	def drawColumn(self, cr):
 		self.drawBg(cr)
 		self.drawTextList(
 			cr,
@@ -516,8 +541,7 @@ class EventsIconColumn(Column):
 		Column.__init__(self, wcal)
 		self.connect("draw", self.onExposeEvent)
 
-	def onExposeEvent(self, widget=None, event=None):
-		cr = self.getContext()
+	def drawColumn(self, cr):
 		self.drawBg(cr)
 		###
 		w = self.get_allocation().width
@@ -557,6 +581,7 @@ class EventsIconColumn(Column):
 				cr.scale(1 / scaleFact, 1 / scaleFact)
 
 
+
 @registerSignals
 class EventsCountColumn(Column):
 	_name = "eventsCount"
@@ -585,8 +610,7 @@ class EventsCountColumn(Column):
 			(line, None),
 		]
 
-	def onExposeEvent(self, widget=None, event=None):
-		cr = self.getContext()
+	def drawColumn(self, cr):
 		self.drawBg(cr)
 		###
 		w = self.get_allocation().width
@@ -669,8 +693,7 @@ class EventsTextColumn(Column):
 			data.append((line, color))
 		return data
 
-	def onExposeEvent(self, widget=None, event=None):
-		cr = self.getContext()
+	def drawColumn(self, cr):
 		self.drawBg(cr)
 		self.drawTextList(
 			cr,
@@ -734,8 +757,7 @@ class EventsBoxColumn(Column):
 		tbox.drawBoxBG(cr, box, x, y, w, h)
 		tbox.drawBoxText(cr, box, x, y, w, h, self)
 
-	def onExposeEvent(self, widget=None, event=None):
-		cr = self.getContext()
+	def drawColumn(self, cr):
 		self.drawBg(cr)
 		if not self.boxes:
 			return
@@ -818,8 +840,7 @@ class DaysOfMonthColumn(Column):
 		###
 		self.connect("draw", self.onExposeEvent)
 
-	def onExposeEvent(self, widget=None, event=None):
-		cr = self.getContext()
+	def drawColumn(self, cr):
 		self.drawBg(cr)
 		font = ui.getParamsFont(ui.wcalTypeParams[self.index])
 		self.drawTextList(
@@ -971,7 +992,7 @@ class MoonStatusColumn(Column):
 		self.moonPixbuf = pixbufFromFile("full_moon_48px.png")
 		self.showPhaseNumber = False
 
-	def onExposeEvent(self, widget=None, event=None):
+	def drawColumn(self, cr):
 		from math import cos
 		from scal3.moon import getMoonPhase
 		# pix_w = self.moonPixbuf.get_width()
@@ -997,12 +1018,10 @@ class MoonStatusColumn(Column):
 		imgRowH = rowH / scaleFact
 		imgCenterX = w / 2 / scaleFact
 		###
-		cr = self.getContext()
 		self.drawBg(cr)
 		###
 		cr.set_line_width(0)
 		cr.scale(scaleFact, scaleFact)
-
 		def draw_arc(imgCenterY: float, arcScale: float, upwards: bool, clockWise: bool):
 			if arcScale is None: # None means infinity
 				if upwards:
