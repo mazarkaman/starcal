@@ -362,7 +362,18 @@ class WeeklyScheduleWidget(gtk.DrawingArea):
 		#self.connect("event", show_event)
 
 	def onExposeEvent(self, widget=None, event=None):
-		self.drawCairo(self.get_window().cairo_create())
+		win = self.get_window()
+		region = win.get_visible_region()
+		# FIXME: This must be freed with cairo_region_destroy() when you are done.
+		# where is cairo_region_destroy? No region.destroy() method
+		dctx = win.begin_draw_frame(region)
+		if dctx is None:
+			raise RuntimeError("begin_draw_frame returned None")
+		cr = dctx.get_cairo_context()
+		try:
+			self.drawCairo(cr)
+		finally:
+			win.end_draw_frame(dctx)
 
 	def drawCairo(self, cr):
 		if not self.data:
