@@ -226,7 +226,8 @@ def saveBsonObject(data: "Union[Dict, List]", fs: FileSystem):
 	fpath = join(dpath, _hash[2:])
 	if not isfile(fpath):
 		makeDir(dpath)
-		fs.open(fpath, "wb").write(bsonBytes)
+		with fs.open(fpath, "wb") as fp:
+			fp.write(bsonBytes)
 	return _hash
 
 
@@ -328,7 +329,8 @@ class BsonHistObj(SObj):
 
 	def saveBasicData(self, basicData):
 		jsonStr = dataToJson(basicData)
-		self.fs.open(self.file, "w").write(jsonStr)
+		with self.fs.open(self.file, "w") as fp:
+			fp.write(jsonStr)
 
 	def save(self, *histArgs):
 		"""
