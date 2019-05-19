@@ -25,6 +25,8 @@ import sys
 import os
 from math import sqrt
 
+from typing import Tuple, Callable
+
 from scal3.utils import myRaise
 from scal3.cal_types import calTypes
 from scal3 import core
@@ -234,16 +236,32 @@ class CalObj(gtk.DrawingArea, CalBase):
 		self.getOptionsWidget()
 		return self.subPages
 
-	def drawAll(self, widget=None, cr=None, cursor=True):
+	def getContext(self) -> Tuple["cairo.Context", Callable]:
+		win = self.get_window()
+		region = win.get_visible_region()
+		# FIXME: This must be freed with cairo_region_destroy() when you are done.
+		# where is cairo_region_destroy? No region.destroy() method
+		dctx = win.begin_draw_frame(region)
+		if dctx is None:
+			raise RuntimeError("begin_draw_frame returned None")
+		ctx = dctx.get_cairo_context()
+		def end():
+			win.end_draw_frame(dctx)
+		return ctx, end
+
+	def drawAll(self, widget=None, cursor=True):
+		cr, end = self.getContext()
+		try:
+			self.drawWithContext(cr, cursor)
+		finally:
+			end()
+
+	def drawWithContext(self, cr: "cairo.Context", cursor: bool):
 		#gevent = gtk.get_current_event()
 		#?????? Must enhance (only draw few cells, not all cells)
 		self.calcCoord()
 		w = self.get_allocation().width
 		h = self.get_allocation().height
-		if not cr:
-			cr = self.get_window().cairo_create()
-			#cr.set_line_width(0)#??????????????
-			#cr.scale(0.5, 0.5)
 		wx = ui.winX
 		wy = ui.winY
 		cr.rectangle(0, 0, w, h)
