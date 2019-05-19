@@ -42,46 +42,8 @@ from scal3.ui_gtk.customize import CustomizableCalObj
 
 
 class BaseLabel(gtk.EventBox):
-	highlightColor = (176, 176, 176)
-
 	def __init__(self):
 		gtk.EventBox.__init__(self)
-		##########
-		#self.menu.connect("map", lambda obj: self.drag_highlight())
-		#self.menu.connect("unmap", lambda obj: self.drag_unhighlight())
-		#########
-		#self.connect("enter-notify-event", self.highlight)
-		#self.connect("leave-notify-event", self.unhighlight)## FIXME
-
-	def highlight(self, widget=None, event=None):
-		#self.drag_highlight()
-		if self.get_window() is None:
-			return
-		cr = self.get_window().cairo_create()
-		setColor(cr, self.highlightColor)
-		#print(tuple(self.get_allocation()), tuple(self.label.get_allocation()))
-		w = self.get_allocation().width
-		h = self.get_allocation().height
-		cr.rectangle(0, 0, w, 1)
-		cr.fill()
-		cr.rectangle(0, h - 1, w, 1)
-		cr.fill()
-		cr.rectangle(0, 0, 1, h)
-		cr.fill()
-		cr.rectangle(w - 1, 0, 1, h)
-		cr.fill()
-		cr.clip()
-
-	def unhighlight(self, widget=None, event=None):
-		#self.drag_unhighlight()
-		if self.get_window() is None:
-			return
-		w = self.get_allocation().width
-		h = self.get_allocation().height
-		self.get_window().clear_area(0, 0, w, 1)
-		self.get_window().clear_area(0, h - 1, w, 1)
-		self.get_window().clear_area(0, 0, 1, h)
-		self.get_window().clear_area(w - 1, 0, 1, h)
 
 
 @registerSignals
