@@ -236,7 +236,7 @@ class CalObj(gtk.DrawingArea, CalBase):
 		self.getOptionsWidget()
 		return self.subPages
 
-	def getContext(self) -> Tuple["cairo.Context", Callable]:
+	def drawAll(self, widget=None, cursor=True):
 		win = self.get_window()
 		region = win.get_visible_region()
 		# FIXME: This must be freed with cairo_region_destroy() when you are done.
@@ -244,17 +244,11 @@ class CalObj(gtk.DrawingArea, CalBase):
 		dctx = win.begin_draw_frame(region)
 		if dctx is None:
 			raise RuntimeError("begin_draw_frame returned None")
-		ctx = dctx.get_cairo_context()
-		def end():
-			win.end_draw_frame(dctx)
-		return ctx, end
-
-	def drawAll(self, widget=None, cursor=True):
-		cr, end = self.getContext()
+		cr = dctx.get_cairo_context()
 		try:
 			self.drawWithContext(cr, cursor)
 		finally:
-			end()
+			win.end_draw_frame(dctx)
 
 	def drawWithContext(self, cr: "cairo.Context", cursor: bool):
 		#gevent = gtk.get_current_event()
