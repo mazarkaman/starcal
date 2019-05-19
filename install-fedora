@@ -6,8 +6,8 @@
 
 
 if [ "$UID" != "0" ] ; then
-  echo "Run this script as root"
-  exit 1
+	echo "Run this script as root"
+	exit 1
 fi
 
 if ! git --version ; then
@@ -30,9 +30,9 @@ fi
 
 myPath="$0"
 if [ "${myPath:0:2}" == "./" ] ; then
-    myPath=$PWD${myPath:1}
+	myPath=$PWD${myPath:1}
 elif [ "${myPath:0:1}" != "/" ] ; then
-    myPath=$PWD/$myPath
+	myPath=$PWD/$myPath
 fi
 
 
@@ -52,7 +52,7 @@ requires+=('pygobject2') ## The old "gobject" module
 requires+=('python-httplib2')
 
 if [ -f "/usr/lib/$HOSTTYPE-$OSTYPE/libappindicator.so.1" ] ; then
-    requires+=('python-appindicator')
+	requires+=('python-appindicator')
 fi
 
 #recommends=()
@@ -119,12 +119,12 @@ and Indian National calendars, as well as common English(Gregorian) calendar
 pkgPath=`rpmbuild -bb $pkgName.spec | grep -o /usr/src/packages/RPMS/.*rpm`
 
 if [ -z $pkgPath ] ; then
-    exit 1
+	exit 1
 fi
 
 if [ ! -f $pkgPath ] ; then
-    echo "Package file $pkgPath does not exit"
-    exit 1
+	echo "Package file $pkgPath does not exit"
+	exit 1
 fi
 
 echo "Package created in \"$pkgPath\", installing"
