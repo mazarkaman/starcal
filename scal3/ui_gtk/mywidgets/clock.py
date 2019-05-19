@@ -22,11 +22,14 @@ import time
 from time import localtime, strftime
 from time import time as now
 
+from scal3.time_utils import clockWaitMilliseconds
+from scal3 import ui
+
 from gi.repository import GdkPixbuf
 
 from scal3.ui_gtk import *
 from scal3.ui_gtk.font_utils import *
-from scal3.time_utils import clockWaitMilliseconds
+from scal3.ui_gtk.drawing import setColor, fillColor, show_layout
 
 
 class ClockLabel(gtk.Label):
@@ -107,7 +110,9 @@ class FClockWidget(gtk.DrawingArea): ## Time is in Local
 		gtk.DrawingArea.__init__(self)
 		self.set_direction(gtk.TextDirection.LTR)
 		self.format = format
+		self.text = ""
 		self.running = False
+		self.connect("draw", self.onDraw)
 		#self.connect("button-press-event", self.button_press)
 		self.start()#???
 
@@ -124,15 +129,30 @@ class FClockWidget(gtk.DrawingArea): ## Time is in Local
 		self.running = False
 
 	def set_label(self, text):
-		if self.get_window() is None:
-			return
-		self.get_window().clear()
-		cr = self.get_window().cairo_create()
-		cr.set_source_color(gdk.Color(0, 0, 0))
+		self.text = text
+		self.queue_draw()
+
+	def onDraw(self, widget=None, event=None):
+		win = self.get_window()
+		region = win.get_visible_region()
+		# FIXME: This must be freed with cairo_region_destroy() when you are done.
+		# where is cairo_region_destroy? No region.destroy() method
+		dctx = win.begin_draw_frame(region)
+		if dctx is None:
+			raise RuntimeError("begin_draw_frame returned None")
+		cr = dctx.get_cairo_context()
+		try:
+			self.drawWithContext(cr)
+		finally:
+			win.end_draw_frame(dctx)
+
+	def drawWithContext(self, cr: "cairo.Context"):
+		text = self.text
+		fillColor(cr, ui.bgColor)
+		setColor(cr, ui.textColor)
 		lay = self.create_pango_layout(text)
 		show_layout(cr, lay)
 		w, h = lay.get_pixel_size()
-		cr.clip()
 		self.set_size_request(w, h)
 		"""
 		textLay = self.create_pango_layout("") ## markup
@@ -155,9 +175,11 @@ class FClockWidget(gtk.DrawingArea): ## Time is in Local
 		self.set_from_pixmap(pmap, mask)
 		"""
 
+
+
 if __name__ == "__main__":
 	d = gtk.Dialog()
-	widget = ClockLabel()
+	widget = FClockWidget()
 	pack(d.vbox, widget, 1, 1)
 	d.vbox.show_all()
 	d.run()
