@@ -293,12 +293,26 @@ class TimeLine(gtk.DrawingArea, ud.BaseCalObj):
 			button.draw(cr, width, height)
 
 	def onExposeEvent(self, widget=None, event=None):
+		win = self.get_window()
+		region = win.get_visible_region()
+		# FIXME: This must be freed with cairo_region_destroy() when you are done.
+		# where is cairo_region_destroy? No region.destroy() method
+		dctx = win.begin_draw_frame(region)
+		if dctx is None:
+			raise RuntimeError("begin_draw_frame returned None")
+		cr = dctx.get_cairo_context()
+		try:
+			self.drawWithContext(cr)
+		finally:
+			win.end_draw_frame(dctx)
+
+	def drawWithContext(self, cr: "cairo.Context"):
 		#t0 = now()
 		if not self.boxEditing:
 			self.updateData()
 			self.currentTimeUpdate(restart=True, draw=False)
 		#t1 = now()
-		self.drawAll(self.get_window().cairo_create())
+		self.drawAll(cr)
 		#t2 = now()
 		#print("drawing time / data calc time: %.2f"%((t2-t1)/(t1-t0)))
 
