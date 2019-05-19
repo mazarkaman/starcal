@@ -308,13 +308,23 @@ class DayCal(gtk.DrawingArea, CalBase):
 		return ui.cell
 
 	def drawAll(self, widget=None, cr=None, cursor=True):
+		win = self.get_window()
+		region = win.get_visible_region()
+		# FIXME: This must be freed with cairo_region_destroy() when you are done.
+		# where is cairo_region_destroy? No region.destroy() method
+		dctx = win.begin_draw_frame(region)
+		if dctx is None:
+			raise RuntimeError("begin_draw_frame returned None")
+		cr = dctx.get_cairo_context()
+		try:
+			self.drawWithContext(cr, cursor)
+		finally:
+			win.end_draw_frame(dctx)
+
+	def drawWithContext(self, cr: "cairo.Context", cursor: bool):
 		#gevent = gtk.get_current_event()
 		w = self.get_allocation().width
 		h = self.get_allocation().height
-		if not cr:
-			cr = self.get_window().cairo_create()
-			#cr.set_line_width(0)#??????????????
-			#cr.scale(0.5, 0.5)
 		cr.rectangle(0, 0, w, h)
 		fillColor(cr, self.getBackgroundColor())
 		#####
