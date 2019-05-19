@@ -64,7 +64,6 @@ def setActionFuncs(obj):
 		for actionName, actionFuncName in cls.actions:
 			actionFunc = getattr(module, actionFuncName, None)
 			if actionFunc is not None:
-				print("setting %s.%s" % (cls.__name__, actionFuncName))
 				setattr(cls, actionFuncName, actionFunc)
 
 
