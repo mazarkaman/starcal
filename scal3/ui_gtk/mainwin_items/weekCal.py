@@ -189,7 +189,7 @@ class Column(gtk.DrawingArea, ColumnBase):
 		if self.customizeExpand:
 			self.expand = self.getExpandValue()
 
-	def getContext(self) -> Tuple["cairo.Context", Callable]:
+	def onExposeEvent(self, widget=None, event=None):
 		win = self.get_window()
 		region = win.get_visible_region()
 		# FIXME: This must be freed with cairo_region_destroy() when you are done.
@@ -197,17 +197,11 @@ class Column(gtk.DrawingArea, ColumnBase):
 		dctx = win.begin_draw_frame(region)
 		if dctx is None:
 			raise RuntimeError("begin_draw_frame returned None")
-		ctx = dctx.get_cairo_context()
-		def end():
-			win.end_draw_frame(dctx)
-		return ctx, end
-
-	def onExposeEvent(self, widget=None, event=None):
-		cr, end = self.getContext()
+		cr = dctx.get_cairo_context()
 		try:
 			self.drawColumn(cr)
 		finally:
-			end()
+			win.end_draw_frame(dctx)
 
 	def drawBg(self, cr: "cairo.Context"):
 		alloc = self.get_allocation()
