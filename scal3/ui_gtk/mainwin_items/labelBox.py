@@ -222,6 +222,7 @@ class IntLabel(BaseLabel):
 		if self.menu:
 			return
 		self.menu = gtk.Menu()
+		self.menu.set_direction(gtk.TextDirection.LTR)
 		self.menuLabels = []
 		self.menu.connect("scroll-event", self.menuScroll)
 		##########
@@ -246,6 +247,7 @@ class IntLabel(BaseLabel):
 			item = MenuItem()
 			label = item.get_child()
 			label.set_use_markup(True)
+			label.set_direction(gtk.TextDirection.LTR)
 			item.connect("activate", self.itemActivate, i)
 			self.menu.append(item)
 			self.menuLabels.append(label)
@@ -282,14 +284,7 @@ class IntLabel(BaseLabel):
 			self.updateMenu()
 			foo, x, y = self.get_window().get_origin()
 			y += self.get_allocation().height
-			x -= 7 ## ????????? because of menu padding
-			## align menu to center:
-			x -= int(
-				(
-					get_menu_width(self.menu) -
-					self.get_allocation().width
-				) // 2
-			)
+			x -= 6 ## ????????? because of menu padding
 			self.menu.popup(
 				None,
 				None,
