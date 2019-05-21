@@ -30,7 +30,7 @@ class VcsBaseWidgetClass(NormalWidgetClass):
 		self.dirEntry = gtk.Entry()
 		pack(hbox, self.dirEntry)
 		##
-		#self.dirBrowse = gtk.Button(_("Browse"))
+		#self.dirBrowse = gtk.Button(label=_("Browse"))
 		pack(self, hbox)
 
 	def updateWidget(self):

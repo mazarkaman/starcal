@@ -301,7 +301,7 @@ class ColorPrefItem(PrefItem):
 		self.module = module
 		self.varName = varName
 		w = MyColorButton()
-		w.set_use_alpha(useAlpha)
+		gtk.ColorChooser.set_use_alpha(w, useAlpha)
 		# All methods of Gtk.ColorButton are deprecated since version 3.4:
 		# Looks like ColorButton itself is deprecated, and should be replaced with something else!!
 		self.useAlpha = useAlpha

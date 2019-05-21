@@ -100,12 +100,12 @@ class MyColorButton(gtk.ColorButton):
 	# for tooltip text
 	def __init__(self):
 		gtk.ColorButton.__init__(self)
-		self.set_use_alpha(True)
+		gtk.ColorChooser.set_use_alpha(self, True)
 		self.connect("color-set", self.update_tooltip)
 
 	def update_tooltip(self, colorb=None):
 		r, g, b, a = self.get_rgba()
-		if self.get_use_alpha():
+		if gtk.ColorChooser.get_use_alpha(self):
 			text = "%s\n%s\n%s\n%s" % (r, g, b, a)
 		else:
 			text = "%s\n%s\n%s" % (r, g, b)

@@ -505,7 +505,7 @@ class WeeklyScheduleWindow(gtk.Dialog):
 		##
 		pack(hbox, gtk.Label(), 1, 1)
 		##
-		button = gtk.Button(_("Export to ") + "SVG")
+		button = gtk.Button(label=_("Export to ") + "SVG")
 		button.connect("clicked", self.exportToSvgClicked)
 		pack(hbox, button)
 		##
