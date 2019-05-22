@@ -677,6 +677,11 @@ class MainWin(gtk.ApplicationWindow, ud.BaseCalObj):
 			"year-wheel-18.png",
 			self.yearWheelShow,
 		))  # icon? FIXME
+		moreMenu.add(labelIconMenuItem(
+			"Day Calendar (Desktop Widget)",
+			"", # FIXME: replace with image
+			self.dayCalWinShow,
+		))
 		#moreMenu.add(labelImageMenuItem(
 		#	"Week Calendar",
 		#	"weekcal-18.png",
