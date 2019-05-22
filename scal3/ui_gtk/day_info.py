@@ -48,6 +48,7 @@ class AllDateLabelsVBox(gtk.Box, ud.BaseCalObj):
 		for child in self.get_children():
 			child.destroy()
 		sgroup = gtk.SizeGroup(mode=gtk.SizeGroupMode.HORIZONTAL)
+		sgroupDate = gtk.SizeGroup(mode=gtk.SizeGroupMode.HORIZONTAL)
 		for i, module in calTypes.iterIndexModule():
 			hbox = HBox()
 			label = gtk.Label(label=_(module.desc))
@@ -58,6 +59,7 @@ class AllDateLabelsVBox(gtk.Box, ud.BaseCalObj):
 			###
 			dateLabel = gtk.Label(label=ui.cell.format(ud.dateFormatBin, i))
 			dateLabel.set_selectable(True)
+			dateLabel.set_xalign(1.0 if rtl else 0.0)
 			pack(
 				hbox,
 				dateLabel,
@@ -65,6 +67,7 @@ class AllDateLabelsVBox(gtk.Box, ud.BaseCalObj):
 				0,
 				0,
 			)
+			sgroupDate.add_widget(dateLabel)
 			###
 			pack(self, hbox)
 		self.show_all()
