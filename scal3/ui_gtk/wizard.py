@@ -2,9 +2,10 @@
 from scal3.ui_gtk import *
 from scal3.ui_gtk.utils import hideList
 from scal3.ui_gtk.mywidgets.buttonbox import MyHButtonBox
+from scal3.ui_gtk.mywidgets.dialog import MyDialog
 
 
-class WizardWindow(gtk.Window):
+class WizardWindow(gtk.Window, MyDialog):
 	stepClasses = []
 
 	def __init__(self, title):

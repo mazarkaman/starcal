@@ -9,6 +9,7 @@ from scal3 import ui
 
 from scal3.ui_gtk import *
 from scal3.ui_gtk.wizard import WizardWindow
+from scal3.ui_gtk.mywidgets.dialog import MyDialog
 
 
 class EventsImportWindow(WizardWindow):
@@ -116,47 +117,54 @@ class EventsImportWindow(WizardWindow):
 
 		def run(self, format, fpath):
 			self.redirectStdOutErr()
+			self.win.waitingDo(self._runAndCleanup, format, fpath)
+
+		def _runAndCleanup(self, format, fpath):
 			try:
 				if format == "json":
-					try:
-						with open(fpath, "r", encoding="utf-8") as fp:
-							text = fp.read()
-					except Exception as e:
-						sys.stderr.write(
-							_(
-								"Error in reading file"
-							) + "\n%s\n" % e
-						)
-					else:
-						try:
-							data = jsonToData(text)
-						except Exception as e:
-							sys.stderr.write(
-								_(
-									"Error in loading JSON data"
-								) + "\n%s\n" % e
-							)
-						else:
-							try:
-								newGroups = ui.eventGroups.importData(data)
-							except Exception as e:
-								sys.stderr.write(
-									_(
-										"Error in importing events"
-									) + "\n%s\n" % e
-								)
-							else:
-								for group in newGroups:
-									self.win.manager.appendGroupTree(group)
-								print(
-									_(
-										"%s groups imported successfully"
-									) % _(len(newGroups))
-								)
+					self._runJson(fpath)
 				else:
 					raise ValueError("invalid format %r" % format)
 			finally:
 				self.restoreStdOutErr()
+
+		def _runJson(self, fpath):
+			try:
+				with open(fpath, "r", encoding="utf-8") as fp:
+					text = fp.read()
+			except Exception as e:
+				sys.stderr.write(
+					_(
+						"Error in reading file"
+					) + "\n%s\n" % e
+				)
+				return
+
+			try:
+				data = jsonToData(text)
+			except Exception as e:
+				sys.stderr.write(
+					_(
+						"Error in loading JSON data"
+					) + "\n%s\n" % e
+				)
+			else:
+				try:
+					newGroups = ui.eventGroups.importData(data)
+				except Exception as e:
+					sys.stderr.write(
+						_(
+							"Error in importing events"
+						) + "\n%s\n" % e
+					)
+				else:
+					for group in newGroups:
+						self.win.manager.appendGroupTree(group)
+					print(
+						_(
+							"%s groups imported successfully"
+						) % _(len(newGroups))
+					)
 
 		def backClicked(self, obj):
 			self.win.showStep(0)
