@@ -1328,21 +1328,17 @@ class PrefDialog(gtk.Window):
 		return True
 
 	def plugTreeviewCellToggled(self, cell, path):
-		i = int(path)
-		#cur = self.plugTreeview.get_cursor()[0]
-		#if cur is None or i != cur[0]:  # FIXME
-		#	return
+		model = self.plugTreeview.get_model()
 		active = not cell.get_active()
-		self.plugTreestore[i][1] = active
+		itr = model.get_iter(path)
+		model.set_value(itr, 1, active)
 		cell.set_active(active)
 
 	def plugTreeviewCellToggled2(self, cell, path):
-		i = int(path)
-		#cur = self.plugTreeview.get_cursor()[0]
-		#if cur is None or i != cur[0]:  # FIXME
-		#	return
+		model = self.plugTreeview.get_model()
 		active = not cell.get_active()
-		self.plugTreestore[i][2] = active
+		itr = model.get_iter(path)
+		model.set_value(itr, 2, active)
 		cell.set_active(active)
 
 	def plugTreeviewTop(self, button):
