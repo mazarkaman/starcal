@@ -87,7 +87,7 @@ class WidgetClass(gtk.Box):
 		cell = gtk.CellRendererText()
 		cell.set_property("editable", True)
 		cell.connect("edited", self.dateCellEdited)
-		col = gtk.TreeViewColumn(_("Date"), cell, text=0)
+		col = gtk.TreeViewColumn(title=_("Date"), cell_renderer=cell, text=0)
 		# col.set_title
 		self.treev.append_column(col)
 		##

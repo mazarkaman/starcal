@@ -56,18 +56,16 @@ class CourseListEditor(gtk.Box):
 		self.trees = gtk.ListStore(int, str, int)
 		self.treev.set_model(self.trees)
 		##########
-		cell = gtk.CellRendererText()
-		cell.set_property("editable", True)
+		cell = gtk.CellRendererText(editable=True)
 		cell.connect("edited", self.courseNameEdited)
 		# cell.connect("editing-started", ....)
 		# cell.connect("editing-canceled", ...)
-		col = gtk.TreeViewColumn(_("Course Name"), cell, text=1)
+		col = gtk.TreeViewColumn(title=_("Course Name"), cell_renderer=cell, text=1)
 		self.treev.append_column(col)
 		###
-		cell = gtk.CellRendererText()
-		cell.set_property("editable", True)
+		cell = gtk.CellRendererText(editable=True)
 		cell.connect("edited", self.courseUnitsEdited)
-		col = gtk.TreeViewColumn(_("Units"), cell, text=2)
+		col = gtk.TreeViewColumn(title=_("Units"), cell_renderer=cell, text=2)
 		self.treev.append_column(col)
 		####
 		if enableScrollbars:## FIXME
@@ -203,10 +201,9 @@ class ClassTimeBoundsEditor(gtk.Box):
 		self.trees = gtk.ListStore(str)
 		self.treev.set_model(self.trees)
 		##########
-		cell = gtk.CellRendererText()
-		cell.set_property("editable", True)
+		cell = gtk.CellRendererText(editable=True)
 		cell.connect("edited", self.timeEdited)
-		col = gtk.TreeViewColumn(_("Time"), cell, text=0)
+		col = gtk.TreeViewColumn(title=_("Time"), cell_renderer=cell, text=0)
 		self.treev.append_column(col)
 		####
 		pack(self, self.treev, 1, 1)

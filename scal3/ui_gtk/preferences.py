@@ -674,7 +674,7 @@ class PrefDialog(gtk.Window):
 		cell = gtk.CellRendererToggle()
 		#cell.set_property("activatable", True)
 		cell.connect("toggled", self.plugTreeviewCellToggled)
-		col = gtk.TreeViewColumn(_("Enable"), cell)
+		col = gtk.TreeViewColumn(title=_("Enable"), cell_renderer=cell)
 		col.add_attribute(cell, "active", 1)
 		#cell.set_active(False)
 		col.set_resizable(True)
@@ -684,7 +684,7 @@ class PrefDialog(gtk.Window):
 		cell = gtk.CellRendererToggle()
 		#cell.set_property("activatable", True)
 		cell.connect("toggled", self.plugTreeviewCellToggled2)
-		col = gtk.TreeViewColumn(_("Show Date"), cell)
+		col = gtk.TreeViewColumn(title=_("Show Date"), cell_renderer=cell)
 		col.add_attribute(cell, "active", 2)
 		#cell.set_active(False)
 		col.set_resizable(True)
@@ -692,7 +692,7 @@ class PrefDialog(gtk.Window):
 		treev.append_column(col)
 		######
 		#cell = gtk.CellRendererText()
-		#col = gtk.TreeViewColumn(_("File Name"), cell, text=2)
+		#col = gtk.TreeViewColumn(title=_("File Name"), cell_renderer=cell, text=2)
 		#col.set_resizable(True)
 		#treev.append_column(col)
 		#treev.set_search_column(1)
@@ -701,7 +701,7 @@ class PrefDialog(gtk.Window):
 		#cell.set_property("wrap-mode", gtk.WrapMode.WORD)
 		#cell.set_property("editable", True)
 		#cell.set_property("wrap-width", 200)
-		col = gtk.TreeViewColumn(_("Title"), cell, text=3)
+		col = gtk.TreeViewColumn(title=_("Title"), cell_renderer=cell, text=3)
 		#treev.connect("draw", self.plugTreevExpose)
 		#self.plugTitleCell = cell
 		#self.plugTitleCol = col
@@ -844,7 +844,7 @@ class PrefDialog(gtk.Window):
 		treev.connect("row-activated", self.plugAddTreevRActivate)
 		####
 		cell = gtk.CellRendererText()
-		col = gtk.TreeViewColumn(_("Title"), cell, text=0)
+		col = gtk.TreeViewColumn(title=_("Title"), cell_renderer=cell, text=0)
 		#col.set_resizable(True)# no need when have only one column!
 		treev.append_column(col)
 		####
@@ -897,7 +897,7 @@ class PrefDialog(gtk.Window):
 		cell = gtk.CellRendererToggle()
 		#cell.set_property("activatable", True)
 		cell.connect("toggled", self.accountsTreeviewCellToggled)
-		col = gtk.TreeViewColumn(_("Enable"), cell)
+		col = gtk.TreeViewColumn(title=_("Enable"), cell_renderer=cell)
 		col.add_attribute(cell, "active", 1)
 		#cell.set_active(False)
 		col.set_resizable(True)
@@ -905,7 +905,7 @@ class PrefDialog(gtk.Window):
 		treev.append_column(col)
 		######
 		cell = gtk.CellRendererText()
-		col = gtk.TreeViewColumn(_("Title"), cell, text=2)
+		col = gtk.TreeViewColumn(title=_("Title"), cell_renderer=cell, text=2)
 		#col.set_resizable(True)## No need!
 		col.set_property("expand", True)
 		treev.append_column(col)
