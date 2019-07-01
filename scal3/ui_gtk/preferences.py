@@ -566,7 +566,7 @@ class PrefDialog(gtk.Window):
 		###
 		self.moduleOptions = options
 		################################ Page 4 (Advanced) ###################
-		vbox = VBox()
+		vbox = VBox(spacing=15)
 		vbox.set_border_width(5)
 		page = StackPage()
 		page.pageWidget = vbox
