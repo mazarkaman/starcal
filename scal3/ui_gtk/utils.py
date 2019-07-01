@@ -301,7 +301,7 @@ def get_menu_width(menu):
 	items = menu.get_children()
 	if items:
 		mw = max(item.get_preferred_size()[1].width for item in items)
-		return mw + 56 ## FIXME
+		return mw + ui.cellMenuXOffset
 	return 0
 
 def get_menu_height(menu):

@@ -937,7 +937,10 @@ todayCellColor = (0, 255, 0, 50)
 ##########
 cursorOutColor = (213, 207, 0, 255)
 cursorBgColor = (41, 41, 41, 255)
-###
+##########
+# something between 48 and 56 FIXME: set in prefs
+cellMenuXOffset = 48
+##########
 wcalCursorLineWidthFactor = 0.12
 wcalCursorRoundingFactor = 0.50
 ###

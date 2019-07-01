@@ -1967,6 +1967,9 @@ msgid "Digital Clock Format"
 msgstr ""
 "فرمت ساعت رقمی"
 
+msgid "Horizontal offset for day right-click menu"
+msgstr ""
+"جابجایی افقی منوی راست-کلیک روز"
 
 
 msgid "Previous"

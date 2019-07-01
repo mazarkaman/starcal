@@ -609,6 +609,14 @@ class PrefDialog(gtk.Window):
 		self.uiPrefItems.append(item)
 		pack(hbox, item.getWidget())
 		pack(vbox, hbox)
+		######
+		hbox = HBox(spacing=5)
+		label = gtk.Label(label=_("Horizontal offset for day right-click menu"))
+		pack(hbox, label)
+		item = SpinPrefItem(ui, "cellMenuXOffset", 0, 999, 0)
+		self.uiPrefItems.append(item)
+		pack(hbox, item.getWidget())
+		pack(vbox, hbox)
 		################################ Page 5 (Plugins) ####################
 		vbox = VBox()
 		page = StackPage()
