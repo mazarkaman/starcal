@@ -1297,14 +1297,20 @@ class CalObj(gtk.Box, CustomizableCalBox, CalBase):
 					return True
 		return False
 
+	def findColumnWidgetByGdkWindow(self, col_win):
+		for item in self.items:
+			if isinstance(item, gtk.Box):
+				# right now only DaysOfMonthColumnGroup
+				for child in item.get_children():
+					if self.itemContainsGdkWindow(child, col_win):
+						return child
+			else:
+				if self.itemContainsGdkWindow(item, col_win):
+					return item
+
 	def buttonPress(self, widget, gevent):
 		# gevent is Gdk.EventButton
-		col_win = gevent.get_window()
-		col = None
-		for item in self.items:
-			if self.itemContainsGdkWindow(item, col_win):
-				col = item
-				break
+		col = self.findColumnWidgetByGdkWindow(gevent.get_window())
 		if not col:
 			return False
 		if not col.autoButtonPressHandler:
