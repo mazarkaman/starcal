@@ -1,0 +1,79 @@
+{
+    "type": "holiday",
+    "title": "تعطیلات رسمی افغانستان",
+    "about": "",
+    "authors": [
+		"https://github.com/ebraminio/DroidPersianCalendar",
+		"https://en.wikipedia.org/wiki/Public_holidays_in_Afghanistan",
+		"http://www.un.org/en/sections/observances/international-days/"
+	],
+    "default_enable": false,
+    "default_show_date": false,
+    "hasConfig": false,
+    "holidays": {
+        "hijri": [
+            [
+                1,
+                10
+            ],
+            [
+                3,
+                12
+            ],
+            [
+                10,
+                1
+            ],
+            [
+                10,
+                2
+            ],
+            [
+                10,
+                3
+            ],
+            [
+                12,
+                9
+            ],
+            [
+                12,
+                10
+            ],
+            [
+                12,
+                11
+            ],
+            [
+                12,
+                12
+            ]
+        ],
+        "jalali": [
+            [
+                1,
+                1
+            ],
+            [
+                1,
+                2
+            ],
+            [
+                2,
+                8
+            ],
+            [
+                5,
+                28
+            ],
+            [
+                6,
+                18
+            ],
+            [
+                11,
+                26
+            ]
+        ]
+    }
+}

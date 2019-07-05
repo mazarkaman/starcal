@@ -1,0 +1,19 @@
+{
+	"type": "yearlyText",
+	"dataFile": "afghanistan-jalali-data.txt",
+	"calType": "jalali",
+	"title": "مناسبت‌های افغانستان - هجری شمسی",
+	"about": "مناسبت‌های افغانستان - هجری شمسی\nآخرین تغییرات: ۲۰۱۹/۰۷/۰۳",
+	"authors": [
+		"https://github.com/ebraminio/DroidPersianCalendar",
+		"https://en.wikipedia.org/wiki/Public_holidays_in_Afghanistan",
+		"http://www.un.org/en/sections/observances/international-days/"
+	],
+	"hasConfig": false,
+	"hasImage": false,
+	"lastDayMerge": true,
+	"default_enable": true,
+	"default_show_date": false
+}
+
+
