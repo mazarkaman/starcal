@@ -121,6 +121,7 @@ def saveLiveConf():
 	for key in (
 		'winX', 'winY', 'winWidth',
 		'winKeepAbove', 'winSticky',
+		"winMaximized",
 		'pluginsTextIsExpanded', 'eventViewMaxHeight', 'bgColor',
 		'eventManPos',## FIXME
 		'eventManShowDescription',## FIXME
@@ -702,6 +703,7 @@ winControllerSpacing = 0
 ####################
 winKeepAbove = True
 winSticky = True
+winMaximized = False
 winX = 0
 winY = 0
 ###

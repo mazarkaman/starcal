@@ -75,12 +75,13 @@ class WinConButtonMax(WinConButton):
 	imageName = 'button-max.png'
 	imageNameFocus = 'button-max-focus.png'
 	def onClicked(self, gWin, gevent):
-		if gWin.isMaximized:
+		if ui.winMaximized:
 			gWin.unmaximize()
-			gWin.isMaximized = False
 		else:
 			gWin.maximize()
-			gWin.isMaximized = True
+		ui.winMaximized = not ui.winMaximized
+		ui.saveLiveConf()
+
 
 class WinConButtonClose(WinConButton):
 	_name = 'close'

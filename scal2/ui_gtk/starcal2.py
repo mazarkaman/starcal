@@ -313,7 +313,8 @@ class MainWin(gtk.Window, ud.BaseCalObj):
 		#######
 		self.add(self.vbox)
 		####################
-		self.isMaximized = False
+		if ui.winMaximized:
+			self.maximize()
 		####################
 		#ui.prefDialog = None
 		self.exportDialog = None
@@ -410,7 +411,8 @@ class MainWin(gtk.Window, ud.BaseCalObj):
 		#	self.queue_draw()
 		if self.get_property('visible'):
 			ui.winX, ui.winY = (wx, wy)
-		ui.winWidth = ww
+		if not ui.winMaximized:
+			ui.winWidth = ww
 		liveConfChanged()
 		return False
 	def buttonPress(self, obj, gevent):
