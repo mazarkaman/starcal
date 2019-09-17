@@ -200,6 +200,8 @@ confParamsCustomize = (
 	"labelBoxYearColor",
 	"labelBoxMonthColorEnable",
 	"labelBoxMonthColor",
+	"labelBoxFontEnable",
+	"labelBoxFont",
 	"boldYmLabel",
 	"ud__wcalToolbarData",
 	"ud__mainToolbarData",
@@ -1104,6 +1106,8 @@ labelBoxYearColorEnable = False
 labelBoxYearColor = (255, 132, 255, 255)
 labelBoxMonthColorEnable = False
 labelBoxMonthColor = (255, 132, 255, 255)
+labelBoxFontEnable = False
+labelBoxFont = None
 
 
 ####################

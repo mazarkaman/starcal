@@ -57,17 +57,12 @@ class MonthLabel(BaseLabel, ud.BaseCalObj):
 	@ud.cssFunc
 	def getCSS() -> str:
 		from scal3.ui_gtk.utils import cssTextStyle
-		font = ui.getFont()
-		fgColor = None
-		if ui.boldYmLabel:
-			font[1] = True
 		if ui.labelBoxMonthColorEnable:
-			fgColor = ui.labelBoxMonthColor
-		return "." + MonthLabel.styleClass + " " + cssTextStyle(
-			font=font,
-			fgColor=fgColor,
-		)
-
+			return "." + MonthLabel.styleClass + " " + cssTextStyle(
+				fgColor=ui.labelBoxMonthColor,
+			)
+		return ""
+		
 	def getItemStr(self, i):
 		return _(i + 1, fillZero=2)
 
@@ -367,16 +362,13 @@ class YearLabel(IntLabel, ud.BaseCalObj):
 	@ud.cssFunc
 	def getCSS() -> str:
 		from scal3.ui_gtk.utils import cssTextStyle
-		font = ui.getFont()
 		fgColor = None
-		if ui.boldYmLabel:
-			font[1] = True
 		if ui.labelBoxYearColorEnable:
-			fgColor = ui.labelBoxYearColor
-		return "." + YearLabel.styleClass + " " + cssTextStyle(
-			font=font,
-			fgColor=fgColor,
-		)
+			return "." + YearLabel.styleClass + " " + cssTextStyle(
+				fgColor=ui.labelBoxYearColor,
+			)
+		return ""
+		
 
 	def __init__(self, calType, **kwargs):
 		IntLabel.__init__(self, **kwargs)
@@ -516,10 +508,12 @@ class CalObj(gtk.Box, CustomizableCalObj):
 	desc = _("Year & Month Labels")
 	itemListCustomizable = False
 	hasOptions = True
+	styleClass = "labelbox"
 
 	def __init__(self):
 		gtk.Box.__init__(self, orientation=gtk.Orientation.HORIZONTAL)
 		self.initVars()
+		self.get_style_context().add_class(self.styleClass)
 		#self.set_border_width(2)
 
 	def newSeparator(self):
@@ -573,11 +567,27 @@ class CalObj(gtk.Box, CustomizableCalObj):
 		#####
 		self.onDateChange()
 
+	@staticmethod
+	@ud.cssFunc
+	def getCSS() -> str:
+		from scal3.ui_gtk.utils import cssTextStyle
+		font = ui.getFont()
+		if ui.labelBoxFontEnable and ui.labelBoxFont:
+			font = ui.labelBoxFont
+		if ui.boldYmLabel:
+			font = list(font)  # make a copy to modify
+			font[1] = True
+		return "." + CalObj.styleClass + " " + cssTextStyle(
+			font=font,
+		)
+
 	def getOptionsWidget(self) -> gtk.Widget:
 		from scal3.ui_gtk.pref_utils import (
 			CheckPrefItem,
 			ColorPrefItem,
 			CheckColorPrefItem,
+			CheckFontPrefItem,
+			FontPrefItem,
 		)
 		if self.optionsWidget:
 			return self.optionsWidget
@@ -610,6 +620,14 @@ class CalObj(gtk.Box, CustomizableCalObj):
 			CheckPrefItem(ui, "labelBoxMonthColorEnable", _("Month Color")),
 			ColorPrefItem(ui, "labelBoxMonthColor", True),
 			checkSizeGroup=checkSizeGroup,
+			live=True,
+			onChangeFunc=ud.windowList.updateCSS,
+		)
+		pack(optionsWidget, prefItem.getWidget())
+		###
+		prefItem = CheckFontPrefItem(
+			CheckPrefItem(ui, "labelBoxFontEnable", label=_("Font")),
+			FontPrefItem(ui, "labelBoxFont"),
 			live=True,
 			onChangeFunc=ud.windowList.updateCSS,
 		)
