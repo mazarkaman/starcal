@@ -1,4 +1,8 @@
 #!/usr/bin/env python3
+
+from scal3 import logger
+log = logger.get()
+
 import sys
 try:
 	import ujson as json
@@ -26,7 +30,8 @@ def dataToCompactJson(data, ensure_ascii=False, sort_keys=False):
 		ensure_ascii=ensure_ascii,
 	)
 	# ujson.dumps does not accept separators= arguments
-	# but for standard json module, this argument is needed to get the most compact json
+	# but for standard json module, this argument is needed to get
+	# the most compact json
 	if json.__name__ == "json":
 		kwargs["separators"] = (",", ":")
 	return json.dumps(data, **kwargs)
@@ -51,15 +56,16 @@ def loadJsonConf(module, confPath, decoders={}):
 		return
 	###
 	try:
-		text = open(confPath).read()
+		with open(confPath) as fp:
+			text = fp.read()
 	except Exception as e:
-		print("failed to read file \"%s\": %s" % (confPath, e))
+		log.error(f"failed to read file {confPath!r}: {e}")
 		return
 	###
 	try:
 		data = json.loads(text)
 	except Exception as e:
-		print("invalid json file \"%s\": %s" % (confPath, e))
+		log.error(f"invalid json file {confPath!r}: {e}")
 		return
 	###
 	if isinstance(module, str):
@@ -83,9 +89,10 @@ def saveJsonConf(module, confPath, params, encoders={}):
 	###
 	text = dataToPrettyJson(data, sort_keys=True)
 	try:
-		open(confPath, "w").write(text)
+		with open(confPath, "w") as fp:
+			fp.write(text)
 	except Exception as e:
-		print("failed to save file \"%s\": %s" % (confPath, e))
+		log.error(f"failed to save file {confPath!r}: {e}")
 		return
 
 
@@ -111,7 +118,7 @@ def loadModuleJsonConf(module):
 		module.confPath,
 		decoders,
 	)
-	## should use module.confParams to restrict json keys? FIXME
+	# FIXME: should use module.confParams to restrict json keys?
 
 
 def saveModuleJsonConf(module):

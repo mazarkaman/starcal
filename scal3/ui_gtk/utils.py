@@ -18,14 +18,19 @@
 # Also avalable in /usr/share/common-licenses/GPL on Debian systems
 # or /usr/share/licenses/common/GPL3/license.txt on ArchLinux
 
+from scal3 import logger
+log = logger.get()
+
 from time import time as now
 import os
 from os.path import join, isabs
 from subprocess import Popen
 
-from scal3.utils import myRaise
+from typing import Optional, Tuple
+
 from scal3.utils import toBytes, toStr
 from scal3.json_utils import *
+from scal3.color_utils import ColorType, rgbToCSS
 from scal3.path import pixDir, rootDir
 from scal3.cal_types import calTypes
 from scal3 import core
@@ -33,8 +38,11 @@ from scal3.locale_man import tr as _
 from scal3 import ui
 
 from gi.repository import GdkPixbuf
+from gi.repository import Pango as pango
 
 from scal3.ui_gtk import *
+from scal3.ui_gtk.svg_utils import pixbufFromSvgFile, imageFromSvgFile
+from scal3.ui_gtk.color_utils import gdkColorToRgb
 
 
 def hideList(widgets):
@@ -69,56 +77,119 @@ def setClipboard(text, clipboard=None):
 	#clipboard.store() ## ?????? No need!
 
 
-def imageFromFile(path):## the file must exist
+def imageFromIconName(
+	iconName: str,
+	size: gtk.IconSize,
+	nonStock: bool = False,
+) -> gtk.Image:
+	# So gtk.Image.new_from_stock is deprecated
+	# And the doc says we should use gtk.Image.new_from_icon_name
+	# which does NOT have the same functionality!
+	# because not all stock items are existing in all themes (even popular themes)
+	# and new_from_icon_name does not seem to look in other (non-default) themes!
+	# So for now we use new_from_stock, unless it's not a stock item
+	# But we do not use either of these two outside this function
+	# So that it's easy to switch
+	if nonStock:
+		return gtk.Image.new_from_icon_name(iconName, size)
+	try:
+		return gtk.Image.new_from_stock(iconName, size)
+	except AttributeError:
+		# just in case new_from_stock was removed
+		return gtk.Image.new_from_icon_name(iconName, size)
+
+
+def imageFromFile(path, size=0):
+	# the file must exist
+	if path.endswith(".svg"):
+		if size <= 0:
+			raise ValueError(f"imageFromFile: size invalid/not-given for {path}")
+		return imageFromSvgFile(path, size)
 	if not isabs(path):
 		path = join(pixDir, path)
 	im = gtk.Image()
 	try:
 		im.set_from_file(path)
-	except:
-		myRaise()
+	except Exception:
+		log.exception(f"Error while opening image {path}")
 	return im
 
 
-def pixbufFromFile(path):## the file may not exist
+def pixbufFromFile(path, size=0, resize=False):
+	# the file may not exist
 	if not path:
 		return None
+	if path.endswith(".svg"):
+		return pixbufFromSvgFile(path, size)
 	if not isabs(path):
 		path = join(pixDir, path)
 	try:
-		return GdkPixbuf.Pixbuf.new_from_file(path)
-	except:
-		myRaise()
+		pixbuf = GdkPixbuf.Pixbuf.new_from_file(path)
+	except GLibError:
+		log.exception(f"Error while opening image {path}")
 		return None
+	if pixbuf is None:
+		return
+	if resize:
+		if size < 0:
+			raise ValueError(f"pixbufFromFile: invalid size={size} with resize=True")
+		pixbuf = pixbuf.scale_simple(
+			size, size,
+			GdkPixbuf.InterpType.BILINEAR,
+		)
+	return pixbuf
 
-
-def toolButtonFromStock(stock, size):
+def toolButtonFromIcon(iconName: str, size: gtk.IconSize):
 	tb = gtk.ToolButton()
-	tb.set_icon_widget(gtk.Image.new_from_stock(stock, size))
+	tb.set_icon_widget(imageFromIconName(iconName, size))
 	return tb
 
 
-def toolButtonFromFile(fname):
+def labelIconButton(label: str, iconName: str, size: gtk.IconSize):
+	button = gtk.Button()
+	button.set_label(label)
+	button.set_image(imageFromIconName(iconName, size))
+	button.set_use_underline(True)
+	return button
+
+
+def imageClassButton(iconName: str, styleClass: str, size: int):
+	button = gtk.Button()
+	button.add(imageFromIconName(
+		iconName,
+		size,
+		nonStock=True,
+	))
+	button.get_style_context().add_class("image-button")
+	button.set_can_focus(False)
+	if styleClass:
+		button.get_style_context().add_class(styleClass)
+	return button
+
+
+def toolButtonFromFile(fname, size=0):
 	tb = gtk.ToolButton()
-	tb.set_icon_widget(imageFromFile(fname))
+	tb.set_icon_widget(imageFromFile(fname, size=size))
 	return tb
 
 
-def labelStockMenuItem(label, stock=None, func=None, *args):
+def labelIconMenuItem(label: str, iconName: str = "", func=None, *args):
 	item = ImageMenuItem(_(label))
 	item.set_use_underline(True)
-	if stock:
-		item.set_image(gtk.Image.new_from_stock(stock, gtk.IconSize.MENU))
+	if iconName:
+		item.set_image(imageFromIconName(iconName, gtk.IconSize.MENU))
 	if func:
 		item.connect("activate", func, *args)
 	return item
 
 
-def labelImageMenuItem(label, imageName, func=None, *args):
-	item = ImageMenuItem(_(label))
+def labelImageMenuItem(label: str, imageName: str, func=None, *args):
+	# FIXME: ImageMenuItem is deprecated since version 3.10:
+	# 		Use Gtk.MenuItem.new() instead.
+	item = gtk.ImageMenuItem(label=_(label))
 	item.set_use_underline(True)
 	if imageName:
-		item.set_image(imageFromFile(imageName))
+		item.set_image(imageFromFile(imageName, ui.menuIconSize))
 	if func:
 		item.connect("activate", func, *args)
 	return item
@@ -136,7 +207,7 @@ def getStyleColor(widget, state=gtk.StateType.NORMAL):
 
 
 def modify_bg_all(widget, state, gcolor):
-	print(widget.__class__.__name__)
+	log.info(widget.__class__.__name__)
 	widget.modify_bg(state, gcolor)
 	try:
 		children = widget.get_children()
@@ -154,36 +225,43 @@ def rectangleContainsPoint(r, x, y):
 	)
 
 
-def dialog_add_button(dialog, stock, label, resId, onClicked=None, tooltip=""):
-	b = dialog.add_button(stock, resId)
+def dialog_add_button(
+	dialog,
+	iconName,
+	label,
+	resId,
+	onClick=None,
+	tooltip="",
+):
+	b = dialog.add_button(label, resId)
 	if ui.autoLocale:
 		if label:
 			b.set_label(label)
-		b.set_image(gtk.Image.new_from_stock(stock, gtk.IconSize.BUTTON))
-	if onClicked:
-		b.connect("clicked", onClicked)
+		b.set_image(imageFromIconName(iconName, gtk.IconSize.BUTTON))
+	if onClick:
+		b.connect("clicked", onClick)
 	if tooltip:
 		set_tooltip(b, tooltip)
 	return b
 
 
-def confirm(msg, parent=None):
+def confirm(msg, **kwargs):
 	win = gtk.MessageDialog(
-		parent=parent,
 		flags=0,
 		type=gtk.MessageType.INFO,
 		buttons=gtk.ButtonsType.NONE,
 		message_format=msg,
+		**kwargs
 	)
 	dialog_add_button(
 		win,
-		gtk.STOCK_CANCEL,
+		"gtk-cancel",
 		_("_Cancel"),
 		gtk.ResponseType.CANCEL,
 	)
 	dialog_add_button(
 		win,
-		gtk.STOCK_OK,
+		"gtk-ok",
 		_("_OK"),
 		gtk.ResponseType.OK,
 	)
@@ -192,30 +270,66 @@ def confirm(msg, parent=None):
 	return ok
 
 
-def showMsg(msg, parent, msg_type):
-	win = gtk.MessageDialog(
+def showMsg(
+	msg,
+	iconName="",
+	parent=None,
+	transient_for=None,
+	title="",
+	borderWidth=10,
+	iconSize: gtk.IconSize = gtk.IconSize.DIALOG,
+	selectable=False,
+):
+	win = gtk.Dialog(
 		parent=parent,
-		flags=0,
-		type=msg_type,
-		buttons=gtk.ButtonsType.NONE,
-		message_format=msg,
+		transient_for=transient_for,
 	)
+	# flags=0 makes it skip task bar
+	if title:
+		win.set_title(title)
+	hbox = HBox(spacing=10)
+	hbox.set_border_width(borderWidth)
+	if iconName:
+		# win.set_icon(...)
+		pack(hbox, imageFromIconName(iconName, iconSize))
+	label = gtk.Label(label=msg)
+	# set_line_wrap(True) makes the window go crazy tall (taller than screen)
+	# and that's the reason for label.set_size_request and win.resize
+	label.set_line_wrap(True)
+	label.set_line_wrap_mode(pango.WrapMode.WORD)
+	label.set_size_request(500, 1)
+	if selectable:
+		label.set_selectable(True)
+	pack(hbox, label)
+	hbox.show_all()
+	pack(win.vbox, hbox)
 	dialog_add_button(
 		win,
-		gtk.STOCK_CLOSE,
+		"gtk-close",
 		_("_Close"),
 		gtk.ResponseType.OK,
 	)
+	win.resize(600, 1)
 	win.run()
 	win.destroy()
 
 
-def showError(msg, parent=None):
-	showMsg(msg, parent, gtk.MessageType.ERROR)
+def showError(msg, **kwargs):
+	# gtk-dialog-error is deprecated since version 3.10:
+	# 		Use named icon “dialog-error”.
+	showMsg(msg, iconName="gtk-dialog-error", **kwargs)
 
 
-def showInfo(msg, parent=None):
-	showMsg(msg, parent, gtk.MessageType.INFO)
+def showWarning(msg, **kwargs):
+	# gtk-dialog-warning is deprecated since version 3.10:
+	# 		Use named icon “dialog-warning”.
+	showMsg(msg, iconName="gtk-dialog-warning", **kwargs)
+
+
+def showInfo(msg, **kwargs):
+	# gtk-dialog-info is deprecated since version 3.10:
+	# 		Use named icon “dialog-information”.
+	showMsg(msg, iconName="gtk-dialog-info", **kwargs)
 
 
 def openWindow(win):
@@ -225,15 +339,15 @@ def openWindow(win):
 
 def get_menu_width(menu):
 	"""
-	#print(menu.has_screen())
+	# log.debug(menu.has_screen())
 	#menu.show_all()
 	#menu.realize()
-	print(
+	log.info(
 		menu.get_border_width(),
 		max_item_width,
 		menu.get_allocation().width,
-		menu.size_request().width,
-		menu.get_size_request()[0],
+		menu.get_preferred_size()[1].width,
+		menu.get_preferred_size()[0],
 		menu.get_preferred_width(),
 		#menu.do_get_preferred_width(),
 		menu.get_preferred_size()[0].width,
@@ -241,14 +355,35 @@ def get_menu_width(menu):
 		)
 	"""
 	w = menu.get_allocation().width
+	# get_preferred_size() returns (minimum_size: Gtk.Requisition,
+	# 		natural_size: Gtk.Requisition)
 	if w > 1:
-		#print(w-max(item.size_request().width for item in menu.get_children()))
+		# log.debug(w - max(
+		# 	item.get_preferred_size()[1].width for item in menu.get_children()
+		# ))
 		return w
 	items = menu.get_children()
 	if items:
-		mw = max(item.size_request().width for item in items)
-		return mw + 56 ## FIXME
+		mw = max(item.get_preferred_size()[1].width for item in items)
+		return mw + ui.cellMenuXOffset
 	return 0
+
+
+def get_menu_height(menu):
+	h = menu.get_allocation().height
+	if h > 1:
+		# log.debug("menu height from before:", h)
+		return h
+	items = menu.get_children()
+	if not items:
+		return 0
+	# get_preferred_size() returns (minimum_size: Gtk.Requisition,
+	#		natural_size: Gtk.Requisition)
+	h = sum(item.get_preferred_size()[1].height for item in items)
+	# FIXME: does not work, all items are zero
+	# log.debug("menu height from sum:", h)
+	# log.debug([item.get_preferred_size()[1].height for item in items])
+	return h
 
 
 def get_pixbuf_hash(pbuf):
@@ -284,6 +419,18 @@ def window_set_size_aspect(win, min_aspect, max_aspect=None):
 	win.resize(1, 1)
 
 
+def newHSep():
+	return gtk.Separator(orientation=gtk.Orientation.HORIZONTAL)
+
+
+def newAlignLabel(sgroup=None, label=""):
+	label = gtk.Label(label=label)
+	label.set_xalign(0)
+	if sgroup:
+		sgroup.add_widget(label)
+	return label
+
+
 class IdComboBox(gtk.ComboBox):
 	def set_active(self, _id):
 		ls = self.get_model()
@@ -298,7 +445,7 @@ class IdComboBox(gtk.ComboBox):
 			return
 		model = self.get_model()
 		if model is None:
-			print("IdComboBox.get_active: model is None")
+			log.info("IdComboBox.get_active: model is None")
 		try:
 			return model[i][0]
 		except IndexError:
@@ -315,8 +462,40 @@ class CopyLabelMenuItem(MenuItem):
 		setClipboard(self.get_property("label"))
 
 
+def cssTextStyle(
+	font: Optional[Tuple[str, bool, bool, float]] = None,
+	fgColor: Optional[ColorType] = None,
+	bgColor: Optional[ColorType] = None,
+) -> str:
+	lines = []
+	if font:
+		lines += [
+			f"\tfont-family: {font[0]};",
+			f"\tfont-size: {font[3]}pt;",
+			f"\tfont-weight: {'bold' if font[1] else 'normal'};",
+			f"\tfont-style: {'italic' if font[2] else 'normal'};",
+		]
+	if fgColor:
+		lines.append(f"\tcolor: {rgbToCSS(fgColor)};")
+	if bgColor:
+		lines.append(f"\tbackground-color: {rgbToCSS(bgColor)};")
+
+	return "{\n" + "\n".join(lines) + "\n}"
+
+
+def getBackgroundColor(widget: gtk.Widget):
+	return gdkColorToRgb(
+		widget.get_style_context().
+		get_background_color(gtk.StateFlags.NORMAL)
+	)
+
+def getBackgroundColorCSS(widget: gtk.Widget):
+	from scal3.color_utils import rgbToCSS
+	return rgbToCSS(getBackgroundColor(widget))
+
+
 if __name__ == "__main__":
-	diolog = gtk.Dialog(parent=None)
+	diolog = gtk.Dialog()
 	w = TimeZoneComboBoxEntry()
 	pack(diolog.vbox, w)
 	diolog.vbox.show_all()

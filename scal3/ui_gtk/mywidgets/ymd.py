@@ -9,20 +9,20 @@ from scal3.ui_gtk.mywidgets.multi_spin.year import YearSpinButton
 from scal3.ui_gtk.mywidgets.multi_spin.day import DaySpinButton
 
 
-class YearMonthDayBox(gtk.HBox):
+class YearMonthDayBox(gtk.Box):
 	def __init__(self):
-		gtk.HBox.__init__(self, spacing=4)
-		self.mode = calTypes.primary
+		gtk.Box.__init__(self, orientation=gtk.Orientation.HORIZONTAL, spacing=4)
+		self.calType = calTypes.primary
 		####
-		pack(self, gtk.Label(_("Year")))
+		pack(self, gtk.Label(label=_("Year")))
 		self.spinY = YearSpinButton()
 		pack(self, self.spinY)
 		####
-		pack(self, gtk.Label(_("Month")))
+		pack(self, gtk.Label(label=_("Month")))
 		comboMonth = gtk.ComboBoxText()
-		module, ok = calTypes[self.mode]
+		module, ok = calTypes[self.calType]
 		if not ok:
-			raise RuntimeError("cal type %r not found" % self.mode)
+			raise RuntimeError(f"cal type {self.calType!r} not found")
 		for i in range(12):
 			comboMonth.append_text(_(module.getMonthName(
 				i + 1,
@@ -32,7 +32,7 @@ class YearMonthDayBox(gtk.HBox):
 		pack(self, comboMonth)
 		self.comboMonth = comboMonth
 		####
-		pack(self, gtk.Label(_("Day")))
+		pack(self, gtk.Label(label=_("Day")))
 		self.spinD = DaySpinButton()
 		pack(self, self.spinD)
 		self.comboMonthConn = comboMonth.connect(
@@ -41,12 +41,12 @@ class YearMonthDayBox(gtk.HBox):
 		)
 		self.spinY.connect("changed", self.comboMonthChanged)
 
-	def set_mode(self, mode):
+	def setCalType(self, calType):
 		self.comboMonth.disconnect(self.comboMonthConn)
-		self.mode = mode
-		module, ok = calTypes[mode]
+		self.calType = calType
+		module, ok = calTypes[calType]
 		if not ok:
-			raise RuntimeError("cal type %r not found" % mode)
+			raise RuntimeError(f"cal type '{calType}' not found")
 		combo = self.comboMonth
 		combo.remove_all()
 		for i in range(12):
@@ -57,8 +57,8 @@ class YearMonthDayBox(gtk.HBox):
 			self.comboMonthChanged,
 		)
 
-	def changeMode(self, mode, newMode):## FIXME naming standard?
-		self.set_mode(newMode)
+	def changeCalType(self, calType, newCalType):## FIXME naming standard?
+		self.setCalType(newCalType)
 
 	def set_value(self, date):
 		y, m, d = date
@@ -80,5 +80,5 @@ class YearMonthDayBox(gtk.HBox):
 		self.spinD.set_range(1, getMonthLen(
 			self.spinY.get_value(),
 			monthIndex + 1,
-			self.mode,
+			self.calType,
 		))

@@ -36,13 +36,13 @@ class BulkSaveTimeZoneDialog(gtk.Dialog):
 		####
 		dialog_add_button(
 			self,
-			gtk.STOCK_CANCEL,
+			"gtk-cancel",
 			_("_Cancel"),
 			gtk.ResponseType.CANCEL,
 		)
 		dialog_add_button(
 			self,
-			gtk.STOCK_OK,
+			"gtk-ok",
 			_("_OK"),
 			gtk.ResponseType.OK,
 		)
@@ -66,18 +66,18 @@ class BulkSaveTimeZoneDialog(gtk.Dialog):
 		label.set_line_wrap(True)
 		pack(self.vbox, label, 1, 1)
 		####
-		hbox = gtk.HBox()
+		hbox = HBox()
 		self.timeZoneInput = TimeZoneComboBoxEntry()
-		pack(hbox, gtk.Label(""), 1, 1)
+		pack(hbox, gtk.Label(), 1, 1)
 		pack(hbox, self.timeZoneInput)
-		pack(hbox, gtk.Label(""), 1, 1)
+		pack(hbox, gtk.Label(), 1, 1)
 		hbox.set_border_width(20)
 		pack(self.vbox, hbox, 1, 1)
 		####
 		self.errorLabel = gtk.Label()
 		pack(self.vbox, self.errorLabel, 1, 1)
 		####
-		pack(self.vbox, gtk.Label(""), 1, 1)
+		pack(self.vbox, gtk.Label(), 1, 1)
 		####
 		self.vbox.show_all()
 
@@ -109,4 +109,4 @@ class BulkSaveTimeZoneDialog(gtk.Dialog):
 
 
 if __name__ == "__main__":
-	BulkSaveTimeZoneDialog(parent=None).run()
+	BulkSaveTimeZoneDialog().run()

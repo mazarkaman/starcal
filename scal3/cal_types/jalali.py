@@ -24,6 +24,9 @@
 # Iranian (Jalali) calendar:
 # http://en.wikipedia.org/wiki/Iranian_calendar
 
+from scal3 import logger
+log = logger.get()
+
 name = "jalali"
 desc = "Jalali"
 origLang = "fa"
@@ -95,10 +98,10 @@ def getMonthName(m, y=None):
 def getMonthNameAb(m, y=None):
 	v = monthNameVars[monthNameMode]
 	try:
-		l = v[1]
+		ls = v[1]
 	except IndexError:
-		l = v[0]
-	return l[m - 1]
+		ls = v[0]
+	return ls[m - 1]
 
 
 def getMonthsInYear(y):
@@ -117,7 +120,7 @@ monthLenSum = [0]
 for i in range(12):
 	monthLenSum.append(monthLenSum[-1] + monthLen[i])
 
-# print(monthLenSum)
+# log.debug(monthLenSum)
 # monthLenSum[i] == sum(monthLen[:i])
 
 import os
@@ -125,15 +128,14 @@ from bisect import bisect_left
 
 from scal3.path import sysConfDir, confDir
 from scal3.utils import iceil
-from scal3.utils import myRaise
 from scal3.json_utils import *
 
 # Here load user options(jalaliAlg) from file
-sysConfPath = "%s/%s.json" % (sysConfDir, name)
+sysConfPath = f"{sysConfDir}/{name}.json"
 loadJsonConf(__name__, sysConfPath)
 
 
-confPath = "%s/%s.json" % (confDir, name)
+confPath = f"{confDir}/{name}.json"
 loadJsonConf(__name__, confPath)
 
 
@@ -171,7 +173,7 @@ def isLeap(year):
 		return True
 
 	else:
-		raise RuntimeError("bad option jalaliAlg=%s" % jalaliAlg)
+		raise RuntimeError(f"bad option jalaliAlg={jalaliAlg!r}")
 
 
 def getMonthDayFromYdays(yday):
@@ -208,7 +210,7 @@ def to_jd(year, month, day):
 		)
 		return jdays + 584101 + GREGORIAN_EPOCH
 	else:
-		raise RuntimeError("bad option jalaliAlg=%s" % jalaliAlg)
+		raise RuntimeError(f"bad option jalaliAlg={jalaliAlg!r}")
 
 
 def jd_to(jd):
@@ -234,7 +236,7 @@ def jd_to(jd):
 	elif jalaliAlg == 0:  # 33-years
 		jdays = int(jd - GREGORIAN_EPOCH - 584101)
 		# -(1600*365 + 1600//4 - 1600//100 + 1600//400) + 365-79+1 == -584101
-		# print("jdays =", jdays)
+		# log.debug("jdays =", jdays)
 		j_np = jdays // 12053
 		jdays %= 12053
 		year = 979 + 33 * j_np + 4 * (jdays // 1461)
@@ -245,7 +247,7 @@ def jd_to(jd):
 		yday = jdays + 1
 		month, day = getMonthDayFromYdays(yday)
 	else:
-		raise RuntimeError("bad option jalaliAlg=%s" % jalaliAlg)
+		raise RuntimeError(f"bad option jalaliAlg={jalaliAlg!r}")
 	return year, month, day
 
 

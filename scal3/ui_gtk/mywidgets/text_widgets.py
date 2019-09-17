@@ -6,7 +6,7 @@ from scal3 import ui
 
 from scal3.ui_gtk import *
 from scal3.ui_gtk.utils import (
-	labelStockMenuItem,
+	labelIconMenuItem,
 	setClipboard,
 	buffer_get_text,
 )
@@ -20,19 +20,20 @@ class ReadOnlyTextWidget:
 		raise NotImplementedError
 
 	def onPopup(self, widget, menu):
-		# instead of creating a new menu, we should remove all the current items from current menu
+		# instead of creating a new menu, we should remove all the
+		# current items from current menu
 		for item in menu.get_children():
 			menu.remove(item)
 		####
-		menu.add(labelStockMenuItem(
+		menu.add(labelIconMenuItem(
 			"Copy _All",
-			gtk.STOCK_COPY,
+			"gtk-copy",
 			self.copyAll,
 		))
 		####
-		itemCopy = labelStockMenuItem(
+		itemCopy = labelIconMenuItem(
 			"_Copy",
-			gtk.STOCK_COPY,
+			"gtk-copy",
 			self.copy,
 		)
 		if not self.has_selection():
@@ -61,8 +62,8 @@ class ReadOnlyLabel(gtk.Label, ReadOnlyTextWidget):
 		end = max(bound, cursor)
 		setClipboard(toStr(self.get_text())[start:end])
 
-	def __init__(self, *args, **kwargs):
-		gtk.Label.__init__(self, *args, **kwargs)
+	def __init__(self, **kwargs):
+		gtk.Label.__init__(self, **kwargs)
 		self.set_selectable(True)## to be selectable, with visible cursor
 		self.connect("populate-popup", self.onPopup)
 

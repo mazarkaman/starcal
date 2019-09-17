@@ -1,5 +1,8 @@
 #!/usr/bin/env python3
-from scal3.utils import myRaise
+
+from scal3 import logger
+log = logger.get()
+
 from scal3.locale_man import tr as _
 
 from scal3.ui_gtk import *
@@ -17,26 +20,30 @@ class GroupSortDialog(gtk.Dialog):
 		####
 		dialog_add_button(
 			self,
-			gtk.STOCK_CANCEL,
+			"gtk-cancel",
 			_("_Cancel"),
 			gtk.ResponseType.CANCEL,
 		)
 		dialog_add_button(
 			self,
-			gtk.STOCK_OK,
+			"gtk-ok",
 			_("_OK"),
 			gtk.ResponseType.OK,
 		)
 		##
 		self.connect("response", lambda w, e: self.hide())
 		####
-		hbox = gtk.HBox()
-		pack(hbox, gtk.Label(_("Sort events of group \"%s\"") % group.title))
-		pack(hbox, gtk.Label(""), 1, 1)
+		hbox = HBox()
+		pack(hbox, gtk.Label(
+			label=_("Sort events of group \"{groupTitle}\"").format(
+				groupTitle=group.title,
+			),
+		))
+		pack(hbox, gtk.Label(), 1, 1)
 		pack(self.vbox, hbox)
 		###
-		hbox = gtk.HBox()
-		pack(hbox, gtk.Label(_("Based on") + " "))
+		hbox = HBox()
+		pack(hbox, gtk.Label(label=_("Based on") + " "))
 		self.sortByNames = []
 		self.sortByCombo = gtk.ComboBoxText()
 		sortByDefault, sortBys = group.getSortBys()
@@ -47,9 +54,9 @@ class GroupSortDialog(gtk.Dialog):
 			self.sortByNames.index(sortByDefault),
 		)  # FIXME
 		pack(hbox, self.sortByCombo)
-		self.reverseCheck = gtk.CheckButton(_("Descending"))
+		self.reverseCheck = gtk.CheckButton(label=_("Descending"))
 		pack(hbox, self.reverseCheck)
-		pack(hbox, gtk.Label(""), 1, 1)
+		pack(hbox, gtk.Label(), 1, 1)
 		pack(self.vbox, hbox)
 		####
 		self.vbox.show_all()
@@ -74,38 +81,38 @@ class GroupConvertModeDialog(gtk.Dialog):
 		####
 		dialog_add_button(
 			self,
-			gtk.STOCK_CANCEL,
+			"gtk-cancel",
 			_("_Cancel"),
 			gtk.ResponseType.CANCEL,
 		)
 		dialog_add_button(
 			self,
-			gtk.STOCK_OK,
+			"gtk-ok",
 			_("_OK"),
 			gtk.ResponseType.OK,
 		)
 		##
 		self.connect("response", lambda w, e: self.hide())
 		####
-		hbox = gtk.HBox()
+		hbox = HBox()
 		label = gtk.Label(_(
 			"This is going to convert calendar types of all events inside "
-			"group \"%s\" to a specific type. This operation does not work "
+			"group \"{groupTitle}\" to a specific type. This operation does not work "
 			"for Yearly events and also some of Custom events. You have to "
 			"edit those events manually to change calendar type."
-		) % group.title)
+		).format(groupTitle=group.title))
 		label.set_line_wrap(True)
 		pack(hbox, label)
-		pack(hbox, gtk.Label(""), 1, 1)
+		pack(hbox, gtk.Label(), 1, 1)
 		pack(self.vbox, hbox)
 		###
-		hbox = gtk.HBox()
-		pack(hbox, gtk.Label(_("Calendar Type") + ":"))
+		hbox = HBox()
+		pack(hbox, gtk.Label(label=_("Calendar Type") + ":"))
 		combo = CalTypeCombo()
-		combo.set_active(group.mode)
+		combo.set_active(group.calType)
 		pack(hbox, combo)
-		pack(hbox, gtk.Label(""), 1, 1)
-		self.modeCombo = combo
+		pack(hbox, gtk.Label(), 1, 1)
+		self.calTypeCombo = combo
 		pack(self.vbox, hbox)
 		####
 		self.vbox.show_all()
@@ -113,13 +120,13 @@ class GroupConvertModeDialog(gtk.Dialog):
 
 	def run(self):
 		if gtk.Dialog.run(self) == gtk.ResponseType.OK:
-			mode = self.modeCombo.get_active()
+			calType = self.calTypeCombo.get_active()
 			failedSummaryList = []
 			for event in self._group:
-				if event.changeMode(mode):
+				if event.changeCalType(calType):
 					event.save()
 				else:
 					failedSummaryList.append(event.summary)
 			if failedSummaryList:## FIXME
-				print(failedSummaryList)
+				log.error(f"failedSummaryList={failedSummaryList}")
 		self.destroy()

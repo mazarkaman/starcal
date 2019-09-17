@@ -7,7 +7,9 @@ try:
 except ImportError:
 	import simplejson as json
 
-dataToPrettyJson = lambda data: json.dumps(data, sort_keys=False, indent=4)
+
+def dataToPrettyJson(data):
+	return json.dumps(data, sort_keys=False, indent=4)
 
 
 if __name__ == "__main__":

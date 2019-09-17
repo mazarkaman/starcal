@@ -1,4 +1,7 @@
 #!/usr/bin/env python3
+
+# no logging in this file
+
 import os
 import sys
 import subprocess
@@ -27,7 +30,7 @@ if os.path.isdir(gitDir):
 
 
 VERSION = ""
-fp = open("%s/core.py" % srcDir)
+fp = open(f"{srcDir}/core.py")
 while True:
 	line = fp.readline()
 	if line.startswith("VERSION"):

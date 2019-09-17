@@ -21,38 +21,38 @@
 from scal3.locale_man import tr as _
 from scal3 import ui
 from scal3.ui_gtk import *
+from scal3.ui_gtk.utils import (
+	labelIconButton,
+	set_tooltip,
+)
 
 
-class MyHButtonBox(gtk.HButtonBox):
+class MyHButtonBox(gtk.ButtonBox):
 	def __init__(self):
-		gtk.HButtonBox.__init__(self)
+		gtk.ButtonBox.__init__(self, orientation=gtk.Orientation.HORIZONTAL)
 		self.set_layout(gtk.ButtonBoxStyle.END)
 		self.set_spacing(15)
 		self.set_border_width(15)
 
-	def add_button(self, stock, label, onClick=None):
-		b = gtk.Button(stock=stock)
-		if ui.autoLocale:
-			b.set_label(label)
-			b.set_image(gtk.Image.new_from_stock(
-				stock,
-				gtk.IconSize.BUTTON,
-			))
+	def add_button(self, iconName, label, onClick=None, tooltip=""):
+		b = labelIconButton(label, iconName, gtk.IconSize.BUTTON)
 		if onClick:
 			b.connect("clicked", onClick)
+		if tooltip:
+			set_tooltip(b, tooltip)
 		self.add(b)
 		return b
 
 	def add_ok(self, onClick=None):
 		return self.add_button(
-			gtk.STOCK_OK,
+			"gtk-ok",
 			_("_OK"),
 			onClick=onClick,
 		)
 
 	def add_cancel(self, onClick=None):
 		return self.add_button(
-			gtk.STOCK_CANCEL,
+			"gtk-cancel",
 			_("_Cancel"),
 			onClick=onClick,
 		)

@@ -7,6 +7,18 @@ function getDirTotalSize(){
 	du -ks "$1" | python3 -c "import sys;print(input().split('\t')[0])"
 }
 
+function installPackage(){
+	pkgFile="$1"
+	if [ -f /usr/bin/apt ] ; then
+		if /usr/bin/apt reinstall "./$pkgFile" 2>/tmp/starcal-apt-error ; then
+			return 0
+		fi
+		cat /tmp/starcal-apt-error
+		rm /tmp/starcal-apt-error
+	fi
+	dpkg -i "$pkgFile" || apt-get -f install
+}
+
 if [ "$UID" != "0" ] ; then
 	echo "Run this script as root" >&2
 	exit 1
@@ -52,10 +64,10 @@ installedSize=`getDirTotalSize "$tmpDir"` ## only /usr ? FIXME
 #getDirTotalSize "$tmpDir/usr"
 
 
-depends=('python3.7 | python3.6 | python3.5')
+depends=('python3.7 | python3.6')
 depends+=('gir1.2-gtk-3.0')
-depends+=('python3-gi(>=3.8)') ## The new gobject introspection
-depends+=('python3-gi-cairo(>=3.8)')
+depends+=('python3-gi(>=3.22)') ## The new gobject introspection
+depends+=('python3-gi-cairo')
 ## it's "python-gobject-cairo" in ubuntu FIXME
 depends+=('python3-httplib2')
 depends+=('python3-dateutil')
@@ -64,10 +76,11 @@ depends+=('python3-requests')
 #depends+=('python3-gflags') # for google api client
 
 recommends=()
-recommends+=('python3-igraph') ## FIXME
+recommends+=('python3-igraph')
 recommends+=('python3-ujson')
 recommends+=('python3-gnomevfs')
 recommends+=('ssh-askpass-gnome')
+recommends+=('python3-pygit2')
 
 
 depends_str=$(printf ", %s" "${depends[@]}") ; depends_str=${depends_str:2}
@@ -91,26 +104,25 @@ Description: A full-featured international calendar written in Python
  Homepage: http://ilius.github.io/starcal
 " > "$tmpDir/DEBIAN/control"
 
-#echo "/usr/share/$pkgName/scripts/assert_python3" > "$tmpDir/DEBIAN/postinst"
-#chmod 755 "$tmpDir/DEBIAN/postinst"
+
+echo "#!/bin/bash
+if [ -f /usr/share/starcal3/scal3/core.py ] ; then
+	exit 0
+fi
+if [ -d '/usr/share/starcal3' ] ; then
+	echo 'Cleaning up /usr/share/starcal3'
+	find '/usr/share/starcal3' -regex '^.*\(__pycache__\|\.py[co]\)$' -print -delete || true
+	find '/usr/share/starcal3' -type d -print -delete || true
+fi
+" > "$tmpDir/DEBIAN/postrm"
+chmod a+x "$tmpDir/DEBIAN/postrm"
+
 
 pkgFile=${pkgName}_${version}-1_all.deb
 
 if dpkg-deb -b "$tmpDir" "$pkgFile" ; then
 	echo "Package file $pkgFile created, installing..."
-	if [ -f /usr/bin/gdebi ] ; then
-		if ! /usr/bin/gdebi "$pkgFile" 2>/tmp/gdebi-error ; then
-			if grep -q 'A later version is already installed' /tmp/gdebi-error ; then
-				dpkg -i "$pkgFile"
-			else
-				cat /tmp/gdebi-error
-			fi
-			rm /tmp/gdebi-error
-		fi
-	else
-		apt-get install python3-httplib2
-		dpkg -i "$pkgFile"
-	fi
+	installPackage "$pkgFile"
 fi
 
 rm -Rf "$tmpDir"

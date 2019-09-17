@@ -19,13 +19,13 @@ class TrashEditorDialog(gtk.Dialog):
 		###
 		dialog_add_button(
 			self,
-			gtk.STOCK_CANCEL,
+			"gtk-cancel",
 			_("_Cancel"),
 			gtk.ResponseType.CANCEL,
 		)
 		dialog_add_button(
 			self,
-			gtk.STOCK_OK,
+			"gtk-ok",
 			_("_OK"),
 			gtk.ResponseType.OK,
 		)
@@ -34,25 +34,25 @@ class TrashEditorDialog(gtk.Dialog):
 		#######
 		self.trash = ui.eventTrash
 		##
-		sizeGroup = gtk.SizeGroup(gtk.SizeGroupMode.HORIZONTAL)
+		sizeGroup = gtk.SizeGroup(mode=gtk.SizeGroupMode.HORIZONTAL)
 		#######
-		hbox = gtk.HBox()
-		label = gtk.Label(_("Title"))
-		label.set_alignment(0, 0.5)
+		hbox = HBox()
+		label = gtk.Label(label=_("Title"))
+		label.set_xalign(0)
 		pack(hbox, label)
 		sizeGroup.add_widget(label)
 		self.titleEntry = gtk.Entry()
 		pack(hbox, self.titleEntry, 1, 1)
 		pack(self.vbox, hbox)
 		####
-		hbox = gtk.HBox()
-		label = gtk.Label(_("Icon"))
-		label.set_alignment(0, 0.5)
+		hbox = HBox()
+		label = gtk.Label(label=_("Icon"))
+		label.set_xalign(0)
 		pack(hbox, label)
 		sizeGroup.add_widget(label)
 		self.iconSelect = IconSelectButton()
 		pack(hbox, self.iconSelect)
-		pack(hbox, gtk.Label(""), 1, 1)
+		pack(hbox, gtk.Label(), 1, 1)
 		pack(self.vbox, hbox)
 		####
 		self.vbox.show_all()

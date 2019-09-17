@@ -18,10 +18,12 @@
 # Also avalable in /usr/share/common-licenses/LGPL on Debian systems
 # or /usr/share/licenses/common/LGPL/license.txt on ArchLinux
 
+from scal3 import logger
+log = logger.get()
+
 import sys
 from math import log
 
-from scal3.utils import myRaise
 from scal3.time_utils import *
 from scal3.bin_heap import MaxHeap
 
@@ -115,15 +117,15 @@ class EventSearchTree:
 	def doCountBalancing(self, node):
 		if node.left and not node.left.right and \
 			node.left.count - getCount(node.right) > len(node.events):
-			#print("moving up from left")
-			## `mup` is the node that is moving up and taking place of `node`
+			# log.debug("moving up from left")
+			# `mup` is the node that is moving up and taking place of `node`
 			mup, node.left = node.left, None
 			#node.red, mup.red = mup.red, node.red
 			mup.right, node = node, mup
 		if node.right and not node.right.left and \
 			node.right.count - getCount(node.left) > len(node.events):
-			#print("moving up from right")
-			## `mup` is the node that is moving up and taking place of `node`
+			# log.debug("moving up from right")
+			# `mup` is the node that is moving up and taking place of `node`
 			mup, node.right = node.right, None
 			#node.red, mup.red = mup.red, node.red
 			mup.left, node = node, mup
@@ -155,16 +157,16 @@ class EventSearchTree:
 				mt, dt,
 				eid,
 			)
-		else:## mt == node.mt
+		else: # mt == node.mt
 			node.add(t0, t1, dt, eid)
-		## node = self.doCountBalancing(node)
+		# node = self.doCountBalancing(node)
 		if isRed(node.right) and not isRed(node.left):
 			node = rotateLeft(node)
 		if isRed(node.left) and isRed(node.left.left):
 			node = rotateRight(node)
 		if isRed(node.left) and isRed(node.right):
 			flipColors(node)
-		## node.updateCount()
+		# node.updateCount()
 		node.updateMinMax()
 		return node
 
@@ -172,11 +174,10 @@ class EventSearchTree:
 		if debug:
 			from time import strftime, localtime
 			f = "%F, %T"
-			print("EventSearchTree.add: %s\t%s\t%s" % (
-				eid,
-				strftime(f, localtime(t0)),
-				strftime(f, localtime(t1)),
-			))
+			log.info(
+				f"EventSearchTree.add: {eid}\t{strftime(f, localtime(t0))}" +
+				f"\t{strftime(f, localtime(t1))}"
+			)
 		###
 		if t0 == t1:
 			t1 += epsTm ## needed? FIXME
@@ -190,8 +191,8 @@ class EventSearchTree:
 				mt, dt,
 				eid,
 			)
-		except:
-			myRaise()
+		except Exception:
+			log.exception("")
 		hp = self.byId.get(eid)
 		if hp is None:
 			hp = self.byId[eid] = MaxHeap()
@@ -208,7 +209,7 @@ class EventSearchTree:
 		for item in self.searchStep(node.left, t0, t1):
 			yield item
 		###
-		min_dt = abs((t0 + t1)/2.0 - node.mt) - (t1 - t0)/2.0
+		min_dt = abs((t0 + t1) / 2.0 - node.mt) - (t1 - t0) / 2.0
 		if min_dt <= 0:
 			for dt, eid in node.events.getAll():
 				yield node.mt, dt, eid
@@ -222,8 +223,8 @@ class EventSearchTree:
 	def search(self, t0, t1):
 		for mt, dt, eid in self.searchStep(self.root, t0, t1):
 			yield (
-				max(t0, mt-dt),
-				min(t1, mt+dt),
+				max(t0, mt - dt),
+				min(t1, mt + dt),
 				eid,
 				2 * dt,
 			)
@@ -290,7 +291,7 @@ class EventSearchTree:
 				node = self.getMinNode(node2.right)
 				node.right = self.deleteMinNode(node2.right)
 				node.left = node2.left
-		## node.updateCount()
+		# node.updateCount()
 		return node
 
 	def delete(self, eid):
@@ -302,8 +303,8 @@ class EventSearchTree:
 			for mt, dt in hp.getAll():
 				try:
 					self.root = self.deleteStep(self.root, mt, dt, eid)
-				except:
-					myRaise()
+				except Exception:
+					log.exception("")
 				else:
 					n += 1
 			del self.byId[eid]
@@ -388,4 +389,4 @@ if __name__ == "__main__":
 	tree = EventSearchTree()
 	for x in ls:
 		tree.add(x, x + 4, x)
-	print(tree.getLastBefore(15.5))
+	log.info(tree.getLastBefore(15.5))

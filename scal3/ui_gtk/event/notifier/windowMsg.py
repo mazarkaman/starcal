@@ -6,7 +6,10 @@ from scal3 import event_lib
 from scal3 import ui
 
 from scal3.ui_gtk import *
-from scal3.ui_gtk.utils import imageFromFile
+from scal3.ui_gtk.utils import (
+	imageFromFile,
+	imageFromIconName,
+)
 
 
 class WidgetClass(gtk.Entry):
@@ -28,7 +31,7 @@ def hideWindow(widget, dialog):
 
 def notify(notifier, finishFunc):  # FIXME
 	event = notifier.event
-	dialog = gtk.Dialog(parent=None)
+	dialog = gtk.Dialog()
 	####
 	lines = []
 	lines.append(event.getText())
@@ -38,21 +41,21 @@ def notify(notifier, finishFunc):  # FIXME
 	####
 	dialog.set_title(event.getText())
 	####
-	hbox = gtk.HBox(spacing=15)
+	hbox = HBox(spacing=15)
 	hbox.set_border_width(10)
 	if event.icon:
 		pack(hbox, imageFromFile(event.icon))
 		dialog.set_icon_from_file(event.icon)
-	label = gtk.Label(text)
+	label = gtk.Label(label=text)
 	label.set_selectable(True)
 	pack(hbox, label, 1, 1)
 	pack(dialog.vbox, hbox)
 	####
-	okB = dialog.add_button(gtk.STOCK_OK, 3)
+	okB = dialog.add_button("gtk-ok", 3)
 	okB.connect("clicked", hideWindow, dialog)
 	if ui.autoLocale:
 		okB.set_label(_("_OK"))
-		okB.set_image(gtk.Image.new_from_stock(gtk.STOCK_OK, gtk.IconSize.BUTTON))
+		okB.set_image(imageFromIconName("gtk-ok", gtk.IconSize.BUTTON))
 	####
 	dialog.vbox.show_all()
 	dialog.connect("response", lambda w, e: finishFunc())
