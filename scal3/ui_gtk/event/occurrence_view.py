@@ -109,7 +109,7 @@ class DayOccurrenceView(gtk.TextView, CustomizableCalObj):
 			JustificationPrefItem,
 			CheckFontPrefItem,
 			CheckPrefItem,
-			FontPrefItem
+			FontPrefItem,
 		)
 		if self.optionsWidget:
 			return self.optionsWidget
