@@ -43,6 +43,8 @@ from scal3.ui_gtk.mywidgets.button import ConButton
 from scal3.ui_gtk import gtk_ud as ud
 from scal3.ui_gtk.customize import CustomizableCalObj
 
+primaryCalStyleClass = "primarycal"
+
 
 class BaseLabel(gtk.EventBox):
 	def __init__(self):
@@ -80,6 +82,10 @@ class MonthLabel(BaseLabel, ud.BaseCalObj):
 		#self.set_border_width(1)#???????????
 		self.initVars()
 		self.calType = calType
+		###
+		if calType == calTypes.primary:
+			self.get_style_context().add_class(primaryCalStyleClass)
+		###
 		self.label = gtk.Label()
 		self.label.set_use_markup(True)
 		self.add(self.label)
@@ -377,6 +383,8 @@ class YearLabel(IntLabel, ud.BaseCalObj):
 		self.calType = calType
 		###
 		self.get_style_context().add_class(self.styleClass)
+		if calType == calTypes.primary:
+			self.get_style_context().add_class(primaryCalStyleClass)
 		###
 		self.connect("changed", self.onChanged)
 
@@ -573,13 +581,20 @@ class CalObj(gtk.Box, CustomizableCalObj):
 		from scal3.ui_gtk.utils import cssTextStyle
 		font = ui.getFont()
 		if ui.labelBoxFontEnable and ui.labelBoxFont:
-			font = ui.labelBoxFont
+			font = list(ui.labelBoxFont)  # make a copy to be safe to modify
 		if ui.boldYmLabel:
-			font = list(font)  # make a copy to modify
 			font[1] = True
-		return "." + CalObj.styleClass + " " + cssTextStyle(
+		css = "." + CalObj.styleClass + " " + cssTextStyle(
 			font=font,
 		)
+		if ui.labelBoxPrimaryFontEnable and ui.labelBoxPrimaryFont:
+			pFont = list(ui.labelBoxPrimaryFont)
+			if ui.boldYmLabel:
+				pFont[1] = True
+			css += "\n." + CalObj.styleClass + " ." + primaryCalStyleClass + " " + cssTextStyle(
+				font=pFont,
+			)
+		return css
 
 	def getOptionsWidget(self) -> gtk.Widget:
 		from scal3.ui_gtk.pref_utils import (
@@ -592,7 +607,7 @@ class CalObj(gtk.Box, CustomizableCalObj):
 		if self.optionsWidget:
 			return self.optionsWidget
 		####
-		optionsWidget = VBox(spacing=10)
+		optionsWidget = VBox(spacing=5)
 		####
 		hbox = HBox(spacing=5)
 		pack(hbox, gtk.Label(label=_("Active menu item color")))
@@ -628,6 +643,20 @@ class CalObj(gtk.Box, CustomizableCalObj):
 		prefItem = CheckFontPrefItem(
 			CheckPrefItem(ui, "labelBoxFontEnable", label=_("Font")),
 			FontPrefItem(ui, "labelBoxFont"),
+			live=True,
+			onChangeFunc=ud.windowList.updateCSS,
+		)
+		pack(optionsWidget, prefItem.getWidget())
+		###
+		prefItem = CheckFontPrefItem(
+			CheckPrefItem(
+				ui,
+				"labelBoxPrimaryFontEnable",
+				label=_("Primary Calendar Font"),
+			),
+			FontPrefItem(ui, "labelBoxPrimaryFont"),
+			vertical=True,
+			spacing=0,
 			live=True,
 			onChangeFunc=ud.windowList.updateCSS,
 		)

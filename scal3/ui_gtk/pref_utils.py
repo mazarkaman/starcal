@@ -489,6 +489,8 @@ class CheckFontPrefItem(PrefItem):
 		checkItem: CheckPrefItem,
 		fontItem: FontPrefItem,
 		checkSizeGroup: Optional[gtk.SizeGroup] = None,
+		vertical: bool = False,
+		spacing: int = 3,
 		live: bool = False,
 		onChangeFunc: Optional[Callable] = None,
 	) -> None:
@@ -503,10 +505,10 @@ class CheckFontPrefItem(PrefItem):
 		if checkSizeGroup:
 			checkSizeGroup.add_widget(checkb)
 
-		hbox = HBox(spacing=3)
-		pack(hbox, checkb)
-		pack(hbox, fontb)
-		self._widget = hbox
+		box = Box(vertical=vertical, spacing=spacing)
+		pack(box, checkb)
+		pack(box, fontb)
+		self._widget = box
 
 		if live:
 			# updateWidget needs to be called before following connect() calls

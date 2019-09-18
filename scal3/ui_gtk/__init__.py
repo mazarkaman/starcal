@@ -5,6 +5,7 @@ __all__ = [
 	"GdkPixbuf",
 	"pango",
 	"pack",
+	"Box",
 	"VBox",
 	"HBox",
 	"TWO_BUTTON_PRESS",
@@ -20,6 +21,8 @@ __all__ = [
 
 from scal3 import logger
 log = logger.get()
+
+from typing import Optional
 
 import gi
 gi.require_version("Gtk", "3.0")
@@ -60,6 +63,16 @@ def pack(box, child, expand=False, fill=False, padding=0):
 		box.pack_start(child, expand)
 	else:
 		raise TypeError(f"pack: unkown type {type(box)}")
+
+
+def Box(vertical: Optional[bool] = None, **kwargs):
+	if vertical is None:
+		raise ValueError("vertical argument is missing")
+	if vertical:
+		orientation = gtk.Orientation.VERTICAL
+	else:
+		orientation = gtk.Orientation.HORIZONTAL
+	return gtk.Box(orientation=orientation, **kwargs)
 
 
 def VBox(**kwargs):

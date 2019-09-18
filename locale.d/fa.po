@@ -2715,6 +2715,10 @@ msgid "Status Icon Font"
 msgstr
 "فونت نماد وضعیت"
 
+msgid "Primary Calendar Font"
+msgstr ""
+"فونت تقویم اصلی"
+
 msgid "Font Family"
 msgstr ""
 "خانوادهٔ فونت"
