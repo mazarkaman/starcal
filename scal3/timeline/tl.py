@@ -207,4 +207,22 @@ keyboardZoomStep = 1.2  # > 1.0
 
 #############################################
 
+keys = {
+	"space": "moveToNow",
+	"home": "moveToNow",
+	"right": "moveRight",
+	"left": "moveLeft",
+	"down": "moveStop",
+	"q": "close",
+	"escape": "close",
+	"plus": "zoomIn",
+	"equal": "zoomIn",
+	"kp_add": "zoomIn",
+	"minus": "zoomOut",
+	"kp_subtract": "zoomOut",
+}
+
+
+#############################################
+
 loadConf()

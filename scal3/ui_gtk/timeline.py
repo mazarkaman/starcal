@@ -106,6 +106,17 @@ class TimeLine(gtk.DrawingArea, ud.BaseCalObj):
 		self.prefWindow = None
 		###
 		self.closeFunc = closeFunc
+		###
+		self.keysActionDict = {
+			"moveToNow": self.onKeyMoveToNow,
+			"moveRight": self.onKeyMoveRight,
+			"moveLeft": self.onKeyMoveLeft,
+			"moveStop": self.onKeyMoveStop,
+			"close": self.onKeyClose,
+			"zoomIn": self.onKeyZoomIn,
+			"zoomOut": self.onKeyZoomOut,
+		}
+		###
 		self.connect("draw", self.onExposeEvent)
 		self.connect("scroll-event", self.onScroll)
 		self.connect("button-press-event", self.onButtonPress)
@@ -724,28 +735,46 @@ class TimeLine(gtk.DrawingArea, ud.BaseCalObj):
 	def keyboardZoom(self, zoomIn):
 		self.zoom(zoomIn, tl.keyboardZoomStep, 0.5)
 
+	def onKeyMoveToNow(self, gevent: gdk.EventKey):
+		self.centerToNow()
+
+	def onKeyMoveRight(self, gevent: gdk.EventKey):
+		self.movingUserEvent(
+			direction=1,
+			source="keyboard",
+			smallForce=(gevent.get_state() & gdk.ModifierType.SHIFT_MASK),
+		)
+
+	def onKeyMoveLeft(self, gevent: gdk.EventKey):
+		self.movingUserEvent(
+			direction=-1,
+			source="keyboard",
+			smallForce=(gevent.get_state() & gdk.ModifierType.SHIFT_MASK),
+		)
+
+	def onKeyMoveStop(self, gevent: gdk.EventKey):
+		self.stopMovingAnim()
+
+	def onKeyClose(self, gevent: gdk.EventKey):
+		self.closeFunc()
+
+	def onKeyZoomIn(self, gevent: gdk.EventKey):
+		self.keyboardZoom(True)
+
+	def onKeyZoomOut(self, gevent: gdk.EventKey):
+		self.keyboardZoom(False)
+
 	def onKeyPress(self, arg: gtk.Widget, gevent: gdk.EventKey):
 		k = gdk.keyval_name(gevent.keyval).lower()
 		# log.debug(f"{now():.3f}")
-		if k in ("space", "home"):
-			self.centerToNow()
-		elif k == "right":
-			self.movingUserEvent(
-				direction=1,
-				source="keyboard",
-				smallForce=(gevent.get_state() & gdk.ModifierType.SHIFT_MASK),
-			)
-		elif k == "left":
-			self.movingUserEvent(
-				direction=-1,
-				source="keyboard",
-				smallForce=(gevent.get_state() & gdk.ModifierType.SHIFT_MASK),
-			)
-		elif k == "down":
-			self.stopMovingAnim()
-		elif k in ("q", "escape"):
-			self.closeFunc()
-		#elif k=="end":
+		action = tl.keys.get(k)
+		if action:
+			func = self.keysActionDict.get(action)
+			if func is not None:
+				func(gevent)
+				self.queue_draw()
+				return True
+		#if k=="end":
 		#	pass
 		#elif k=="page_up":
 		#	pass
@@ -763,15 +792,7 @@ class TimeLine(gtk.DrawingArea, ud.BaseCalObj):
 		#		gevent.time,
 		#		*self.getMainMenuPos()
 		#	)
-		elif k in ("plus", "equal", "kp_add"):
-			self.keyboardZoom(True)
-		elif k in ("minus", "kp_subtract"):
-			self.keyboardZoom(False)
-		else:
-			# log.debug(k)
-			return False
-		self.queue_draw()
-		return True
+		return False
 
 	def movingUserEvent(self, direction=1, smallForce=False, source="keyboard"):
 		"""
@@ -930,7 +951,6 @@ class TimeLineWindow(gtk.Window, ud.BaseCalObj):
 		self.set_decorated(False)
 		self.connect("delete-event", self.onCloseClick)
 		self.connect("button-press-event", self.onButtonPress)
-		###
 		self.tline = TimeLine(self.onCloseClick)
 		self.connect("key-press-event", self.tline.onKeyPress)
 		self.add(self.tline)
