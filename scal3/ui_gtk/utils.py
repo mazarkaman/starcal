@@ -173,6 +173,7 @@ def toolButtonFromFile(fname, size=0):
 	return tb
 
 
+# FIXME: change *args to args: Optional[List[Any]] = None
 def labelIconMenuItem(label: str, iconName: str = "", func=None, *args):
 	item = ImageMenuItem(_(label))
 	item.set_use_underline(True)

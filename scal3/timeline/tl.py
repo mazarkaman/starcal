@@ -87,6 +87,8 @@ confParams = (
 	#####################
 	"scrollZoomStep",
 	"keyboardZoomStep",
+	#####################
+	"keys",
 )
 
 #############################################
@@ -221,6 +223,8 @@ keys = {
 	"minus": "zoomOut",
 	"kp_subtract": "zoomOut",
 }
+
+keyActions = list(sorted(keys.values()))
 
 
 #############################################
