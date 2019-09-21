@@ -271,7 +271,7 @@ class CalObj(gtk.DrawingArea, CalBase):
 		# ################################## Drawing Border
 		if ui.mcalTopMargin > 0:
 			# ### Drawing border top background
-			# menuBgColor == borderColor ##???????????????
+			# mcalMenuCellBgColor == borderColor
 			cr.rectangle(0, 0, w, ui.mcalTopMargin)
 			fillColor(cr, ui.borderColor)
 			# ###### Drawing weekDays names
