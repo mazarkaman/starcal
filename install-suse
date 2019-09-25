@@ -60,6 +60,8 @@ fi
 
 
 pkgName=starcal3
+iconName=starcal32.png
+
 sourceDir="`dirname \"$myPath\"`"
 #"$sourceDir/scripts/assert_python3"
 version=`"$sourceDir/scal3/get_version.py" | sed 's/\-/_/g'`
@@ -136,7 +138,7 @@ and Indian National calendars, as well as common English(Gregorian) calendar
 %{_prefix}/share/applications/$pkgName.desktop
 %{_prefix}/share/doc/$pkgName/*
 %{_prefix}/share/pixmaps/$pkgName.png
-%{_prefix}/share/icons/hicolor/*/apps/$pkgName.png
+%{_prefix}/share/icons/hicolor/*/apps/$iconName
 %{_prefix}/share/locale/*/LC_MESSAGES/$pkgName.mo
 " > $pkgName.spec
 
