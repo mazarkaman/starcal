@@ -99,7 +99,7 @@ def newTextLayout(
 		font = ui.getFont()
 	layout.set_font_description(pfontEncode(font))
 	if text:
-		layout.set_markup(text)
+		layout.set_markup(text=text, length=len(text.encode("utf8")))
 		if maxSize:
 			layoutW, layoutH = layout.get_pixel_size()
 			##
@@ -157,10 +157,11 @@ def newLimitedWidthTextLayout(
 	if not font:
 		font = ui.getFont()
 	layout = widget.create_pango_layout("")
+	length = len(text.encode("utf8")
 	if markup:
-		layout.set_markup(text)
+		layout.set_markup(text=text, length=length)
 	else:
-		layout.set_text(text)
+		layout.set_text(text=text, length=length)
 	layout.set_font_description(pfontEncode(font))
 	if not layout:
 		return None
