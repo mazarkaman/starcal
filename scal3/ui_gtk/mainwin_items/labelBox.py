@@ -565,7 +565,11 @@ class CalObj(gtk.Box, CustomizableCalObj):
 			wm = 0
 			for m in range(12):
 				name = getMonthName(label.calType, m)
-				lay.set_text(name)  # OR lay.set_markup
+				lay.set_text(
+					text=name,
+					length=len(name.encode("utf8"))
+				)
+				# OR lay.set_markup
 				w = lay.get_pixel_size()[0]
 				if w > wm:
 					wm = w
