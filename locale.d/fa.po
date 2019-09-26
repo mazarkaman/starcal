@@ -3015,7 +3015,7 @@ msgstr ""
 
 msgid "Swap with Plugins Text"
 msgstr ""
-"تعویض جا با متن افزونه‌ها"
+"جابجایی با متن افزونه‌ها"
 
 
 msgid "Season Progress Bar"
