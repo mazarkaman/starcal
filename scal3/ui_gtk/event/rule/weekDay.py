@@ -14,7 +14,7 @@ class WidgetClass(gtk.Box):
 		###
 		gtk.Box.__init__(self, orientation=gtk.Orientation.HORIZONTAL)
 		self.set_homogeneous(True)
-		ls = [gtk.ToggleButton(button=item) for item in core.weekDayNameAb]
+		ls = [gtk.ToggleButton(label=item) for item in core.weekDayNameAb]
 		s = core.firstWeekDay
 		for i in range(7):
 			pack(self, ls[(s + i) % 7], 1, 1)
