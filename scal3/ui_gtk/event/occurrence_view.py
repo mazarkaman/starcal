@@ -21,7 +21,7 @@
 from scal3 import logger
 log = logger.get()
 
-from typing import Dict, Any, Tuple
+from typing import Dict, Any, Tuple, Optional
 
 from scal3.utils import toStr
 from scal3 import core
@@ -31,6 +31,7 @@ from scal3 import ui
 
 from scal3.ui_gtk import *
 from scal3.ui_gtk.decorators import *
+from scal3.ui_gtk.font_utils import gfontEncode
 from scal3.ui_gtk.utils import (
 	imageFromFile,
 	labelIconMenuItem,
@@ -56,7 +57,8 @@ class DayOccurrenceView(gtk.TextView, CustomizableCalObj):
 		self,
 		eventSepParam: str = "",
 		justificationParam: str = "",
-		fontParams: Tuple[str, str] = None,
+		fontParams: Optional[Tuple[str, str]] = None,
+		timeFontParams: Optional[Tuple[str, str]] = None,
 		styleClass: str = "",
 		wrapMode: pango.WrapMode = pango.WrapMode.WORD_CHAR,
 	):
@@ -82,6 +84,7 @@ class DayOccurrenceView(gtk.TextView, CustomizableCalObj):
 		self.eventSepParam = eventSepParam
 		self.justificationParam = justificationParam
 		self.fontParams = fontParams
+		self.timeFontParams = timeFontParams
 		###
 		if fontParams:
 			if not styleClass:
@@ -91,6 +94,19 @@ class DayOccurrenceView(gtk.TextView, CustomizableCalObj):
 		self.occurOffsets = []
 		self.eventMenuItemLabelMaxLen = 25
 		self.updateJustification()
+		###
+		self.timeTag = gtk.TextTag.new("time")
+		self.textbuff.get_tag_table().add(self.timeTag)
+		self.updateTimeFont()
+
+	def updateTimeFont(self):
+		font = list(ui.getFont())
+		font[1] = True  # bold by default
+		if self.timeFontParams:
+			enableParam, fontParam = self.timeFontParams
+			if getattr(ui, enableParam):
+				font = getattr(ui, fontParam)
+		self.timeTag.set_property("font", gfontEncode(font))
 
 	def getEventSep(self):
 		if self.eventSepParam:
@@ -113,7 +129,7 @@ class DayOccurrenceView(gtk.TextView, CustomizableCalObj):
 		)
 		if self.optionsWidget:
 			return self.optionsWidget
-		optionsWidget = VBox(spacing=20)
+		optionsWidget = VBox(spacing=10)
 		###
 		if self.justificationParam:
 			prefItem = JustificationPrefItem(
@@ -131,6 +147,15 @@ class DayOccurrenceView(gtk.TextView, CustomizableCalObj):
 				FontPrefItem(ui, fontParam),
 				live=True,
 				onChangeFunc=ud.windowList.updateCSS,
+			)
+			pack(optionsWidget, prefItem.getWidget())
+		if self.timeFontParams:
+			enableParam, fontParam = self.timeFontParams
+			prefItem = CheckFontPrefItem(
+				CheckPrefItem(ui, enableParam, label=_("Time Font")),
+				FontPrefItem(ui, fontParam),
+				live=True,
+				onChangeFunc=self.updateTimeFont,
 			)
 			pack(optionsWidget, prefItem.getWidget())
 		###
@@ -260,6 +285,10 @@ class DayOccurrenceView(gtk.TextView, CustomizableCalObj):
 		)
 		self.textbuff.insert_pixbuf(endIter, pixbuf)
 
+	def addTime(self, timeStr):
+		endIter = self.textbuff.get_bounds()[1]
+		self.textbuff.insert_with_tags(endIter, timeStr, self.timeTag)
+
 	def onDateChange(self, *a, **kw):
 		CustomizableCalObj.onDateChange(self, *a, **kw)
 		cell = ui.cell
@@ -278,7 +307,8 @@ class DayOccurrenceView(gtk.TextView, CustomizableCalObj):
 				self.addIcon(occurData["icon"])
 				self.addText(" ")
 			if occurData["time"]:
-				self.addText(f"<b>{occurData['time']}</b> ")
+				self.addTime(occurData["time"])
+				self.addText(" ")
 			text = (
 				"".join(occurData["text"]) if self.showDesc
 				else occurData["text"][0]

@@ -2719,6 +2719,10 @@ msgid "Primary Calendar Font"
 msgstr ""
 "فونت تقویم اصلی"
 
+msgid "Time Font"
+msgstr ""
+"فونت زمان"
+
 msgid "Font Family"
 msgstr ""
 "خانوادهٔ فونت"

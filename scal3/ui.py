@@ -132,6 +132,8 @@ confParamsCustomize = (
 	"mainWinRightPanelWidthRatioEnable",
 	"mainWinRightPanelEventFontEnable",
 	"mainWinRightPanelEventFont",
+	"mainWinRightPanelEventTimeFontEnable",
+	"mainWinRightPanelEventTimeFont",
 	"mainWinRightPanelPluginsFontEnable",
 	"mainWinRightPanelPluginsFont",
 	"mainWinRightPanelEventJustification",
@@ -1226,6 +1228,9 @@ mainWinRightPanelPluginsJustification = "left"
 
 mainWinRightPanelEventFontEnable = False
 mainWinRightPanelEventFont = None
+
+mainWinRightPanelEventTimeFontEnable = False
+mainWinRightPanelEventTimeFont = None
 
 mainWinRightPanelPluginsFontEnable = False
 mainWinRightPanelPluginsFont = None

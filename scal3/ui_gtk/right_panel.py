@@ -60,6 +60,10 @@ class MainWinRightPanel(gtk.Paned, CustomizableCalObj):
 				"mainWinRightPanelEventFontEnable",
 				"mainWinRightPanelEventFont",
 			),
+			timeFontParams=(
+				"mainWinRightPanelEventTimeFontEnable",
+				"mainWinRightPanelEventTimeFont",
+			),
 			styleClass="right-panel-events",
 		)
 		self.plugItem = PluginsTextBox(
@@ -122,7 +126,7 @@ class MainWinRightPanel(gtk.Paned, CustomizableCalObj):
 		optionsWidget = VBox(spacing=10)
 		subPages = []
 		###
-		sizesVBox = gtk.VBox(spacing=20)
+		sizesVBox = gtk.VBox(spacing=10)
 		page = StackPage()
 		page.pageWidget = sizesVBox
 		page.pageName = "sizes"
@@ -162,7 +166,7 @@ class MainWinRightPanel(gtk.Paned, CustomizableCalObj):
 		)
 		pack(sizesVBox, prefItem.getWidget())
 		######
-		eventsVBox = gtk.VBox(spacing=20)
+		eventsVBox = gtk.VBox(spacing=10)
 		page = StackPage()
 		page.pageWidget = eventsVBox
 		page.pageName = "events"
@@ -187,7 +191,7 @@ class MainWinRightPanel(gtk.Paned, CustomizableCalObj):
 		###
 		pack(eventsVBox, self.eventItem.getOptionsWidget())
 		######
-		pluginsVBox = gtk.VBox(spacing=20)
+		pluginsVBox = gtk.VBox(spacing=10)
 		page = StackPage()
 		page.pageWidget = pluginsVBox
 		page.pageName = "plugins"
