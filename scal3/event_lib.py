@@ -1889,7 +1889,7 @@ class Event(BsonHistEventObj, RuleContainer):
 		return f"{self.__class__.__name__}(id={self.id!r})"
 
 	def __str__(self):
-		return f"self.__class__.__name__(id={self.id!r}, summary={self.summary!r})"
+		return f"{self.__class__.__name__}(id={self.id!r}, summary={self.summary!r})"
 
 	def __init__(self, _id=None, parent=None):
 		if _id is None:
