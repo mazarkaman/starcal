@@ -122,38 +122,34 @@ class MonthLabel(BaseLabel, ud.BaseCalObj):
 			self.menuLabels.append(label)
 		self.menu.show_all()
 
-	def getMainLabelText(self, active):
-		text = getMonthName(self.calType, active + 1)
-		return text
-
 	def setActive(self, active):
 		# (Performance) update menu here, or make menu entirly
 		# before popup?
-		s = getMonthName(self.calType, active + 1)
-		s2 = getMonthName(self.calType, self.active + 1)
+		newStr = getMonthName(self.calType, active + 1)
+		oldStr = getMonthName(self.calType, self.active + 1)
 		if self.menuLabels:
 			if ui.monthRMenuNum:
 				self.menuLabels[self.active].set_label(
 					self.getItemStr(self.active) +
 					": " +
-					s2
+					oldStr
 				)
 				self.menuLabels[active].set_label(
 					self.getActiveStr(
 						self.getItemStr(active) +
 						": " +
-						s
+						newStr
 					),
 				)
 			else:
-				self.menuLabels[self.active].set_label(s2)
-				self.menuLabels[active].set_label(self.getActiveStr(s))
-		self.label.set_label(self.getMainLabelText(self.active))
+				self.menuLabels[self.active].set_label(oldStr)
+				self.menuLabels[active].set_label(self.getActiveStr(newStr))
+		self.label.set_label(newStr)
 		self.active = active
 
 	def changeCalType(self, calType):
 		self.calType = calType
-		self.label.set_label(self.getMainLabelText(self.active))
+		self.label.set_label(getMonthName(self.calType, self.active + 1))
 		for i in range(12):
 			if ui.monthRMenuNum:
 				s = (
