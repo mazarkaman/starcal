@@ -153,9 +153,13 @@ def isLeap(year):
 	"""
 	isLeap: Is a given year a leap year in the Jalali calendar ?
 	"""
-	if jalaliAlg == 1:	# 2820-years
+	alg = jalaliAlg
+	# 2820-years does not work with year < 1
+	if year < 1:
+		alg = 0 # # 33-years
+	if alg == 1:	# 2820-years
 		return (((year - 473 - (year > 0)) % 2820) * 682) % 2816 < 682
-	elif jalaliAlg == 0:  # 33-years
+	elif alg == 0:  # 33-years
 		jy = year - 979
 		gdays = (
 			365 * jy
@@ -173,7 +177,7 @@ def isLeap(year):
 		return True
 
 	else:
-		raise RuntimeError(f"bad option jalaliAlg={jalaliAlg!r}")
+		raise RuntimeError(f"bad option alg={alg!r}")
 
 
 def getMonthDayFromYdays(yday):
@@ -186,7 +190,11 @@ def to_jd(year, month, day):
 	"""
 	calculate Julian day from Jalali date
 	"""
-	if jalaliAlg == 1:	# 2820-years
+	alg = jalaliAlg
+	# 2820-years does not work with year < 1
+	if year < 1:
+		alg = 0 # # 33-years
+	if alg == 1:	# 2820-years
 		epbase = year - 474 if year >= 0 else 473
 		epyear = 474 + epbase % 2820
 		return (
@@ -198,7 +206,7 @@ def to_jd(year, month, day):
 			+ epoch
 			- 1
 		)
-	elif jalaliAlg == 0:  # 33-years
+	elif alg == 0:  # 33-years
 		y2 = year - 979
 		jdays = (
 			365 * y2
@@ -210,14 +218,19 @@ def to_jd(year, month, day):
 		)
 		return jdays + 584101 + GREGORIAN_EPOCH
 	else:
-		raise RuntimeError(f"bad option jalaliAlg={jalaliAlg!r}")
+		raise RuntimeError(f"bad option alg={alg!r}")
 
 
 def jd_to(jd):
 	"""
 	calculate Jalali date from Julian day
 	"""
-	if jalaliAlg == 1:	# 2820-years
+	alg = jalaliAlg
+	# 2820-years does not work with year < 1
+	# date=1/1/1  ->  jd=1948321
+	if jd < 1948321:
+		alg = 0 # # 33-years
+	if alg == 1:	# 2820-years
 		cycle, cyear = divmod(jd - to_jd(475, 1, 1), 1029983)
 		if cyear == 1029982:
 			ycycle = 2820
@@ -233,7 +246,7 @@ def jd_to(jd):
 			year -= 1
 		yday = jd - to_jd(year, 1, 1) + 1
 		month, day = getMonthDayFromYdays(yday)
-	elif jalaliAlg == 0:  # 33-years
+	elif alg == 0:  # 33-years
 		jdays = int(jd - GREGORIAN_EPOCH - 584101)
 		# -(1600*365 + 1600//4 - 1600//100 + 1600//400) + 365-79+1 == -584101
 		# log.debug("jdays =", jdays)
@@ -247,7 +260,7 @@ def jd_to(jd):
 		yday = jdays + 1
 		month, day = getMonthDayFromYdays(yday)
 	else:
-		raise RuntimeError(f"bad option jalaliAlg={jalaliAlg!r}")
+		raise RuntimeError(f"bad option alg={alg!r}")
 	return year, month, day
 
 
