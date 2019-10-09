@@ -78,6 +78,8 @@ class DummyCalObj(Object):
 		return ''
 	def optionsWidgetCreate(self):
 		pass
+	def showHide(self):
+		pass
 
 
 class CustomizableCalObj(ud.BaseCalObj):
