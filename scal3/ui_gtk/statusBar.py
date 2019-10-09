@@ -47,6 +47,7 @@ class CalObj(gtk.Box, CustomizableCalObj):
 		for calType in activeCalTypes:
 			label = SLabel()
 			label.calType = calType
+			label.set_direction(gtk.TextDirection.LTR)
 			pack(self.labelBox, label, 1)
 		self.show_all()
 		###
