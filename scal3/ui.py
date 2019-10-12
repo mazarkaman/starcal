@@ -1152,7 +1152,7 @@ winControllerButtons = (
 	("sep", True),
 	("rightPanel", True),
 	("min", True),
-	("max", False),
+	("max", True),
 	("close", True),
 	("sep", False),
 	("sep", False),
