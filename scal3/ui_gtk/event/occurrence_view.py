@@ -545,8 +545,8 @@ class WeekOccurrenceView(gtk.TreeView):
 	def updateData(self):
 		return self.updateDataByGroups(ui.eventGroups)
 
-	def __init__(self, abrivateWeekDays=False):
-		self.abrivateWeekDays = abrivateWeekDays
+	def __init__(self, abbreviateWeekDays=False):
+		self.abbreviateWeekDays = abbreviateWeekDays
 		self.absWeekNumber = core.getAbsWeekNumberFromJd(ui.cell.jd)## FIXME
 		gtk.TreeView.__init__(self)
 		self.set_headers_visible(False)
@@ -598,7 +598,7 @@ class WeekOccurrenceView(gtk.TreeView):
 				continue
 			self.ls.append(
 				pixbufFromFile(item["icon"]),
-				core.getWeekDayAuto(item["weekDay"], abbreviate=self.abrivateWeekDays),
+				core.getWeekDayAuto(item["weekDay"], abbreviate=self.abbreviateWeekDays),
 				item["time"],
 				item["text"],
 			)
