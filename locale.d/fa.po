@@ -1439,6 +1439,10 @@ msgid "Week Day"
 msgstr ""
 "روز هفته"
 
+msgid "Abbreviate"
+msgstr ""
+"خلاصه کردن"
+
 msgid "University Term"
 msgstr ""
 "ترم دانشگاه"

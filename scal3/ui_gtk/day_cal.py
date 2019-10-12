@@ -55,6 +55,8 @@ class DayCal(gtk.DrawingArea, CalBase):
 	backgroundColorParam = ""
 	typeParamsParam = ""
 	weekdayParamsParam = ""
+	weekdayAbbreviateParam = ""
+	weekdayUppercaseParam = ""
 	buttonsEnableParam = ""
 	buttonsParam = ""
 	eventIconSizeParam = ""
@@ -241,7 +243,9 @@ class DayCal(gtk.DrawingArea, CalBase):
 		####
 		if self.weekdayParamsParam:
 			params = self.getWeekDayParams()
-			pageWidget = TextParamWidget(
+			pageWidget = VBox(spacing=5)
+			###
+			testParamsWidget = TextParamWidget(
 				self.weekdayParamsParam,
 				self,
 				params,
@@ -250,6 +254,18 @@ class DayCal(gtk.DrawingArea, CalBase):
 				hasEnable=True,
 				hasAlign=True,
 			)
+			pack(pageWidget, testParamsWidget)
+			###
+			if self.weekdayAbbreviateParam:
+				prefItem = CheckPrefItem(
+					ui,
+					self.weekdayAbbreviateParam,
+					label=_("Abbreviate"),
+					live=True,
+					onChangeFunc=self.queue_draw,
+				)
+				pack(pageWidget, prefItem.getWidget())
+			###
 			pageWidget.show_all()
 			page = StackPage()
 			page.pageWidget = pageWidget
@@ -445,7 +461,10 @@ class DayCal(gtk.DrawingArea, CalBase):
 		if self.weekdayParamsParam:
 			params = self.getWeekDayParams()
 			if params.get("enable", True):
-				text = core.weekDayName[c.weekDay]
+				abbreviate = False
+				if self.weekdayAbbreviateParam:
+					abbreviate = getattr(ui, self.weekdayAbbreviateParam)
+				text = core.getWeekDayAuto(c.weekDay, abbreviate=abbreviate, relative=False)
 				daynum = newTextLayout(
 					self,
 					text,

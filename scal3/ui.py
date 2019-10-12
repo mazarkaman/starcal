@@ -181,6 +181,7 @@ confParamsCustomize = (
 	# "dcalButtons",
 	"dcalTypeParams",
 	"dcalWeekdayParams",
+	"dcalWeekdayAbbreviate",
 	"dcalWinBackgroundColor",
 	"dcalWinButtonsEnable",
 	# "dcalWinButtons",
@@ -188,6 +189,7 @@ confParamsCustomize = (
 	"dcalEventTotalSizeRatio",
 	"dcalWinTypeParams",
 	"dcalWinWeekdayParams",
+	"dcalWinWeekdayAbbreviate",
 	"dcalWinEventIconSize",
 	"dcalWinEventTotalSizeRatio",
 	"pluginsTextInsideExpander",
@@ -1089,6 +1091,8 @@ dcalWinButtons = [
 	},
 ]
 
+dcalWeekdayAbbreviate = False
+
 ####################
 
 dcalEventIconSize = 20
@@ -1098,6 +1102,8 @@ dcalEventTotalSizeRatio = 0.3
 dcalWinEventIconSize = 20
 dcalWinEventTotalSizeRatio = 0.3
 # 0.3 means %30 of window size (minimum of window height and width)
+
+dcalWinWeekdayAbbreviate = False
 
 ####################
 

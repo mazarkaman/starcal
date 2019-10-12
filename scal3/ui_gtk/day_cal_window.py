@@ -146,6 +146,7 @@ class DayCalWindowWidget(DayCal):
 	buttonsParam = "dcalWinButtons"
 	eventIconSizeParam = "dcalWinEventIconSize"
 	eventTotalSizeRatioParam = "dcalWinEventTotalSizeRatio"
+	weekdayAbbreviateParam = "dcalWinWeekdayAbbreviate"
 
 	def getCell(self):
 		return ui.todayCell

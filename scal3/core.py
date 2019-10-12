@@ -224,11 +224,13 @@ def getWeekDayN(i: int) -> int:
 	return weekDayName[(i + firstWeekDay) % 7]
 
 
-def getWeekDayAuto(i: int, abbreviate: bool = False) -> str:
+def getWeekDayAuto(number: int, abbreviate: bool = False, relative: bool = True) -> str:
+	if relative:
+		number = (number + firstWeekDay) % 7
 	if abbreviate:
-		return weekDayNameAb[(i + firstWeekDay) % 7]
+		return weekDayNameAb[number]
 	else:
-		return weekDayName[(i + firstWeekDay) % 7]
+		return weekDayName[number]
 
 
 def getLocaleFirstWeekDay() -> int:
