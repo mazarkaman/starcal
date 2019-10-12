@@ -57,6 +57,7 @@ class DayCal(gtk.DrawingArea, CalBase):
 	weekdayParamsParam = ""
 	weekdayAbbreviateParam = ""
 	weekdayUppercaseParam = ""
+	weekdayUppercaseParam = ""
 	buttonsEnableParam = ""
 	buttonsParam = ""
 	eventIconSizeParam = ""
@@ -265,6 +266,15 @@ class DayCal(gtk.DrawingArea, CalBase):
 					onChangeFunc=self.queue_draw,
 				)
 				pack(pageWidget, prefItem.getWidget())
+			if self.weekdayUppercaseParam:
+				prefItem = CheckPrefItem(
+					ui,
+					self.weekdayUppercaseParam,
+					label=_("Uppercase"),
+					live=True,
+					onChangeFunc=self.queue_draw,
+				)
+				pack(pageWidget, prefItem.getWidget())
 			###
 			pageWidget.show_all()
 			page = StackPage()
@@ -465,6 +475,9 @@ class DayCal(gtk.DrawingArea, CalBase):
 				if self.weekdayAbbreviateParam:
 					abbreviate = getattr(ui, self.weekdayAbbreviateParam)
 				text = core.getWeekDayAuto(c.weekDay, abbreviate=abbreviate, relative=False)
+				if self.weekdayUppercaseParam:
+					if getattr(ui, self.weekdayUppercaseParam):
+						text = text.upper()
 				daynum = newTextLayout(
 					self,
 					text,

@@ -1443,6 +1443,11 @@ msgid "Abbreviate"
 msgstr ""
 "خلاصه کردن"
 
+msgid "Uppercase"
+msgstr ""
+"حرف بزرگ"
+
+
 msgid "University Term"
 msgstr ""
 "ترم دانشگاه"

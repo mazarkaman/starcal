@@ -33,6 +33,7 @@ class CalObj(DayCal):
 	eventIconSizeParam = "dcalEventIconSize"
 	eventTotalSizeRatioParam = "dcalEventTotalSizeRatio"
 	weekdayAbbreviateParam = "dcalWeekdayAbbreviate"
+	weekdayUppercaseParam = "dcalWeekdayUppercase"
 
 	def getWindow(self):
 		return ui.mainWin
