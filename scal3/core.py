@@ -224,8 +224,8 @@ def getWeekDayN(i: int) -> int:
 	return weekDayName[(i + firstWeekDay) % 7]
 
 
-def getWeekDayAuto(i: int, abr: bool = False) -> str:
-	if abr:
+def getWeekDayAuto(i: int, abbreviate: bool = False) -> str:
+	if abbreviate:
 		return weekDayNameAb[(i + firstWeekDay) % 7]
 	else:
 		return weekDayName[(i + firstWeekDay) % 7]
