@@ -279,7 +279,7 @@ class CalObj(gtk.DrawingArea, CalBase):
 			dx = 0
 			wdayAb = (self.wdaysWidth > w)
 			for i in range(7):
-				wday = newTextLayout(self, core.getWeekDayAuto(i, wdayAb))
+				wday = newTextLayout(self, core.getWeekDayAuto(i, abbreviate=wdayAb))
 				try:
 					fontw, fonth = wday.get_pixel_size()
 				except Exception:
