@@ -77,6 +77,9 @@ class MyStack(gtk.Stack):
 	def iconSize(self) -> int:
 		return self._iconSize
 
+	def currentPageName(self) -> str:
+		return self._currentName
+
 	def setTitleFontSize(self, fontSize: str):
 		'''
 		Font size in 1024ths of a point, or one of the absolute sizes
@@ -203,6 +206,9 @@ class MyStack(gtk.Stack):
 
 	def gotoPage(self, name: str, backward: bool = False):
 		log.debug(f"MyStack: gotoPage: name={name}, backward={backward}")
+		if name not in self._titles:
+			log.error(f"gotoPage: invalid page name {name!r}")
+			return
 		if backward:
 			self._setSlideBackward()
 		else:

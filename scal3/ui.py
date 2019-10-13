@@ -98,6 +98,7 @@ confParams = (
 	"pluginsTextStatusIcon",
 	# "localTzHist",  # FIXME
 	"showYmArrows",
+	"preferencesPageName",
 )
 
 confParamsLive = (
@@ -1133,6 +1134,11 @@ showYmArrows = True  # apply in Pref FIXME
 
 # delay for shift up/down items of menu for right click on YearLabel
 labelMenuDelay = 0.1
+
+####################
+
+preferencesRootPageName = "preferences"
+preferencesPageName = preferencesRootPageName
 
 ####################
 

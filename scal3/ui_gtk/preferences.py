@@ -995,7 +995,7 @@ class PreferencesWindow(gtk.Window):
 		pack(hbox, toolbar)
 		pack(vbox, hbox, 1, 1)
 		####################################################################
-		rootPageName = "root"
+		rootPageName = ui.preferencesRootPageName
 		###
 		mainPages = []
 		for page in self.prefPages:
@@ -1039,6 +1039,7 @@ class PreferencesWindow(gtk.Window):
 		stack.addPage(page)
 		for page in self.prefPages:
 			stack.addPage(page)
+		self.stack.gotoPage(ui.preferencesPageName)
 		#######################
 		pack(self.vbox, stack, 1, 1)
 		pack(self.vbox, self.buttonbox)
@@ -1113,6 +1114,9 @@ class PreferencesWindow(gtk.Window):
 			ud.settings.get_property("gtk-font-name")
 		)
 		# log.debug(f"fontDefault = {ui.fontDefault!r}")
+		#####
+		ui.preferencesPageName = self.stack.currentPageName()
+		#####
 		# #################### Updating pref variables #####################
 		for opt in self.iterAllPrefItems():
 			opt.updateVar()
