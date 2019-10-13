@@ -227,8 +227,7 @@ class FontFamilyPrefItem(PrefItem):
 		if value is None:
 			if self.hasAuto:
 				self.autoRadio.set_active(True)
-				return
-			raise ValueError(f"hasAuto={self.hasAuto}, value={value} is not supported")
+			return
 		# now value is not None
 		if self.hasAuto:
 			self.fontRadio.set_active(True)
