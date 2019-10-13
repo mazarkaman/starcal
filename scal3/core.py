@@ -40,7 +40,7 @@ from scal3.json_utils import *
 from scal3.utils import *
 
 from scal3 import logger
-from scal3.cal_types import calTypes, GREGORIAN, getSysDate
+from scal3.cal_types import calTypes, jd_to, to_jd, GREGORIAN, getSysDate
 from scal3 import locale_man
 from scal3.locale_man import tr as _
 from scal3.locale_man import localTz
@@ -182,20 +182,19 @@ def getVersion() -> str:
 
 
 def primary_to_jd(y: int, m: int, d: int) -> int:
-	return calTypes.primaryModule().to_jd(y, m, d)
+	return to_jd(y, m, d, calTypes.primary)
 
 
 def jd_to_primary(jd: int) -> Tuple[int, int, int]:
-	return calTypes.primaryModule().jd_to(jd)
+	return jd_to(jd, calTypes.primary)
 
 
 def getCurrentJd() -> int:
 	# time.time() and mktime(localtime()) both return GMT, not local
-	module, ok = calTypes[GREGORIAN]
-	if not ok:
-		raise RuntimeError("cal type '{GREGORIAN}' not found")
+	if GREGORIAN not in calTypes:
+		raise RuntimeError(f"cal type GREGORIAN={GREGORIAN} not found")
 	y, m, d = localtime()[:3]
-	return module.to_jd(y, m, d)
+	return to_jd(y, m, d, GREGORIAN)
 
 
 def getWeekDateHmsFromEpoch(epoch: int) -> Tuple[int, int, int, int, int]:
@@ -205,10 +204,9 @@ def getWeekDateHmsFromEpoch(epoch: int) -> Tuple[int, int, int, int, int]:
 
 
 def getMonthWeekNth(jd: int, calType: int) -> Tuple[int, int, int]:
-	module, ok = calTypes[calType]
-	if not ok:
+	if calType not in calTypes:
 		raise RuntimeError(f"cal type '{calType}' not found")
-	year, month, day = module.jd_to(jd)
+	year, month, day = jd_to(jd, calType)
 	absWeekNumber, weekDay = getWeekDateFromJd(jd)
 	##
 	dayDiv, dayMode = divmod(day - 1, 7)
@@ -466,10 +464,9 @@ def getCompactTime(maxDays: int = 1000, minSec: float = 0.1) -> str:
 
 def floatJdEncode(jd: int, calType: int) -> str:
 	jd, hour, minute, second = getJhmsFromEpoch(getEpochFromJd(jd))
-	module, ok = calTypes[calType]
-	if not ok:
+	if calType not in calTypes:
 		raise RuntimeError(f"cal type '{calType}' not found")
-	return dateEncode(module.jd_to(jd)) + " " + timeEncode((
+	return dateEncode(jd_to(jd, calType)) + " " + timeEncode((
 		hour,
 		minute,
 		second,

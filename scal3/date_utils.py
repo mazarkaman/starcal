@@ -3,7 +3,7 @@ import math
 
 from typing import Tuple, List, Optional, Generator
 
-from scal3.cal_types import calTypes, to_jd, GREGORIAN
+from scal3.cal_types import calTypes, to_jd, jd_to, GREGORIAN
 from scal3.time_utils import getEpochFromJd
 
 
@@ -106,23 +106,21 @@ def getJdRangeForMonth(year: int, month: int, calType: int) -> Tuple[int, int]:
 
 
 def getFloatYearFromJd(jd: int, calType: int) -> float:
-	module, ok = calTypes[calType]
-	if not ok:
+	if calType not in calTypes:
 		raise RuntimeError(f"cal type '{calType}' not found")
-	year, month, day = module.jd_to(jd)
-	yearStartJd = module.to_jd(year, 1, 1)
-	nextYearStartJd = module.to_jd(year + 1, 1, 1)
+	year, month, day = jd_to(jd, calType)
+	yearStartJd = to_jd(year, 1, 1, calType)
+	nextYearStartJd = to_jd(year + 1, 1, 1, calType)
 	dayOfYear = jd - yearStartJd
 	return year + float(dayOfYear) / (nextYearStartJd - yearStartJd)
 
 
 def getJdFromFloatYear(fyear: float, calType: int) -> int:
-	module, ok = calTypes[calType]
-	if not ok:
+	if calType not in calTypes:
 		raise RuntimeError(f"cal type '{calType}' not found")
 	year = int(math.floor(fyear))
-	yearStartJd = module.to_jd(year, 1, 1)
-	nextYearStartJd = module.to_jd(year + 1, 1, 1)
+	yearStartJd = to_jd(year, 1, 1, calType)
+	nextYearStartJd = to_jd(year + 1, 1, 1, calType)
 	dayOfYear = int((fyear - year) * (nextYearStartJd - yearStartJd))
 	return yearStartJd + dayOfYear
 
@@ -148,10 +146,9 @@ def ymdRange(
 			yield y1, m1, d
 	if calType is None:
 		calType = GREGORIAN
-	module, ok = calTypes[calType]
-	if not ok:
+	if calType not in calTypes:
 		raise RuntimeError(f"cal type '{calType}' not found")
-	j1 = int(module.to_jd(y1, m1, d1))
-	j2 = int(module.to_jd(y2, m2, d2))
+	j1 = int(to_jd(y1, m1, d1, calType))
+	j2 = int(to_jd(y2, m2, d2, calType))
 	for j in range(j1, j2):
-		yield module.jd_to(j)
+		yield jd_to(j, calType)

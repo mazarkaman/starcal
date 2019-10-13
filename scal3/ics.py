@@ -31,7 +31,7 @@ from os.path import join, split, splitext
 
 from scal3.path import *
 from scal3.time_utils import getJhmsFromEpoch
-from scal3.cal_types import jd_to, to_jd, GREGORIAN
+from scal3.cal_types import calTypes, jd_to, to_jd, GREGORIAN
 
 
 icsTmFormat = "%Y%m%dT%H%M%S"
@@ -161,11 +161,10 @@ def convertBuiltinTextPlugToIcs(
 
 # FIXME: what is the purpose of this?
 def convertAllPluginsToIcs(startYear: int, endYear: int) -> None:
-	module, ok = calTypes[GREGORIAN]
-	if not ok:
-		raise RuntimeError("cal type '{GREGORIAN}' not found")
-	startJd = module.to_jd(startYear, 1, 1)
-	endJd = module.to_jd(endYear + 1, 1, 1)
+	if GREGORIAN not in calTypes:
+		raise RuntimeError(f"cal type GREGORIAN={GREGORIAN} not found")
+	startJd = to_jd(startYear, 1, 1, GREGORIAN)
+	endJd = to_jd(endYear + 1, 1, 1, GREGORIAN)
 	namePostfix = f"-{startYear}-{endYear}"
 	for plug in core.allPlugList:
 		if isinstance(plug, HolidayPlugin):
