@@ -132,6 +132,17 @@ class CalTypesHolder:
 	def allIndexes(self):
 		return self.active + self.inactive
 
+	def __contains__(self, key) -> bool:
+		if isinstance(key, str):
+			return key in self.byName
+		if isinstance(key, int):
+			return 0 <= key < len(modules)
+		else:
+			raise TypeError(
+				f"invalid key {key!r} given to " +
+				f"{self.__class__.__name__!r}.__getitem__"
+			)
+
 	# returns (module, found) where found is bool
 	def __getitem__(self, key):
 		if isinstance(key, str):
