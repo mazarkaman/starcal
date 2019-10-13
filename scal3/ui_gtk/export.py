@@ -104,7 +104,6 @@ class ExportDialog(gtk.Dialog, MyDialog):
 	def _save(self, path):
 		comboItem = self.combo.get_active()
 		months = []
-		module = calTypes.primaryModule()
 		if comboItem == 0:
 			s = getCurrentMonthStatus()
 			months = [s]
