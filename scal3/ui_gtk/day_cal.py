@@ -171,6 +171,8 @@ class DayCal(gtk.DrawingArea, CalBase):
 				calType=calType,
 				hasEnable=(index > 0),
 				hasAlign=True,
+				enableTitleLabel=_("Day of Month"),
+				useFrame=True,
 			)
 			pageWidget.show_all()
 			page = StackPage()
