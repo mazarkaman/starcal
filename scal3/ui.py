@@ -214,6 +214,7 @@ confParamsCustomize = (
 	"boldYmLabel",
 	"ud__wcalToolbarData",
 	"ud__mainToolbarData",
+	"customizePageName",
 )
 
 
@@ -1138,6 +1139,7 @@ labelMenuDelay = 0.1
 ####################
 
 preferencesPageName = ""
+customizePageName = ""
 
 ####################
 

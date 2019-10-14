@@ -86,6 +86,9 @@ class CustomizeDialog(gtk.Dialog):
 			page.pageName = rootPageName + "." + page.pageName
 			self.addPageObj(page)
 		###
+		if ui.customizePageName:
+			self.stack.gotoPage(ui.customizePageName)
+		###
 		self.vbox.connect("size-allocate", self.vboxSizeRequest)
 		self.vbox.show_all()
 		###
@@ -418,6 +421,7 @@ class CustomizeDialog(gtk.Dialog):
 		item.updateVars()
 		ui.ud__wcalToolbarData = ud.wcalToolbarData
 		ui.ud__mainToolbarData = ud.mainToolbarData
+		ui.customizePageName = self.stack.currentPageName()
 		ui.saveConfCustomize()
 		#data = item.getData()## remove? FIXME
 
