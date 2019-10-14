@@ -786,21 +786,25 @@ wcalTypeParams = [
 
 dcalDayParams = [  # FIXME
 	{
+		"enable": True,
 		"pos": (0, -12),
 		"font": None,
 		"color": (220, 220, 220),
 	},
 	{
+		"enable": True,
 		"pos": (125, 30),
 		"font": None,
 		"color": (165, 255, 114),
 	},
 	{
+		"enable": True,
 		"pos": (-125, 24),
 		"font": None,
 		"color": (0, 200, 205),
 	},
 ]
+
 dcalWeekdayParams = {
 	"enable": False,
 	"pos": (20, 10),

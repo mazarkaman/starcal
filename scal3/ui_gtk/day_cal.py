@@ -79,7 +79,7 @@ class DayCal(gtk.DrawingArea, CalBase):
 			return getattr(ui, self.backgroundColorParam)
 		return ui.bgColor
 
-	def getTypeParams(self):
+	def getDayParams(self):
 		return getattr(ui, self.dayParamsParam)
 
 	def getWeekDayParams(self):
@@ -134,9 +134,9 @@ class DayCal(gtk.DrawingArea, CalBase):
 		from scal3.ui_gtk.cal_type_params import CalTypeParamWidget
 		if not self.dayParamsParam:
 			return
-		typeParams = self.getTypeParams()
+		dayParams = self.getDayParams()
 		try:
-			vbox = self.typeParamsVbox
+			vbox = self.dayParamsVbox
 		except AttributeError:
 			return
 		for child in vbox.get_children():
@@ -145,8 +145,8 @@ class DayCal(gtk.DrawingArea, CalBase):
 		subPages = []
 		###
 		n = len(calTypes.active)
-		while len(typeParams) < n:
-			typeParams.append({
+		while len(dayParams) < n:
+			dayParams.append({
 				"pos": (0, 0),
 				"font": ui.getFont(3.0),
 				"color": ui.textColor,
@@ -159,7 +159,7 @@ class DayCal(gtk.DrawingArea, CalBase):
 				raise RuntimeError(f"cal type '{calType}' not found")
 			##
 			#try:
-			params = typeParams[index]
+			params = dayParams[index]
 			#except IndexError:
 			##
 			pageWidget = CalTypeParamWidget(
@@ -169,7 +169,7 @@ class DayCal(gtk.DrawingArea, CalBase):
 				sgroupLabel=sgroupLabel,
 				index=index,
 				calType=calType,
-				hasEnable=(index > 0),
+				hasEnable=True,
 				hasAlign=True,
 				enableTitleLabel=_("Day of Month"),
 				useFrame=True,
@@ -240,8 +240,8 @@ class DayCal(gtk.DrawingArea, CalBase):
 		)
 		pack(optionsWidget, prefItem.getWidget())
 		########
-		self.typeParamsVbox = VBox()
-		pack(optionsWidget, self.typeParamsVbox)
+		self.dayParamsVbox = VBox()
+		pack(optionsWidget, self.dayParamsVbox)
 		subPages += self.updateTypeParamsWidget()
 		####
 		if self.weekdayParamsParam:
@@ -434,29 +434,11 @@ class DayCal(gtk.DrawingArea, CalBase):
 		#	w-1,
 		#	h-1,
 		#)
-		calType = calTypes.primary
-		params = self.getTypeParams()[0]
-
-		daynum = newTextLayout(
-			self,
-			_(c.dates[calType][2], calType),
-			ui.getParamsFont(params),
-		)
-		fontw, fonth = daynum.get_pixel_size()
-		if c.holiday:
-			setColor(cr, ui.holidayColor)
-		else:
-			setColor(cr, params["color"])
-
-		font_x, font_y = self.getRenderPos(params, x0, y0, w, h, fontw, fonth)
-		cr.move_to(font_x, font_y)
-		show_layout(cr, daynum)
 		####
-		activeTypeParams = list(zip(
+		for calType, params in zip(
 			calTypes.active,
-			self.getTypeParams(),
-		))
-		for calType, params in activeTypeParams[1:]:
+			self.getDayParams(),
+		):
 			if not params.get("enable", True):
 				continue
 			daynum = newTextLayout(
@@ -465,7 +447,10 @@ class DayCal(gtk.DrawingArea, CalBase):
 				ui.getParamsFont(params),
 			)
 			fontw, fonth = daynum.get_pixel_size()
-			setColor(cr, params["color"])
+			if calType == calTypes.primary and c.holiday:
+				setColor(cr, ui.holidayColor)
+			else:
+				setColor(cr, params["color"])
 			font_x, font_y = self.getRenderPos(params, x0, y0, w, h, fontw, fonth)
 			cr.move_to(font_x, font_y)
 			show_layout(cr, daynum)
