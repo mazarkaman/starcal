@@ -26,7 +26,7 @@ from scal3.ui_gtk.day_cal import DayCal
 @registerSignals
 class CalObj(DayCal):
 	expand = True
-	typeParamsParam = "dcalTypeParams"
+	dayParamsParam = "dcalDayParams"
 	weekdayParamsParam = "dcalWeekdayParams"
 	buttonsEnableParam = "dcalButtonsEnable"
 	buttonsParam = "dcalButtons"

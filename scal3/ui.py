@@ -180,7 +180,7 @@ confParamsCustomize = (
 	"wcalCursorRoundingFactor",
 	"dcalButtonsEnable",
 	# "dcalButtons",
-	"dcalTypeParams",
+	"dcalDayParams",
 	"dcalWeekdayParams",
 	"dcalWeekdayAbbreviate",
 	"dcalWeekdayUppercase",
@@ -189,7 +189,7 @@ confParamsCustomize = (
 	# "dcalWinButtons",
 	"dcalEventIconSize",
 	"dcalEventTotalSizeRatio",
-	"dcalWinTypeParams",
+	"dcalWinDayParams",
 	"dcalWinWeekdayParams",
 	"dcalWinWeekdayAbbreviate",
 	"dcalWinWeekdayUppercase",
@@ -607,17 +607,17 @@ def initFonts(fontDefaultNew: Tuple[str, bool, bool, float]) -> None:
 		if item["font"] is None:
 			item["font"] = getFont(0.6, familiy=False)
 	######
-	if dcalTypeParams[0]["font"] is None:
-		dcalTypeParams[0]["font"] = getFont(10.0, familiy=False)
+	if dcalDayParams[0]["font"] is None:
+		dcalDayParams[0]["font"] = getFont(10.0, familiy=False)
 	###
-	for item in dcalTypeParams[1:]:
+	for item in dcalDayParams[1:]:
 		if item["font"] is None:
 			item["font"] = getFont(3.0, familiy=False)
 	######
-	if dcalWinTypeParams[0]["font"] is None:
-		dcalWinTypeParams[0]["font"] = getFont(5.0, familiy=False)
+	if dcalWinDayParams[0]["font"] is None:
+		dcalWinDayParams[0]["font"] = getFont(5.0, familiy=False)
 	###
-	for item in dcalWinTypeParams[1:]:
+	for item in dcalWinDayParams[1:]:
 		if item["font"] is None:
 			item["font"] = getFont(2.0, familiy=False)
 	######
@@ -784,7 +784,7 @@ wcalTypeParams = [
 	{"font": None},
 ]
 
-dcalTypeParams = [  # FIXME
+dcalDayParams = [  # FIXME
 	{
 		"pos": (0, -12),
 		"font": None,
@@ -810,7 +810,7 @@ dcalWeekdayParams = {
 	"color": (0, 200, 205),
 }
 
-dcalWinTypeParams = [
+dcalWinDayParams = [
 	{
 		"pos": (0, 5),
 		"xalign": "left",

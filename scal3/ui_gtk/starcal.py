@@ -154,7 +154,7 @@ class MainWinVbox(gtk.Box, CustomizableCalBox):
 		"ui.wcal_eventsCount_expand",
 		"ui.wcal_eventsCount_width",
 		"ui.wcalFont_eventsBox",
-		"ui.dcalTypeParams",
+		"ui.dcalDayParams",
 		"ui.pluginsTextInsideExpander",
 		"ud.mainToolbarData",
 	)

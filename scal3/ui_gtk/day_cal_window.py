@@ -140,7 +140,7 @@ class DayCalWindowWidget(DayCal):
 	dragAndDropEnable = False
 	doubleClickEnable = False
 	backgroundColorParam = "dcalWinBackgroundColor"
-	typeParamsParam = "dcalWinTypeParams"
+	dayParamsParam = "dcalWinDayParams"
 	weekdayParamsParam = "dcalWinWeekdayParams"
 	buttonsEnableParam = "dcalWinButtonsEnable"
 	buttonsParam = "dcalWinButtons"

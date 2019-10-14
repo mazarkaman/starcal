@@ -53,7 +53,7 @@ class DayCal(gtk.DrawingArea, CalBase):
 	desc = _("Day Calendar")
 	itemListCustomizable = False
 	backgroundColorParam = ""
-	typeParamsParam = ""
+	dayParamsParam = ""
 	weekdayParamsParam = ""
 	weekdayAbbreviateParam = ""
 	weekdayUppercaseParam = ""
@@ -80,7 +80,7 @@ class DayCal(gtk.DrawingArea, CalBase):
 		return ui.bgColor
 
 	def getTypeParams(self):
-		return getattr(ui, self.typeParamsParam)
+		return getattr(ui, self.dayParamsParam)
 
 	def getWeekDayParams(self):
 		return getattr(ui, self.weekdayParamsParam)
@@ -132,7 +132,7 @@ class DayCal(gtk.DrawingArea, CalBase):
 
 	def updateTypeParamsWidget(self):
 		from scal3.ui_gtk.cal_type_params import CalTypeParamWidget
-		if not self.typeParamsParam:
+		if not self.dayParamsParam:
 			return
 		typeParams = self.getTypeParams()
 		try:
@@ -163,7 +163,7 @@ class DayCal(gtk.DrawingArea, CalBase):
 			#except IndexError:
 			##
 			pageWidget = CalTypeParamWidget(
-				self.typeParamsParam,
+				self.dayParamsParam,
 				self,
 				params,
 				sgroupLabel=sgroupLabel,
