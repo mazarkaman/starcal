@@ -102,6 +102,8 @@ class TextParamWidget(gtk.Box):
 		desc=None,
 		hasEnable=False,
 		hasAlign=False,
+		enableTitleLabel="",
+		useFrame=False,
 	):
 		from scal3.ui_gtk.mywidgets.multi_spin.float_num import FloatSpinButton
 		from scal3.ui_gtk.mywidgets import MyFontButton, MyColorButton
@@ -119,9 +121,27 @@ class TextParamWidget(gtk.Box):
 		if sgroupLabel is None:
 			sgroupLabel = gtk.SizeGroup(mode=gtk.SizeGroupMode.HORIZONTAL)
 		####
+		if not enableTitleLabel:
+			if hasEnable:
+				enableTitleLabel = _("Enable")
+			else:
+				raise ValueError("enableTitleLabel is not passed")
 		if hasEnable:
-			self.enableCheck = gtk.CheckButton(label=_("Enable"))
-			pack(self, self.enableCheck)
+			self.enableCheck = gtk.CheckButton(label=enableTitleLabel)
+		###
+		vbox = self
+		if useFrame:
+			frame = gtk.Frame()
+			vbox = gtk.VBox()
+			vbox.set_border_width(5)
+			frame.add(vbox)
+			pack(self, frame)
+			if hasEnable:
+				frame.set_label_widget(self.enableCheck)
+			else:
+				frame.set_label(enableTitleLabel)
+		else:
+			pack(vbox, self.enableCheck)
 		####
 		self.set_border_width(5)
 		###
@@ -137,7 +157,7 @@ class TextParamWidget(gtk.Box):
 		self.spinY = spin
 		pack(hbox, spin)
 		pack(hbox, gtk.Label(), 1, 1)
-		pack(self, hbox)
+		pack(vbox, hbox)
 		####
 		if hasAlign:
 			hbox = HBox()
@@ -152,7 +172,7 @@ class TextParamWidget(gtk.Box):
 			pack(hbox, self.yalignCombo)
 			##
 			pack(hbox, gtk.Label(), 1, 1)
-			pack(self, hbox)
+			pack(vbox, hbox)
 		####
 		hbox = HBox()
 		label = gtk.Label(label=_("Font") + ": ")
@@ -168,7 +188,7 @@ class TextParamWidget(gtk.Box):
 		pack(hbox, colorb)
 		pack(hbox, gtk.Label(), 1, 1)
 		pack(hbox, fontb)
-		pack(self, hbox)
+		pack(vbox, hbox)
 		####
 		self.set(params)
 		####
