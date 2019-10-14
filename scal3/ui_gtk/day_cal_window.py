@@ -141,6 +141,7 @@ class DayCalWindowWidget(DayCal):
 	doubleClickEnable = False
 	backgroundColorParam = "dcalWinBackgroundColor"
 	dayParamsParam = "dcalWinDayParams"
+	monthParamsParam = "dcalWinMonthParams"
 	weekdayParamsParam = "dcalWinWeekdayParams"
 	buttonsEnableParam = "dcalWinButtonsEnable"
 	buttonsParam = "dcalWinButtons"

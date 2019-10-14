@@ -308,6 +308,10 @@ msgid "Month"
 msgstr ""
 "ماه"
 
+msgid "Month Name"
+msgstr ""
+"نام ماه"
+
 msgid "Day"
 msgstr ""
 "روز"

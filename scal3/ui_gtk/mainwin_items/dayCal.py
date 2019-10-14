@@ -27,6 +27,7 @@ from scal3.ui_gtk.day_cal import DayCal
 class CalObj(DayCal):
 	expand = True
 	dayParamsParam = "dcalDayParams"
+	monthParamsParam = "dcalMonthParams"
 	weekdayParamsParam = "dcalWeekdayParams"
 	buttonsEnableParam = "dcalButtonsEnable"
 	buttonsParam = "dcalButtons"

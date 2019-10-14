@@ -181,6 +181,7 @@ confParamsCustomize = (
 	"dcalButtonsEnable",
 	# "dcalButtons",
 	"dcalDayParams",
+	"dcalMonthParams",
 	"dcalWeekdayParams",
 	"dcalWeekdayAbbreviate",
 	"dcalWeekdayUppercase",
@@ -190,6 +191,7 @@ confParamsCustomize = (
 	"dcalEventIconSize",
 	"dcalEventTotalSizeRatio",
 	"dcalWinDayParams",
+	"dcalWinMonthParams",
 	"dcalWinWeekdayParams",
 	"dcalWinWeekdayAbbreviate",
 	"dcalWinWeekdayUppercase",
@@ -614,12 +616,26 @@ def initFonts(fontDefaultNew: Tuple[str, bool, bool, float]) -> None:
 		if item["font"] is None:
 			item["font"] = getFont(3.0, familiy=False)
 	######
+	if dcalMonthParams[0]["font"] is None:
+		dcalMonthParams[0]["font"] = getFont(5.0, familiy=False)
+	###
+	for item in dcalMonthParams[1:]:
+		if item["font"] is None:
+			item["font"] = getFont(2.0, familiy=False)
+	######
 	if dcalWinDayParams[0]["font"] is None:
 		dcalWinDayParams[0]["font"] = getFont(5.0, familiy=False)
 	###
 	for item in dcalWinDayParams[1:]:
 		if item["font"] is None:
 			item["font"] = getFont(2.0, familiy=False)
+	######
+	if dcalWinMonthParams[0]["font"] is None:
+		dcalWinMonthParams[0]["font"] = getFont(2.5, familiy=False)
+	###
+	for item in dcalWinMonthParams[1:]:
+		if item["font"] is None:
+			item["font"] = getFont(1.5, familiy=False)
 	######
 	if dcalWeekdayParams["font"] is None:
 		dcalWeekdayParams["font"] = getFont(1.0, familiy=False)
@@ -805,6 +821,27 @@ dcalDayParams = [  # FIXME
 	},
 ]
 
+dcalMonthParams = [  # FIXME
+	{
+		"enable": False,
+		"pos": (0, -12), # FIXME
+		"font": None,
+		"color": (220, 220, 220),
+	},
+	{
+		"enable": False,
+		"pos": (125, 30), # FIXME
+		"font": None,
+		"color": (165, 255, 114),
+	},
+	{
+		"enable": False,
+		"pos": (-125, 24), # FIXME
+		"font": None,
+		"color": (0, 200, 205),
+	},
+]
+
 dcalWeekdayParams = {
 	"enable": False,
 	"pos": (20, 10),
@@ -837,6 +874,34 @@ dcalWinDayParams = [
 		"color": (0, 200, 205),
 	},
 ]
+
+dcalWinMonthParams = [
+	{
+		"enable": False,
+		"pos": (0, 5), # FIXME
+		"xalign": "left",
+		"yalign": "center",
+		"font": None,
+		"color": (220, 220, 220),
+	},
+	{
+		"enable": False,
+		"pos": (5, 0), # FIXME
+		"xalign": "right",
+		"yalign": "top",
+		"font": None,
+		"color": (165, 255, 114),
+	},
+	{
+		"enable": False,
+		"pos": (0, 0), # FIXME
+		"xalign": "right",
+		"yalign": "buttom",
+		"font": None,
+		"color": (0, 200, 205),
+	},
+]
+
 dcalWinWeekdayParams = {
 	"enable": False,
 	"pos": (20, 10),

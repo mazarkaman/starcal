@@ -31,7 +31,7 @@ from math import sqrt
 from scal3.cal_types import calTypes
 from scal3 import core
 from scal3.core import log
-from scal3.locale_man import rtl, rtlSgn
+from scal3.locale_man import rtl, rtlSgn, getMonthName
 from scal3.locale_man import tr as _
 from scal3 import ui
 from scal3.monthcal import getCurrentMonthStatus
@@ -54,6 +54,7 @@ class DayCal(gtk.DrawingArea, CalBase):
 	itemListCustomizable = False
 	backgroundColorParam = ""
 	dayParamsParam = ""
+	monthParamsParam = ""
 	weekdayParamsParam = ""
 	weekdayAbbreviateParam = ""
 	weekdayUppercaseParam = ""
@@ -79,8 +80,31 @@ class DayCal(gtk.DrawingArea, CalBase):
 			return getattr(ui, self.backgroundColorParam)
 		return ui.bgColor
 
-	def getDayParams(self):
-		return getattr(ui, self.dayParamsParam)
+	def getDayParams(self, allCalTypes=False):
+		params = getattr(ui, self.dayParamsParam)
+		if allCalTypes:
+			n = len(calTypes.active)
+			while len(params) < n:
+				params.append({
+					"enable": False,
+					"pos": (0, 0),
+					"font": ui.getFont(3.0),
+					"color": ui.textColor,
+				})
+		return params
+
+	def getMonthParams(self, allCalTypes=False):
+		params = getattr(ui, self.monthParamsParam)
+		if allCalTypes:
+			n = len(calTypes.active)
+			while len(params) < n:
+				params.append({
+					"enable": False,
+					"pos": (0, 0),
+					"font": ui.getFont(2.0),
+					"color": ui.textColor,
+				})
+		return params
 
 	def getWeekDayParams(self):
 		return getattr(ui, self.weekdayParamsParam)
@@ -132,11 +156,10 @@ class DayCal(gtk.DrawingArea, CalBase):
 
 	def updateTypeParamsWidget(self):
 		from scal3.ui_gtk.cal_type_params import CalTypeParamWidget
-		if not self.dayParamsParam:
-			return
-		dayParams = self.getDayParams()
+		dayParams = self.getDayParams(allCalTypes=True)
+		monthParams = self.getMonthParams(allCalTypes=True)
 		try:
-			vbox = self.dayParamsVbox
+			vbox = self.dayMonthParamsVbox
 		except AttributeError:
 			return
 		for child in vbox.get_children():
@@ -144,13 +167,6 @@ class DayCal(gtk.DrawingArea, CalBase):
 		###
 		subPages = []
 		###
-		n = len(calTypes.active)
-		while len(dayParams) < n:
-			dayParams.append({
-				"pos": (0, 0),
-				"font": ui.getFont(3.0),
-				"color": ui.textColor,
-			})
 		sgroupLabel = gtk.SizeGroup(mode=gtk.SizeGroupMode.HORIZONTAL)
 		sgroupFont = gtk.SizeGroup(mode=gtk.SizeGroupMode.HORIZONTAL)
 		for index, calType in enumerate(calTypes.active):
@@ -162,7 +178,9 @@ class DayCal(gtk.DrawingArea, CalBase):
 			params = dayParams[index]
 			#except IndexError:
 			##
-			pageWidget = CalTypeParamWidget(
+			pageWidget = VBox(spacing=5)
+			###
+			dayWidget = CalTypeParamWidget(
 				self.dayParamsParam,
 				self,
 				params,
@@ -174,6 +192,22 @@ class DayCal(gtk.DrawingArea, CalBase):
 				enableTitleLabel=_("Day of Month"),
 				useFrame=True,
 			)
+			pack(pageWidget, dayWidget)
+			###
+			monthWidget = CalTypeParamWidget(
+				self.monthParamsParam,
+				self,
+				params,
+				sgroupLabel=sgroupLabel,
+				index=index,
+				calType=calType,
+				hasEnable=True,
+				hasAlign=True,
+				enableTitleLabel=_("Month Name"),
+				useFrame=True,
+			)
+			pack(pageWidget, monthWidget)
+			###
 			pageWidget.show_all()
 			page = StackPage()
 			page.pageWidget = pageWidget
@@ -240,8 +274,8 @@ class DayCal(gtk.DrawingArea, CalBase):
 		)
 		pack(optionsWidget, prefItem.getWidget())
 		########
-		self.dayParamsVbox = VBox()
-		pack(optionsWidget, self.dayParamsVbox)
+		self.dayMonthParamsVbox = VBox()
+		pack(optionsWidget, self.dayMonthParamsVbox)
 		subPages += self.updateTypeParamsWidget()
 		####
 		if self.weekdayParamsParam:
@@ -441,19 +475,39 @@ class DayCal(gtk.DrawingArea, CalBase):
 		):
 			if not params.get("enable", True):
 				continue
-			daynum = newTextLayout(
+			layout = newTextLayout(
 				self,
 				_(c.dates[calType][2], calType),
 				ui.getParamsFont(params),
 			)
-			fontw, fonth = daynum.get_pixel_size()
+			fontw, fonth = layout.get_pixel_size()
 			if calType == calTypes.primary and c.holiday:
 				setColor(cr, ui.holidayColor)
 			else:
 				setColor(cr, params["color"])
 			font_x, font_y = self.getRenderPos(params, x0, y0, w, h, fontw, fonth)
 			cr.move_to(font_x, font_y)
-			show_layout(cr, daynum)
+			show_layout(cr, layout)
+
+		for calType, params in zip(
+			calTypes.active,
+			self.getMonthParams(),
+		):
+			if not params.get("enable", True):
+				continue
+			layout = newTextLayout(
+				self,
+				getMonthName(calType, c.dates[calType][1]),
+				ui.getParamsFont(params),
+			)
+			fontw, fonth = layout.get_pixel_size()
+			if calType == calTypes.primary and c.holiday:
+				setColor(cr, ui.holidayColor)
+			else:
+				setColor(cr, params["color"])
+			font_x, font_y = self.getRenderPos(params, x0, y0, w, h, fontw, fonth)
+			cr.move_to(font_x, font_y)
+			show_layout(cr, layout)
 
 		if self.weekdayParamsParam:
 			params = self.getWeekDayParams()
