@@ -995,7 +995,7 @@ class PreferencesWindow(gtk.Window):
 		pack(hbox, toolbar)
 		pack(vbox, hbox, 1, 1)
 		####################################################################
-		rootPageName = ui.preferencesRootPageName
+		rootPageName = "preferences"
 		###
 		mainPages = []
 		for page in self.prefPages:
@@ -1039,7 +1039,8 @@ class PreferencesWindow(gtk.Window):
 		stack.addPage(page)
 		for page in self.prefPages:
 			stack.addPage(page)
-		self.stack.gotoPage(ui.preferencesPageName)
+		if ui.preferencesPageName:
+			self.stack.gotoPage(ui.preferencesPageName)
 		#######################
 		pack(self.vbox, stack, 1, 1)
 		pack(self.vbox, self.buttonbox)

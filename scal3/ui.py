@@ -1137,8 +1137,7 @@ labelMenuDelay = 0.1
 
 ####################
 
-preferencesRootPageName = "preferences"
-preferencesPageName = preferencesRootPageName
+preferencesPageName = ""
 
 ####################
 
