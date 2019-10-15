@@ -827,6 +827,8 @@ dcalMonthParams = [  # FIXME
 	{
 		"enable": False,
 		"pos": (0, -12), # FIXME
+		"xalign": "center",
+		"yalign": "center",
 		"font": None,
 		"color": (220, 220, 220),
 		"abbreviate": False,
@@ -835,6 +837,8 @@ dcalMonthParams = [  # FIXME
 	{
 		"enable": False,
 		"pos": (125, 30), # FIXME
+		"xalign": "center",
+		"yalign": "center",
 		"font": None,
 		"color": (165, 255, 114),
 		"abbreviate": False,
@@ -843,6 +847,8 @@ dcalMonthParams = [  # FIXME
 	{
 		"enable": False,
 		"pos": (-125, 24), # FIXME
+		"xalign": "center",
+		"yalign": "center",
 		"font": None,
 		"color": (0, 200, 205),
 		"abbreviate": False,
