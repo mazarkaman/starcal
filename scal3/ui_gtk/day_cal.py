@@ -199,6 +199,8 @@ class DayCal(gtk.DrawingArea, CalBase):
 				calType=calType,
 				hasEnable=True,
 				hasAlign=True,
+				hasAbbreviate=True,
+				hasUppercase=True,
 				enableTitleLabel=_("Month Name"),
 				useFrame=True,
 			)
@@ -491,9 +493,15 @@ class DayCal(gtk.DrawingArea, CalBase):
 		):
 			if not params.get("enable", True):
 				continue
+			month = c.dates[calType][1]  # type: int
+			abbreviate = params.get("abbreviate", False)
+			uppercase = params.get("uppercase", False)
+			text = getMonthName(calType, month, abbreviate=abbreviate)
+			if uppercase:
+				text = text.upper()
 			layout = newTextLayout(
 				self,
-				getMonthName(calType, c.dates[calType][1]),
+				text,
 				ui.getParamsFont(params),
 			)
 			fontw, fonth = layout.get_pixel_size()

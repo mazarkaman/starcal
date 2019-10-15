@@ -102,6 +102,8 @@ class TextParamWidget(gtk.Box):
 		desc=None,
 		hasEnable=False,
 		hasAlign=False,
+		hasAbbreviate=False,
+		hasUppercase=False,
 		enableTitleLabel="",
 		useFrame=False,
 	):
@@ -117,6 +119,8 @@ class TextParamWidget(gtk.Box):
 		self.cal = cal
 		self.hasEnable = hasEnable
 		self.hasAlign = hasAlign
+		self.hasAbbreviate = hasAbbreviate
+		self.hasUppercase = hasUppercase
 		####
 		if sgroupLabel is None:
 			sgroupLabel = gtk.SizeGroup(mode=gtk.SizeGroupMode.HORIZONTAL)
@@ -190,6 +194,13 @@ class TextParamWidget(gtk.Box):
 		pack(hbox, fontb)
 		pack(vbox, hbox)
 		####
+		if hasAbbreviate:
+			self.abbreviateCheck = gtk.CheckButton(label=_("Abbreviate"))
+			pack(vbox, self.abbreviateCheck)
+		if hasUppercase:
+			self.uppercaseCheck = gtk.CheckButton(label=_("Uppercase"))
+			pack(vbox, self.uppercaseCheck)
+		####
 		self.set(params)
 		####
 		self.spinX.connect("changed", self.onChange)
@@ -201,6 +212,10 @@ class TextParamWidget(gtk.Box):
 		if hasAlign:
 			self.xalignCombo.connect("changed", self.onChange)
 			self.yalignCombo.connect("changed", self.onChange)
+		if hasAbbreviate:
+			self.abbreviateCheck.connect("clicked", self.onChange)
+		if hasUppercase:
+			self.uppercaseCheck.connect("clicked", self.onChange)
 
 	def get(self):
 		params = {
@@ -216,6 +231,10 @@ class TextParamWidget(gtk.Box):
 		if self.hasAlign:
 			params["xalign"] = self.xalignCombo.get()
 			params["yalign"] = self.yalignCombo.get()
+		if self.hasAbbreviate:
+			params["abbreviate"] = self.abbreviateCheck.get_active()
+		if self.hasUppercase:
+			params["uppercase"] = self.uppercaseCheck.get_active()
 		return params
 
 	def set(self, params):
@@ -228,6 +247,10 @@ class TextParamWidget(gtk.Box):
 		if self.hasAlign:
 			self.xalignCombo.set(params.get("xalign", "center"))
 			self.yalignCombo.set(params.get("yalign", "center"))
+		if self.hasAbbreviate:
+			self.abbreviateCheck.set_active(params.get("abbreviate", False))
+		if self.hasUppercase:
+			self.uppercaseCheck.set_active(params.get("uppercase", False))
 
 	def onChange(self, obj=None, event=None):
 		setattr(ui, self.paramName, self.get())

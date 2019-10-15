@@ -829,18 +829,24 @@ dcalMonthParams = [  # FIXME
 		"pos": (0, -12), # FIXME
 		"font": None,
 		"color": (220, 220, 220),
+		"abbreviate": False,
+		"uppercase": False,
 	},
 	{
 		"enable": False,
 		"pos": (125, 30), # FIXME
 		"font": None,
 		"color": (165, 255, 114),
+		"abbreviate": False,
+		"uppercase": False,
 	},
 	{
 		"enable": False,
 		"pos": (-125, 24), # FIXME
 		"font": None,
 		"color": (0, 200, 205),
+		"abbreviate": False,
+		"uppercase": False,
 	},
 ]
 
@@ -885,6 +891,8 @@ dcalWinMonthParams = [
 		"yalign": "center",
 		"font": None,
 		"color": (220, 220, 220),
+		"abbreviate": False,
+		"uppercase": False,
 	},
 	{
 		"enable": False,
@@ -893,6 +901,8 @@ dcalWinMonthParams = [
 		"yalign": "top",
 		"font": None,
 		"color": (165, 255, 114),
+		"abbreviate": False,
+		"uppercase": False,
 	},
 	{
 		"enable": False,
@@ -901,6 +911,8 @@ dcalWinMonthParams = [
 		"yalign": "buttom",
 		"font": None,
 		"color": (0, 200, 205),
+		"abbreviate": False,
+		"uppercase": False,
 	},
 ]
 

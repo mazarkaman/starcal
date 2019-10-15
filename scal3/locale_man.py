@@ -320,10 +320,17 @@ def rtlSgn() -> int:
 	return 1 if rtl else -1
 
 
-def getMonthName(calType: int, month: int, year: Optional[int] = None) -> str:
+def getMonthName(
+	calType: int,
+	month: int,
+	year: Optional[int] = None,
+	abbreviate: bool = False,
+) -> str:
 	module, ok = calTypes[calType]
 	if not ok:
 		raise RuntimeError(f"cal type '{calType}' not found")
+	if abbreviate:
+		return tr(module.getMonthNameAb(month, year))
 	return tr(module.getMonthName(month, year))
 
 
