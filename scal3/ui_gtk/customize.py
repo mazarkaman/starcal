@@ -80,9 +80,6 @@ class DummyCalObj(ud.CalObjType):
 	def updateVars(self) -> None:
 		pass
 
-	#def getData(self):## FIXME a real problem
-	#	return None
-
 	def getOptionsWidget(self) -> Optional[gtk.Widget]:
 		return None
 
@@ -127,22 +124,6 @@ class CustomizableCalObj(ud.BaseCalObj):
 		for item in self.items:
 			if item.customizable:
 				item.updateVars()
-
-	#def getData(self):## remove? FIXME
-	#	data = {}
-	#	for mod_attr in self.params:
-	#		try:
-	#			value = eval(mod_attr)
-	#		except:
-	#			log.exception("")
-	#		else:
-	#			data[mod_attr] = value
-	#	for item in self.items:
-	#		if item.customizable:
-	#			itemData = item.getData()
-	#			if itemData:
-	#				data.update(itemData)
-	#	return data
 
 	def onKeyPress(self, arg: gtk.Widget, gevent: gdk.EventKey):
 		kname = gdk.keyval_name(gevent.keyval).lower()

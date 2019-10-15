@@ -126,38 +126,6 @@ class MainWinVbox(gtk.Box, CustomizableCalBox):
 	_name = "mainPanel"
 	desc = _("Main Panel")
 	itemListCustomizable = True
-	params = (
-		"ui.mainWinItems",
-		"ui.winControllerButtons",
-		"ui.mcalLeftMargin",
-		"ui.mcalTopMargin",
-		"ui.mcalTypeParams",
-		"ui.mcalGrid",
-		"ui.mcalGridColor",
-		"ui.wcalHeight",
-		"ui.wcalTextSizeScale",
-		"ui.wcalItems",
-		"ui.wcalGrid",
-		"ui.wcalGridColor",
-		"ud.wcalToolbarData",
-		"ui.wcal_toolbar_mainMenu_icon",
-		"ui.wcal_weekDays_width",
-		"ui.wcalFont_weekDays",
-		"ui.wcalFont_pluginsText",
-		"ui.wcal_eventsIcon_width",
-		"ui.wcal_eventsText_showDesc",
-		"ui.wcal_eventsText_colorize",
-		"ui.wcalFont_eventsText",
-		"ui.wcal_daysOfMonth_dir",
-		"ui.wcalTypeParams",
-		"ui.wcal_daysOfMonth_width",
-		"ui.wcal_eventsCount_expand",
-		"ui.wcal_eventsCount_width",
-		"ui.wcalFont_eventsBox",
-		"ui.dcalDayParams",
-		"ui.pluginsTextInsideExpander",
-		"ud.mainToolbarData",
-	)
 	myKeys = (
 		'down',
 		'end',
