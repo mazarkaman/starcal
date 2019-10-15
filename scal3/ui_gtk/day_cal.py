@@ -174,16 +174,12 @@ class DayCal(gtk.DrawingArea, CalBase):
 			if not ok:
 				raise RuntimeError(f"cal type '{calType}' not found")
 			##
-			#try:
-			params = dayParams[index]
-			#except IndexError:
-			##
 			pageWidget = VBox(spacing=5)
 			###
 			dayWidget = CalTypeParamWidget(
 				self.dayParamsParam,
 				self,
-				params,
+				dayParams[index],
 				sgroupLabel=sgroupLabel,
 				index=index,
 				calType=calType,
@@ -197,7 +193,7 @@ class DayCal(gtk.DrawingArea, CalBase):
 			monthWidget = CalTypeParamWidget(
 				self.monthParamsParam,
 				self,
-				params,
+				monthParams[index],
 				sgroupLabel=sgroupLabel,
 				index=index,
 				calType=calType,
