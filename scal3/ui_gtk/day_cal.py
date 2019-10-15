@@ -204,7 +204,15 @@ class DayCal(gtk.DrawingArea, CalBase):
 				enableTitleLabel=_("Month Name"),
 				useFrame=True,
 			)
-			pack(pageWidget, monthWidget)
+			monthWidget.show_all()
+			page = StackPage()
+			page.pageWidget = monthWidget
+			page.pageName = module.name + "." + "month"
+			page.pageTitle = _("Month Name") + " - " + _(module.desc)
+			page.pageLabel = _("Month Name")
+			page.pageExpand = False
+			subPages.append(page)
+			pack(pageWidget, newSubPageButton(self, page), padding=4)
 			###
 			pageWidget.show_all()
 			page = StackPage()
@@ -214,8 +222,7 @@ class DayCal(gtk.DrawingArea, CalBase):
 			page.pageLabel = _(module.desc)
 			page.pageExpand = False
 			subPages.append(page)
-			button = newSubPageButton(self, page)
-			pack(vbox, button, padding=4)
+			pack(vbox, newSubPageButton(self, page), padding=4)
 		###
 		vbox.show_all()
 		return subPages
