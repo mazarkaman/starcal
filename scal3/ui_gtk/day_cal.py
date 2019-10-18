@@ -512,10 +512,7 @@ class DayCal(gtk.DrawingArea, CalBase):
 				ui.getParamsFont(params),
 			)
 			fontw, fonth = layout.get_pixel_size()
-			if calType == calTypes.primary and c.holiday:
-				setColor(cr, ui.holidayColor)
-			else:
-				setColor(cr, params["color"])
+			setColor(cr, params["color"])
 			font_x, font_y = self.getRenderPos(params, x0, y0, w, h, fontw, fonth)
 			cr.move_to(font_x, font_y)
 			show_layout(cr, layout)
