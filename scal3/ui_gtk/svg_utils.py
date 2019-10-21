@@ -29,12 +29,14 @@ def pixbufFromSvgFile(path: str, size: int):
 		raise ValueError(f"invalid size={size} for svg file {path}")
 	if not isabs(path):
 		path = join(svgDir, path)
-	loader = GdkPixbuf.PixbufLoader.new_with_type("svg")
-	loader.set_size(size, size)
 	with open(path, "rb") as fp:
 		data = fp.read()
-	loader.write(data)
-	loader.close()
+	loader = GdkPixbuf.PixbufLoader.new_with_type("svg")
+	loader.set_size(size, size)
+	try:
+		loader.write(data)
+	finally:
+		loader.close()
 	pixbuf = loader.get_pixbuf()
 	return pixbuf
 

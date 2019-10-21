@@ -213,7 +213,6 @@ def calcTextPixelWidth(
 
 
 def newColorCheckPixbuf(color, size, checked):
-	loader = GdkPixbuf.PixbufLoader.new_with_type("svg")
 	if checked:
 		data = colorCheckSvgTextChecked
 	else:
@@ -223,36 +222,43 @@ def newColorCheckPixbuf(color, size, checked):
 		f"fill:{rgbToHtmlColor(color[:3])};",
 	)
 	data = toBytes(data)
-	loader.write(data)
-	loader.close()
+	loader = GdkPixbuf.PixbufLoader.new_with_type("svg")
+	try:
+		loader.write(data)
+	finally:
+		loader.close()
 	pixbuf = loader.get_pixbuf()
 	return pixbuf
 
 
 def newDndDatePixbuf(ymd):
 	imagePath = join(rootDir, "svg", "dnd-date.svg")
-	loader = GdkPixbuf.PixbufLoader.new_with_type("svg")
 	with open(imagePath) as fp:
 		data = fp.read()
 	data = data.replace("YYYY", f"{ymd[0]:04d}")
 	data = data.replace("MM", f"{ymd[1]:02d}")
 	data = data.replace("DD", f"{ymd[2]:02d}")
 	data = toBytes(data)
-	loader.write(data)
-	loader.close()
+	loader = GdkPixbuf.PixbufLoader.new_with_type("svg")
+	try:
+		loader.write(data)
+	finally:
+		loader.close()
 	pixbuf = loader.get_pixbuf()
 	return pixbuf
 
 
 def newDndFontNamePixbuf(name):
 	imagePath = join(rootDir, "svg", "dnd-font.svg")
-	loader = GdkPixbuf.PixbufLoader.new_with_type("svg")
 	with open(imagePath) as fp:
 		data = fp.read()
 	data = data.replace("FONTNAME", name)
 	data = toBytes(data)
-	loader.write(data)
-	loader.close()
+	loader = GdkPixbuf.PixbufLoader.new_with_type("svg")
+	try:
+		loader.write(data)
+	finally:
+		loader.close()
 	pixbuf = loader.get_pixbuf()
 	return pixbuf
 

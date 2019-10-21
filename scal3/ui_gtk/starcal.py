@@ -1304,13 +1304,6 @@ class MainWin(gtk.ApplicationWindow, ud.BaseCalObj):
 			else ui.statusIconImage
 		)
 		ext = os.path.splitext(imagePath)[1].lstrip(".").lower()
-		loader = GdkPixbuf.PixbufLoader.new_with_type(ext)
-		if ui.statusIconFixedSizeEnable:
-			try:
-				width, height = ui.statusIconFixedSizeWH
-				loader.set_size(width, height)
-			except Exception:
-				log.exception("")
 		with open(imagePath, "rb") as fp:
 			data = fp.read()
 		if ext == "svg":
@@ -1328,8 +1321,17 @@ class MainWin(gtk.ApplicationWindow, ud.BaseCalObj):
 				b"TX",
 				toBytes(dayNum),
 			)
-		loader.write(data)
-		loader.close()
+		loader = GdkPixbuf.PixbufLoader.new_with_type(ext)
+		if ui.statusIconFixedSizeEnable:
+			try:
+				width, height = ui.statusIconFixedSizeWH
+				loader.set_size(width, height)
+			except Exception:
+				log.exception("")
+		try:
+			loader.write(data)
+		finally:
+			loader.close()
 		pixbuf = loader.get_pixbuf()
 
 		# alternative way:
