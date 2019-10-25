@@ -2796,8 +2796,12 @@ msgid "Import: Select File"
 msgstr ""
 "وارد کردن: انتخاب فایل"
 
-msgid "{groupCount} groups imported successfully"
-msgstr "{groupCount} گروه با موفقیت وارد شد"
+
+msgid "Imported successfuly: {newGroupCount} new groups, {newEventCount} new events, {modifiedEventCount} modified events"
+msgstr ""
+"وارد کردن با موفقیت انجام شد: {newGroupCount} گروه تازه، {newEventCount} رویداد تازه، {modifiedEventCount} رویداد تغییر کرده"
+
+
 
 msgid "_Search"
 msgstr "_جستجو"
