@@ -18,6 +18,9 @@
 # Also avalable in /usr/share/common-licenses/GPL on Debian systems
 # or /usr/share/licenses/common/GPL3/license.txt on ArchLinux
 
+from scal3 import logger
+log = logger.get()
+
 from scal3 import core
 from scal3.date_utils import dateEncode, dateDecode
 from scal3.locale_man import tr as _
@@ -26,7 +29,11 @@ from scal3 import event_lib
 from scal3 import ui
 
 from scal3.ui_gtk import *
-from scal3.ui_gtk.utils import toolButtonFromStock, set_tooltip
+from scal3.ui_gtk.utils import (
+	toolButtonFromIcon,
+	set_tooltip,
+	imageFromIconName,
+)
 
 
 def encode(d):
@@ -41,20 +48,20 @@ def validate(s):
 	return encode(decode(s))
 
 
-class WidgetClass(gtk.HBox):
+class WidgetClass(gtk.Box):
 	def __init__(self, rule):
 		self.rule = rule
-		gtk.HBox.__init__(self)
+		gtk.Box.__init__(self, orientation=gtk.Orientation.HORIZONTAL)
 		###
-		self.countLabel = gtk.Label("")
+		self.countLabel = gtk.Label()
 		pack(self, self.countLabel)
 		###
 		self.trees = gtk.ListStore(str)
 		self.dialog = None
 		###
-		self.editButton = gtk.Button(_("Edit"))
-		self.editButton.set_image(gtk.Image.new_from_stock(
-			gtk.STOCK_EDIT,
+		self.editButton = gtk.Button(label=_("Edit"))
+		self.editButton.set_image(imageFromIconName(
+			"gtk-edit",
 			gtk.IconSize.BUTTON,
 		))
 		self.editButton.connect("clicked", self.showDialog)
@@ -63,17 +70,17 @@ class WidgetClass(gtk.HBox):
 	def updateCountLabel(self):
 		self.countLabel.set_label(
 			" " * 2 +
-			_("%s items") % _(len(self.trees)) +
+			_("{count} items").format(count=_(len(self.trees))) +
 			" " * 2
 		)
 
 	def createDialog(self):
 		if self.dialog:
 			return
-		print("----- toplevel", self.get_toplevel())
+		log.debug("----- toplevel: {self.get_toplevel()}")
 		self.dialog = gtk.Dialog(
 			title=self.rule.desc,
-			parent=self.get_toplevel(),
+			transient_for=self.get_toplevel(),
 		)
 		###
 		self.treev = gtk.TreeView()
@@ -83,36 +90,37 @@ class WidgetClass(gtk.HBox):
 		cell = gtk.CellRendererText()
 		cell.set_property("editable", True)
 		cell.connect("edited", self.dateCellEdited)
-		col = gtk.TreeViewColumn(_("Date"), cell, text=0)
+		col = gtk.TreeViewColumn(title=_("Date"), cell_renderer=cell, text=0)
+		# col.set_title
 		self.treev.append_column(col)
 		##
 		toolbar = gtk.Toolbar()
 		toolbar.set_orientation(gtk.Orientation.VERTICAL)
 		size = gtk.IconSize.SMALL_TOOLBAR
 		##
-		tb = toolButtonFromStock(gtk.STOCK_ADD, size)
+		tb = toolButtonFromIcon("gtk-add", size)
 		set_tooltip(tb, _("Add"))
-		tb.connect("clicked", self.addClicked)
+		tb.connect("clicked", self.onAddClick)
 		toolbar.insert(tb, -1)
 		#self.buttonAdd = tb
 		##
-		tb = toolButtonFromStock(gtk.STOCK_DELETE, size)
+		tb = toolButtonFromIcon("gtk-delete", size)
 		set_tooltip(tb, _("Delete"))
-		tb.connect("clicked", self.deleteClicked)
+		tb.connect("clicked", self.onDeleteClick)
 		toolbar.insert(tb, -1)
 		#self.buttonDel = tb
 		##
-		tb = toolButtonFromStock(gtk.STOCK_GO_UP, size)
+		tb = toolButtonFromIcon("gtk-go-up", size)
 		set_tooltip(tb, _("Move up"))
-		tb.connect("clicked", self.moveUpClicked)
+		tb.connect("clicked", self.onMoveUpClick)
 		toolbar.insert(tb, -1)
 		##
-		tb = toolButtonFromStock(gtk.STOCK_GO_DOWN, size)
+		tb = toolButtonFromIcon("gtk-go-down", size)
 		set_tooltip(tb, _("Move down"))
-		tb.connect("clicked", self.moveDownClicked)
+		tb.connect("clicked", self.onMoveDownClick)
 		toolbar.insert(tb, -1)
 		##
-		dialogHbox = gtk.HBox()
+		dialogHbox = HBox()
 		pack(dialogHbox, self.treev, 1, 1)
 		pack(dialogHbox, toolbar)
 		pack(self.dialog.vbox, dialogHbox, 1, 1)
@@ -120,11 +128,11 @@ class WidgetClass(gtk.HBox):
 		self.dialog.resize(200, 300)
 		self.dialog.connect("response", lambda w, e: self.dialog.hide())
 		##
-		okButton = self.dialog.add_button(gtk.STOCK_OK, gtk.ResponseType.CANCEL)
+		okButton = self.dialog.add_button("gtk-ok", gtk.ResponseType.CANCEL)
 		if ui.autoLocale:
 			okButton.set_label(_("_OK"))
-			okButton.set_image(gtk.Image.new_from_stock(
-				gtk.STOCK_OK,
+			okButton.set_image(imageFromIconName(
+				"gtk-ok",
 				gtk.IconSize.BUTTON,
 			))
 
@@ -143,13 +151,13 @@ class WidgetClass(gtk.HBox):
 			path, col = cur
 			index = path[0]
 			return index
-		except:
+		except (ValueError, IndexError):
 			return None
 
-	def addClicked(self, button):
+	def onAddClick(self, button):
 		index = self.getSelectedIndex()
-		mode = self.rule.getMode()## FIXME
-		row = [encode(core.getSysDate(mode))]
+		calType = self.rule.getCalType()## FIXME
+		row = [encode(core.getSysDate(calType))]
 		if index is None:
 			newIter = self.trees.append(row)
 		else:
@@ -159,13 +167,13 @@ class WidgetClass(gtk.HBox):
 		#cell = col.get_cell_renderers()[0]
 		#cell.start_editing(...) ## FIXME
 
-	def deleteClicked(self, button):
+	def onDeleteClick(self, button):
 		index = self.getSelectedIndex()
 		if index is None:
 			return
 		del self.trees[index]
 
-	def moveUpClicked(self, button):
+	def onMoveUpClick(self, button):
 		index = self.getSelectedIndex()
 		if index is None:
 			return
@@ -179,7 +187,7 @@ class WidgetClass(gtk.HBox):
 		)
 		self.treev.set_cursor(index - 1)
 
-	def moveDownClicked(self, button):
+	def onMoveDownClick(self, button):
 		index = self.getSelectedIndex()
 		if index is None:
 			return

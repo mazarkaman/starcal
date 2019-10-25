@@ -4,7 +4,7 @@ from os.path import join, split, splitext
 from scal3.path import deskDir
 from scal3.json_utils import *
 from scal3 import core
-from scal3.core import DATE_GREG
+from scal3.core import GREGORIAN
 from scal3.locale_man import tr as _
 from scal3 import ui
 
@@ -22,22 +22,22 @@ class SingleGroupExportDialog(gtk.Dialog, MyDialog):
 		####
 		dialog_add_button(
 			self,
-			gtk.STOCK_CANCEL,
+			"gtk-cancel",
 			_("_Cancel"),
 			gtk.ResponseType.CANCEL,
 		)
 		dialog_add_button(
 			self,
-			gtk.STOCK_OK,
+			"gtk-ok",
 			_("_OK"),
 			gtk.ResponseType.OK,
 		)
 		self.connect("response", lambda w, e: self.hide())
 		####
-		hbox = gtk.HBox()
+		hbox = HBox()
 		frame = gtk.Frame()
 		frame.set_label(_("Format"))
-		radioBox = gtk.VBox()
+		radioBox = VBox()
 		##
 		self.radioIcs = gtk.RadioButton(label="iCalendar")
 		self.radioJsonCompact = gtk.RadioButton(
@@ -60,7 +60,7 @@ class SingleGroupExportDialog(gtk.Dialog, MyDialog):
 		##
 		frame.add(radioBox)
 		pack(hbox, frame)
-		pack(hbox, gtk.Label(""), 1, 1)
+		pack(hbox, gtk.Label(), 1, 1)
 		pack(self.vbox, hbox)
 		########
 		self.fcw = gtk.FileChooserWidget(action=gtk.FileChooserAction.SAVE)
@@ -118,21 +118,21 @@ class MultiGroupExportDialog(gtk.Dialog, MyDialog):
 		####
 		dialog_add_button(
 			self,
-			gtk.STOCK_CANCEL,
+			"gtk-cancel",
 			_("_Cancel"),
 			gtk.ResponseType.CANCEL,
 		)
 		dialog_add_button(
 			self,
-			gtk.STOCK_OK,
+			"gtk-ok",
 			_("_OK"),
 			gtk.ResponseType.OK,
 		)
 		####
-		hbox = gtk.HBox()
+		hbox = HBox()
 		frame = gtk.Frame()
 		frame.set_label(_("Format"))
-		radioBox = gtk.VBox()
+		radioBox = VBox()
 		##
 		self.radioIcs = gtk.RadioButton(
 			label="iCalendar",
@@ -157,15 +157,16 @@ class MultiGroupExportDialog(gtk.Dialog, MyDialog):
 		##
 		frame.add(radioBox)
 		pack(hbox, frame)
-		pack(hbox, gtk.Label(""), 1, 1)
+		pack(hbox, gtk.Label(), 1, 1)
 		pack(self.vbox, hbox)
 		########
-		hbox = gtk.HBox(spacing=2)
-		pack(hbox, gtk.Label(_("File") + ":"))
+		hbox = HBox(spacing=2)
+		pack(hbox, gtk.Label(label=_("File") + ":"))
 		self.fpathEntry = gtk.Entry()
+		y, m, d = core.getSysDate(GREGORIAN)
 		self.fpathEntry.set_text(join(
 			deskDir,
-			"events-%.4d-%.2d-%.2d" % core.getSysDate(DATE_GREG),
+			f"events-{y:04d}-{m:02d}-{d:02d}",
 		))
 		pack(hbox, self.fpathEntry, 1, 1)
 		pack(self.vbox, hbox)
@@ -202,7 +203,7 @@ class MultiGroupExportDialog(gtk.Dialog, MyDialog):
 			ui.eventGroups.exportToIcs(fpath, activeGroupIds)
 		else:
 			data = ui.eventGroups.exportData(activeGroupIds)
-			## what to do with all groupData["info"] s? FIXME
+			# FIXME: what to do with all groupData["info"] s?
 			if self.radioJsonCompact.get_active():
 				text = dataToCompactJson(data)
 			elif self.radioJsonPretty.get_active():

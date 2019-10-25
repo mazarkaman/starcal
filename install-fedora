@@ -20,7 +20,7 @@ fi
 
 
 pyCmd=
-for minor in 7 6 5 ; do
+for minor in 7 6 ; do
 	cmd="/usr/bin/python3.$minor"
 	if [ -f "$cmd" ] ; then
 		pyCmd="$cmd"
@@ -54,6 +54,8 @@ fi
 
 
 pkgName=starcal3
+iconName=starcal32.png
+
 sourceDir="`dirname \"$myPath\"`"
 #"$sourceDir/scripts/assert_python3"
 version=`"$sourceDir/scal3/get_version.py" | sed 's/\-/_/g'`
@@ -66,7 +68,7 @@ version=`"$sourceDir/scal3/get_version.py" | sed 's/\-/_/g'`
 #/usr/share/$pkgName/scripts/assert_python3
 
 requires=("$pyPkg")
-requires+=('python3-gobject') ## The new gobject introspection
+requires+=('python3-gobject >= 3.22') ## The new gobject introspection
 requires+=('python3-cairo')
 requires+=('libappindicator-gtk3')
 requires+=('python3-httplib2')
@@ -83,6 +85,8 @@ recommends+=('python3-igraph') # since Fedora 27
 
 recommends+=('lxqt-openssh-askpass')
 # I did not find openssh-askpass-gnome in Fedora repos
+
+recommends+=('python3-pygit2')
 
 requires_str="Requires: ${requires[@]}"
 recommends_str="Recommends: ${recommends[@]}"
@@ -124,7 +128,7 @@ and Indian National calendars, as well as common English(Gregorian) calendar
 %{_prefix}/share/applications/$pkgName*
 %{_prefix}/share/doc/$pkgName/*
 %{_prefix}/share/pixmaps/$pkgName.png
-%{_prefix}/share/icons/hicolor/*/apps/$pkgName.png
+%{_prefix}/share/icons/hicolor/*/apps/$iconName
 %{_prefix}/share/locale/*/LC_MESSAGES/$pkgName.mo
 " > $pkgName.spec
 

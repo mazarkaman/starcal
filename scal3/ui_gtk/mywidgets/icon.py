@@ -8,7 +8,11 @@ from scal3 import ui
 
 from scal3.ui_gtk import *
 from scal3.ui_gtk.decorators import *
-from scal3.ui_gtk.utils import labelStockMenuItem
+from scal3.ui_gtk.utils import (
+	labelIconMenuItem,
+	imageFromIconName,
+	pixbufFromFile,
+)
 
 
 @registerSignals
@@ -25,29 +29,29 @@ class IconSelectButton(gtk.Button):
 			title=_("Select Icon File"),
 			action=gtk.FileChooserAction.OPEN,
 		)
-		okB = self.dialog.add_button(gtk.STOCK_OK, gtk.ResponseType.OK)
-		cancelB = self.dialog.add_button(gtk.STOCK_CANCEL, gtk.ResponseType.CANCEL)
-		clearB = self.dialog.add_button(gtk.STOCK_CLEAR, gtk.ResponseType.REJECT)
+		okB = self.dialog.add_button("gtk-ok", gtk.ResponseType.OK)
+		cancelB = self.dialog.add_button("gtk-cancel", gtk.ResponseType.CANCEL)
+		clearB = self.dialog.add_button("gtk-clear", gtk.ResponseType.REJECT)
 		if ui.autoLocale:
 			cancelB.set_label(_("_Cancel"))
-			cancelB.set_image(gtk.Image.new_from_stock(
-				gtk.STOCK_CANCEL,
+			cancelB.set_image(imageFromIconName(
+				"gtk-cancel",
 				gtk.IconSize.BUTTON,
 			))
 			okB.set_label(_("_OK"))
-			okB.set_image(gtk.Image.new_from_stock(
-				gtk.STOCK_OK,
+			okB.set_image(imageFromIconName(
+				"gtk-ok",
 				gtk.IconSize.BUTTON,
 			))
 			clearB.set_label(_("Clear"))
-			clearB.set_image(gtk.Image.new_from_stock(
-				gtk.STOCK_CLEAR,
+			clearB.set_image(imageFromIconName(
+				"gtk-clear",
 				gtk.IconSize.BUTTON,
 			))
 		###
 		menu = gtk.Menu()
 		self.menu = menu
-		menu.add(labelStockMenuItem(_("None"), None, self.menuItemActivate, ""))
+		menu.add(labelIconMenuItem(_("None"), "", self.menuItemActivate, ""))
 		for item in ui.eventTags:
 			icon = item.icon
 			if icon:
@@ -60,11 +64,11 @@ class IconSelectButton(gtk.Button):
 		self.dialog.connect("file-activated", self.fileActivated)
 		self.dialog.connect("response", self.dialogResponse)
 		#self.connect("clicked", lambda button: button.dialog.run())
-		self.connect("button-press-event", self.buttonPressEvent)
+		self.connect("button-press-event", self.onButtonPressEvent)
 		###
 		self.set_filename(filename)
 
-	def buttonPressEvent(self, widget, gevent):
+	def onButtonPressEvent(self, widget, gevent):
 		b = gevent.button
 		if b == 1:
 			self.dialog.run()
@@ -73,6 +77,7 @@ class IconSelectButton(gtk.Button):
 
 	def menuItemActivate(self, widget, icon):
 		self.set_filename(icon)
+		self.emit("changed", icon)
 
 	def dialogResponse(self, dialog, response=0):
 		dialog.hide()
@@ -85,10 +90,13 @@ class IconSelectButton(gtk.Button):
 		self.set_filename(fname)
 		self.emit("changed", fname)
 
+	def _setImage(self, filename):
+		self.image.set_from_pixbuf(pixbufFromFile(filename, ui.imageInputIconSize))
+
 	def fileActivated(self, dialog):
 		fname = dialog.get_filename()
 		self.filename = fname
-		self.image.set_from_file(self.filename)
+		self._setImage(self.filename)
 		self.emit("changed", fname)
 		self.dialog.hide()
 
@@ -101,6 +109,6 @@ class IconSelectButton(gtk.Button):
 		self.dialog.set_filename(filename)
 		self.filename = filename
 		if not filename:
-			self.image.set_from_file(join(pixDir, "empty.png"))
+			self._setImage(join(pixDir, "empty.png"))
 		else:
-			self.image.set_from_file(filename)
+			self._setImage(filename)

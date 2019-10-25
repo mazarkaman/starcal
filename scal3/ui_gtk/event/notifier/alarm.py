@@ -54,5 +54,5 @@ def notify(notifier, finishFunc):
 	finishFunc()
 	Popen([notifier.playerCmd, notifier.alarmSound], stdout=PIPE, stderr=PIPE)
 
-## event_lib.AlarmNotifier.WidgetClass = AlarmWidgetClass
-## event_lib.AlarmNotifier.notify = notify
+# event_lib.AlarmNotifier.WidgetClass = AlarmWidgetClass
+# event_lib.AlarmNotifier.notify = notify

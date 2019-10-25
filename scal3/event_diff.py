@@ -1,5 +1,8 @@
 #!/usr/bin/env python3
 
+from scal3 import logger
+log = logger.get()
+
 class EventDiff:
 	def __init__(self):
 		self.clear()
@@ -19,6 +22,8 @@ class EventDiff:
 		self.lastOrder = 0
 
 	def add(self, action, event):
+		if event.parent is None:
+			raise ValueError("event.parent is None")
 		eid = event.id
 		gid = event.parent.id
 		path = event.getPath()
@@ -31,9 +36,8 @@ class EventDiff:
 		prefOrder, prefAction, prefGid, prefPath = self.byEventId[eid]
 		if prefAction == "-" or action == "+":
 			raise RuntimeError(
-				"EventDiff.add: eid=%s, " % eid +
-				"prefAction=%s, " % prefAction +
-				"action=%s" % action
+				f"EventDiff.add: eid={eid}, " +
+				f"prefAction={prefAction}, action={action}"
 			)
 		both = prefAction + action
 		if both in ("+e", "ee", "ve"):  # skip the new action
@@ -74,7 +78,8 @@ def testEventDiff():
 	]:
 		d.add(action, eid, None)
 	for action, eid, path in d:
-		print(action, eid)
+		log.info(action, eid)
+
 
 if __name__ == "__main__":
 	testEventDiff()

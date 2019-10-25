@@ -17,10 +17,16 @@
 # with this program. If not, see <http://www.gnu.org/licenses/gpl.txt>.
 # Also avalable in /usr/share/common-licenses/GPL on Debian systems
 # or /usr/share/licenses/common/GPL3/license.txt on ArchLinux
+
+from scal3 import logger
+log = logger.get()
+
 from os.path import join
 from math import pi
 from math import sin, cos
 import re
+
+from typing import Optional, Tuple
 
 from scal3.path import *
 from scal3.utils import toBytes
@@ -28,9 +34,12 @@ from scal3 import core
 from scal3.locale_man import cutText, rtl
 from scal3 import ui
 
+from scal3.color_utils import rgbToInt
+
 from scal3.ui_gtk import *
 from scal3.ui_gtk.font_utils import *
 from scal3.ui_gtk.color_utils import *
+from scal3.ui_gtk.svg_utils import pixbufFromSvgFile
 
 from gi.repository import cairo
 from gi.repository.PangoCairo import show_layout
@@ -38,7 +47,8 @@ from gi.repository.PangoCairo import show_layout
 if not ui.fontCustom:
 	ui.fontCustom = ui.fontDefault[:]
 
-colorCheckSvgTextChecked = open(join(rootDir, "svg", "color-check.svg")).read()
+with open(join(rootDir, "svg", "color-check.svg")) as fp:
+	colorCheckSvgTextChecked = fp.read()
 colorCheckSvgTextUnchecked = re.sub(
 	"<path[^<>]*?id=\"check\"[^<>]*?/>",
 	"",
@@ -63,7 +73,7 @@ def setColor(cr, color):
 			color[3] / 255.0,
 		)
 	else:
-		raise ValueError("bad color %s" % color)
+		raise ValueError(f"bad color {color}")
 
 
 def fillColor(cr, color):
@@ -89,7 +99,7 @@ def newTextLayout(
 		font = ui.getFont()
 	layout.set_font_description(pfontEncode(font))
 	if text:
-		layout.set_markup(text)
+		layout.set_markup(text=text, length=len(text.encode("utf8")))
 		if maxSize:
 			layoutW, layoutH = layout.get_pixel_size()
 			##
@@ -147,10 +157,11 @@ def newLimitedWidthTextLayout(
 	if not font:
 		font = ui.getFont()
 	layout = widget.create_pango_layout("")
+	length = len(text.encode("utf8")
 	if markup:
-		layout.set_markup(text)
+		layout.set_markup(text=text, length=length)
 	else:
-		layout.set_text(text)
+		layout.set_text(text=text, length=length)
 	layout.set_font_description(pfontEncode(font))
 	if not layout:
 		return None
@@ -174,51 +185,80 @@ def newLimitedWidthTextLayout(
 				font2[3] = 0.9*font2[3]*width/layoutW
 				layout.set_font_description(pfontEncode(font2))
 				layoutW, layoutH = layout.get_pixel_size()
-				#print(layoutW, width)
+				# log.debug(layoutW, width)
 			#print
 	return layout
 """
 
 
+def calcTextPixelSize(
+	widget: gtk.Widget,
+	text: str,
+	font: Optional[Tuple[str, bool, bool, float]] = None,
+) -> Tuple[float, float]:
+	layout = widget.create_pango_layout(text)  # a Pango.Layout object
+	if font is not None:
+		layout.set_font_description(pfontEncode(list(font)))
+	width, height = layout.get_pixel_size()
+	return width, height
+
+
+def calcTextPixelWidth(
+	widget: gtk.Widget,
+	text: str,
+	font = None,
+) -> float:
+	width, height = calcTextPixelSize(widget, text, font=font)
+	return width
+
+
 def newColorCheckPixbuf(color, size, checked):
-	loader = GdkPixbuf.PixbufLoader.new_with_type("svg")
 	if checked:
 		data = colorCheckSvgTextChecked
 	else:
 		data = colorCheckSvgTextUnchecked
 	data = data.replace(
-		"fill:#000000;",
-		"fill:%s;" % rgbToHtmlColor(*color[:3]),
+		f"fill:#000000;",
+		f"fill:{rgbToHtmlColor(color[:3])};",
 	)
 	data = toBytes(data)
-	loader.write(data)
-	loader.close()
+	loader = GdkPixbuf.PixbufLoader.new_with_type("svg")
+	try:
+		loader.write(data)
+	finally:
+		loader.close()
 	pixbuf = loader.get_pixbuf()
 	return pixbuf
 
 
 def newDndDatePixbuf(ymd):
 	imagePath = join(rootDir, "svg", "dnd-date.svg")
-	loader = GdkPixbuf.PixbufLoader.new_with_type("svg")
-	data = open(imagePath).read()
-	data = data.replace("YYYY", "%.4d" % ymd[0])
-	data = data.replace("MM", "%.2d" % ymd[1])
-	data = data.replace("DD", "%.2d" % ymd[2])
+	with open(imagePath) as fp:
+		data = fp.read()
+	data = data.replace("YYYY", f"{ymd[0]:04d}")
+	data = data.replace("MM", f"{ymd[1]:02d}")
+	data = data.replace("DD", f"{ymd[2]:02d}")
 	data = toBytes(data)
-	loader.write(data)
-	loader.close()
+	loader = GdkPixbuf.PixbufLoader.new_with_type("svg")
+	try:
+		loader.write(data)
+	finally:
+		loader.close()
 	pixbuf = loader.get_pixbuf()
 	return pixbuf
 
 
 def newDndFontNamePixbuf(name):
 	imagePath = join(rootDir, "svg", "dnd-font.svg")
-	loader = GdkPixbuf.PixbufLoader.new_with_type("svg")
-	data = open(imagePath).read()
+	with open(imagePath) as fp:
+		data = fp.read()
 	data = data.replace("FONTNAME", name)
 	data = toBytes(data)
-	loader.write(data)
-	loader.close()
+	loader = GdkPixbuf.PixbufLoader.new_with_type("svg")
+	try:
+		loader.write(data)
+	finally:
+		loader.close()
 	pixbuf = loader.get_pixbuf()
 	return pixbuf
 
@@ -284,17 +324,12 @@ def drawRoundedRect(cr, cx0, cy0, cw, ch, ro):
 	cr.close_path()
 
 
-def drawCursorBg(cr, cx0, cy0, cw, ch):
-	cursorRadius = ui.cursorRoundingFactor * min(cw, ch) * 0.5
-	drawRoundedRect(cr, cx0, cy0, cw, ch, cursorRadius)
-
-
 def drawOutlineRoundedRect(cr, cx0, cy0, cw, ch, ro, d):
 	ro = min(ro, cw / 2.0, ch / 2.0)
 	#a = min(cw, ch); ri = ro*(a-2*d)/a
 	ri = max(0, ro - d)
-	#print(ro, ri)
-	######### Outline:
+	# log.debug(ro, ri)
+	# ####### Outline:
 	cr.move_to(
 		cx0 + ro,
 		cy0,
@@ -347,7 +382,7 @@ def drawOutlineRoundedRect(cr, cx0, cy0, cw, ch, ro, d):
 		pi,
 		3 * pi / 2,
 	)
-	#### Inline:
+	# ## Inline:
 	if ri == 0:
 		cr.move_to(
 			cx0 + d,
@@ -371,8 +406,8 @@ def drawOutlineRoundedRect(cr, cx0, cy0, cw, ch, ro, d):
 		)
 	else:
 		cr.move_to(  # or line_to
-			cx0 + ro,
 			cy0 + d,
+			cx0 + ro,
 		)
 		# up left corner:
 		cr.arc_negative(
@@ -423,12 +458,6 @@ def drawOutlineRoundedRect(cr, cx0, cy0, cw, ch, ro, d):
 			cy0 + d,
 		)
 	cr.close_path()
-
-
-def drawCursorOutline(cr, cx0, cy0, cw, ch):
-	cursorRadius = ui.cursorRoundingFactor * min(cw, ch) * 0.5
-	cursorDia = ui.cursorDiaFactor * min(cw, ch) * 0.5
-	drawOutlineRoundedRect(cr, cx0, cy0, cw, ch, cursorRadius, cursorDia)
 
 
 def drawCircle(cr, cx, cy, r):
@@ -498,45 +527,140 @@ def drawArcOutline(cr, xc, yc, r, d, a0, a1):
 	cr.close_path()
 
 
-class Button:
-	def __init__(self, imageName, func, x, y, autoDir=True):
-		self.imageName = imageName
-		if imageName.startswith("gtk-"):
-			self.pixbuf = GdkPixbuf.Pixbuf.new_from_stock(imageName)
+class Button(object):
+	def __init__(
+		self,
+		imageName,
+		onPress,
+		x,
+		y,
+		autoDir=True,
+		iconName="",
+		iconSize=0,
+		xalign="left",
+		yalign="top",
+		opacity=1.0,  # earase the background drawing, only preserving bgColor
+		onRelease=None,
+	):
+		if x < 0 and xalign != "center":
+			raise ValueError(f"invalid x={x}, xalign={xalign}")
+		if y < 0 and yalign != "center":
+			raise ValueError(f"invalid y={y}, yalign={yalign}")
+		if xalign not in ("left", "right", "center"):
+			raise ValueError(f"invalid xalign={xalign}")
+		if yalign not in ("top", "buttom", "center"):
+			raise ValueError(f"invalid yalign={yalign}")
+
+		shouldResize = True
+
+		if iconName:
+			self.imageName = iconName
+			if iconSize == 0:
+				iconSize = 16
+			# GdkPixbuf.Pixbuf.new_from_stock is removed
+			# gtk.Widget.render_icon_pixbuf: Deprecated since version 3.10:
+			# 		Use Gtk.IconTheme.load_icon()
+			pixbuf = gtk.IconTheme.get_default().load_icon(
+				iconName,
+				iconSize,
+				0, # Gtk.IconLookupFlags
+			)
 		else:
-			self.pixbuf = GdkPixbuf.Pixbuf.new_from_file(join(pixDir, imageName))
-		self.func = func
-		self.width = self.pixbuf.get_width()
-		self.height = self.pixbuf.get_height()
+			self.imageName = imageName
+			if imageName.endswith(".svg"):
+				if iconSize == 0:
+					iconSize = 16
+				shouldResize = False
+				pixbuf = pixbufFromSvgFile(imageName, iconSize)
+			else:
+				pixbuf = GdkPixbuf.Pixbuf.new_from_file(join(pixDir, imageName))
+
+		if shouldResize and iconSize != 0:  # need to resize
+			pixbuf = pixbuf.scale_simple(
+				iconSize,
+				iconSize,
+				GdkPixbuf.InterpType.BILINEAR,
+			)
+
+		# the actual/final width and height of pixbuf/button
+		width, height = pixbuf.get_width(), pixbuf.get_height()
+		# width, height = iconSize, iconSize
+
+		self.pixbuf = pixbuf
+		self.width = width
+		self.height = height
+		self.onPress = onPress
+		self.onRelease = onRelease
 		self.x = x
 		self.y = y
+		self.xalign = xalign
+		self.yalign = yalign
 		self.autoDir = autoDir
+		self.opacity = opacity
+
+	def getPixbuf(self, bgColor: Optional[Tuple[int, int, int]]):
+		if self.opacity == 1.0:
+			return self.pixbuf
+		# now we have transparency
+		if bgColor is None:
+			log.info(f"Button.getPixbuf: opacity={opacity}, but no bgColor")
+			return self.pixbuf
+
+		r, g, b = bgColor[:3]
+		bgColorInt = rgbToInt(r, g, b)
+		return self.pixbuf.composite_color_simple(
+			self.width, self.height,  # dest_width, dest_height
+			GdkPixbuf.InterpType.BILINEAR,  # interp_type
+			round(self.opacity * 255),  # overall_alpha: int: 0..255
+			8,
+			bgColorInt,
+			bgColorInt,
+		)
+
+	def draw(self, cr, w, h, bgColor=None):
+		x, y = self.getAbsPos(w, h)
+		gdk.cairo_set_source_pixbuf(
+			cr,
+			self.getPixbuf(bgColor),
+			x,
+			y,
+		)
+		cr.rectangle(x, y, self.width, self.height)
+		cr.fill()
 
 	def __repr__(self):
-		return "Button(%r, %r, %r, %r, %r)" % (
-			self.imageName,
-			self.func.__name__,
-			self.x,
-			self.y,
-			self.autoDir,
+		return (
+			f"Button({self.imageName!r}, {self.onPress.__name__!r}, " +
+			f"{self.x!r}, {self.y!r}, {self.autoDir!r})"
 		)
+
+	def opposite(self, align):
+		if align == "left":
+			return "right"
+		if align == "right":
+			return "left"
+		if align == "top":
+			return "buttom"
+		if align == "buttom":
+			return "top"
+		return align
 
 	def getAbsPos(self, w, h):
 		x = self.x
 		y = self.y
+		xalign = self.xalign
+		yalign = self.yalign
 		if self.autoDir and rtl:
-			x = -x
-		if x < 0:
-			x = w - self.width + x
-		if y < 0:
-			y = h - self.height + y
+			xalign = self.opposite(xalign)
+		if xalign == "right":
+			x = w - self.width - x
+		elif xalign == "center":
+			x = (w - self.width) / 2.0 + x
+		if yalign == "buttom":
+			y = h - self.height - y
+		elif yalign == "center":
+			y = (h - self.height) / 2.0 + y
 		return (x, y)
-
-	def draw(self, cr, w, h):
-		x, y = self.getAbsPos(w, h)
-		gdk.cairo_set_source_pixbuf(cr, self.pixbuf, x, y)
-		cr.rectangle(x, y, self.width, self.height)
-		cr.fill()
 
 	def contains(self, px, py, w, h):
 		x, y = self.getAbsPos(w, h)

@@ -18,6 +18,8 @@
 # Also avalable in /usr/share/common-licenses/GPL on Debian systems
 # or /usr/share/licenses/common/GPL3/license.txt on ArchLinux
 
+# no logging in this file
+
 import os
 from os.path import dirname, join, abspath
 
@@ -39,10 +41,10 @@ elif os.sep == "/":
 elif os.sep == "\\":
 	if srcDir.startswith(".\\"):
 		srcDir = cwd + srcDir[1:]
-#print("srcDir=%r"%srcDir)
 
 rootDir = abspath(dirname(srcDir))
 pixDir = join(rootDir, "pixmaps")
+svgDir = join(rootDir, "svg")
 plugDir = join(rootDir, "plugins")
 
 if osName in ("linux", "unix"):
@@ -71,7 +73,7 @@ else:
 deskDir = join(homeDir, "Desktop")  # in all operating systems? FIXME
 
 userPlugConf = join(confDir, "plugin.conf")
-modDir = "%s/cal_types" % srcDir
+modDir = f"{srcDir}/cal_types"
 plugDirUser = join(confDir, "plugins")
 objectDir = join(confDir, "objects")
 

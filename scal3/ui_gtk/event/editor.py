@@ -31,13 +31,13 @@ class EventEditorDialog(gtk.Dialog):
 		###
 		dialog_add_button(
 			self,
-			gtk.STOCK_CANCEL,
+			"gtk-cancel",
 			_("_Cancel"),
 			gtk.ResponseType.CANCEL,
 		)
 		dialog_add_button(
 			self,
-			gtk.STOCK_OK,
+			"gtk-ok",
 			_("_OK"),
 			gtk.ResponseType.OK,
 		)
@@ -57,15 +57,15 @@ class EventEditorDialog(gtk.Dialog):
 		if isNew and not event.timeZone:
 			event.timeZone = str(core.localTz)## why? FIXME
 		#######
-		hbox = gtk.HBox()
+		hbox = HBox()
 		pack(hbox, gtk.Label(
 			_("Group") + ": " + self._group.title
 		))
 		hbox.show_all()
 		pack(self.vbox, hbox)
 		#######
-		hbox = gtk.HBox()
-		pack(hbox, gtk.Label(_("Event Type")))
+		hbox = HBox()
+		pack(hbox, gtk.Label(label=_("Event Type")))
 		if typeChangable:
 			combo = gtk.ComboBoxText()
 			for tmpEventType in self.eventTypeOptions:
@@ -78,8 +78,8 @@ class EventEditorDialog(gtk.Dialog):
 			combo.connect("changed", self.typeChanged)
 			self.comboEventType = combo
 		else:
-			pack(hbox, gtk.Label(":  " + event.desc))
-		pack(hbox, gtk.Label(""), 1, 1)
+			pack(hbox, gtk.Label(label=":  " + event.desc))
+		pack(hbox, gtk.Label(), 1, 1)
 		hbox.show_all()
 		pack(self.vbox, hbox)
 		#####
@@ -97,7 +97,7 @@ class EventEditorDialog(gtk.Dialog):
 			self.activeWidget.destroy()
 		eventType = self.eventTypeOptions[combo.get_active()]
 		if self.isNew:
-			self.event = self._group.createEvent(eventType)
+			self.event = self._group.create(eventType)
 		else:
 			self.event = self._group.copyEventWithType(self.event, eventType)
 		self._group.updateCache(self.event)## needed? FIXME
@@ -105,7 +105,7 @@ class EventEditorDialog(gtk.Dialog):
 		if self.isNew:
 			self.activeWidget.focusSummary()
 		pack(self.vbox, self.activeWidget, 1, 1)
-		#self.activeWidget.modeComboChanged()## apearantly not needed
+		#self.activeWidget.calTypeComboChanged()## apearantly not needed
 
 	def run(self):
 		#if not self.activeWidget:
@@ -130,19 +130,18 @@ class EventEditorDialog(gtk.Dialog):
 				self.event.parent.endJd,
 			)
 			if not occur:
-				showInfo(
-					_(
-						"This event is outside of date range specified in "
-						"it\'s group. You probably need to edit group "
-						"\"%s\" and change \"Start\" or \"End\" values"
-					) % self.event.parent.title
-				)
+				msg = _(
+					"This event is outside of date range specified in "
+					"it\'s group. You probably need to edit group "
+					"\"{groupTitle}\" and change \"Start\" or \"End\" values"
+				).format(groupTitle=self.event.parent.title)
+				showInfo(msg)
 		#####
 		return self.event
 
 
 def addNewEvent(group, eventType, typeChangable=False, **kwargs):
-	event = group.createEvent(eventType)
+	event = group.create(eventType)
 	if eventType == "custom":  # FIXME
 		typeChangable = True
 	event = EventEditorDialog(

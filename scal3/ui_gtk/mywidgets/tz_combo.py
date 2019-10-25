@@ -10,10 +10,10 @@ from scal3 import ui
 from scal3.ui_gtk import *
 
 
-class TimeZoneComboBoxEntry(gtk.HBox):
+class TimeZoneComboBoxEntry(gtk.Box):
 	def __init__(self):
 		from natz.tree import getZoneInfoTree
-		gtk.HBox.__init__(self)
+		gtk.Box.__init__(self, orientation=gtk.Orientation.HORIZONTAL)
 		model = gtk.TreeStore(str, bool)
 		self.c = gtk.ComboBoxText.new_with_entry()
 		pack(self, self.c, 1, 1)

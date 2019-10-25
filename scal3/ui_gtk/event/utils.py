@@ -8,19 +8,22 @@ from scal3.ui_gtk import *
 from scal3.ui_gtk.utils import (
 	confirm,
 	showError,
-	labelStockMenuItem,
+	labelIconMenuItem,
 	labelImageMenuItem,
 )
 from scal3.ui_gtk.drawing import newColorCheckPixbuf
 
 
-def confirmEventTrash(event, parent=None):
+def confirmEventTrash(event, **kwargs):
 	return confirm(
-		_("Press OK if you want to move event \"%s\" to %s") % (
-			event.summary,
-			ui.eventTrash.title,
+		_(
+			"Press OK if you want to move event \"{eventSummary}\""
+			" to {trashTitle}"
+		).format(
+			eventSummary=event.summary,
+			trashTitle=ui.eventTrash.title,
 		),
-		parent=parent,
+		**kwargs
 	)
 
 
@@ -38,14 +41,16 @@ def checkEventsReadOnly(doException=True):
 
 
 def eventWriteMenuItem(*args, **kwargs):
-	item = labelStockMenuItem(*args, **kwargs)
+	item = labelIconMenuItem(*args, **kwargs)
 	item.set_sensitive(not event_lib.allReadOnly)
 	return item
+
 
 def eventWriteImageMenuItem(*args, **kwargs):
 	item = labelImageMenuItem(*args, **kwargs)
 	item.set_sensitive(not event_lib.allReadOnly)
 	return item
+
 
 def menuItemFromEventGroup(group):
 	item = ImageMenuItem()

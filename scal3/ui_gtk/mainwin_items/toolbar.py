@@ -14,52 +14,52 @@ class CalObj(CustomizableToolbar):
 	defaultItems = [
 		ToolbarItem(
 			"today",
-			"home",
+			"gtk-home",
 			"goToday",
 			"Select Today",
 			"Today",
 		),
 		ToolbarItem(
 			"date",
-			"index",
+			"gtk-index",
 			"selectDateShow",
 			"Select Date...",
 			"Date",
 		),
 		ToolbarItem(
 			"customize",
-			"edit",
+			"gtk-edit",
 			"customizeShow",
 		),
 		ToolbarItem(
 			"preferences",
-			"preferences",
+			"gtk-preferences",
 			"prefShow",
 		),
 		ToolbarItem(
 			"add",
-			"add",
+			"gtk-add",
 			"eventManShow",
 			"Event Manager",
 			"Event",
 		),
 		ToolbarItem(
 			"export",
-			"convert",
-			"exportClicked",
-			_("Export to %s") % "HTML",
+			"gtk-convert",
+			"onExportClick",
+			_("Export to {format}").format(format="HTML"),
 			"Export",
 		),
 		ToolbarItem(
 			"about",
-			"about",
+			"gtk-about",
 			"aboutShow",
 			_("About ") + core.APP_DESC,
 			"About",
 		),
 		ToolbarItem(
 			"quit",
-			"quit",
+			"gtk-quit",
 			"quit",
 		),
 	]
@@ -69,7 +69,12 @@ class CalObj(CustomizableToolbar):
 	}
 
 	def __init__(self):
-		CustomizableToolbar.__init__(self, ui.mainWin, vertical=False)
+		CustomizableToolbar.__init__(
+			self,
+			ui.mainWin,
+			vertical=False,
+			continuousClick=False,
+		)
 		if not ud.mainToolbarData["items"]:
 			ud.mainToolbarData["items"] = [
 				(item._name, True) for item in self.defaultItems

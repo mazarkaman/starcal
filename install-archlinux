@@ -29,8 +29,8 @@ tmpDir="$HOME/.${pkgName}/tmp/install-arch"
 mkdir -p $tmpDir
 cd $tmpDir
 
-depends=('python>=3.5')
-depends+=('python-gobject') ## The new gobject introspection
+depends=('python>=3.6')
+depends+=('python-gobject>=3.22') ## The new gobject introspection
 depends+=('python-cairo')
 depends+=('python-httplib2')
 depends+=('python-dateutil')
@@ -45,6 +45,7 @@ optdepends+=('python-igraph' 'igraph' 'icu')
 optdepends+=('python-ujson')
 #optdepends+=('python-gnomevfs')
 optdepends+=('lxqt-openssh-askpass')
+optdepends+=('python-pygit2')
 
 ## Note: optdepends are not installed by default
 

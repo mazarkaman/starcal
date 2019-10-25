@@ -18,20 +18,25 @@
 # Also avalable in /usr/share/common-licenses/GPL on Debian systems
 # or /usr/share/licenses/common/GPL3/license.txt on ArchLinux
 
-## The low-level module for gtk ui dependent stuff (classes/functions/settings)
-## ud = ui dependent
-## upper the "ui" module
+# The low-level module for gtk ui dependent stuff (classes/functions/settings)
+# ud = ui dependent
+# upper the "ui" module
+
+from scal3 import logger
+log = logger.get()
 
 import time
 from os.path import join
 
+from typing import Callable
+
 from scal3.path import *
-from scal3.utils import myRaise
 from scal3.json_utils import *
 from scal3.locale_man import rtl
 from scal3 import core
 from scal3 import ui
 from scal3.format_time import compileTmFormat
+from scal3.locale_man import tr as _
 
 from gi.overrides.GObject import Object
 
@@ -63,9 +68,12 @@ def saveConf():
 
 ############################################################
 
+class CalObjType(Object):
+	pass
+
 
 @registerSignals
-class BaseCalObj(Object):
+class BaseCalObj(CalObjType):
 	_name = ""
 	desc = ""
 	loaded = True
@@ -73,25 +81,49 @@ class BaseCalObj(Object):
 	signals = [
 		("config-change", []),
 		("date-change", []),
+		("goto-page", [str]),
 	]
 
 	def initVars(self):
 		self.items = []
 		self.enable = True
 
-	def onConfigChange(self, sender=None, emit=True):
-		if emit:
+	def onConfigChange(self, sender=None, toParent=True):
+		if sender is self:
+			return
+		if sender is None:
+			sender = self
+		log.debug(
+			f"onConfigChange: name={self._name}, toParent={toParent}, " +
+			f"sender={sender._name if sender else sender}"
+		)
+		if toParent:
 			self.emit("config-change")
 		for item in self.items:
 			if item.enable and item is not sender:
-				item.onConfigChange(emit=False)
+				item.onConfigChange(sender=sender, toParent=False)
 
-	def onDateChange(self, sender=None, emit=True):
-		if emit:
+	def onDateChange(self, sender=None, toParent=True):
+		if sender is self:
+			return
+		if sender is None:
+			sender = self
+		log.debug(
+			f"onDateChange: name={self._name}, toParent={toParent}, " +
+			f"sender={sender._name if sender else sender}"
+		)
+		if toParent:
 			self.emit("date-change")
 		for item in self.items:
 			if item.enable and item is not sender:
-				item.onDateChange(emit=False)
+				item.onDateChange(sender=sender, toParent=False)
+
+	def onEnableCheckClick(self):
+		enable = getattr(ui, self.enableParam)
+		self.enable = enable
+		self.onConfigChange()
+		self.showHide()
+
 
 	def __getitem__(self, key):
 		for item in self.items:
@@ -141,6 +173,18 @@ class IntegatedWindowList(BaseCalObj):
 	def __init__(self):
 		Object.__init__(self)
 		self.initVars()
+		###
+		self.styleProvider = gtk.CssProvider()
+		gtk.StyleContext.add_provider_for_screen(
+			gdk.Screen.get_default(),
+			self.styleProvider,
+			gtk.STYLE_PROVIDER_PRIORITY_APPLICATION,
+		)
+		###
+		self.cssFuncList = []  # type: List[Callable[[], str]]
+
+	def addCSSFunc(self, func: Callable[[], str]) -> None:
+		self.cssFuncList.append(func)
 
 	def onConfigChange(self, *a, **ka):
 		ui.cellCache.clear()
@@ -149,8 +193,42 @@ class IntegatedWindowList(BaseCalObj):
 			pfontEncode(ui.getFont()).to_string(),
 		)
 		####
+		self.updateCSS()
+		####
 		BaseCalObj.onConfigChange(self, *a, **ka)
 		self.onDateChange()
+
+	# override_color and override_font are deprecated since version 3.16
+	# override_color:
+	#	doc says: Use a custom style provider and style classes instead
+	# override_font:
+	#	This function is not useful in the context of CSS-based rendering
+	# If you wish to change the font a widget uses to render its text you
+	# should use a custom CSS style, through an application-specific
+	# Gtk.StyleProvider and a CSS style class.
+
+	def updateCSS(self):
+		from scal3.ui_gtk.utils import cssTextStyle
+		from scal3.ui_gtk.color_utils import gdkColorToRgb
+		font = ui.getFont()
+		fgColor = gdkColorToRgb(
+			ui.mainWin.get_style_context().
+			get_color(gtk.StateFlags.NORMAL)
+		)
+		log.debug(f"fgColor={fgColor}")
+		css = "progressbar text " + cssTextStyle(
+			font=font,
+			fgColor=fgColor,
+		) + "\n"
+
+		for func in self.cssFuncList:
+			cssPart = func()
+			if not cssPart:
+				continue
+			css += cssPart + "\n"
+
+		log.info(css + "\n_______________________")
+		self.styleProvider.load_from_data(css.encode("utf-8"))
 
 
 def getGtkDefaultFont():
@@ -159,18 +237,34 @@ def getGtkDefaultFont():
 	font[3] = max(5, font[3])
 	return font
 
+
 ####################################################
 
 windowList = IntegatedWindowList()
+
+# decorator for global functions or static methods
+def cssFunc(func: Callable) -> Callable:
+	global windowList
+	windowList.addCSSFunc(func)
+	return func
 
 ###########
 
 if rtl:
 	gtk.Widget.set_default_direction(gtk.TextDirection.RTL)
 
-gtk.Window.set_default_icon_from_file(ui.logo)
+gtk.Window.set_default_icon_from_file(ui.appIcon)
+
+display = gdk.Display.get_default()
 
 settings = gtk.Settings.get_default()
+
+if settings is None:
+	# if gdk.Screen.get_default() is None:
+	#	raise RuntimeError("There is not default screen")
+	# raise RuntimeError("settings == None")
+	settings = gtk.Settings.get_for_screen(gdk.Screen())
+
 
 # ui.timeout_initial = settings.get_property("gtk-timeout-initial") # == 200
 # ui.timeout_repeat = settings.get_property("gtk-timeout-repeat") # == 20
@@ -188,14 +282,41 @@ textDirDict = {
 }
 
 iconSizeList = [
-	("Menu", gtk.IconSize.MENU),
-	("Small Toolbar", gtk.IconSize.SMALL_TOOLBAR),
-	("Button", gtk.IconSize.BUTTON),
-	("Large Toolbar", gtk.IconSize.LARGE_TOOLBAR),
-	("DND", gtk.IconSize.DND),
-	("Dialog", gtk.IconSize.DIALOG),
+	("Menu", gtk.IconSize.MENU),                    # 16x16
+	("Small Toolbar", gtk.IconSize.SMALL_TOOLBAR),  # 16x16
+	("Button", gtk.IconSize.BUTTON),                # 16x16
+	("Large Toolbar", gtk.IconSize.LARGE_TOOLBAR),  # 24x24
+	("DND", gtk.IconSize.DND),                      # 32x32
+	("Dialog", gtk.IconSize.DIALOG),                # 48x48
 ] ## in size order
 iconSizeDict = dict(iconSizeList)
+iconSizeNames = [x[0] for x in iconSizeList]
+
+###############
+
+justificationList = [
+	(
+		"left",
+		_("Right" if rtl else "Left"),
+		gtk.Justification.LEFT,
+	),
+	(
+		"right",
+		_("Left" if rtl else "Right"),
+		gtk.Justification.RIGHT,
+	),
+	("center", _("Center"), gtk.Justification.CENTER),
+	("fill", _("Fill"), gtk.Justification.FILL),
+]
+justificationByName = {
+	name: value
+	for name, desc, value in justificationList
+}
+
+###############
+
+# stackIconSizeGtk: the size of icons in MyStack builtin buttons
+stackIconSizeGtk = gtk.IconSize.BUTTON  # type: gtk.IconSize
 
 ##############################
 
@@ -242,13 +363,14 @@ def setDefault_adjustTimeCmd():
 				adjustTimeEnv["SUDO_ASKPASS"] = askpass
 				return
 	for cmd in ("gksudo", "kdesudo", "gksu", "gnomesu", "kdesu"):
-		if isfile("/usr/bin/%s" % cmd):
+		if isfile(f"/usr/bin/{cmd}"):
 			adjustTimeCmd = [
 				cmd,
 				join(rootDir, "scripts", "run"),
 				"scal3/ui_gtk/adjust_dtime.py"
 			]
 			return
+
 
 # user should be able to configure this in Preferences
 adjustTimeCmd = ""
@@ -267,6 +389,7 @@ mainToolbarData = {
 wcalToolbarData = {
 	"items": [
 		("mainMenu", True),
+		("weekNum", False),
 		("backward4", False),
 		("backward", True),
 		("today", True),
@@ -280,15 +403,18 @@ wcalToolbarData = {
 
 ###########################################################
 
-try:
-	wcalToolbarData = ui.ud__wcalToolbarData ## loaded from jsom
-except AttributeError:
-	pass
+# loaded from jsom
+tmpValue = getattr(ui, "ud__wcalToolbarData", None)
+if tmpValue is not None:
+	wcalToolbarData = tmpValue
+del tmpValue
 
-try:
-	mainToolbarData = ui.ud__mainToolbarData ## loaded from jsom
-except AttributeError:
-	pass
+
+# loaded from jsom
+tmpValue = getattr(ui, "ud__mainToolbarData", None)
+if tmpValue is not None:
+	mainToolbarData = tmpValue
+del tmpValue
 
 
 loadConf()

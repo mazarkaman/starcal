@@ -52,18 +52,19 @@ def makeDir(direc):
 
 def getUsersData():
 	data = []
-	for line in open("/etc/passwd").readlines():
-		parts = line.strip().split(":")
-		if len(parts) < 7:
-			continue
-		data.append({
-			"login": parts[0],
-			"uid": parts[2],
-			"gid": parts[3],
-			"real_name": parts[4],
-			"home_dir": parts[5],
-			"shell": parts[6],
-		})
+	with open("/etc/passwd") as fp:
+		for line in fp.readlines():
+			parts = line.strip().split(":")
+			if len(parts) < 7:
+				continue
+			data.append({
+				"login": parts[0],
+				"uid": parts[2],
+				"gid": parts[3],
+				"real_name": parts[4],
+				"home_dir": parts[5],
+				"shell": parts[6],
+			})
 	return data
 
 
@@ -141,7 +142,7 @@ def goodkill(pid, interval=1, hung=20):
 		if i < hung:
 			i += 1
 		else:
-			raise OSError("Process %s is hung. Giving up kill." % pid)
+			raise OSError(f"Process {pid} is hung. Giving up kill.")
 		if kill(pid, SIGKILL):
 			return
 		if dead(pid):

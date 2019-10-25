@@ -15,5 +15,6 @@ pip3 install requests
 
 pip3 install igraph
 pip3 install ujson
+pip3 install pygit2
 
 ./install "$@"
