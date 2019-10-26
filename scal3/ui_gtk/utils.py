@@ -26,7 +26,7 @@ import os
 from os.path import join, isabs
 from subprocess import Popen
 
-from typing import Optional, Tuple
+from typing import Optional, Tuple, Union
 
 from scal3.utils import toBytes, toStr
 from scal3.json_utils import *
@@ -115,7 +115,11 @@ def imageFromFile(path, size=0):
 	return im
 
 
-def pixbufFromFile(path, size=0, resize=False):
+def pixbufFromFile(
+	path: str,
+	size: Union[int, float] = 0,
+	resize: bool = False,
+) -> GdkPixbuf.Pixbuf:
 	# the file may not exist
 	if not path:
 		return None
