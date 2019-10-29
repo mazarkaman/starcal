@@ -39,6 +39,7 @@ from scal3.ui_gtk.utils import (
 	get_menu_height,
 	dialog_add_button,
 	openWindow,
+	labelIconMenuItem,
 )
 
 from scal3.ui_gtk.day_cal import DayCal
@@ -229,6 +230,11 @@ class DayCalWindowWidget(DayCal):
 				from scal3.ui_gtk.windows import setupMenuHideOnLeave
 				setupMenuHideOnLeave(menu)
 			items = ui.mainWin.getStatusIconPopupItems()
+			items.insert(5, labelIconMenuItem(
+				_("Customize This Window"),
+				"gtk-edit",
+				self.openCustomize,
+			))
 			if reverse:
 				items.reverse()
 			for item in items:
