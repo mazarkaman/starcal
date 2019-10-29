@@ -4398,7 +4398,7 @@ class YearlyGroup(EventGroup):
 @classes.group.register
 class UniversityTerm(EventGroup):
 	name = "universityTerm"
-	desc = _("University Term")
+	desc = _("University Term (Semester)")
 	acceptsEventTypes = (
 		"universityClass",
 		"universityExam",

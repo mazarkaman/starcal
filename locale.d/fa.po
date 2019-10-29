@@ -1452,7 +1452,7 @@ msgstr ""
 "حرف بزرگ"
 
 
-msgid "University Term"
+msgid "University Term (Semester)"
 msgstr ""
 "ترم دانشگاه"
 
