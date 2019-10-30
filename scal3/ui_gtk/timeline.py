@@ -840,7 +840,7 @@ class TimeLine(gtk.DrawingArea, ud.BaseCalObj):
 			self.timeStart += (
 				direction
 				* (
-					tl.movingStaticStepMouse if mouse
+					tl.movingStaticStepMouse if source == "mouse"
 					else tl.movingStaticStepKeyboard
 				)
 				* self.timeWidth
