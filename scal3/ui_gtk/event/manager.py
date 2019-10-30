@@ -137,6 +137,7 @@ class EventManagerDialog(gtk.Dialog, MyDialog, ud.BaseCalObj):## FIXME
 				if gid in self.loadedGroupIds:
 					if not (isinstance(path, list) and len(path) == 2):
 						raise RuntimeError(f"invalid path = {path!r}")
+					# FIXME: what if len(path) == 1
 					parentIndex, eventIndex = path
 					# log.debug(gid, self.loadedGroupIds, parentIndex)
 					parentIter = self.trees.get_iter((parentIndex,))
