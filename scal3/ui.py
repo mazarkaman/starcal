@@ -105,6 +105,7 @@ confParamsLive = (
 	"winX",
 	"winY",
 	"winWidth",
+	"winHeight",
 	"winKeepAbove",
 	"winSticky",
 	"winMaximized",
@@ -115,7 +116,6 @@ confParamsLive = (
 	"localTzHist",
 	"wcal_toolbar_weekNum_negative",
 	"mainWinRightPanelRatio",
-	"winHeight",
 )
 
 confParamsCustomize = (
