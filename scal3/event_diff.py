@@ -27,6 +27,7 @@ class EventDiff:
 		eid = event.id
 		gid = event.parent.id
 		path = event.getPath()
+		log.info(f"eventDiff: add: eid={eid}, gid={gid}, path={path}")
 
 		if eid not in self.byEventId:
 			self.byEventId[eid] = (self.lastOrder, action, gid, path)
