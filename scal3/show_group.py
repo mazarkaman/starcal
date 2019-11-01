@@ -14,9 +14,9 @@ from scal3.path import confDir
 
 if __name__ == "__main__":
 	fs = event_lib.DefaultFileSystem(confDir)
-	eventId = int(sys.argv[1])
-	with fs.open(event_lib.Event.getFile(eventId)) as eventFile:
-		eventJsonData = json.load(eventFile)
+	_id = int(sys.argv[1])
+	with fs.open(event_lib.EventGroup.getFile(_id)) as fp:
+		eventJsonData = json.load(fp)
 
 	lastHash = eventJsonData["history"][0][1]
 	data = loadBsonObject(lastHash, fs)

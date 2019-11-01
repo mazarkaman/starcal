@@ -1,10 +1,5 @@
 #!/usr/bin/env python3
 
-# no logging in this file
-
-from scal3 import logger
-log = logger.get()
-
 import sys
 import json
 from pprint import pprint
@@ -27,5 +22,5 @@ if __name__ == "__main__":
 	for arg in sys.argv[1:]:
 		data = loadBsonObject(arg, fs)
 		#plog.info(data, indent=4, width=80)
-		log.info(dataToPrettyJson(data))
-		log.info("-------------------")
+		print(dataToPrettyJson(data))
+		print("-------------------")
