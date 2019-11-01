@@ -1044,7 +1044,7 @@ class EventManagerDialog(gtk.Dialog, MyDialog, ud.BaseCalObj):## FIXME
 					group, event = self.getObjsByPath(path)
 					text = _("Event ID: {eventId}").format(eventId=_(event.id))
 					modified = event.modified
-					log.info("event, id = {event.id}, uuid = {event.uuid}")
+					log.info(f"event, id = {event.id}, uuid = {event.uuid}")
 				comma = _(",")
 				modifiedLabel = _("Last Modified")
 				modifiedTime = locale_man.textNumEncode(
