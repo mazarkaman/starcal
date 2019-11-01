@@ -6,7 +6,7 @@ log = logger.get()
 import sys
 import os
 import os.path
-from os.path import isfile, join
+from os.path import join
 from time import time as now
 from collections import OrderedDict
 from hashlib import sha1
