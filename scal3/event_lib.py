@@ -4083,7 +4083,10 @@ class EventGroup(EventContainer):
 			self.eventCache = {}
 
 	def updateOccurrenceEvent(self, event):
-		log.debug(f"updateOccurrenceEvent: id={self.id} title={self.title} eid={event.id}")
+		log.debug(
+			f"updateOccurrenceEvent: id={self.id}" +
+			f" title={self.title} eid={event.id}"
+		)
 		eid = event.id
 		self.occurCount -= self.occur.delete(eid)
 		for t0, t1 in event.calcOccurrenceAll().getTimeRangeList():
@@ -5173,7 +5176,7 @@ class VcsDailyStatEventGroup(VcsBaseEventGroup):
 			else:
 				commitsByJd[jd] = [commitId]
 		for jd in range(startJd, endJd + 1):
-			if not jd in commitsByJd:
+			if jd not in commitsByJd:
 				continue
 			epoch = getEpochFromJd(jd)
 			commitIds = commitsByJd[jd]
