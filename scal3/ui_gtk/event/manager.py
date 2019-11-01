@@ -136,7 +136,10 @@ class EventManagerDialog(gtk.Dialog, MyDialog, ud.BaseCalObj):## FIXME
 			elif action == "+":
 				if gid in self.loadedGroupIds:
 					if not (isinstance(path, list) and len(path) == 2):
-						raise RuntimeError(f"invalid path = {path!r}")
+						raise RuntimeError(
+							f"invalid path={path!r}, " +
+							f"vars: action={action}, eid={eid}, gid={gid}"
+						)
 					# FIXME: what if len(path) == 1
 					parentIndex, eventIndex = path
 					# log.debug(gid, self.loadedGroupIds, parentIndex)
