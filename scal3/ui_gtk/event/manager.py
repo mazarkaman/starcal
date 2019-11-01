@@ -1702,7 +1702,7 @@ class EventManagerDialog(gtk.Dialog, MyDialog, ud.BaseCalObj):## FIXME
 	def pasteEventToPath(
 		self,
 		targetPath: List[int],
-		doScrol: bool = True,
+		doScroll: bool = True,
 	) -> None:
 		if not self.toPasteEvent:
 			return
