@@ -3501,11 +3501,11 @@ class EventContainer(BsonHistEventObj):
 	def _getEvent(self, eid):
 		eventFile = Event.getFile(eid)
 		if not self.fs.isfile(eventFile):
-			self.idList.remove(eid)
-			self.save()## FIXME
+			# self.idList.remove(eid)
+			# self.save()## FIXME
 			raise FileNotFoundError(
 				f"error while loading event file {eventFile!r}: " +
-				f"file not found (container: {self!r})"
+				f"file not found. eid={eid}, container={self!r}"
 			)
 		with self.fs.open(eventFile) as fp:
 			data = jsonToData(fp.read())
