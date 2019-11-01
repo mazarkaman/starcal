@@ -1936,6 +1936,14 @@ class Event(BsonHistEventObj, RuleContainer):
 			cls.iconName + ".png"
 		) if cls.iconName else ""
 
+	def getPath(self):
+		if self.parent is None:
+			raise RuntimeError("getPath: parent is None")
+		path = SObj.getPath(self)
+		if len(path) != 2:
+			raise RuntimeError("fgetPath: execpected path={path}")
+		return path
+
 	def getRevision(self, revHash):
 		return BsonHistObj.getRevision(self, revHash, self.id)
 
