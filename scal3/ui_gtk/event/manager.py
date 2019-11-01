@@ -136,13 +136,17 @@ class EventManagerDialog(gtk.Dialog, MyDialog, ud.BaseCalObj):## FIXME
 			elif action == "+":
 				if gid in self.loadedGroupIds:
 					if not (isinstance(path, list) and len(path) == 2):
-						raise RuntimeError(
+						log.error(
 							f"invalid path={path!r}, " +
 							f"vars: action={action}, eid={eid}, gid={gid}"
 						)
-					# FIXME: what if len(path) == 1
+						continue
+						# FIXME: in rare cases, len(path)==1, no idea why
 					parentIndex, eventIndex = path
 					# log.debug(gid, self.loadedGroupIds, parentIndex)
+					if eid in self.eventsIter:
+						log.error(f"duplicate row: action={action}, eid={eid}, gid={gid}")
+						continue
 					parentIter = self.trees.get_iter((parentIndex,))
 					event = ui.getEvent(gid, eid)
 					self.insertEventRow(parentIter, eventIndex, event)
