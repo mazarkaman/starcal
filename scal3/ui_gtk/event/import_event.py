@@ -148,20 +148,22 @@ class EventsImportWindow(WizardWindow):
 				sys.stderr.write(f"{_('Error in loading JSON data')}\n{e}\n")
 			else:
 				try:
-					newGroups = ui.eventGroups.importData(data)
+					res = ui.eventGroups.importData(data)
 				except Exception as e:
 					sys.stderr.write(f"{_('Error in importing events')}\n{e}\n")
 					log.exception("")
 				else:
-					for group in newGroups:
+					for gid in res.newGroupIds:
+						group = ui.eventGroups[gid]
 						self.win.manager.appendGroupTree(group)
-					log.info(
-						_(
-							"{groupCount} groups imported successfully"
-						).format(
-							groupCount=_(len(newGroups)),
-						)
-					)
+					# TODO: res.newEventIds
+					# TODO: res.modifiedEventIds
+					msg = _("Imported successfuly: {newGroupCount} new groups, {newEventCount} new events, {modifiedEventCount} modified events")
+					print(msg.format(
+						newGroupCount=_(len(res.newGroupIds)),
+						newEventCount=_(len(res.newEventIds)),
+						modifiedEventCount=_(len(res.modifiedEventIds)),
+					))
 
 		def onBackClick(self, obj):
 			self.win.showStep(0)

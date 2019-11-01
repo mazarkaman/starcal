@@ -67,6 +67,16 @@ from scal3.core import (
 	jd_to_primary,
 )
 
+##########################
+
+(
+	IMPORT_MODE_APPEND,
+	IMPORT_MODE_SKIP_MODIFIED,
+	IMPORT_MODE_OVERRIDE_MODIFIED,
+) = range(3)
+
+##########################
+
 
 dayLen = 24 * 3600
 
@@ -3599,6 +3609,19 @@ class EventContainer(BsonHistEventObj):
 		fixIconInObj(self)
 
 
+class EventGroupsImportResult:
+	def __init__(self):
+		self.newGroupIds = set() # type: Set[int]
+		self.newEventIds = set() # type: Set[Tuple[int, int]]
+		self.modifiedEventIds = set() # type: Set[Tuple[int, int]]
+
+	def __add__(self, other: "EventGroupsImportResult") -> "EventGroupsImportResult":
+		r = EventGroupsImportResult()
+		r.newGroupIds = self.newGroupIds | other.newGroupIds
+		r.newEventIds = self.newEventIds | other.newEventIds
+		r.modifiedEventIds = self.modifiedEventIds | other.modifiedEventIds
+		return r
+
 @classes.group.register
 @classes.group.setMain
 class EventGroup(EventContainer):
@@ -3830,11 +3853,14 @@ class EventGroup(EventContainer):
 			self.setId(_id)
 		self.enable = True
 		self.__readOnly = False  # set True when syncing with remote group
+		self.dataIsSet = False
 		self.showInDCal = True
 		self.showInWCal = True
 		self.showInMCal = True
 		self.showInStatusIcon = False
 		self.showInTimeLine = True
+		self.uuid = None
+		self.idByUuid = {}
 		self.color = (0, 0, 0)  # FIXME
 		#self.defaultNotifyBefore = (10, 60)  # FIXME
 		if len(self.acceptsEventTypes) == 1:
@@ -4276,6 +4302,17 @@ class EventGroup(EventContainer):
 		del data["idList"]
 		return data
 
+	def loadEventIdByUuid(self):
+		existingIds = set(self.idByUuid.values())
+		for eid in self.idList:
+			if eid in existingIds:
+				continue
+			event = self.getEvent(eid)
+			if event.uuid is None:
+				continue
+			self.idByUuid[event.uuid] = event.id
+		return self.idByUuid
+
 	def appendByData(self, eventData):
 		event = self.create(eventData["type"])
 		event.setData(eventData)
@@ -4283,12 +4320,53 @@ class EventGroup(EventContainer):
 		self.append(event)
 		return event
 
-	def importData(self, data):
-		self.setData(data)
-		self.clearRemoteAttrs()
+	def importData(self, data, importMode=IMPORT_MODE_APPEND) -> EventGroupsImportResult:
+		if not self.dataIsSet:
+			self.setData(data)
+			# self.clearRemoteAttrs() # FIXME
+		elif importMode==IMPORT_MODE_OVERRIDE_MODIFIED:
+			self.setData(data, force=True)
+
+		res = EventGroupsImportResult()
+		gid = self.id
+
+		if importMode == IMPORT_MODE_APPEND:
+			for eventData in data["events"]:
+				event = self.appendByData(eventData)
+				res.newEventIds.add((gid, event.id))
+			return res
+
+		idByUuid = self.loadEventIdByUuid()
+
 		for eventData in data["events"]:
-			self.appendByData(eventData)
+			modified = eventData.get("modified")
+			uuid = eventData.get("uuid")
+			if modified is None or uuid is None:
+				event = self.appendByData(eventData)
+				res.newEventIds.add((gid, event.id))
+				continue
+
+			eid = idByUuid.get(uuid)
+			if eid is None:
+				print("appending event uuid =", uuid)
+				event = self.appendByData(eventData)
+				res.newEventIds.add((gid, event.id))
+				continue
+
+			if importMode != IMPORT_MODE_OVERRIDE_MODIFIED:
+				# assumed IMPORT_MODE_SKIP_MODIFIED
+				print("skipping to override existing uuid=%r, eid=%r" % (uuid, eid))
+				continue
+
+			event = self.getEvent(eid)
+			event.setData(eventData, force=True)
+			event.save()
+			res.modifiedEventIds.add((gid, event.id))
+			print("overriden existing uuid=%r, eid=%r" % (uuid, eid))
+
 		self.save()
+		return res
+
 
 	def search(self, conds):
 		conds = dict(conds)  # take a copy, we may modify it
@@ -5320,17 +5398,20 @@ class JsonObjectsHolder(JsonEventObj):
 		return self.byId.__setitem__(_id, group)
 
 	def insert(self, index, obj):
-		assert obj.id not in self.idList
+		if obj.id in self.idList:
+			raise ValueError(f"{self} already contains id={obj.id}, obj={obj}")
 		self.byId[obj.id] = obj
 		self.idList.insert(index, obj.id)
 
 	def append(self, obj):
-		assert obj.id not in self.idList
+		if obj.id in self.idList:
+			raise ValueError(f"{self} already contains id={obj.id}, obj={obj}")
 		self.byId[obj.id] = obj
 		self.idList.append(obj.id)
 
 	def delete(self, obj):
-		assert obj.id in self.idList
+		if obj.id not in self.idList:
+			raise ValueError(f"{self} does not contains id={obj.id}, obj={obj}")
 		try:
 			self.fs.removeFile(obj.file)
 		except Exception: # FileNotFoundError, PermissionError, etc
@@ -5343,6 +5424,8 @@ class JsonObjectsHolder(JsonEventObj):
 			self.idList.remove(obj.id)
 		except ValueError:
 			log.exception("")
+		if obj.id in self.idByUuid:
+			del self.idByUuid[obj.id]
 
 	def pop(self, index):
 		return self.byId.pop(self.idList.pop(index))
@@ -5356,7 +5439,8 @@ class JsonObjectsHolder(JsonEventObj):
 	def setData(self, data):
 		self.clear()
 		for sid in data:
-			assert isinstance(sid, int) and sid != 0
+			if not isinstance(sid, int) or sid == 0:
+				raise RuntimeError(f"unexpected sid={sid}, self={self}")
 			_id = sid
 			_id = abs(sid)
 			try:
@@ -5386,6 +5470,7 @@ class EventGroupsHolder(JsonObjectsHolder):
 		JsonObjectsHolder.__init__(self)
 		self.id = None
 		self.parent = None
+		self.idByUuid = {}
 
 	def create(self, groupName: str) -> EventGroup:
 		group = classes.group.byName[groupName]()
@@ -5405,6 +5490,7 @@ class EventGroupsHolder(JsonObjectsHolder):
 				if group.uuid is None:
 					group.save()
 					log.info(f"saved group {group.id} with uuid = {group.uuid}")
+				self.idByUuid[group.uuid] = group.id
 				if group.enable:
 					group.updateOccurrence()
 		else:
@@ -5419,6 +5505,7 @@ class EventGroupsHolder(JsonObjectsHolder):
 				obj.setRandomColor()
 				obj.setTitle(cls.desc)
 				obj.save()
+				self.idByUuid[obj.uuid] = obj.id
 				self.append(obj)
 			self.save()
 
@@ -5462,15 +5549,28 @@ class EventGroupsHolder(JsonObjectsHolder):
 		return data
 
 	def importData(self, data):
-		newGroups = []
+		newGroups = [] # type: List[EventGroup]
+		res = EventGroupsImportResult()
 		for gdata in data["groups"]:
+			guuid = gdata.get("uuid")
+			if guuid:
+				gid = self.idByUuid.get(guuid)
+				if gid is not None:
+					group = self[gid]
+					res += group.importData(
+						gdata,
+						importMode=IMPORT_MODE_SKIP_MODIFIED,
+					)
+					continue
 			group = classes.group.byName[gdata["type"]]()
 			group.fs = self.fs
+			group.setId()
 			group.importData(gdata)
 			self.append(group)
-			newGroups.append(group)
-		self.save()## FIXME
-		return newGroups
+			res.newGroupIds.add(group.id)
+
+		self.save()
+		return res
 
 	def importJsonFile(self, fpath):
 		with self.fs.open(fpath, "rb") as fp:
