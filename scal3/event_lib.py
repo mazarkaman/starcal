@@ -231,6 +231,45 @@ lastIds = None # type: LastIdsWrapper
 ###########################################################################
 
 
+def removeUnusedObjects(fs: FileSystem):
+	global allReadOnly
+	if allReadOnly:
+		raise RuntimeError("removeUnusedObjects: EVENTS ARE READ-ONLY")
+
+	def do_removeUnusedObjects():
+		hashSet = set()
+		for cls in (Account, EventTrash, EventGroup, Event):
+			for fpath in cls.iterFiles(fs):
+				with fs.open(fpath) as fp:
+					jsonStr = fp.read()
+				data = jsonToData(jsonStr)
+				history = data.get("history")
+				if not history:
+					log.error(f"No history in file: {fpath}")
+					continue
+				for revTime, revHash in history:
+					hashSet.add(revHash)
+
+		log.info(f"Found {len(hashSet)} used objects")
+		removedCount = 0
+		for _hash, fpath in iterObjectFiles(fs):
+			if _hash not in hashSet:
+				log.debug(f"Removing file: {fpath}")
+				removedCount += 1
+				fs.removeFile(fpath)
+		log.info(f"Removed {removedCount} objects")
+
+	allReadOnly = True
+	try:
+		tm0 = now()
+		do_removeUnusedObjects()
+		log.info(f"removeUnusedObjects: took {now() - tm0}")
+	finally:
+		allReadOnly = False
+
+
+###########################################################################
+
 class ClassGroup(list):
 	def __init__(self, tname):
 		list.__init__(self)
@@ -1866,6 +1905,14 @@ class Event(BsonHistEventObj, RuleContainer):
 	@classmethod
 	def getFile(cls, _id):
 		return join(eventsDir, f"{_id}.json")
+
+	@classmethod
+	def iterFiles(cls, fs: FileSystem):
+		for _id in range(1, lastIds.event + 1):
+			fpath = cls.getFile(_id)
+			if not fs.isfile(fpath):
+				continue
+			yield fpath
 
 	@classmethod
 	def getSubclass(cls, _type):
@@ -3659,6 +3706,14 @@ class EventGroup(EventContainer):
 	@classmethod
 	def getFile(cls, _id):
 		return join(groupsDir, f"{_id}.json")
+
+	@classmethod
+	def iterFiles(cls, fs: FileSystem):
+		for _id in range(1, lastIds.group + 1):
+			fpath = cls.getFile(_id)
+			if not fs.isfile(fpath):
+				continue
+			yield fpath
 
 	@classmethod
 	def getSubclass(cls, _type):
@@ -5546,6 +5601,11 @@ class EventTrash(EventContainer):
 	id = -1  # FIXME
 	defaultIcon = join(svgDir, "user-trash.svg")
 
+	@classmethod
+	def iterFiles(cls, fs: FileSystem):
+		if fs.isfile(cls.file):
+			yield cls.file
+
 	def __init__(self):
 		EventContainer.__init__(self, title=_("Trash"))
 		self.icon = self.defaultIcon
@@ -5638,6 +5698,14 @@ class Account(BsonHistEventObj):
 	@classmethod
 	def getFile(cls, _id):
 		return join(accountsDir, f"{_id}.json")
+
+	@classmethod
+	def iterFiles(cls, fs: FileSystem):
+		for _id in range(1, lastIds.account + 1):
+			fpath = cls.getFile(_id)
+			if not fs.isfile(fpath):
+				continue
+			yield fpath
 
 	@classmethod
 	def getSubclass(cls, _type):
