@@ -2,6 +2,9 @@
 
 # no logging in this file
 
+from scal3 import logger
+log = logger.get()
+
 import sys
 import json
 from pprint import pprint
