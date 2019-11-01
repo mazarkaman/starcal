@@ -266,6 +266,11 @@ def iterObjectFiles(fs: FileSystem):
 			if len(_hash) != 40:
 				log.debug(f"Skipping non-object file {fpath}")
 				continue
+			try:
+				int(_hash, 16)
+			except ValueError:
+				log.debug(f"Skipping non-object file {fpath}  (not hexadecimal)")
+				continue
 			yield _hash, fpath
 
 
