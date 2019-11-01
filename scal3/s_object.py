@@ -263,6 +263,9 @@ def iterObjectFiles(fs: FileSystem):
 				log.error(f"Object file does not exist or not a file: {fpath}")
 				continue
 			_hash = dname + fname
+			if len(_hash) != 40:
+				log.debug(f"Skipping non-object file {fpath}")
+				continue
 			yield _hash, fpath
 
 
