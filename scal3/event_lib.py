@@ -89,6 +89,7 @@ allReadOnly = False
 def init(fs: FileSystem):
 	global allReadOnly, info, lastIds
 
+	fs.makeDir(objectDir)
 	fs.makeDir(eventsDir)
 	fs.makeDir(groupsDir)
 	fs.makeDir(accountsDir)
