@@ -5,6 +5,7 @@ log = logger.get()
 
 import sys
 import os
+import os.path
 from os.path import isfile, join
 from time import time as now
 from collections import OrderedDict
@@ -27,7 +28,13 @@ class FileSystem:
 	def open(self, fpath, mode="r", encoding=None):
 		raise NotImplementedError
 
-	def listdir(self, dpath):
+	def listdir(self, dpath: str):
+		raise NotImplementedError
+
+	def makeDir(self, dpath: str) -> None:
+		raise NotImplementedError
+
+	def removeFile(self, fpath: str) -> None:
 		raise NotImplementedError
 
 
@@ -43,6 +50,20 @@ class DefaultFileSystem(FileSystem):
 
 	def listdir(self, dpath):
 		return os.listdir(join(self._rootPath, dpath))
+
+	def isfile(self, fpath):
+		return os.path.isfile(join(self._rootPath, fpath))
+
+	def isdir(self, dpath):
+		return os.path.isdir(join(self._rootPath, dpath))
+
+	def makeDir(self, dpath: str) -> None:
+		dpathAbs = join(self._rootPath, dpath)
+		if not os.path.isdir(dpathAbs):
+			os.makedirs(dpathAbs)
+
+	def removeFile(self, fpath: str) -> None:
+		os.remove(join(self._rootPath, fpath))
 
 
 class SObj:
@@ -164,7 +185,7 @@ class JsonSObj(SObj):
 	def load(cls, fs: FileSystem, *args):
 		fpath = cls.getFile(*args)
 		data = {}
-		if isfile(fpath):
+		if fs.isfile(fpath):
 			try:
 				with fs.open(fpath) as fp:
 					jsonStr = fp.read()
@@ -228,12 +249,29 @@ def getObjectPath(_hash: str) -> Tuple[str, str]:
 	fpath = join(dpath, _hash[2:])
 	return dpath, fpath
 
+
+def iterObjectFiles(fs: FileSystem):
+	for dname in fs.listdir(objectDir):
+		dpath = join(objectDir, dname)
+		if not fs.isdir(dpath):
+			continue
+		if len(dname) != 2:
+			log.error(f"Unexpected directory: {dname}")  # do not skip it!
+		for fname in fs.listdir(dpath):
+			fpath = join(dpath, fname)
+			if not fs.isfile(fpath):
+				log.error(f"Object file does not exist or not a file: {fpath}")
+				continue
+			_hash = dname + fname
+			yield _hash, fpath
+
+
 def saveBsonObject(data: "Union[Dict, List]", fs: FileSystem):
 	data = getSortedDict(data)
 	bsonBytes = bytes(bson.dumps(data))
 	_hash = sha1(bsonBytes).hexdigest()
 	dpath, fpath = getObjectPath(_hash)
-	if not isfile(fpath):
+	if not fs.isfile(fpath):
 		makeDir(dpath)
 		with fs.open(fpath, "wb") as fp:
 			fp.write(bsonBytes)
@@ -327,7 +365,7 @@ class BsonHistObj(SObj):
 		return makeOrderedData(self.getData(), self.paramsOrder)
 
 	def loadBasicData(self):
-		if not isfile(self.file):
+		if not self.fs.isfile(self.file):
 			return {}
 		with self.fs.open(self.file) as fp:
 			jsonStr = fp.read()
@@ -356,6 +394,8 @@ class BsonHistObj(SObj):
 				f"save method called for object {self!r}" +
 				" while file is not set"
 			)
+		if self.fs is None:
+			raise RuntimeError(f"{self} has no fs object")
 		data = self.getData()
 		basicData = {}
 		for param in self.basicParams:

@@ -22,7 +22,8 @@ from scal3 import logger
 log = logger.get()
 
 import os
-from os.path import join, split, isdir, isfile, dirname, splitext
+import os.path
+from os.path import join, split, dirname, splitext
 from os import listdir
 import math
 from time import time as now
@@ -40,7 +41,6 @@ from scal3.utils import (
 	toStr,
 	s_join,
 )
-from scal3.os_utils import makeDir
 from scal3.interval_utils import *
 from scal3.time_utils import *
 from scal3.date_utils import *
@@ -73,26 +73,25 @@ dayLen = 24 * 3600
 icsMinStartYear = 1970
 icsMaxEndYear = 2050
 
-eventsDir = join(confDir, "event", "events")
-groupsDir = join(confDir, "event", "groups")
-accountsDir = join(confDir, "event", "accounts")
+eventsDir = join("event", "events")
+groupsDir = join("event", "groups")
+accountsDir = join("event", "accounts")
 
 ##########################
 
 lockPath = join(confDir, "event", "lock.json")
 allReadOnly = False
 
-##########################
-
-makeDir(eventsDir)
-makeDir(groupsDir)
-makeDir(accountsDir)
 
 ###################################################
 
 
 def init(fs: FileSystem):
 	global allReadOnly, info, lastIds
+
+	fs.makeDir(eventsDir)
+	fs.makeDir(groupsDir)
+	fs.makeDir(accountsDir)
 
 	import scal3.account.starcal
 	from scal3.lockfile import checkAndSaveJsonLockFile
@@ -2011,7 +2010,7 @@ class Event(BsonHistEventObj, RuleContainer):
 
 	def loadFiles(self):
 		self.files = []
-		#if isdir(self.filesDir):
+		#if os.path.isdir(self.filesDir):
 		#	for fname in listdir(self.filesDir):
 		#		if isfile(join(self.filesDir, fname)) and not fname.endswith("~"):## FIXME
 		#			self.files.append(fname)
@@ -3453,7 +3452,7 @@ class EventContainer(BsonHistEventObj):
 
 	def _getEvent(self, eid):
 		eventFile = Event.getFile(eid)
-		if not isfile(eventFile):
+		if not self.fs.isfile(eventFile):
 			self.idList.remove(eid)
 			self.save()## FIXME
 			raise FileNotFoundError(
@@ -5274,7 +5273,7 @@ class JsonObjectsHolder(JsonEventObj):
 	def delete(self, obj):
 		assert obj.id in self.idList
 		try:
-			os.remove(obj.file)
+			self.fs.removeFile(obj.file)
 		except Exception: # FileNotFoundError, PermissionError, etc
 			log.exception("")
 		try:
@@ -5429,17 +5428,18 @@ class EventGroupsHolder(JsonObjectsHolder):
 
 	def checkForOrphans(self):
 		newGroup = EventGroup()
+		newGroup.fs = self.fs
 		newGroup.setTitle(_("Orphan Events"))
 		newGroup.setColor((255, 255, 0))
 		newGroup.enable = False
-		for gid_fname in listdir(groupsDir):
+		for gid_fname in self.fs.listdir(groupsDir):
 			try:
 				gid = int(splitext(gid_fname)[0])
 			except ValueError:
 				continue
 			if gid not in self.idList:
 				try:
-					os.remove(join(groupsDir, gid_fname))
+					self.fs.removeFile(join(groupsDir, gid_fname))
 				except Exception:
 					log.exception("")
 		######
@@ -5448,7 +5448,7 @@ class EventGroupsHolder(JsonObjectsHolder):
 			myEventIds += group.idList
 		myEventIds = set(myEventIds)
 		##
-		for fname in listdir(eventsDir):
+		for fname in self.fs.listdir(eventsDir):# FIXME: make them relative
 			fname_nox, ext = splitext(fname)
 			if ext != ".json":
 				continue
@@ -5495,7 +5495,7 @@ class EventAccountsHolder(JsonObjectsHolder):
 
 	def loadData(self, _id):
 		objFile = join(accountsDir, f"{_id}.json")
-		if not isfile(objFile):
+		if not self.fs.isfile(objFile):
 			log.error(
 				f"error while loading account file {objFile!r}" +
 				": file not found"
@@ -5549,7 +5549,7 @@ class EventTrash(EventContainer):
 
 	def setData(self, data):
 		icon = data.get("icon")
-		if icon and not isfile(icon):
+		if icon and not os.path.isfile(icon):
 			log.info(f"Trash icon {icon} does not exist, using {self.defaultIcon}")
 			data["icon"] = self.defaultIcon
 		EventContainer.setData(self, data)
@@ -5565,7 +5565,7 @@ class EventTrash(EventContainer):
 			raise TypeError("delete takes event ID that is integer")
 		assert eid in self.idList
 		try:
-			os.remove(Event.getFile(eid))
+			self.fs.removeFile(Event.getFile(eid))
 		except Exception:
 			log.exception("")
 		else:
@@ -5576,7 +5576,7 @@ class EventTrash(EventContainer):
 		idList2 = self.idList[:]
 		for eid in self.idList:
 			try:
-				os.remove(Event.getFile(eid))
+				self.fs.removeFile(Event.getFile(eid))
 			except Exception:
 				log.exception("")
 			idList2.remove(eid)
