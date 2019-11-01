@@ -8,8 +8,8 @@ import os
 from os.path import isfile, join
 from time import time as now
 from collections import OrderedDict
-
 from hashlib import sha1
+from typing import Tuple
 
 from scal3.path import objectDir, rootDir
 
@@ -223,12 +223,16 @@ class JsonSObj(SObj):
 		#	log.info(f"no modified param for object {self!r}")
 
 
+def getObjectPath(_hash: str) -> Tuple[str, str]:
+	dpath = join(objectDir, _hash[:2])
+	fpath = join(dpath, _hash[2:])
+	return dpath, fpath
+
 def saveBsonObject(data: "Union[Dict, List]", fs: FileSystem):
 	data = getSortedDict(data)
 	bsonBytes = bytes(bson.dumps(data))
 	_hash = sha1(bsonBytes).hexdigest()
-	dpath = join(objectDir, _hash[:2])
-	fpath = join(dpath, _hash[2:])
+	dpath, fpath = getObjectPath(_hash)
 	if not isfile(fpath):
 		makeDir(dpath)
 		with fs.open(fpath, "wb") as fp:
@@ -237,7 +241,7 @@ def saveBsonObject(data: "Union[Dict, List]", fs: FileSystem):
 
 
 def loadBsonObject(_hash, fs: FileSystem):
-	fpath = join(objectDir, _hash[:2], _hash[2:])
+	dpath, fpath = getObjectPath(_hash)
 	with fs.open(fpath, "rb") as fp:
 		bsonBytes = fp.read()
 	if _hash != sha1(bsonBytes).hexdigest():
