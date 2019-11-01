@@ -26,7 +26,10 @@ def init():
 	else:
 		os.mkdir(confDir)
 
-	if isfile(confPath):
+	envValue = os.getenv("LOG_LEVEL")
+	if envValue:
+		logLevel = int(envValue)
+	elif isfile(confPath):
 		with open(confPath) as file:
 			logJson = file.read().strip()
 			if logJson:
