@@ -3623,12 +3623,16 @@ class EventGroupsImportResult:
 		self.newEventIds = set() # type: Set[Tuple[int, int]]
 		self.modifiedEventIds = set() # type: Set[Tuple[int, int]]
 
-	def __add__(self, other: "EventGroupsImportResult") -> "EventGroupsImportResult":
+	def __add__(
+		self,
+		other: "EventGroupsImportResult",
+	) -> "EventGroupsImportResult":
 		r = EventGroupsImportResult()
 		r.newGroupIds = self.newGroupIds | other.newGroupIds
 		r.newEventIds = self.newEventIds | other.newEventIds
 		r.modifiedEventIds = self.modifiedEventIds | other.modifiedEventIds
 		return r
+
 
 @classes.group.register
 @classes.group.setMain
@@ -4328,11 +4332,14 @@ class EventGroup(EventContainer):
 		self.append(event)
 		return event
 
-	def importData(self, data, importMode=IMPORT_MODE_APPEND) -> EventGroupsImportResult:
+	def importData(
+		self,
+		data, importMode=IMPORT_MODE_APPEND,
+	) -> EventGroupsImportResult:
 		if not self.dataIsSet:
 			self.setData(data)
 			# self.clearRemoteAttrs() # FIXME
-		elif importMode==IMPORT_MODE_OVERRIDE_MODIFIED:
+		elif importMode == IMPORT_MODE_OVERRIDE_MODIFIED:
 			self.setData(data, force=True)
 
 		res = EventGroupsImportResult()
@@ -4374,7 +4381,6 @@ class EventGroup(EventContainer):
 
 		self.save()
 		return res
-
 
 	def search(self, conds):
 		conds = dict(conds)  # take a copy, we may modify it
