@@ -40,6 +40,7 @@ from scal3.utils import (
 	findNearestIndex,
 	toStr,
 	s_join,
+	numRangesEncode,
 )
 from scal3.interval_utils import *
 from scal3.time_utils import *
@@ -601,6 +602,12 @@ class EventRule(SObj):
 
 	def __init__(self, parent):  # parent can be an event or group
 		self.parent = parent
+
+	def copy(self):
+		newObj = self.__class__(self.parent)
+		newObj.fs = getattr(self, "fs", None)
+		newObj.copyFrom(self)
+		return newObj
 
 	def getCalType(self):
 		return self.parent.calType
@@ -1680,6 +1687,13 @@ class RuleContainer:
 		"timeZone",
 	)
 
+	@staticmethod
+	def copyRulesDict(rulesOd: Dict[str, EventRule]) -> Dict[str, EventRule]:
+		newRulesOd = OrderedDict()
+		for ruleName, rule in rulesOd.items():
+			newRulesOd[ruleName] = rule.copy()
+		return newRulesOd
+
 	def __init__(self):
 		self.timeZoneEnable = False
 		self.timeZone = ""
@@ -2293,11 +2307,11 @@ class Event(BsonHistEventObj, RuleContainer):
 		return False
 
 	def changeCalType(self, calType):
-		# FIXME: OrderedDict.copy is NOT deep copy
-		backupRulesOd = self.rulesOd.copy()
+		backupRulesOd = RuleContainer.copyRulesDict(self.rulesOd)
 		if calType != self.calType:
 			for rule in self.rulesOd.values():
 				if not rule.changeCalType(calType):
+					log.info(f"changeCalType: failed because of rule {rule.name}={rule}")
 					self.rulesOd = backupRulesOd
 					return False
 			self.calType = calType
