@@ -10,6 +10,7 @@ from scal3.ui_gtk import *
 from scal3.ui_gtk.decorators import *
 from scal3.ui_gtk.utils import (
 	labelIconMenuItem,
+	labelImageMenuItem,
 	imageFromIconName,
 	pixbufFromFile,
 )
@@ -51,14 +52,22 @@ class IconSelectButton(gtk.Button):
 		###
 		menu = gtk.Menu()
 		self.menu = menu
-		menu.add(labelIconMenuItem(_("None"), "", self.menuItemActivate, ""))
+		menu.add(labelIconMenuItem(
+			_("None"),
+			"",
+			func=self.menuItemActivate,
+			args=("",),
+		))
 		for item in ui.eventTags:
 			icon = item.icon
-			if icon:
-				menuItem = ImageMenuItem(item.desc)
-				menuItem.set_image(gtk.Image.new_from_file(icon))
-				menuItem.connect("activate", self.menuItemActivate, icon)
-				menu.add(menuItem)
+			if not icon:
+				continue
+			menu.add(labelImageMenuItem(
+				_(item.desc),
+				icon,
+				func=self.menuItemActivate,
+				args=(icon,),
+			))
 		menu.show_all()
 		###
 		self.dialog.connect("file-activated", self.fileActivated)

@@ -235,15 +235,15 @@ class DayOccurrenceView(gtk.TextView, CustomizableCalObj):
 			self.addEventMenuItems(menu, occurData)
 		####
 		menu.add(labelIconMenuItem(
-			"Copy _All",
+			_("Copy _All"),
 			"gtk-copy",
-			self.copyAll,
+			func=self.copyAll,
 		))
 		####
 		itemCopy = labelIconMenuItem(
-			"_Copy",
+			_("_Copy"),
 			"gtk-copy",
-			self.copy,
+			func=self.copy,
 		)
 		if not self.has_selection():
 			itemCopy.set_sensitive(False)
@@ -365,10 +365,12 @@ class DayOccurrenceView(gtk.TextView, CustomizableCalObj):
 		menu.add(labelIconMenuItem(
 			label,
 			"gtk-edit",
-			self.onEditEventClick,
-			winTitle,
-			event,
-			group.id,
+			func=self.onEditEventClick,
+			args=(
+				winTitle,
+				event,
+				group.id,
+			),
 		))
 		###
 		moveToItem = labelIconMenuItem(
@@ -436,9 +438,11 @@ class DayOccurrenceView(gtk.TextView, CustomizableCalObj):
 		menu.add(labelImageMenuItem(
 			_("Move to {title}").format(title=ui.eventTrash.title),
 			ui.eventTrash.icon,
-			self.moveEventToTrash,
-			event,
-			group.id,
+			func=self.moveEventToTrash,
+			args=(
+				event,
+				group.id,
+			),
 		))
 
 	def addEventMenuItems(self, menu, occurData: Dict[str, Any]):
@@ -452,10 +456,10 @@ class DayOccurrenceView(gtk.TextView, CustomizableCalObj):
 		group = ui.eventGroups[groupId]
 		####
 		menu.add(labelIconMenuItem(
-			"Copy Event Text",
+			_("Copy Event Text"),
 			"gtk-copy",
-			self.copyEventText,
-			event,
+			func=self.copyEventText,
+			args=(event,),
 		))
 		####
 		if not event.readOnly:

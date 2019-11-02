@@ -293,8 +293,8 @@ class TimeLine(gtk.DrawingArea, ud.BaseCalObj):
 			menu.add(labelIconMenuItem(
 				title,
 				"",
-				self.onZoomMenuItemClick,
-				timeWidth,
+				func=self.onZoomMenuItemClick,
+				args=(timeWidth,),
 			))
 		menu.show_all()
 		menu.popup(
@@ -617,19 +617,23 @@ class TimeLine(gtk.DrawingArea, ud.BaseCalObj):
 					menu.add(labelIconMenuItem(
 						winTitle,
 						"gtk-edit",
-						self.onEditEventClick,
-						winTitle,
-						event,
-						gid,
+						func=self.onEditEventClick,
+						args=(
+							winTitle,
+							event,
+							gid,
+						),
 					))
 				##
 				winTitle = _("Edit") + " " + group.desc
 				menu.add(labelIconMenuItem(
 					winTitle,
 					"gtk-edit",
-					self.onEditGroupClick,
-					winTitle,
-					group,
+					func=self.onEditGroupClick,
+					args=(
+						winTitle,
+						group,
+					),
 				))
 				##
 				menu.add(gtk.SeparatorMenuItem())
@@ -637,9 +641,11 @@ class TimeLine(gtk.DrawingArea, ud.BaseCalObj):
 				menu.add(labelImageMenuItem(
 					_("Move to {title}").format(title=ui.eventTrash.title),
 					ui.eventTrash.icon,
-					self.moveEventToTrash,
-					group,
-					event,
+					func=self.moveEventToTrash,
+					args=(
+						group,
+						event,
+					),
 				))
 				##
 				menu.show_all()

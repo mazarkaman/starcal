@@ -53,14 +53,12 @@ def eventWriteImageMenuItem(*args, **kwargs):
 
 
 def menuItemFromEventGroup(group):
-	item = ImageMenuItem()
-	item.set_label(group.title)
-	##
-	image = gtk.Image()
-	image.set_from_pixbuf(newColorCheckPixbuf(
-		group.color,
-		20,
-		group.enable,
-	))
-	item.set_image(image)
-	return item
+	return labelImageMenuItem(
+		group.title,
+		"",
+		pixbuf=newColorCheckPixbuf(
+			group.color,
+			20,
+			group.enable,
+		),
+	)

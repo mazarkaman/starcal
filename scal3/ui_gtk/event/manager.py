@@ -585,28 +585,29 @@ class EventManagerDialog(gtk.Dialog, MyDialog, ud.BaseCalObj):## FIXME
 			if group.name == "trash":
 				# log.debug("right click on trash", group.title)
 				menu.add(eventWriteMenuItem(
-					"Edit",
+					_("Edit"),
 					"gtk-edit",
-					self.editTrash,
+					func=self.editTrash,
 				))
+				# FIXME: _("Empty {title}").format(title=group.title),
 				menu.add(eventWriteMenuItem(
-					"Empty Trash",## or use group.title FIXME
+					_("Empty Trash"),
 					"gtk-clear",
-					self.emptyTrash,
+					func=self.emptyTrash,
 				))
 				#menu.add(gtk.SeparatorMenuItem())
 				#menu.add(eventWriteMenuItem(
 				#	"Add New Group",
 				#	"gtk-new",
-				#	self.addGroupBeforeSelection,
+				#	func=self.addGroupBeforeSelection,
 				#))## FIXME
 			else:
 				# log.debug("right click on group", group.title)
 				menu.add(eventWriteMenuItem(
-					"Edit",
+					_("Edit"),
 					"gtk-edit",
-					self.editGroupFromMenu,
-					path,
+					func=self.editGroupFromMenu,
+					args=(path,),
 				))
 				eventTypes = group.acceptsEventTypes
 				if eventTypes is None:
@@ -615,9 +616,8 @@ class EventManagerDialog(gtk.Dialog, MyDialog, ud.BaseCalObj):## FIXME
 					menu.add(eventWriteMenuItem(
 						_("Add Event"),
 						"gtk-add",
-						self.addGenericEventToGroupFromMenu,
-						path,
-						group,
+						func=self.addGenericEventToGroupFromMenu,
+						args=(path, group,),
 					))
 				else:
 					for eventType in eventTypes:
@@ -628,17 +628,19 @@ class EventManagerDialog(gtk.Dialog, MyDialog, ud.BaseCalObj):## FIXME
 						menu.add(eventWriteMenuItem(
 							label,
 							"gtk-add",
-							self.addEventToGroupFromMenu,
-							path,
-							group,
-							eventType,
-							label,
+							func=self.addEventToGroupFromMenu,
+							args=(
+								path,
+								group,
+								eventType,
+								label,
+							),
 						))
 				pasteItem = eventWriteMenuItem(
-					"Paste Event",
+					_("Paste Event"),
 					"gtk-paste",
-					self.pasteEventFromMenu,
-					path,
+					func=self.pasteEventFromMenu,
+					args=(path,),
 				)
 				menu.add(pasteItem)
 				pasteItem.set_sensitive(self.canPasteToGroup(group))
@@ -653,33 +655,35 @@ class EventManagerDialog(gtk.Dialog, MyDialog, ud.BaseCalObj):## FIXME
 						if account.enable:
 							menu.add(gtk.SeparatorMenuItem())
 							menu.add(eventWriteMenuItem(
-								"Synchronize",
+								_("Synchronize"),
 								"gtk-connect", # or gtk-refresh ?
-								self.syncGroupFromMenu,
-								path,
-								account,
+								func=self.syncGroupFromMenu,
+								args=(
+									path,
+									account,
+								),
 							))
 						#else:## FIXME
 				##
 				menu.add(gtk.SeparatorMenuItem())
 				#menu.add(eventWriteMenuItem(
-				#	"Add New Group",
+				#	_("Add New Group"),
 				#	"gtk-new",
-				#	self.addGroupBeforeGroup,
-				#	path,
+				#	func=self.addGroupBeforeGroup,
+				#	args=(path,),
 				#))## FIXME
 				menu.add(eventWriteMenuItem(
-					"Duplicate",
+					_("Duplicate"),
 					"gtk-copy",
-					self.duplicateGroupFromMenu,
-					path,
+					func=self.duplicateGroupFromMenu,
+					args=(path,)
 				))
 				###
 				dupAllItem = labelIconMenuItem(
-					"Duplicate with All Events",
+					_("Duplicate with All Events"),
 					"gtk-copy",
-					self.duplicateGroupWithEventsFromMenu,
-					path,
+					func=self.duplicateGroupWithEventsFromMenu,
+					args=(path,)
 				)
 				menu.add(dupAllItem)
 				dupAllItem.set_sensitive(
@@ -688,38 +692,38 @@ class EventManagerDialog(gtk.Dialog, MyDialog, ud.BaseCalObj):## FIXME
 				###
 				menu.add(gtk.SeparatorMenuItem())
 				menu.add(eventWriteMenuItem(
-					"Delete Group",
+					_("Delete Group"),
 					"gtk-delete",
-					self.deleteGroupFromMenu,
-					path,
+					func=self.deleteGroupFromMenu,
+					args=(path,)
 				))
 				menu.add(gtk.SeparatorMenuItem())
 				##
 				#menu.add(eventWriteMenuItem(
-				#	"Move Up",
+				#	_("Move Up"),
 				#	"gtk-go-up",
-				#	self.moveUpFromMenu,
-				#	path,
+				#	func=self.moveUpFromMenu,
+				#	args=(path,),
 				#))
 				#menu.add(eventWriteMenuItem(
-				#	"Move Down",
+				#	_("Move Down"),
 				#	"gtk-go-down",
-				#	self.moveDownFromMenu,
-				#	path,
+				#	func=self.moveDownFromMenu,
+				#	args=(path,)
 				#))
 				##
 				menu.add(labelIconMenuItem(
 					_("Export"),
 					"gtk-convert",
-					self.groupExportFromMenu,
-					group,
+					func=self.groupExportFromMenu,
+					args=(group,),
 				))
 				###
 				sortItem = labelIconMenuItem(
 					_("Sort Events"),
 					"gtk-sort-ascending",
-					self.groupSortFromMenu,
-					path,
+					func=self.groupSortFromMenu,
+					args=(path,)
 				)
 				menu.add(sortItem)
 				sortItem.set_sensitive(
@@ -729,8 +733,8 @@ class EventManagerDialog(gtk.Dialog, MyDialog, ud.BaseCalObj):## FIXME
 				convertItem = labelIconMenuItem(
 					_("Convert Calendar Type"),
 					"gtk-convert",
-					self.groupConvertModeFromMenu,
-					group,
+					func=self.groupConvertModeFromMenu,
+					args=(group,)
 				)
 				menu.add(convertItem)
 				convertItem.set_sensitive(
@@ -744,17 +748,18 @@ class EventManagerDialog(gtk.Dialog, MyDialog, ud.BaseCalObj):## FIXME
 							groupType=newGroupTypeDesc,
 						),
 						"", # icon name
-						self.groupConvertToFromMenu,
-						group,
-						newGroupType,
+						func=self.groupConvertToFromMenu,
+						args=(
+							group,
+							newGroupType,
+						),
 					))
 				###
 				bulkItem = labelIconMenuItem(
 					_("Bulk Edit Events"),
 					"gtk-edit",
-					self.groupBulkEditFromMenu,
-					group,
-					path,
+					func=self.groupBulkEditFromMenu,
+					args=(group, path,)
 				)
 				menu.add(bulkItem)
 				bulkItem.set_sensitive(
@@ -765,26 +770,28 @@ class EventManagerDialog(gtk.Dialog, MyDialog, ud.BaseCalObj):## FIXME
 					menu.add(eventWriteMenuItem(
 						_(actionName),
 						"", # icon name
-						self.onGroupActionClick,
-						group,
-						actionFuncName,
+						func=self.onGroupActionClick,
+						args=(
+							group,
+							actionFuncName,
+						),
 					))
 		elif len(obj_list) == 2:
 			group, event = obj_list
 			# log.debug("right click on event", event.summary)
 			if group.name != "trash":
 				menu.add(eventWriteMenuItem(
-					"Edit",
+					_("Edit"),
 					"gtk-edit",
-					self.editEventFromMenu,
-					path,
+					func=self.editEventFromMenu,
+					args=(path,)
 				))
 			####
 			menu.add(eventWriteImageMenuItem(
-				"History",
+				_("History"),
 				"history.svg",
-				self.historyOfEventFromMenu,
-				path,
+				func=self.historyOfEventFromMenu,
+				args=(path,),
 			))
 			####
 			moveToItem = eventWriteMenuItem(
@@ -799,53 +806,48 @@ class EventManagerDialog(gtk.Dialog, MyDialog, ud.BaseCalObj):## FIXME
 				#	continue
 				new_groupPath = self.trees.get_path(self.groupIterById[new_group.id])
 				if event.name in new_group.acceptsEventTypes:
-					new_groupItem = ImageMenuItem()
-					new_groupItem.set_label(new_group.title)
-					##
-					image = gtk.Image()
-					image.set_from_pixbuf(newColorCheckPixbuf(new_group.color, 20, True))
-					new_groupItem.set_image(image)
-					##
-					new_groupItem.connect(
-						"activate",
-						self.moveEventToPathFromMenu,
-						path,
-						new_groupPath,
-					)
-					##
-					moveToMenu.add(new_groupItem)
+					moveToMenu.add(labelImageMenuItem(
+						new_group.title,
+						"",
+						pixbuf=newColorCheckPixbuf(new_group.color, 20, True),
+						func=self.moveEventToPathFromMenu,
+						args=(
+							path,
+							new_groupPath,
+						),
+					))
 			moveToItem.set_submenu(moveToMenu)
 			menu.add(moveToItem)
 			####
 			menu.add(gtk.SeparatorMenuItem())
 			####
 			menu.add(eventWriteMenuItem(
-				"Cut",
+				_("Cut"),
 				"gtk-cut",
-				self.cutEvent,
-				path,
+				func=self.cutEvent,
+				args=(path,),
 			))
 			menu.add(eventWriteMenuItem(
-				"Copy",
+				_("Copy"),
 				"gtk-copy",
-				self.copyEvent,
-				path,
+				func=self.copyEvent,
+				args=(path,)
 			))
 			##
 			if group.name == "trash":
 				menu.add(gtk.SeparatorMenuItem())
 				menu.add(eventWriteMenuItem(
-					"Delete",
+					_("Delete"),
 					"gtk-delete",
-					self.deleteEventFromTrash,
-					path,
+					func=self.deleteEventFromTrash,
+					args=(path,),
 				))
 			else:
 				pasteItem = eventWriteMenuItem(
-					"Paste",
+					_("Paste"),
 					"gtk-paste",
-					self.pasteEventFromMenu,
-					path,
+					func=self.pasteEventFromMenu,
+					args=(path,),
 				)
 				menu.add(pasteItem)
 				pasteItem.set_sensitive(self.canPasteToGroup(group))
@@ -854,8 +856,8 @@ class EventManagerDialog(gtk.Dialog, MyDialog, ud.BaseCalObj):## FIXME
 				menu.add(labelImageMenuItem(
 					_("Move to {title}").format(title=ui.eventTrash.title),
 					ui.eventTrash.icon,
-					self.moveEventToTrashFromMenu,
-					path,
+					func=self.moveEventToTrashFromMenu,
+					args=(path,),
 				))
 		else:
 			return

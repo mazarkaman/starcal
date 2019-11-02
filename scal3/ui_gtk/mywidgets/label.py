@@ -27,19 +27,17 @@ class SLabel(gtk.Label):
 		self.connect("populate-popup", self.popupPopulate)
 
 	def popupPopulate(self, label, menu):
-		itemCopyAll = ImageMenuItem(_("Copy _All"))
-		itemCopyAll.set_image(imageFromIconName(
-			"gtk-copy",
-			gtk.IconSize.MENU),
+		itemCopyAll = labelIconMenuItem(
+			_("Copy _All"),
+			iconName="gtk-copy",
+			func=self.copyAll
 		)
-		itemCopyAll.connect("activate", self.copyAll)
 		##
-		itemCopy = ImageMenuItem(_("_Copy"))
-		itemCopy.set_image(imageFromIconName(
-			"gtk-copy",
-			gtk.IconSize.MENU,
-		))
-		itemCopy.connect("activate", self.copy)
+		itemCopy = labelIconMenuItem(
+			_("_Copy"),
+			iconName="gtk-copy",
+			func=self.copy,
+		)
 		itemCopy.set_sensitive(
 			self.get_property("cursor-position") >
 			self.get_property("selection-bound")

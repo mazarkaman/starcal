@@ -26,15 +26,15 @@ class ReadOnlyTextWidget:
 			menu.remove(item)
 		####
 		menu.add(labelIconMenuItem(
-			"Copy _All",
+			_("Copy _All"),
 			"gtk-copy",
-			self.copyAll,
+			func=self.copyAll,
 		))
 		####
 		itemCopy = labelIconMenuItem(
-			"_Copy",
+			_("_Copy"),
 			"gtk-copy",
-			self.copy,
+			func=self.copy,
 		)
 		if not self.has_selection():
 			itemCopy.set_sensitive(False)

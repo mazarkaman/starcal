@@ -26,7 +26,7 @@ import os
 from os.path import join, isabs
 from subprocess import Popen
 
-from typing import Optional, Tuple, Union
+from typing import Optional, Tuple, Union, Callable
 
 from scal3.utils import toBytes, toStr
 from scal3.json_utils import *
@@ -177,24 +177,82 @@ def toolButtonFromFile(fname, size=0):
 	return tb
 
 
-def labelIconMenuItem(label: str, iconName: str = "", func=None, *args):
-	item = ImageMenuItem(_(label))
-	item.set_use_underline(True)
+def labelIconMenuItem(
+	label: str,
+	iconName: str = "",
+	func: Optional[Callable] = None,
+	args: Optional[Tuple] = None,
+):
+	image = None
 	if iconName:
-		item.set_image(imageFromIconName(iconName, gtk.IconSize.MENU))
-	if func:
-		item.connect("activate", func, *args)
-	return item
+		image = imageFromIconName(iconName, gtk.IconSize.MENU)
+	return labelImageObjMenuItem(
+		label,
+		image=image,
+		func=func,
+		args=args,
+	)
 
 
-def labelImageMenuItem(label: str, imageName: str, func=None, *args):
-	# FIXME: ImageMenuItem is deprecated since version 3.10:
-	# 		Use Gtk.MenuItem.new() instead.
-	item = gtk.ImageMenuItem(label=_(label))
-	item.set_use_underline(True)
+def labelImageMenuItem(
+	label: str,
+	imageName: str,
+	pixbuf: Optional[GdkPixbuf.Pixbuf] = None,
+	spacing: int = 3,
+	func: Optional[Callable] = None,
+	args: Optional[Tuple] = None,
+):
+	image = None
 	if imageName:
-		item.set_image(imageFromFile(imageName, ui.menuIconSize))
+		image = imageFromFile(imageName, ui.menuIconSize)
+	elif pixbuf:
+		image = gtk.Image()
+		image.set_from_pixbuf(pixbuf)
+	return labelImageObjMenuItem(
+		label,
+		image=image,
+		spacing=spacing,
+		func=func,
+		args=args,
+	)
+
+
+def labelImageObjMenuItem(
+	label: str,
+	image: Optional[gtk.Image] = None,
+	spacing=3,
+	func=None,
+	args=None,
+):
+	if args is not None and not isinstance(args, tuple):
+		raise TypeError("args must be None or tuple")
+	item = gtk.ImageMenuItem()
+	"""
+	Documentation says:
+		Gtk.ImageMenuItem has been deprecated since GTK+ 3.10. If you want to
+		display an icon in a menu item, you should use Gtk.MenuItem and pack a
+		Gtk.Box with a Gtk.Image and a Gtk.Label instead. You should also consider
+		using Gtk.Builder and the XML Gio.Menu description for creating menus, by
+		following the ‘GMenu guide [https://developer.gnome.org/GMenu/]’.
+		You should consider using icons in menu items only sparingly, and for
+		“objects” (or “nouns”) elements only, like bookmarks, files, and links;
+		“actions” (or “verbs”) should not have icons.
+
+	The problem is, using a Box does not get along with gtk.CheckMenuItem
+	"""
+	if image:
+		item.set_label(label)
+		item.set_image(image)
+		# hbox = HBox(spacing=spacing)
+		# pack(hbox, image)
+		# pack(hbox, gtk.Label(label=label))
+		# item.add(hbox)
+	else:
+		item.set_label(label)
+	item.set_use_underline(True)
 	if func:
+		if args is None:
+			args = ()
 		item.connect("activate", func, *args)
 	return item
 

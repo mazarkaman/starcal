@@ -682,12 +682,10 @@ class MainWin(gtk.ApplicationWindow, ud.BaseCalObj):
 		#	f"avg={ui.Cell.ocTimeSum/ui.Cell.ocTimeCount:e}"
 		#)
 
-	def getEventAddToMenuItem(self):
+	def getEventAddToMenuItem(self) -> Optional[gtk.MenuItem]:
 		from scal3.ui_gtk.drawing import newColorCheckPixbuf
-		addToItem = labelIconMenuItem("_Add Event to", "gtk-add")
 		if event_lib.allReadOnly:
-			addToItem.set_sensitive(False)
-			return addToItem
+			return None
 		menu2 = gtk.Menu()
 		##
 		for group in ui.eventGroups:
@@ -698,34 +696,46 @@ class MainWin(gtk.ApplicationWindow, ud.BaseCalObj):
 			eventTypes = group.acceptsEventTypes
 			if not eventTypes:
 				continue
-			item2 = ImageMenuItem()
-			item2.set_label(group.title)
-			##
-			image = gtk.Image()
+			item2_kwargs = {}
 			if group.icon:
-				image.set_from_file(group.icon)
+				item2_kwargs["imageName"] = group.icon
 			else:
-				image.set_from_pixbuf(newColorCheckPixbuf(group.color, 20, True))
-			item2.set_image(image)
+				item2_kwargs["pixbuf"] = newColorCheckPixbuf(group.color, 20, True)
 			##
 			if len(eventTypes) == 1:
-				item2.connect("activate", self.addToGroupFromMenu, group, eventTypes[0])
+				menu2.add(labelImageMenuItem(
+					group.title,
+					"",
+					func=self.addToGroupFromMenu,
+					args=(group, eventTypes[0]),
+					**item2_kwargs
+				))
 			else:
 				menu3 = gtk.Menu()
 				for eventType in eventTypes:
 					eventClass = event_lib.classes.event.byName[eventType]
-					item3 = ImageMenuItem()
-					item3.set_label(eventClass.desc)
-					icon = eventClass.getDefaultIcon()
-					if icon:
-						item3.set_image(imageFromFile(icon))
-					item3.connect("activate", self.addToGroupFromMenu, group, eventType)
-					menu3.add(item3)
+					menu3.add(labelImageMenuItem(
+						eventClass.desc,
+						eventClass.getDefaultIcon(),
+						func=self.addToGroupFromMenu,
+						args=(group, eventType),
+					))
 				menu3.show_all()
+				item2 = labelImageMenuItem(
+					group.title,
+					"",
+					**item2_kwargs
+				)
 				item2.set_submenu(menu3)
-			menu2.add(item2)
+				menu2.add(item2)
 		##
+		if not menu2.get_children():
+			return None
 		menu2.show_all()
+		addToItem = labelIconMenuItem(
+			_("_Add Event to"),
+			iconName="gtk-add",
+		)
 		addToItem.set_submenu(menu2)
 		return addToItem
 
@@ -761,7 +771,8 @@ class MainWin(gtk.ApplicationWindow, ud.BaseCalObj):
 				menu.add(labelImageMenuItem(
 					_("Edit") + ": " + self.trimMenuItemLabel(eData["text"][0], 25),
 					eData["icon"],
-					self.editEventFromMenu, groupId, eventId,
+					func=self.editEventFromMenu,
+					args=(groupId, eventId,),
 				))
 		else:
 			subMenu = gtk.Menu()
@@ -771,7 +782,8 @@ class MainWin(gtk.ApplicationWindow, ud.BaseCalObj):
 				subMenu.add(labelImageMenuItem(
 					eData["text"][0],
 					eData["icon"],
-					self.editEventFromMenu, groupId, eventId,
+					func=self.editEventFromMenu,
+					args=(groupId, eventId,),
 				))
 			subMenu.show_all()
 			subMenuItem.set_submenu(subMenu)
@@ -786,93 +798,95 @@ class MainWin(gtk.ApplicationWindow, ud.BaseCalObj):
 			menu.add(labelIconMenuItem(
 				_("Copy {calType} Date").format(calType=_(calTypes.getDesc(calType))),
 				"gtk-copy",
-				self.copyDateGetCallback(calType),
-				calType,
+				func=self.copyDateGetCallback(calType),
+				args=(calType,)
 			))
 		menu.add(labelImageMenuItem(
-			"Day Info",
+			_("Day Info"),
 			"gtk-info.svg",
-			self.dayInfoShow,
+			func=self.dayInfoShow,
 		))
-		menu.add(self.getEventAddToMenuItem())
+		addToItem = self.getEventAddToMenuItem()
+		if addToItem is not None:
+			menu.add(addToItem)
 		self.addEditEventCellMenuItems(menu)
 		menu.add(gtk.SeparatorMenuItem())
 		menu.add(labelIconMenuItem(
-			"Select _Today",
+			_("Select _Today"),
 			"gtk-home",
-			self.goToday,
+			func=self.goToday,
 		))
 		menu.add(labelIconMenuItem(
-			"Select _Date...",
+			_("Select _Date..."),
 			"gtk-index",
-			self.selectDateShow,
+			func=self.selectDateShow,
 		))
 		if calObjName in ("weekCal", "monthCal"):
 			isWeek = calObjName == "weekCal"
 			menu.add(labelImageMenuItem(
-				"Switch to " + (
+				_("Switch to " + (
 					"Month Calendar" if isWeek else "Week Calendar"
-				),
+				)),
 				"" if isWeek else "week-calendar.svg",
-				self.switchWcalMcal,
+				func=self.switchWcalMcal,
 			))
 		if os.path.isfile("/usr/bin/evolution"):  # FIXME
 			menu.add(labelImageMenuItem(
-				"In E_volution",
+				_("In E_volution"),
 				"evolution.svg",
-				ui.dayOpenEvolution,
+				func=ui.dayOpenEvolution,
 			))
 		####
 		moreMenu = gtk.Menu()
 		moreMenu.add(labelIconMenuItem(
-			"_Customize",
+			_("_Customize"),
 			"gtk-edit",
-			self.customizeShow,
+			func=self.customizeShow,
 		))
 		moreMenu.add(labelIconMenuItem(
-			"_Preferences",
+			_("_Preferences"),
 			"gtk-preferences",
-			self.prefShow,
+			func=self.prefShow,
 		))
 		moreMenu.add(labelIconMenuItem(
-			"_Event Manager",
+			_("_Event Manager"),
 			"gtk-add",
-			self.eventManShow,
+			func=self.eventManShow,
 		))
 		moreMenu.add(labelImageMenuItem(
-			"Time Line",
+			_("Time Line"),
 			"timeline.svg",
-			self.timeLineShow,
+			func=self.timeLineShow,
 		))
 		moreMenu.add(labelImageMenuItem(
-			"Year Wheel",
+			_("Year Wheel"),
 			"year-wheel.svg",
-			self.yearWheelShow,
+			func=self.yearWheelShow,
 		))  # icon? FIXME
 		moreMenu.add(labelIconMenuItem(
-			"Day Calendar (Desktop Widget)",
+			_("Day Calendar (Desktop Widget)"),
 			"", # FIXME: replace with image
-			self.dayCalWinShow,
+			func=self.dayCalWinShow,
 		))
 		#moreMenu.add(labelImageMenuItem(
 		#	"Week Calendar",
 		#	"week-calendar.svg",
-		#	self.weekCalShow,
+		#	func=self.weekCalShow,
 		#))
 		moreMenu.add(labelIconMenuItem(
 			_("Export to {format}").format(format="HTML"),
 			"gtk-convert",
-			self.onExportClick,
+			func=self.onExportClick,
 		))
 		moreMenu.add(labelIconMenuItem(
-			"_About",
+			_("_About"),
 			"gtk-about",
-			self.aboutShow,
+			func=self.aboutShow,
 		))
 		moreMenu.add(labelIconMenuItem(
-			"_Quit",
+			_("_Quit"),
 			"gtk-quit",
-			self.quit,
+			func=self.quit,
 		))
 		##
 		moreMenu.show_all()
@@ -923,79 +937,79 @@ class MainWin(gtk.ApplicationWindow, ud.BaseCalObj):
 		menu.add(self.checkSticky)
 		#######
 		menu.add(labelIconMenuItem(
-			"Select _Today",
+			_("Select _Today"),
 			"gtk-home",
-			self.goToday,
+			func=self.goToday,
 		))
 		menu.add(labelIconMenuItem(
-			"Select _Date...",
+			_("Select _Date..."),
 			"gtk-index",
-			self.selectDateShow,
+			func=self.selectDateShow,
 		))
 		menu.add(labelImageMenuItem(
-			"Day Info",
+			_("Day Info"),
 			"gtk-info.svg",
-			self.dayInfoShow,
+			func=self.dayInfoShow,
 		))
 		menu.add(labelIconMenuItem(
-			"_Customize",
+			_("_Customize"),
 			"gtk-edit",
-			self.customizeShow,
+			func=self.customizeShow,
 		))
 		menu.add(labelIconMenuItem(
-			"_Preferences",
+			_("_Preferences"),
 			"gtk-preferences",
-			self.prefShow,
+			func=self.prefShow,
 		))
 		#menu.add(labelIconMenuItem(
-		#	"_Add Event",
+		#	_("_Add Event"),
 		#	"gtk-add",
-		#	ui.addCustomEvent,
+		#	func=ui.addCustomEvent,
 		#))
 		#menu.add(labelIconMenuItem(
-		#	"_Event Manager",
+		#	_("_Event Manager"),
 		#	"gtk-add",
-		#	self.eventManShow,
+		#	func=self.eventManShow,
 		#))
 		menu.add(labelIconMenuItem(
-			"Day Calendar (Desktop Widget)",
+			_("Day Calendar (Desktop Widget)"),
 			"", # FIXME: replace with image
-			self.dayCalWinShow,
+			func=self.dayCalWinShow,
 		))
 		menu.add(labelImageMenuItem(
-			"Time Line",
+			_("Time Line"),
 			"timeline.svg",
-			self.timeLineShow,
+			func=self.timeLineShow,
 		))
 		menu.add(labelImageMenuItem(
-			"Year Wheel",
+			_("Year Wheel"),
 			"year-wheel.svg",
-			self.yearWheelShow,
+			func=self.yearWheelShow,
 		))  # icon? FIXME
 		#menu.add(labelImageMenuItem(
-		#	"Week Calendar",
+		#	_("Week Calendar"),
 		#	"week-calendar.svg",
-		#	self.weekCalShow,
+		#	func=self.weekCalShow,
 		#))
 		menu.add(labelIconMenuItem(
 			_("Export to {format}").format(format="HTML"),
 			"gtk-convert",
-			self.onExportClick,
+			func=self.onExportClick,
 		))
 		menu.add(labelIconMenuItem(
-			"Ad_just System Time",
+			_("Ad_just System Time"),
 			"gtk-preferences",
-			self.adjustTime,
+			func=self.adjustTime,
 		))
 		menu.add(labelIconMenuItem(
-			"_About",
+			_("_About"),
 			"gtk-about",
-			self.aboutShow,
+			func=self.aboutShow,
 		))
 		menu.add(labelIconMenuItem(
-			"_Quit",
+			_("_Quit"),
 			"gtk-quit",
-			self.quit,
+			func=self.quit,
 		))
 		menu.show_all()
 		self.menuMain = menu
@@ -1165,22 +1179,22 @@ class MainWin(gtk.ApplicationWindow, ud.BaseCalObj):
 	def getStatusIconPopupItems(self):
 		return [
 			labelIconMenuItem(
-				"Copy _Time",
+				_("Copy _Time"),
 				"gtk-copy",
 				self.copyTime,
 			),
 			labelIconMenuItem(
-				"Copy _Date",
+				_("Copy _Date"),
 				"gtk-copy",
 				self.copyDateToday,
 			),
 			labelIconMenuItem(
-				"Ad_just System Time",
+				_("Ad_just System Time"),
 				"gtk-preferences",
 				self.adjustTime,
 			),
 			#labelIconMenuItem(
-			#	"_Add Event",
+			#	_("_Add Event"),
 			#	"gtk-add",
 			#	ui.addCustomEvent,
 			#),  # FIXME
@@ -1190,38 +1204,38 @@ class MainWin(gtk.ApplicationWindow, ud.BaseCalObj):
 				self.onExportClickStatusIcon,
 			),
 			labelIconMenuItem(
-				"_Preferences",
+				_("_Preferences"),
 				"gtk-preferences",
 				self.prefShow,
 			),
 			labelIconMenuItem(
-				"_Customize",
+				_("_Customize"),
 				"gtk-edit",
 				self.customizeShow,
 			),
 			labelIconMenuItem(
-				"_Event Manager",
+				_("_Event Manager"),
 				"gtk-add",
 				self.eventManShow,
 			),
 			labelImageMenuItem(
-				"Time Line",
+				_("Time Line"),
 				"timeline.svg",
 				self.timeLineShow,
 			),
 			labelImageMenuItem(
-				"Year Wheel",
+				_("Year Wheel"),
 				"year-wheel.svg",
 				self.yearWheelShow,
 			),  # icon? FIXME
 			labelIconMenuItem(
-				"_About",
+				_("_About"),
 				"gtk-about",
 				self.aboutShow,
 			),
 			gtk.SeparatorMenuItem(),
 			labelIconMenuItem(
-				"_Quit",
+				_("_Quit"),
 				"gtk-quit",
 				self.quit,
 			),

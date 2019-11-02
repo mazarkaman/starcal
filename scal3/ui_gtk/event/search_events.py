@@ -529,27 +529,22 @@ class EventSearchWindow(gtk.Window, MyDialog, ud.BaseCalObj):
 			#if not new_group.enable:## FIXME
 			#	continue
 			if event.name in new_group.acceptsEventTypes:
-				new_groupItem = ImageMenuItem()
-				new_groupItem.set_label(new_group.title)
-				##
-				image = gtk.Image()
-				image.set_from_pixbuf(newColorCheckPixbuf(
-					new_group.color,
-					20,
-					True,
+				subMenu.add(labelImageMenuItem(
+					new_group.title,
+					"",
+					pixbuf=newColorCheckPixbuf(
+						new_group.color,
+						20,
+						True,
+					),
+					func=self.moveEventToGroupFromMenu,
+					args=(
+						path,
+						event,
+						group,
+						new_group,
+					),
 				))
-				new_groupItem.set_image(image)
-				##
-				new_groupItem.connect(
-					"activate",
-					self.moveEventToGroupFromMenu,
-					path,
-					event,
-					group,
-					new_group,
-				)
-				##
-				subMenu.add(new_groupItem)
 		##
 		item.set_submenu(subMenu)
 		return item
@@ -566,22 +561,17 @@ class EventSearchWindow(gtk.Window, MyDialog, ud.BaseCalObj):
 			#if not new_group.enable:## FIXME
 			#	continue
 			if event.name in new_group.acceptsEventTypes:
-				new_groupItem = ImageMenuItem()
-				new_groupItem.set_label(new_group.title)
-				##
-				image = gtk.Image()
-				image.set_from_pixbuf(newColorCheckPixbuf(new_group.color, 20, True))
-				new_groupItem.set_image(image)
-				##
-				new_groupItem.connect(
-					"activate",
-					self.copyEventToGroupFromMenu,
-					path,
-					event,
-					new_group,
-				)
-				##
-				subMenu.add(new_groupItem)
+				subMenu.add(labelImageMenuItem(
+					new_group.title,
+					"",
+					pixbuf=newColorCheckPixbuf(new_group.color, 20, True),
+					func=self.copyEventToGroupFromMenu,
+					args=(
+						path,
+						event,
+						new_group,					
+					),
+				))
 		##
 		item.set_submenu(subMenu)
 		return item
@@ -603,17 +593,17 @@ class EventSearchWindow(gtk.Window, MyDialog, ud.BaseCalObj):
 		menu = gtk.Menu()
 		##
 		menu.add(eventWriteMenuItem(
-			"Edit",
+			_("Edit"),
 			"gtk-edit",
-			self.editEventFromMenu,
-			path,
+			func=self.editEventFromMenu,
+			args=(path,),
 		))
 		##
 		menu.add(eventWriteImageMenuItem(
-			"History",
+			_("History"),
 			"history.svg",
-			self.historyOfEventFromMenu,
-			path,
+			func=self.historyOfEventFromMenu,
+			args=(path,),
 		))
 		##
 		menu.add(self.getMoveToGroupSubMenu(path, group, event))
@@ -624,8 +614,8 @@ class EventSearchWindow(gtk.Window, MyDialog, ud.BaseCalObj):
 		menu.add(labelImageMenuItem(
 			_("Move to {title}").format(title=ui.eventTrash.title),
 			ui.eventTrash.icon,
-			self.moveEventToTrashFromMenu,
-			path,
+			func=self.moveEventToTrashFromMenu,
+			args=(path,),
 		))
 		##
 		menu.show_all()

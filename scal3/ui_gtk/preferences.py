@@ -1325,17 +1325,17 @@ class PreferencesWindow(gtk.Window):
 				menu = gtk.Menu()
 				##
 				item = labelIconMenuItem(
-					"_About",
+					_("_About"),
 					"gtk-about",
-					self.onPlugAboutClick,
+					func=self.onPlugAboutClick,
 				)
 				item.set_sensitive(bool(plug.about))
 				menu.add(item)
 				##
 				item = labelIconMenuItem(
-					"_Configure",
+					_("_Configure"),
 					"gtk-preferences",
-					self.onPlugConfClick,
+					func=self.onPlugConfClick,
 				)
 				item.set_sensitive(plug.hasConfig)
 				menu.add(item)
@@ -1343,8 +1343,8 @@ class PreferencesWindow(gtk.Window):
 				menu.add(labelImageMenuItem(
 					_("Export to {format}").format(format="iCalendar"),
 					"text-calendar-ics.svg",
-					self.onPlugExportToIcsClick,
-					plug,
+					func=self.onPlugExportToIcsClick,
+					args=(plug,),
 				))
 				##
 				menu.show_all()

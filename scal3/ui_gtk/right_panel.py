@@ -25,9 +25,9 @@ class RightPanelDayOccurrenceView(DayOccurrenceView):
 	def addExtraMenuItems(self, menu):
 		menu.add(gtk.SeparatorMenuItem())
 		menu.add(labelImageMenuItem(
-			"Swap with Plugins Text",
+			_("Swap with Plugins Text"),
 			"switch-vertical.svg",
-			self.onSwapClick,
+			func=self.onSwapClick,
 		))
 
 	def onSwapClick(self, widget):
