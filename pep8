@@ -1,16 +1,19 @@
 #!/bin/bash
 
-# W191: indentation contains tabs
-# W503: line break occurred before a binary operator
-# W504: line break after binary operator
-# E117: over-indented
-# E261: at least two spaces before inline comment
-# E262: inline comment should start with '# '
-# E265: block comment should start with '# '
-# E402: module level import not at top of file
-# E702: multiple statements on one line (semicolon)
+IGNORE=
+function ignore() {
+	IGNORE="$IGNORE,$1"
+}
 
-IGNORE=W191,W503,W504,E117,E261,E262,E265,E402,E702
+ignore W191 "indentation contains tabs"
+ignore W503 "line break occurred before a binary operator"
+ignore W504 "line break after binary operator"
+ignore E117 "over-indented"
+ignore E261 "at least two spaces before inline comment"
+ignore E262 "inline comment should start with '# '"
+ignore E265 "block comment should start with '# '"
+ignore E402 "module level import not at top of file"
+ignore E702 "multiple statements on one line (semicolon)"
 
 if [ -z $2 ] ; then
 	/usr/bin/pep8 --ignore=$IGNORE "$1" | grep --color=always -P ':\d*:' | less -RU
