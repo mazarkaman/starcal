@@ -30,6 +30,7 @@ from math import sqrt
 
 from typing import Tuple, Callable
 
+from scal3 import cal_types
 from scal3.cal_types import calTypes
 from scal3 import core
 from scal3.core import log
@@ -564,7 +565,7 @@ class CalObj(gtk.DrawingArea, CalBase):
 			self.changeDate(
 				ui.cell.year,
 				ui.cell.month,
-				core.getMonthLen(ui.cell.year, ui.cell.month, calTypes.primary),
+				cal_types.getMonthLen(ui.cell.year, ui.cell.month, calTypes.primary),
 			)
 		elif kname in ("page_up", "k", "p"):
 			self.monthPlus(-1)

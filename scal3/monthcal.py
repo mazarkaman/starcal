@@ -18,11 +18,10 @@
 # Also avalable in /usr/share/common-licenses/GPL on Debian systems
 # or /usr/share/licenses/common/GPL3/license.txt on ArchLinux
 
-from scal3.cal_types import calTypes
+from scal3.cal_types import calTypes, getMonthLen
 from scal3 import core
 from scal3.core import (
 	getMonthName,
-	getMonthLen,
 	getWeekDay,
 	getWeekNumberByJd,
 )

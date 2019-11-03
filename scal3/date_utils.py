@@ -3,15 +3,9 @@ import math
 
 from typing import Tuple, List, Optional, Generator
 
+from scal3 import cal_types
 from scal3.cal_types import calTypes, to_jd, jd_to, GREGORIAN
 from scal3.time_utils import getEpochFromJd
-
-
-def getMonthLen(year: int, month: int, calType: int) -> int:
-	module, ok = calTypes[calType]
-	if not ok:
-		raise RuntimeError(f"cal type '{calType}' not found")
-	return module.getMonthLen(year, month)
 
 
 def monthPlus(y: int, m: int, p: int) -> Tuple[int, int]:
@@ -66,7 +60,7 @@ def validDate(calType: int, y: int, m: int, d: int) -> bool:
 		return False
 	if m < 1 or m > 12:
 		return False
-	if d > getMonthLen(y, m, calType):
+	if d > cal_types.getMonthLen(y, m, calType):
 		return False
 	return True
 
@@ -98,7 +92,7 @@ def jwday(jd: int) -> int:
 
 
 def getJdRangeForMonth(year: int, month: int, calType: int) -> Tuple[int, int]:
-	day = getMonthLen(year, month, calType)
+	day = cal_types.getMonthLen(year, month, calType)
 	return (
 		to_jd(year, month, 1, calType),
 		to_jd(year, month, day, calType) + 1,

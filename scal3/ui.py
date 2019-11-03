@@ -46,6 +46,7 @@ from scal3.json_utils import *
 from scal3.path import *
 from scal3.types_starcal import CellType, CompiledTimeFormat
 
+from scal3 import cal_types
 from scal3.cal_types import calTypes, jd_to
 
 from scal3 import locale_man
@@ -552,7 +553,7 @@ def jdPlus(plus: int = 1) -> None:
 
 def getMonthPlus(tmpCell: CellType, plus: int) -> CellType:
 	year, month = core.monthPlus(tmpCell.year, tmpCell.month, plus)
-	day = min(tmpCell.day, core.getMonthLen(year, month, calTypes.primary))
+	day = min(tmpCell.day, cal_types.getMonthLen(year, month, calTypes.primary))
 	return cellCache.getCellByDate(year, month, day)
 
 
@@ -565,7 +566,7 @@ def yearPlus(plus: int = 1) -> None:
 	global cell
 	year = cell.year + plus
 	month = cell.month
-	day = min(cell.day, core.getMonthLen(year, month, calTypes.primary))
+	day = min(cell.day, cal_types.getMonthLen(year, month, calTypes.primary))
 	cell = cellCache.getCellByDate(year, month, day)
 
 

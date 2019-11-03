@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
+from scal3 import cal_types
 from scal3.cal_types import calTypes
 from scal3 import core
-from scal3.core import getMonthLen
 from scal3.locale_man import tr as _
 
 from scal3.ui_gtk import *
@@ -77,7 +77,7 @@ class YearMonthDayBox(gtk.Box):
 		monthIndex = self.comboMonth.get_active()
 		if monthIndex == -1:
 			return
-		self.spinD.set_range(1, getMonthLen(
+		self.spinD.set_range(1, cal_types.getMonthLen(
 			self.spinY.get_value(),
 			monthIndex + 1,
 			self.calType,

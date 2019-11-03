@@ -201,6 +201,13 @@ def convert(y, m, d, source, target):
 	)
 
 
+def getMonthLen(year: int, month: int, calType: int) -> int:
+	module, ok = calTypes[calType]
+	if not ok:
+		raise RuntimeError(f"cal type '{calType}' not found")
+	return module.getMonthLen(year, month)
+
+
 def getSysDate(calType):
 	if calType == GREGORIAN:
 		return localtime()[:3]
