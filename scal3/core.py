@@ -152,10 +152,6 @@ log = logger.get()
 # __________________ class and function defenitions __________________ #
 
 
-def popen_output(cmd: Union[List[str], str]) -> str:
-	return Popen(cmd, stdout=subprocess.PIPE).communicate()[0]
-
-
 def getVersion() -> str:
 	gitDir = os.path.join(rootDir, ".git")
 	if os.path.isdir(gitDir):
@@ -229,10 +225,6 @@ def getWeekDayAuto(number: int, abbreviate: bool = False, relative: bool = True)
 		return weekDayNameAb[number]
 	else:
 		return weekDayName[number]
-
-
-def getLocaleFirstWeekDay() -> int:
-	return int(popen_output(["locale", "first_weekday"])) - 1
 
 
 # week number in year

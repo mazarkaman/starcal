@@ -33,7 +33,7 @@ from os.path import splitext
 import locale
 import gettext
 
-from typing import Optional, Union, Set, Tuple, Dict, Callable
+from typing import Optional, Union, Set, Tuple, List, Dict, Callable
 
 import natz
 
@@ -233,6 +233,14 @@ for fname in os.listdir(langDir):
 
 
 langDict.sort("name") ## OR "code" or "nativeName" ????????????
+
+
+def popen_output(cmd: Union[List[str], str]) -> str:
+	return Popen(cmd, stdout=subprocess.PIPE).communicate()[0]
+
+
+def getLocaleFirstWeekDay() -> int:
+	return int(popen_output(["locale", "first_weekday"])) - 1
 
 
 def prepareLanguage() -> str:
