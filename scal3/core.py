@@ -40,7 +40,7 @@ from scal3.json_utils import *
 from scal3.utils import *
 
 from scal3 import logger
-from scal3.cal_types import calTypes, jd_to, to_jd, GREGORIAN, getSysDate
+from scal3.cal_types import calTypes, jd_to, to_jd, GREGORIAN
 from scal3 import locale_man
 from scal3.locale_man import tr as _
 from scal3.locale_man import localTz

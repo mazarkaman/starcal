@@ -21,6 +21,7 @@
 from scal3 import logger
 log = logger.get()
 
+from scal3 import cal_types
 from scal3 import core
 from scal3.date_utils import dateEncode, dateDecode
 from scal3.locale_man import tr as _
@@ -156,7 +157,7 @@ class WidgetClass(gtk.Box):
 	def onAddClick(self, button):
 		index = self.getSelectedIndex()
 		calType = self.rule.getCalType()## FIXME
-		row = [encode(core.getSysDate(calType))]
+		row = [encode(cal_types.getSysDate(calType))]
 		if index is None:
 			newIter = self.trees.append(row)
 		else:

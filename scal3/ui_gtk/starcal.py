@@ -53,6 +53,7 @@ if not (isfile(join(confDir, "core.json")) or isdir(join(confDir, "event"))):
 			restartLow()
 
 from scal3.utils import versionLessThan
+from scal3 import cal_types
 from scal3.cal_types import calTypes
 from scal3 import core
 
@@ -662,7 +663,7 @@ class MainWin(gtk.ApplicationWindow, ud.BaseCalObj):
 		self.onDateChange()
 
 	def goToday(self, obj=None):
-		return self.changeDate(*core.getSysDate(calTypes.primary))
+		return self.changeDate(*cal_types.getSysDate(calTypes.primary))
 
 	def onDateChange(self, *a, **kw):
 		# log.debug("MainWin.onDateChange")
@@ -1570,7 +1571,7 @@ class MainWin(gtk.ApplicationWindow, ud.BaseCalObj):
 		self.exportShow(ui.cell.year, ui.cell.month)
 
 	def onExportClickStatusIcon(self, widget=None, event=None):
-		year, month, day = core.getSysDate(calTypes.primary)
+		year, month, day = cal_types.getSysDate(calTypes.primary)
 		self.exportShow(year, month)
 
 	def onConfigChange(self, *a, **kw):

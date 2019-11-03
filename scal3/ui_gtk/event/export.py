@@ -3,6 +3,7 @@ from os.path import join, split, splitext
 
 from scal3.path import deskDir
 from scal3.json_utils import *
+from scal3 import cal_types
 from scal3 import core
 from scal3.core import GREGORIAN
 from scal3.locale_man import tr as _
@@ -164,7 +165,7 @@ class MultiGroupExportDialog(gtk.Dialog, MyDialog):
 		hbox = HBox(spacing=2)
 		pack(hbox, gtk.Label(label=_("File") + ":"))
 		self.fpathEntry = gtk.Entry()
-		y, m, d = core.getSysDate(GREGORIAN)
+		y, m, d = cal_types.getSysDate(GREGORIAN)
 		self.fpathEntry.set_text(join(
 			deskDir,
 			f"events-{y:04d}-{m:02d}-{d:02d}",
