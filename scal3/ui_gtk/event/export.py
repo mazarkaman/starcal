@@ -71,13 +71,14 @@ class SingleGroupExportDialog(gtk.Dialog, MyDialog):
 		self.formatRadioChanged()
 
 	def formatRadioChanged(self, widget=None):
+		from scal3.os_utils import fixStrForFileName
 		fpath = self.fcw.get_filename()
 		if fpath:
 			fname_nox, ext = splitext(split(fpath)[1])
 		else:
 			fname_nox, ext = "", ""
 		if not fname_nox:
-			fname_nox = core.fixStrForFileName(self._group.title)
+			fname_nox = fixStrForFileName(self._group.title)
 		if self.radioIcs.get_active():
 			if ext != ".ics":
 				ext = ".ics"

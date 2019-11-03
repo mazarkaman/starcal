@@ -482,12 +482,6 @@ def epochDateTimeEncode(epoch: int) -> str:
 	))
 
 
-def fixStrForFileName(fname: str) -> str:
-	fname = fname.replace("/", "_").replace("\\", "_")
-	#if osName=="win":  # FIXME
-	return fname
-
-
 # returns False if could not find any browser or command to open the URL
 def openUrl(url: str) -> bool:
 	if osName == "win":

@@ -148,3 +148,21 @@ def goodkill(pid, interval=1, hung=20):
 		if dead(pid):
 			return
 		sleep(interval)
+
+def fixStrForFileNameForWindows(fname: str) -> str:
+	import re
+	fname = re.sub(r'[\x00-\x1f\\/:"*?<>|]+', "_", fname)
+	fname = re.sub(r"[ _]+", "_", fname)
+	if fname.upper() in (
+		"COM1", "COM2", "COM3", "COM4", "COM5", "COM6", "COM7", "COM8", "COM9",
+		"LPT1", "LPT2", "LPT3", "LPT4", "LPT5", "LPT6", "LPT7", "LPT8", "LPT9",
+		"CON", "PRN", "AUX", "NUL",
+	):
+		fname += "-1"
+	return fname
+
+
+def fixStrForFileName(fname: str) -> str:
+	if osName == "win":
+		return fixStrForFileNameForWindows(fname)
+	return fname.replace("/", "_").replace("\\", "_")
