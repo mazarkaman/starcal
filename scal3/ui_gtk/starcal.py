@@ -1592,7 +1592,8 @@ class MainWin(gtk.ApplicationWindow, ud.BaseCalObj):
 
 gtk.init_check(sys.argv)
 
-# clickWebsite = lambda widget, url: core.openUrl(url)
+# from scal3.os_utils import openUrl
+# clickWebsite = lambda widget, url: openUrl(url)
 # gtk.link_button_set_uri_hook(clickWebsite)
 # gtk.about_dialog_set_url_hook(clickWebsite)
 

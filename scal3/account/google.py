@@ -47,6 +47,7 @@ sys.path.append(join(rootDir, "oauth2client"))  # FIXME
 from scal3.utils import toBytes, toStr
 
 from scal3.ics import *
+from scal3.os_utils import openUrl
 from scal3.cal_types import to_jd, jd_to, GREGORIAN
 from scal3.locale_man import tr as _
 from scal3 import core
@@ -309,7 +310,7 @@ class GoogleAccount(Account):
 			oauth_callback = f"http://{auth_host_name}:{port_number}/"
 		else:
 			oauth_callback = "oob"
-		core.openUrl(self.flow.step1_get_authorize_url(oauth_callback))
+		openUrl(self.flow.step1_get_authorize_url(oauth_callback))
 
 		code = None
 		if auth_local_webserver:

@@ -482,46 +482,6 @@ def epochDateTimeEncode(epoch: int) -> str:
 	))
 
 
-# returns False if could not find any browser or command to open the URL
-def openUrl(url: str) -> bool:
-	if osName == "win":
-		Popen([url])
-		return True
-	if osName == "mac":
-		Popen(["open", url])
-		return True
-	try:
-		Popen(["xdg-open", url])
-	except Exception:
-		log.exception("")
-	else:
-		return True
-	#if not url.startswith("http"):  # FIXME
-	#	return
-	try:
-		import webbrowser
-	except ImportError:
-		pass
-	else:
-		webbrowser.open(url)
-		return True
-	try:
-		import gnomevfs
-	except ImportError:
-		pass
-	else:
-		gnomevfs.url_show(url)
-		return True
-	for command in ("gnome-www-browser", "firefox", "iceweasel", "konqueror"):
-		try:
-			Popen([command, url])
-		except Exception:
-			pass
-		else:
-			return True
-	return False
-
-
 def stopRunningThreads() -> None:
 	"""
 	Stopping running timer threads
