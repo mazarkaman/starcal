@@ -80,23 +80,12 @@ from scal3.ui_gtk.layout import WinLayoutBox, WinLayoutObj
 from scal3.ui_gtk.layout_utils import moduleObjectInitializer
 from scal3.ui_gtk.event.utils import checkEventsReadOnly
 from scal3.ui_gtk import hijri as hijri_gtk
+from scal3.ui_gtk.mainwin_items import mainWinItemsDesc
 
 from gi.repository import Gio as gio
 
 
 ui.uiName = "gtk"
-
-
-mainWinItemsDesc = {
-	"dayCal": _("Day Calendar"),
-	"labelBox": _("Year & Month Labels"),
-	"monthCal": _("Month Calendar"),
-	"monthPBar": _("Month Progress Bar"),
-	"seasonPBar": _("Season Progress Bar"),
-	"yearPBar": _("Year Progress Bar"),
-	"toolbar": _("Toolbar"),
-	"weekCal": _("Week Calendar"),
-}
 
 
 def show_event(widget, gevent):
