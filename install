@@ -1,19 +1,22 @@
 #!/bin/bash
+set -e
+
 UI_QT_ENABLE=
 
 function printUsage {
 	## echo "Usage: $0 [TERGET_DIR] [--for-pkg|--portable] [--prefix=/usr/local]"
 	U='\033[4m' ## start Underline
 	E='\033[0;0;0m' ## End formatting
-	echo -e "Usage: $0 [${U}TERGET_DIR${E}] [--for-pkg|--portable] [--prefix=${U}/usr/local${E}]"
+	echo -e "Usage: $0 [${U}TERGET_DIR${E}] [--for-pkg|--portable] [--prefix=${U}/usr/local${E}] [--python=${U}python2.x${E}]"
 }
 
 function clean {
-	for EXP in '.hidden' '*~' '*.pyc' '*.pyo' '*.tar.xz' '*.deb' '*.rpm' '*.spec'; do
-		find . -name "$EXP" -exec rm '{}' \;
+	DIR="$1"
+	for EXP in '.hidden' '*~' '*.pyc' '*.pyo' '*.tar.xz' '*.tar.gz' '*.deb' '*.rpm' '*.spec'; do
+		find "$DIR" -name "$EXP" -exec rm '{}' \; || true
 	done 2>/dev/null
-	find . -name '__pycache__' -exec rm -R '{}' \; 2>/dev/null
-	find . -type d -empty -delete
+	find "$DIR" -name '__pycache__' -exec rm -R '{}' \; 2>/dev/null || true
+	find "$DIR" -type d -empty -delete || true
 }
 
 myPath="$0"
@@ -25,15 +28,14 @@ fi
 
 pkgName=starcal2
 sourceDir="`dirname \"$myPath\"`"
-version=`"$sourceDir/scal2/get_version.py"`
 
-PY=python2
-"$sourceDir/scripts/assert_python2"
+PY_SUPPORTED=(2.7)
+
 
 "$sourceDir/update-perm" ## FIXME
 
 
-options=`getopt -o 'h' --long 'help,for-pkg,portable,prefix:' -n "$0" -- "$@"`
+options=`getopt -o 'h' --long 'help,for-pkg,portable,prefix:,python:' -n "$0" -- "$@"`
 if [ $? != 0 ] ; then
 	printUsage
 	exit 1
@@ -42,6 +44,7 @@ eval set -- "$options" ## Note the quotes around $options are essential!
 options=""
 
 
+pyCmd=""
 prefix=""
 installType=""
 
@@ -51,12 +54,53 @@ while true ; do
 		--for-pkg) installType="for-pkg" ; shift ;;
 		--portable) installType="portable" ; shift ;;
 		--prefix) prefix="$2" ; shift 2 ;;
+		--python) pyCmd="$2" ; shift 2 ;;
 		--) shift ; break ;;
-		*) echo "Internal error!" ; exit 1 ;;
+		*) echo "Internal error!" >&2 ; exit 1 ;;
 	esac
 done
 
-targetDir="$1" ; shift
+if [ "$installType" != "for-pkg" ] ; then
+	if [ -f /etc/debian_version ] ; then
+		if [ "$(lsb_release -is)" = "Ubuntu" ] ; then
+			echo "Your distribution is based on Ubuntu, use: sudo ./install-ubuntu"
+		else
+			echo "Your distribution is based on Debian, use: sudo ./install-debian"
+		fi
+		exit 1
+	elif [ -f /etc/SUSE-brand ] ; then
+		echo "Your distribution is based on SUSE, use: sudo ./install-suse"
+		exit 1
+	elif [ -f /etc/redhat-release ] ; then
+		echo "Your distribution is based on Red Hat, use: sudo ./install-fedora"
+		exit 1
+	elif [ -f /etc/arch-release ] ; then
+		echo "Your distribution is based on ArchLinux, use ./install-archlinux"
+		exit 1
+	fi
+fi
+
+if [ -z "$pyCmd" ] ; then
+	for ver in "${PY_SUPPORTED[@]}" ; do
+		pyCmd=`which "python$ver"` && break
+	done
+	if [ -z "$pyCmd" ] ; then
+		echo "Only these python versions are supported: ${PY_SUPPORTED[@]}" >&2
+		exit 1
+	fi
+fi
+# else
+#	# TODO: check version is compatible
+# fi
+
+echo "Using $pyCmd"
+version=`$pyCmd "$sourceDir/scal2/get_version.py"`
+
+
+targetDir=
+if [ -n "$1" ] ; then
+	targetDir="$1" ; shift
+fi
 if [ -n "$1" ] ; then ## extra arguments
 	printUsage
 	exit 1
@@ -72,7 +116,7 @@ fi
 
 ## do not f*** the system if a variable was empty amiss!
 if [ -z $pkgName ] ; then
-	echo "Internal Error! pkgName=''"
+	echo "Internal Error! pkgName=''" >&2
 	exit 1
 fi
 if [ -z "$prefix" ] ; then ## prefix is empty (not been set)
@@ -110,7 +154,7 @@ mkdir -p "${shareDir}/icons"
 mkdir -p "${shareDir}/pixmaps"
 mkdir -p "${shareDir}/doc/$pkgName"
 mkdir -p "${targetPrefix}/bin"
-mkdir -p "${targetDir}/var/log/starcal2"
+mkdir -p "${targetDir}/var/log/$pkgName"
 mkdir -p "${targetDir}/etc"
 
 
@@ -125,7 +169,7 @@ cp -Rf "$sourceDir/" "${shareDir}/$pkgName" ### PUT SLASH after $sourceDir to co
 
 "${shareDir}/$pkgName/update-perm" ## FIXME
 
-for docFile in license.txt authors ChangeLog ; do
+for docFile in license.txt authors ; do
 	mv -f "${shareDir}/$pkgName/$docFile" "${shareDir}/doc/$pkgName/"
 done
 
@@ -144,12 +188,12 @@ mkdir -p "${shareDir}/icons/hicolor"
 for SZ in 16 22 24 32 48 ; do
 	relDir="icons/hicolor/${SZ}x${SZ}/apps"
 	mkdir -p "${shareDir}/$relDir"
-	mv -f "${shareDir}/$pkgName/$relDir/$pkgName.png" "${shareDir}/$relDir/$pkgName.png"
+	mv -f "${shareDir}/$pkgName/$relDir/starcal2.png" "${shareDir}/$relDir/$pkgName.png"
 done
 rm -R "${shareDir}/$pkgName/icons"
 
 
-cp -f "$sourceDir/pixmaps/$pkgName.png" "${shareDir}/pixmaps/$pkgName.png"
+cp -f "$sourceDir/pixmaps/starcal2.png" "${shareDir}/pixmaps/$pkgName.png"
 
 
 if [ "$installType" = "for-pkg" ] ; then
@@ -162,12 +206,12 @@ fi
 
 
 echo "#!/bin/bash
-$PY $runDirStr/scal2/ui_gtk/starcal2.py \"\$@\"" > "${targetPrefix}/bin/$pkgName"
+$pyCmd $runDirStr/scal2/ui_gtk/starcal2.py \"\$@\"" > "${targetPrefix}/bin/$pkgName"
 chmod 755 "${targetPrefix}/bin/$pkgName"
 
 if [ $UI_QT_ENABLE ] ; then
 	echo "#!/bin/bash
-	$PY $runDirStr/scal2/ui_qt/starcal2.py \"\$@\"" > "${targetPrefix}/bin/$pkgName-qt"
+	$pyCmd $runDirStr/scal2/ui_qt/starcal2.py \"\$@\"" > "${targetPrefix}/bin/$pkgName-qt"
 	chmod 755 "${targetPrefix}/bin/$pkgName-qt"
 fi
 
@@ -180,7 +224,7 @@ echo "[Desktop Entry]
 Encoding=UTF-8
 Name=StarCalendar $version
 GenericName=StarCalendar
-Comment=A Perfect Calendar Program
+Comment=Full-featured Calendar Program
 Comment[fa]=یک برنامهٔ کامل تقویم
 Exec=$pkgName
 Icon=$pkgName
@@ -194,7 +238,7 @@ if [ $UI_QT_ENABLE ] ; then
 	echo "[Desktop Entry]
 Encoding=UTF-8
 Name=StarCalendar $version (Qt)
-Comment=A Perfect Calendar Program (Qt Interface)
+Comment=Full-featured Calendar Program (Qt Interface)
 Comment[fa]=یک برنامهٔ کامل تقویم
 Exec=$pkgName-qt
 Icon=$pkgName
@@ -207,20 +251,15 @@ fi
 
 "$sourceDir/locale.d/install" "${targetPrefix}" ## FIXME
 
-mkdir -p "$targetPrefix/lib/bonobo/servers"
-mv "${shareDir}/$pkgName/scal2/ui_gtk/GNOME_Starcal2Applet.server" "$targetPrefix/lib/bonobo/servers/"
-
 
 ## Cleaning useless files from targetDir
-cd "${shareDir}/$pkgName"
-rm -Rf .git .gitignore .Trash* 2>/dev/null
-rm -Rf google-api-python-client/.git google-api-python-client/.hg* 2>/dev/null
-clean
-cd - > /dev/null
+rm -Rf "${shareDir}/$pkgName/.git" 2>/dev/null
+rm -Rf "${shareDir}/$pkgName/.gitignore" 2>/dev/null
+rm -Rf "${shareDir}/$pkgName/.Trash"* 2>/dev/null
+rm -Rf "${shareDir}/$pkgName/google-api-python-client/.git" 2>/dev/null
+rm -Rf "${shareDir}/$pkgName/google-api-python-client/.hg"* 2>/dev/null
 
-cd "$targetDir"
-clean
-cd - > /dev/null
+clean "${shareDir}/$pkgName"
 
 ## lib/        -->    starcal2-platform-spec
 ## locale/     -->    starcal2-region-*
