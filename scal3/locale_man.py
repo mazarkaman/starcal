@@ -212,7 +212,16 @@ except Exception as e:
 	log.error(f"failed to read default lang file: {e}")
 
 
-for fname in os.listdir(langDir):
+langFileList = []
+with open(join(langDir, "list")) as fp:
+	for line in fp:
+		line = line.strip()
+		if line.startswith("#"):
+			continue
+		langFileList.append(line)
+
+
+for fname in langFileList:
 	fname_nox, ext = splitext(fname)
 	ext = ext.lower()
 	if ext != ".json":
