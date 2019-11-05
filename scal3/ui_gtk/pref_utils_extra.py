@@ -263,30 +263,20 @@ class LangPrefItem(PrefItem):
 		self.obj = locale_man
 		self.attrName = "lang"
 		###
-		ls = gtk.ListStore(GdkPixbuf.Pixbuf, str)
+		ls = gtk.ListStore(str)
 		combo = gtk.ComboBox()
 		combo.set_model(ls)
 		###
-		cell = gtk.CellRendererPixbuf()
-		pack(combo, cell, False)
-		combo.add_attribute(cell, "pixbuf", 0)
-		###
 		cell = gtk.CellRendererText()
 		pack(combo, cell, True)
-		combo.add_attribute(cell, "text", 1)
+		combo.add_attribute(cell, "text", 0)
 		###
 		self._widget = combo
 		self.ls = ls
-		self.append("computer.svg", _("System Setting"))
-		for (key, data) in langDict.items():
-			self.append(data.flag, data.name)
-
-	def append(self, imPath: str, label: str) -> None:
-		if imPath == "":
-			pix = None
-		else:
-			pix = pixbufFromFile(imPath, ui.comboBoxIconSize)
-		self.ls.append([pix, label])
+		self.ls.append([_("System Setting")])
+		for (key, langObj) in langDict.items():
+			# isinstance(langObj, locale_man.LangData)
+			self.ls.append([langObj.name])
 
 	def get(self) -> str:
 		i = self._widget.get_active()
