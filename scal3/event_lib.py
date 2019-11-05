@@ -1959,7 +1959,7 @@ class Event(BsonHistEventObj, RuleContainer):
 			raise RuntimeError("getPath: parent is None")
 		path = SObj.getPath(self)
 		if len(path) != 2:
-			raise RuntimeError("fgetPath: execpected path={path}")
+			raise RuntimeError(f"fgetPath: unexpected path={path}")
 		return path
 
 	def getRevision(self, revHash):
