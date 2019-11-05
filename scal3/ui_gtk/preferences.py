@@ -43,7 +43,84 @@ from scal3.ui_gtk.pref_utils_extra import *
 from scal3.ui_gtk.log_pref import LogLevelPrefItem
 from scal3.ui_gtk.stack import MyStack, StackPage
 from scal3.ui_gtk.mywidgets.buttonbox import MyHButtonBox
+from scal3.ui_gtk.toolbox import (
+	ToolBoxItem as ToolbarItem,
+	CustomizableToolBox as CustomizableToolbar,
+)
 
+
+class PreferencesPluginsToolbar(CustomizableToolbar):
+	def __init__(self, parent):
+		CustomizableToolbar.__init__(
+			self,
+			parent,
+			vertical=True,
+			iconSize=20,
+		)
+		# with iconSize < 20, the button would not become smaller
+		# so 20 is the best size
+		self.buttonAdd = ToolbarItem(
+			"add",
+			"gtk-add",
+			"onPlugAddClick",
+			_("Add"),
+			continuousClick=False,
+		)
+		self.buttonAdd.set_sensitive(False)
+		self.defaultItems = [
+			ToolbarItem(
+				"goto-top",
+				"gtk-goto-top",
+				"plugTreeviewTop",
+				_("Move to top"),
+				continuousClick=False,
+			),
+			ToolbarItem(
+				"go-up",
+				"gtk-go-up",
+				"plugTreeviewUp",
+				_("Move up"),
+				continuousClick=False,
+			),
+			ToolbarItem(
+				"go-down",
+				"gtk-go-down",
+				"plugTreeviewDown",
+				_("Move down"),
+				continuousClick=False,
+			),
+			ToolbarItem(
+				"goto-bottom",
+				"gtk-goto-bottom",
+				"plugTreeviewBottom",
+				_("Move to bottom"),
+				continuousClick=False,
+			),
+			self.buttonAdd,
+			ToolbarItem(
+				"delete",
+				"gtk-delete",
+				"onPlugDeleteClick",
+				_("Delete"),
+				continuousClick=False,
+			),
+		]
+		self.defaultItemsDict = {
+			item._name: item for item in self.defaultItems
+		}
+		self.setData({
+			"items": [
+				("goto-top", True),
+				("go-up", True),
+				("go-down", True),
+				("goto-bottom", True),
+				("add", True),
+				("delete", True),
+			],
+		})
+
+	def setCanAdd(self, canAdd: bool):
+		self.buttonAdd.set_sensitive(canAdd)
 
 class PreferencesWindow(gtk.Window):
 	def __init__(self, **kwargs):
@@ -710,7 +787,13 @@ class PreferencesWindow(gtk.Window):
 		cell = gtk.CellRendererToggle()
 		#cell.set_property("activatable", True)
 		cell.connect("toggled", self.plugTreeviewCellToggled)
-		col = gtk.TreeViewColumn(title=_("Enable"), cell_renderer=cell)
+		titleLabel = gtk.Label(
+			label="<span size='small'>" + _("Enable") + "</span>",
+			use_markup=True,
+		)
+		titleLabel.show()
+		col = gtk.TreeViewColumn(cell_renderer=cell)
+		col.set_widget(titleLabel)
 		col.add_attribute(cell, "active", 1)
 		#cell.set_active(False)
 		col.set_resizable(True)
@@ -720,7 +803,13 @@ class PreferencesWindow(gtk.Window):
 		cell = gtk.CellRendererToggle()
 		#cell.set_property("activatable", True)
 		cell.connect("toggled", self.plugTreeviewCellToggled2)
-		col = gtk.TreeViewColumn(title=_("Show Date"), cell_renderer=cell)
+		titleLabel = gtk.Label(
+			label="<span size='xx-small'>" + _("Show\nDate") + "</span>",
+			use_markup=True,
+		)
+		titleLabel.show()
+		col = gtk.TreeViewColumn(cell_renderer=cell)
+		col.set_widget(titleLabel)
 		col.add_attribute(cell, "active", 2)
 		#cell.set_active(False)
 		col.set_resizable(True)
@@ -785,48 +874,9 @@ class PreferencesWindow(gtk.Window):
 		###
 		pack(vboxPlug, hboxBut)
 		###
-		size = gtk.IconSize.MENU
-		toolbar = gtk.Toolbar()
-		toolbar.set_orientation(gtk.Orientation.VERTICAL)
-		toolbar.set_icon_size(size)
-		# argument 2 to image_new_from_icon_name has no affect,
-		# must use toolbar.set_icon_size
-		# gtk.IconSize.SMALL_TOOLBAR or gtk.IconSize.MENU
-		tb = toolButtonFromIcon("gtk-goto-top", size)
-		set_tooltip(tb, _("Move to top"))
-		tb.connect("clicked", self.plugTreeviewTop)
-		toolbar.insert(tb, -1)
-		########
-		tb = toolButtonFromIcon("gtk-go-up", size)
-		set_tooltip(tb, _("Move up"))
-		tb.connect("clicked", self.plugTreeviewUp)
-		toolbar.insert(tb, -1)
-		#########
-		tb = toolButtonFromIcon("gtk-go-down", size)
-		set_tooltip(tb, _("Move down"))
-		tb.connect("clicked", self.plugTreeviewDown)
-		toolbar.insert(tb, -1)
-		########
-		tb = toolButtonFromIcon("gtk-goto-bottom", size)
-		set_tooltip(tb, _("Move to bottom"))
-		tb.connect("clicked", self.plugTreeviewBottom)
-		toolbar.insert(tb, -1)
-		##########
-		tb = toolButtonFromIcon("gtk-add", size)
-		set_tooltip(tb, _("Add"))
-		#tb.connect("clicked", lambda obj: self.plugAddDialog.run())
-		tb.connect("clicked", self.onPlugAddClick)
-		#if len(self.plugAddItems) == 0:
-		#	tb.set_sensitive(False)
-		toolbar.insert(tb, -1)
-		self.plugButtonAdd = tb
-		###########
-		tb = toolButtonFromIcon("gtk-delete", size)
-		set_tooltip(tb, _("Delete"))
-		tb.connect("clicked", self.onPlugDeleteClick)
-		toolbar.insert(tb, -1)
-		###########
+		toolbar = PreferencesPluginsToolbar(self)
 		pack(hbox, toolbar)
+		self.pluginsToolbar = toolbar
 		#####
 		"""
 		vpan = gtk.VPaned()
@@ -1250,7 +1300,7 @@ class PreferencesWindow(gtk.Window):
 		for (i, title) in core.getDeletedPluginsTable():
 			self.plugAddItems.append(i)
 			self.plugAddTreestore.append([title])
-			self.plugButtonAdd.set_sensitive(True)
+			self.pluginsToolbar.setCanAdd(True)
 		# #### Accounts
 		self.refreshAccounts()
 
@@ -1365,8 +1415,7 @@ class PreferencesWindow(gtk.Window):
 		)
 		###############
 		self.plugAddDialog.run()
-		#self.plugAddDialog.present()
-		#self.plugAddDialog.show()
+		self.pluginsToolbar.setCanAdd(len(self.plugAddItems) > 0)
 
 	def plugAddDialogClose(self, obj, gevent=None):
 		self.plugAddDialog.hide()
@@ -1479,7 +1528,7 @@ class PreferencesWindow(gtk.Window):
 		title = core.allPlugList[j].title
 		self.plugAddTreestore.append([title])
 		log.debug(f"deleting {title}")
-		self.plugButtonAdd.set_sensitive(True)
+		self.pluginsToolbar.setCanAdd(True)
 		if n > 1:
 			self.plugTreeview.set_cursor(min(n - 2, i))
 

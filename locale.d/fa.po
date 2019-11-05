@@ -2158,6 +2158,10 @@ msgid "Show Date"
 msgstr ""
 "نمایش تاریخ"
 
+msgid "Show\nDate"
+msgstr ""
+"نمایش\nتاریخ"
+
 msgid "Show Date in Event Summary"
 msgstr ""
 "نمایش تاریخ در خلاصهٔ رویداد"
