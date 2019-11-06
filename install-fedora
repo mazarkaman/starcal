@@ -109,7 +109,6 @@ and Indian National calendars, as well as common English(Gregorian) calendar
 %{_prefix}/share/starcal2/*
 %{_prefix}/bin/starcal2*
 %{_prefix}/share/applications/starcal2*
-%{_prefix}/lib/bonobo/servers/GNOME_Starcal2Applet.server
 %{_prefix}/share/doc/starcal2/*
 %{_prefix}/share/pixmaps/starcal2.png
 %{_prefix}/share/icons/hicolor/*/apps/starcal2.png
