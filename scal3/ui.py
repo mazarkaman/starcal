@@ -978,7 +978,7 @@ eventTags = (
 	TagIconItem("business"),
 	TagIconItem("education"),
 	TagIconItem("favorite"),
-	TagIconItem("green-clover", desc="Green Clover"),
+	TagIconItem("green_clover", desc="Green Clover"),
 	TagIconItem("holiday"),
 	TagIconItem("important"),
 	TagIconItem("marriage", eventTypes=("yearly",)),

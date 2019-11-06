@@ -1879,7 +1879,7 @@ def fixIconInData(data):
 	icon = data["icon"]
 	iconDir, iconName = split(icon)
 	if iconName == "obituary.png":
-		iconName = "green-clover.svg"
+		iconName = "green_clover.svg"
 	if iconDir == join(svgDir, "event"):
 		icon = iconName
 	elif iconDir == join(pixDir, "event"):
