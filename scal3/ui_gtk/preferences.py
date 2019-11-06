@@ -1169,8 +1169,8 @@ class PreferencesWindow(gtk.Window):
 		ui.preferencesPageName = self.stack.currentPageName()
 		#####
 		# #################### Updating pref variables #####################
-		for opt in self.iterAllPrefItems():
-			opt.updateVar()
+		for prefItem in self.iterAllPrefItems():
+			prefItem.updateVar()
 		# ##### Plugin Manager
 		index = []
 		for row in self.plugTreestore:
