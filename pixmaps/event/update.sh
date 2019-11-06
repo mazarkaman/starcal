@@ -10,7 +10,7 @@ inkscape --export-png birthday2.png $size $inDir/birthday2.svg
 inkscape --export-png business.png $size $inDir/business.svg
 inkscape --export-png education.png $size $inDir/education.svg
 inkscape --export-png favorite.png $size $inDir/favorite.svg
-inkscape --export-png obituary.png $size $inDir/green_clover.svg  # png name is not good
+inkscape --export-png green_clover.png $size $inDir/green_clover.svg
 inkscape --export-png holiday.png $size $inDir/holiday.svg
 inkscape --export-png important.png $size $inDir/important.svg
 inkscape --export-png marriage.png $size $inDir/marriage.svg
