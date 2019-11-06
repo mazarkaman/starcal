@@ -1878,7 +1878,11 @@ class RuleContainer:
 def fixIconInData(data):
 	icon = data["icon"]
 	iconDir, iconName = split(icon)
-	if iconDir == join(pixDir, "event"):
+	if iconName == "obituary.png":
+		iconName = "green-clover.svg"
+	if iconDir == join(svgDir, "event"):
+		icon = iconName
+	elif iconDir == join(pixDir, "event"):
 		icon = iconName
 	data["icon"] = icon
 
@@ -1886,7 +1890,10 @@ def fixIconInData(data):
 def fixIconInObj(self):
 	icon = self.icon
 	if icon and "/" not in icon:
-		icon = join(pixDir, "event", icon)
+		if icon.endswith(".png"):
+			icon = join(pixDir, "event", icon)
+		else:
+			icon = join(svgDir, "event", icon)
 	self.icon = icon
 
 ###########################################################################
@@ -2114,6 +2121,9 @@ class Event(BsonHistEventObj, RuleContainer):
 				_("File") + ": " + fname,
 			))
 		return data
+
+	def getIcon(self):
+		return self.icon
 
 	def getSummary(self):
 		return self.summary
@@ -4446,7 +4456,7 @@ class EventGroup(EventContainer):
 			else:
 				data.append({
 					"id": eid,
-					"icon": event.icon,
+					"icon": event.getIcon(),
 					"summary": event.summary,
 					"description": event.getShownDescription(),
 				})
@@ -5950,7 +5960,7 @@ def getDayOccurrenceData(curJd, groups):
 					"time_epoch": (epoch0, epoch1),
 					"is_allday": epoch0 % dayLen + epoch1 % dayLen == 0,
 					"text": text,
-					"icon": event.icon,
+					"icon": event.getIcon(),
 					"color": color,
 					"ids": (gid, eid),
 					"show": (
@@ -5979,7 +5989,7 @@ def getWeekOccurrenceData(curAbsWeekNumber, groups):
 			if not occur:
 				continue
 			text = event.getText()
-			icon = event.icon
+			icon = event.getIcon()
 			ids = (group.id, event.id)
 			if isinstance(occur, JdOccurSet):
 				for jd in occur.getDaysJdList():
@@ -6074,7 +6084,7 @@ def getMonthOccurrenceData(curYear, curMonth, groups):
 			if not occur:
 				continue
 			text = event.getText()
-			icon = event.icon
+			icon = event.getIcon()
 			ids = (group.id, event.id)
 			if isinstance(occur, JdOccurSet):
 				for jd in occur.getDaysJdList():

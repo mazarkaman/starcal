@@ -942,7 +942,7 @@ def getActiveMonthCalParams():
 
 # 	##############################
 
-tagsDir = join(pixDir, "event")
+eventIconDir = join(svgDir, "event")
 
 
 class TagIconItem:
@@ -953,11 +953,13 @@ class TagIconItem:
 		self.desc = _(desc)
 		if icon:
 			if not isabs(icon):
-				icon = join(tagsDir, icon)
+				icon = join(eventIconDir, icon)
 		else:
-			iconTmp = join(tagsDir, name) + ".png"
+			iconTmp = join(eventIconDir, name) + ".svg"
 			if isfile(iconTmp):
 				icon = iconTmp
+			else:
+				log.debug(f"TagIconItem: file not found: {iconTmp}")
 		self.icon = icon
 		self.eventTypes = eventTypes
 		self.usage = 0
@@ -970,23 +972,25 @@ class TagIconItem:
 
 
 eventTags = (
-	TagIconItem("birthday", eventTypes=("yearly",)),
-	TagIconItem("marriage", eventTypes=("yearly",)),
-	TagIconItem("obituary", eventTypes=("yearly",)),
-	TagIconItem("note", eventTypes=("dailyNote",)),
-	TagIconItem("task", eventTypes=("task",)),
 	TagIconItem("alarm"),
+	TagIconItem("birthday", eventTypes=("yearly",), desc="Birthday (Balloons)"),
+	TagIconItem("birthday2", eventTypes=("yearly",), desc="Birthday (Cake)"),
 	TagIconItem("business"),
-	TagIconItem("personal"),
-	TagIconItem("favorite"),
-	TagIconItem("important"),
-	TagIconItem("appointment", eventTypes=("task",)),
-	TagIconItem("meeting", eventTypes=("task",)),
-	TagIconItem("phone_call", desc="Phone Call", eventTypes=("task",)),
-	TagIconItem("university", eventTypes=("task",)),  # FIXME
 	TagIconItem("education"),
+	TagIconItem("favorite"),
+	TagIconItem("green-clover", desc="Green Clover"),
 	TagIconItem("holiday"),
-	TagIconItem("travel"),
+	TagIconItem("important"),
+	TagIconItem("marriage", eventTypes=("yearly",)),
+	TagIconItem("note", eventTypes=("dailyNote",)),
+	TagIconItem("phone_call", desc="Phone Call", eventTypes=("task",)),
+	TagIconItem("task", eventTypes=("task",)),
+	TagIconItem("university", eventTypes=("task",)),  # FIXME: eventTypes
+
+	TagIconItem("personal"),  # TODO: icon
+	TagIconItem("appointment", eventTypes=("task",)),  # TODO: icon
+	TagIconItem("meeting", eventTypes=("task",)),  # TODO: icon
+	TagIconItem("travel"),  # TODO: icon
 )
 
 

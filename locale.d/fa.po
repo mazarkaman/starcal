@@ -779,6 +779,15 @@ msgid "Birthday"
 msgstr ""
 "تولد"
 
+msgid "Birthday (Balloons)"
+msgstr ""
+"تولد (بادکنک)"
+
+msgid "Birthday (Cake)"
+msgstr ""
+"تولد (کیک)"
+
+
 msgid "Marriage"
 msgstr ""
 "ازدواج"
@@ -786,6 +795,11 @@ msgstr ""
 msgid "Obituary"
 msgstr ""
 "وفات"
+
+msgid "Green Clover"
+msgstr ""
+"شبدر سبز"
+
 
 msgid "Note"
 msgstr ""

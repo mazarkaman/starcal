@@ -100,7 +100,11 @@ class IconSelectButton(gtk.Button):
 		self.emit("changed", fname)
 
 	def _setImage(self, filename):
-		self.image.set_from_pixbuf(pixbufFromFile(filename, ui.imageInputIconSize))
+		self.image.set_from_pixbuf(pixbufFromFile(
+			filename,
+			ui.imageInputIconSize,
+			resize=True,
+		))
 
 	def fileActivated(self, dialog):
 		fname = dialog.get_filename()
