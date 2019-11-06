@@ -33,6 +33,7 @@ from gi.repository import GdkPixbuf
 
 from scal3.ui_gtk import *
 from scal3.ui_gtk.utils import set_tooltip, dialog_add_button, newAlignLabel
+from scal3.ui_gtk.font_utils import gfontEncode
 
 
 from scal3.ui_gtk.mywidgets.multi_spin.integer import IntSpinButton
@@ -47,6 +48,10 @@ ColorType = Union[Tuple[int, int, int], Tuple[int, int, int, int]]
 # (VAR_NAME, int,      LABEL_TEXT, MIN, MAX)             ## SpinButton
 # (VAR_NAME, float,    LABEL_TEXT, MIN, MAX, DIGITS)     ## SpinButton
 class ModuleOptionItem:
+	@classmethod
+	def valueString(cls, value: Any) -> str:
+		return str(value)
+
 	def __init__(
 		self,
 		obj: Any,
@@ -103,6 +108,10 @@ class ModuleOptionItem:
 
 # ("button", LABEL, CLICKED_MODULE_NAME, CLICKED_FUNCTION_NAME)
 class ModuleOptionButton:
+	@classmethod
+	def valueString(cls, value: Any) -> str:
+		return str(value)
+
 	def __init__(self, opt: Tuple) -> None:
 		funcName = opt[2]
 		clickedFunc = getattr(
@@ -118,6 +127,9 @@ class ModuleOptionButton:
 		pack(hbox, button)
 		self._widget = hbox
 
+	def get(self) -> Any:
+		return None
+
 	def updateVar(self) -> None:
 		pass
 
@@ -129,6 +141,10 @@ class ModuleOptionButton:
 
 
 class PrefItem():
+	@classmethod
+	def valueString(cls, value: Any) -> str:
+		return str(value)
+
 	# self.__init__, self.obj, self.attrName, self._widget
 	# self.attrName is string, the name of attribute of `self.obj`
 	def get(self) -> Any:
@@ -154,6 +170,10 @@ class PrefItem():
 
 
 class ComboTextPrefItem(PrefItem):
+	@classmethod
+	def valueString(cls, value: Any) -> str:
+		return self._combo.get_model()[value]
+
 	def __init__(
 		self,
 		obj: Any,
@@ -163,6 +183,7 @@ class ComboTextPrefItem(PrefItem):
 		self.obj = obj
 		self.attrName = attrName
 		combo = gtk.ComboBoxText()
+		self._combo = combo
 		self._widget = combo
 		if items:
 			for s in items:
@@ -317,6 +338,10 @@ class ComboImageTextPrefItem(PrefItem):
 
 
 class FontPrefItem(PrefItem):
+	@classmethod
+	def valueString(cls, value: Any) -> str:
+		return gfontEncode(value)
+
 	def __init__(
 		self,
 		obj: Any,
@@ -389,6 +414,16 @@ class CheckPrefItem(PrefItem):
 
 
 class ColorPrefItem(PrefItem):
+	@classmethod
+	def valueString(cls, value: Any) -> str:
+		if value is None:
+			return "None"
+		if len(value) == 3:
+			return f"rgb{value}"
+		if len(value) == 4:
+			return f"rgba{value}"
+		raise ValueError("unexpected value {value!r}")
+
 	def __init__(
 		self,
 		obj: Any,
