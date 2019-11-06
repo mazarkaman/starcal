@@ -647,9 +647,13 @@ class AICalsPrefItem(PrefItem):
 	):
 		self.activateIndex(path[0])
 
+	def get(self) -> Any:
+		activeNames = [row[0] for row in self.activeTrees]
+		inactiveNames = [row[0] for row in self.inactiveTrees]
+		return (activeNames, inactiveNames)
+
 	def updateVar(self) -> None:
-		calTypes.activeNames = [row[0] for row in self.activeTrees]
-		calTypes.inactiveNames = [row[0] for row in self.inactiveTrees]
+		calTypes.activeNames, calTypes.inactiveNames = self.get()
 		calTypes.update()
 
 	def updateWidget(self) -> None:
