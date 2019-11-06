@@ -412,7 +412,6 @@ class CheckPrefItem(PrefItem):
 		self._sensitiveWidget.set_sensitive(active)
 
 
-
 class ColorPrefItem(PrefItem):
 	@classmethod
 	def valueString(cls, value: Any) -> str:
@@ -607,7 +606,7 @@ class SpinPrefItem(PrefItem):
 			self._widget = hbox
 		else:
 			self._widget = spinb
-		
+
 		if live:
 			# updateWidget needs to be called before following connect() calls
 			self.updateWidget()
@@ -828,7 +827,6 @@ class IconChooserPrefItem(PrefItem):
 			self._onChangeFunc()
 
 
-
 class RadioListPrefItem(PrefItem):
 	def __init__(
 		self,
@@ -966,6 +964,7 @@ class DirectionPrefItem(PrefItem):
 		self.updateVar()
 		if self._onChangeFunc:
 			self._onChangeFunc()
+
 
 class JustificationPrefItem(PrefItem):
 	def __init__(
