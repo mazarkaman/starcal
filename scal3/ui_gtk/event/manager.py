@@ -443,7 +443,7 @@ class EventManagerDialog(gtk.Dialog, MyDialog, ud.BaseCalObj):## FIXME
 	]:
 		return (
 			event.id,
-			pixbufFromFile(event.icon, ui.eventTreeIconSize),
+			pixbufFromFile(event.icon, ui.eventTreeIconSize, resize=True),
 			event.summary,
 			event.getShownDescription(),
 		)
@@ -523,7 +523,7 @@ class EventManagerDialog(gtk.Dialog, MyDialog, ud.BaseCalObj):## FIXME
 	def appendTrash(self) -> None:
 		self.trashIter = self.trees.append(None, (
 			-1,
-			pixbufFromFile(ui.eventTrash.icon, ui.eventTreeIconSize),
+			pixbufFromFile(ui.eventTrash.icon, ui.eventTreeIconSize, resize=True),
 			ui.eventTrash.title,
 			"",
 		))
@@ -1475,7 +1475,7 @@ class EventManagerDialog(gtk.Dialog, MyDialog, ud.BaseCalObj):## FIXME
 		self.trees.set_value(
 			self.trashIter,
 			1,
-			pixbufFromFile(ui.eventTrash.icon, ui.eventTreeIconSize),
+			pixbufFromFile(ui.eventTrash.icon, ui.eventTreeIconSize, resize=True),
 		)
 		self.trees.set_value(
 			self.trashIter,
