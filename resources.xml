@@ -1,0 +1,533 @@
+<resources>
+	<resource path="pixmaps/empty.png">
+		<author>Saeed Rasooli</author>
+		<license>Public Domain</license>
+		<comment></comment>
+	</resource>
+	<resource path="pixmaps/event/alarm.png">
+		<comment>See file "svg/event/alarm.svg"</comment>
+	</resource>
+	<resource path="pixmaps/event/birthday.png">
+		<comment>See file "svg/event/birthday.svg"</comment>
+	</resource>
+	<resource path="pixmaps/event/birthday2.png">
+		<comment>See file "svg/event/birthday2.svg"</comment>
+	</resource>
+	<resource path="pixmaps/event/business.png">
+		<comment>See file "svg/event/business.svg"</comment>
+	</resource>
+	<resource path="pixmaps/event/education.png">
+		<comment>See file "svg/event/education.svg"</comment>
+	</resource>
+	<resource path="pixmaps/event/favorite.png">
+		<comment>See file "svg/event/favorite.svg"</comment>
+	</resource>
+	<resource path="pixmaps/event/green_clover.png">
+		<comment>See file "svg/event/green_clover.svg"</comment>
+	</resource>
+	<resource path="pixmaps/event/holiday.png">
+		<comment>See file "svg/event/holiday.svg"</comment>
+	</resource>
+	<resource path="pixmaps/event/important.png">
+		<comment>See file "svg/event/important.svg"</comment>
+	</resource>
+	<resource path="pixmaps/event/marriage.png">
+		<comment>See file "svg/event/marriage.svg"</comment>
+	</resource>
+	<resource path="pixmaps/event/note.png">
+		<comment>See file "svg/event/note.svg"</comment>
+	</resource>
+	<resource path="pixmaps/event/obituary.png">
+		<comment>See file "svg/event/green_clover.svg"</comment>
+	</resource>
+	<resource path="pixmaps/event/phone_call.png">
+		<comment>See file "svg/event/phone_call.svg"</comment>
+	</resource>
+	<resource path="pixmaps/event/task.png">
+		<comment>See file "svg/event/task.svg"</comment>
+	</resource>
+	<resource path="pixmaps/event/university.png">
+		<comment>See file "svg/event/university.svg"</comment>
+	</resource>
+	<resource path="pixmaps/full_moon_128px.png">
+		<author>Nevit Dilmen</author>
+		<source>https://commons.wikimedia.org/wiki/File:Moon_0063_Nevit.svg</source>
+		<license>Creative Commons Attribution-Share Alike 3.0 Unported</license>
+		<license>GNU Free Documentation License, Version 1.2 or any later version</license>
+		<comment></comment>
+	</resource>
+	<resource path="pixmaps/full_moon_48px.png">
+		<comment>See file "pixmaps/full_moon_128px.png"</comment>
+	</resource>
+	<resource path="pixmaps/zoom-question-22.png">
+		<author>Faenza Icon Theme</author>
+		<license>GPLv3</license>
+		<comment>Modified by Saeed Rasooli</comment>
+	</resource>
+	<resource path="pixmaps/screenruler.png">
+		<author>Faenza Icon Theme</author>
+		<license>GPLv3</license>
+		<comment></comment>
+	</resource>
+	<resource path="pixmaps/screenruler-redline.png">
+		<author>Faenza Icon Theme</author>
+		<license>GPLv3</license>
+		<comment>by modifying screenruler.png by Saeed Rasooli</comment>
+	</resource>
+	<resource path="pixmaps/starcal.png">
+		<author>Saeed Rasooli</author>
+		<license>Public Domain</license>
+		<comment></comment>
+	</resource>
+	<resource path="pixmaps/starcal-24.png">
+		<author>Saeed Rasooli</author>
+		<license>Public Domain</license>
+		<comment></comment>
+	</resource>
+	<resource path="pixmaps/starcal-inactive.png">
+		<author>Saeed Rasooli</author>
+		<license>Public Domain</license>
+		<comment></comment>
+	</resource>
+	<resource path="pixmaps/zoom-in.png">
+		<author>Oxygen Icon Theme</author>
+		<license>LGPLv3+</license>
+		<comment></comment>
+	</resource>
+	<resource path="svg/application-exit.svg">
+		<author>>Oxygen Icon Theme</author>
+		<license>LGPLv3+</license>
+		<comment></comment>
+	</resource>
+	<resource path="svg/applications-development-web.svg">
+		<author>>Oxygen Icon Theme</author>
+		<license>LGPLv3+</license>
+		<comment></comment>
+	</resource>
+	<resource path="svg/applications-graphics.svg">
+		<author>>Oxygen Icon Theme</author>
+		<license>LGPLv3+</license>
+		<comment></comment>
+	</resource>
+	<resource path="svg/applications-system.svg">
+		<author>>Oxygen Icon Theme</author>
+		<license>LGPLv3+</license>
+		<comment></comment>
+	</resource>
+	<resource path="svg/color-check.svg">
+		<author>Saeed Rasooli</author>
+		<license>Public Domain</license>
+		<comment></comment>
+	</resource>
+	<resource path="svg/computer.svg">
+		<author>>Oxygen Icon Theme</author>
+		<license>LGPLv3+</license>
+		<comment></comment>
+	</resource>
+	<resource path="svg/configure.svg">
+		<author>Oxygen Icon Theme</author>
+		<license>LGPLv3+</license>
+		<comment>Based on configure-toolbars.svg, Modified by Saeed Rasooli</comment>
+	</resource>
+	<resource path="svg/configure-toolbars.svg">
+		<author>>Oxygen Icon Theme</author>
+		<license>LGPLv3+</license>
+		<comment></comment>
+	</resource>
+	<resource path="svg/dnd-date.svg">
+		<author>Saeed Rasooli</author>
+		<license>Public Domain</license>
+		<comment></comment>
+	</resource>
+	<resource path="svg/dnd-font.svg">
+		<author>Saeed Rasooli</author>
+		<license>Public Domain</license>
+		<comment></comment>
+	</resource>
+	<resource path="svg/document-edit.svg">
+		<author>>Oxygen Icon Theme</author>
+		<license>LGPLv3+</license>
+		<comment></comment>
+	</resource>
+	<resource path="svg/event/alarm.svg">
+		<author>svgrepo.com</author>
+		<license>Creative Commons BY 4.0</license>
+		<source>https://www.svgrepo.com/svg/46885/alarm-clock</source>
+		<comment>Modified by Saeed Rasooli</comment>
+	</resource>
+	<resource path="svg/event/birthday2.svg">
+		<author>svgrepo.com</author>
+		<license>Creative Commons BY 4.0</license>
+		<source>https://www.svgrepo.com/svg/229632/birthday-cake-cake</source>
+		<comment>Modified by Saeed Rasooli</comment>
+	</resource>
+	<resource path="svg/event/birthday.svg">
+		<author>https://openclipart.org/media/people/AJ</author>
+		<license>Public Domain</license>
+		<source>https://en.wikipedia.org/wiki/File:Balloons-aj.svg</source>
+		<comment>Modified by Saeed Rasooli</comment>
+	</resource>
+	<resource path="svg/event/business.svg">
+		<author>svgrepo.com</author>
+		<license>Creative Commons BY 4.0</license>
+		<source>https://www.svgrepo.com/svg/241842/suitcase-portfolio</source>
+		<comment>Modified by Saeed Rasooli</comment>
+	</resource>
+	<resource path="svg/event/education.svg">
+		<author>Oxygen Icon Theme</author>
+		<license>LGPLv3+</license>
+		<source>scalable/categories/small/22x22/applications-education.svgz</source>
+		<comment>Modified by Saeed Rasooli</comment>
+	</resource>
+	<resource path="svg/event/favorite.svg">
+		<author>Oxygen Icon Theme</author>
+		<license>LGPLv3+</license>
+		<source>scalable/places/favorites.svgz</source>
+		<comment>Modified by Saeed Rasooli</comment>
+	</resource>
+	<resource path="svg/event/green_clover.svg">
+		<author>https://pixabay.com/users/OpenClipart-Vectors-30363/</author>
+		<source>https://pixabay.com/vectors/four-leaf-clover-clover-luck-lucky-152047/</source>
+		<license>https://pixabay.com/service/license/</license>
+		<comment>Modified by Saeed Rasooli</comment>
+		<comment2>Replaces pixmaps/event/obituary.png</comment2>
+	</resource>
+	<resource path="svg/event/holiday.svg">
+		<author>svgrepo.com</author>
+		<license>Creative Commons BY 4.0</license>
+		<source>https://www.svgrepo.com/svg/56142/beach</source>
+		<comment>Modified by Saeed Rasooli</comment>
+	</resource>
+	<resource path="svg/event/important.svg">
+		<author>Oxygen Icon Theme</author>
+		<license>LGPLv3+</license>
+		<source>scalable/emblems/emblem-important.svgz</source>
+		<comment>Modified by Saeed Rasooli</comment>
+	</resource>
+	<resource path="svg/event/marriage.svg">
+		<author>svgrepo.com</author>
+		<license>Creative Commons BY 4.0</license>
+		<source>https://www.svgrepo.com/svg/13540/wedding-couple</source>
+		<comment>Modified by Saeed Rasooli</comment>
+	</resource>
+	<resource path="svg/event/note.svg">
+		<author>Saeed Rasooli</author>
+		<license>Public Domain</license>
+		<source></source>
+		<comment></comment>
+	</resource>
+	<resource path="svg/event/phone_call.svg">
+		<author>Oxygen Icon Theme</author>
+		<license>LGPLv3+</license>
+		<source>scalable/devices/small/32x32/phone.svgz</source>
+		<comment>Modified by Saeed Rasooli</comment>
+	</resource>
+	<resource path="svg/event/task.svg">
+		<author>Oxygen Icon Theme</author>
+		<license>LGPLv3+</license>
+		<source>scalable/actions/small/16x16/view-calendar-tasks.svg</source>
+		<comment></comment>
+	</resource>
+	<resource path="svg/event/university.svg">
+		<author>Saeed Rasooli</author>
+		<license>Public Domain</license>
+		<comment></comment>
+	</resource>
+	<resource path="svg/evolution.svg">
+		<author>Jakub Steiner</author>
+		<license>Creative Commons Attribution-ShareAlike 2.5</license>
+		<source>https://commons.wikimedia.org/wiki/File:GNOME_Evolution_logo_(official).svg</source>
+		<comment></comment>
+	</resource>
+	<resource path="svg/flags/ir.svg">
+		<author>Saeed Rasooli</author>
+		<license>Public Domain</license>
+		<comment></comment>
+	</resource>
+	<resource path="svg/go-down.svg">
+		<author>>Oxygen Icon Theme</author>
+		<license>LGPLv3+</license>
+		<comment></comment>
+	</resource>
+	<resource path="svg/go-home.svg">
+		<author>>Oxygen Icon Theme</author>
+		<license>LGPLv3+</license>
+		<comment></comment>
+	</resource>
+	<resource path="svg/go-next.svg">
+		<author>>Oxygen Icon Theme</author>
+		<license>LGPLv3+</license>
+		<comment></comment>
+	</resource>
+	<resource path="svg/go-previous.svg">
+		<author>>Oxygen Icon Theme</author>
+		<license>LGPLv3+</license>
+		<comment></comment>
+	</resource>
+	<resource path="svg/go-up.svg">
+		<author>>Oxygen Icon Theme</author>
+		<license>LGPLv3+</license>
+		<comment></comment>
+	</resource>
+	<resource path="svg/gtk-info.svg">
+		<author>Faenza Icon Theme</author>
+		<license>GPLv3</license>
+		<source>https://commons.wikimedia.org/wiki/File:Faenza-gtk-info.svg</source>
+		<comment></comment>
+	</resource>
+	<resource path="svg/history.svg">
+		<author>Saeed Rasooli</author>
+		<license>Public Domain</license>
+		<comment></comment>
+	</resource>
+	<resource path="svg/movement.svg">
+		<author>Oxygen Icon Theme</author>
+		<license>LGPLv3+</license>
+		<comment>extracted from debug-execute-from-cursor.png</comment>
+	</resource>
+	<resource path="svg/preferences-desktop-color.svg">
+		<author>>Oxygen Icon Theme</author>
+		<license>LGPLv3+</license>
+		<comment></comment>
+	</resource>
+	<resource path="svg/preferences-desktop-locale.svg">
+		<author>>Oxygen Icon Theme</author>
+		<license>LGPLv3+</license>
+		<comment></comment>
+	</resource>
+	<resource path="svg/preferences-desktop-theme.svg">
+		<author>>Oxygen Icon Theme</author>
+		<license>LGPLv3+</license>
+		<comment></comment>
+	</resource>
+	<resource path="svg/preferences-other.svg">
+		<author>>Oxygen Icon Theme</author>
+		<license>LGPLv3+</license>
+		<comment></comment>
+	</resource>
+	<resource path="svg/preferences-plugin.svg">
+		<author>>Oxygen Icon Theme</author>
+		<license>LGPLv3+</license>
+		<comment></comment>
+	</resource>
+	<resource path="svg/resize-small.svg">
+		<author>Saeed Rasooli</author>
+		<license>Public Domain</license>
+		<comment></comment>
+	</resource>
+	<resource path="svg/resize.svg">
+		<author>Saeed Rasooli</author>
+		<license>Public Domain</license>
+		<comment></comment>
+	</resource>
+	<resource path="svg/screenruler.svg">
+		<author>Fabián Alexis</author>
+		<source>https://commons.wikimedia.org/wiki/File:Antu_screenruler-icon.svg</source>
+		<license>Creative Commons Attribution-Share Alike 3.0 Unported</license>
+		<comment></comment>
+	</resource>
+	<resource path="svg/starcal-logo.svg">
+		<author>Saeed Rasooli</author>
+		<license>Public Domain</license>
+		<comment></comment>
+	</resource>
+	<resource path="svg/starcal.svg">
+		<author>Saeed Rasooli</author>
+		<license>Public Domain</license>
+		<comment></comment>
+	</resource>
+	<resource path="svg/switch-vertical.svg">
+		<author>>Oxygen Icon Theme</author>
+		<license>LGPLv3+</license>
+		<comment>by modifying system-switch-user.svg by Saeed Rasooli</comment>
+	</resource>
+	<resource path="svg/text-calendar-ics.svg">
+		<author>>Oxygen Icon Theme</author>
+		<license>LGPLv3+</license>
+		<comment>by modifying text-calendar.svg by Saeed Rasooli</comment>
+	</resource>
+	<resource path="svg/text-calendar.svg">
+		<author>>Oxygen Icon Theme</author>
+		<license>LGPLv3+</license>
+		<comment></comment>
+	</resource>
+	<resource path="svg/timeline.svg">
+		<author>Saeed Rasooli</author>
+		<license>Public Domain</license>
+		<comment>extracted the clock from Evolution logo</comment>
+	</resource>
+	<resource path="svg/transform-move.svg">
+		<author>>Oxygen Icon Theme</author>
+		<license>LGPLv3+</license>
+		<comment></comment>
+	</resource>
+	<resource path="svg/user-trash.svg">
+		<author>Tango Icon Library</author>
+		<license>Public Domain</license>
+		<comment></comment>
+	</resource>
+	<resource path="svg/view-calendar-timeline.svg">
+		<author>Oxygen Icon Theme</author>
+		<license>LGPLv3+</license>
+		<comment></comment>
+	</resource>
+	<resource path="svg/week-calendar.svg">
+		<author>Saeed Rasooli</author>
+		<license>Public Domain</license>
+		<comment></comment>
+	</resource>
+	<resource path="svg/window-close-focus.svg">
+		<author>Saeed Rasooli</author>
+		<license>Public Domain</license>
+		<comment></comment>
+	</resource>
+	<resource path="svg/window-close-inactive.svg">
+		<author>Saeed Rasooli</author>
+		<license>Public Domain</license>
+		<comment></comment>
+	</resource>
+	<resource path="svg/window-close.svg">
+		<author>Saeed Rasooli</author>
+		<license>Public Domain</license>
+		<comment></comment>
+	</resource>
+	<resource path="svg/window-left-focus.svg">
+		<author>Saeed Rasooli</author>
+		<license>Public Domain</license>
+		<comment></comment>
+	</resource>
+	<resource path="svg/window-left-inactive.svg">
+		<author>Saeed Rasooli</author>
+		<license>Public Domain</license>
+		<comment></comment>
+	</resource>
+	<resource path="svg/window-left.svg">
+		<author>Saeed Rasooli</author>
+		<license>Public Domain</license>
+		<comment></comment>
+	</resource>
+	<resource path="svg/window-maximize-focus.svg">
+		<author>Saeed Rasooli</author>
+		<license>Public Domain</license>
+		<comment></comment>
+	</resource>
+	<resource path="svg/window-maximize-inactive.svg">
+		<author>Saeed Rasooli</author>
+		<license>Public Domain</license>
+		<comment></comment>
+	</resource>
+	<resource path="svg/window-maximize.svg">
+		<author>Saeed Rasooli</author>
+		<license>Public Domain</license>
+		<comment></comment>
+	</resource>
+	<resource path="svg/window-minimize-focus.svg">
+		<author>Saeed Rasooli</author>
+		<license>Public Domain</license>
+		<comment></comment>
+	</resource>
+	<resource path="svg/window-minimize-inactive.svg">
+		<author>Saeed Rasooli</author>
+		<license>Public Domain</license>
+		<comment></comment>
+	</resource>
+	<resource path="svg/window-minimize.svg">
+		<author>Saeed Rasooli</author>
+		<license>Public Domain</license>
+		<comment></comment>
+	</resource>
+	<resource path="svg/window-right-focus.svg">
+		<author>Saeed Rasooli</author>
+		<license>Public Domain</license>
+		<comment></comment>
+	</resource>
+	<resource path="svg/window-right-inactive.svg">
+		<author>Saeed Rasooli</author>
+		<license>Public Domain</license>
+		<comment></comment>
+	</resource>
+	<resource path="svg/window-right.svg">
+		<author>Saeed Rasooli</author>
+		<license>Public Domain</license>
+		<comment></comment>
+	</resource>
+	<resource path="svg/year-wheel.svg">
+		<author>Saeed Rasooli</author>
+		<license>Public Domain</license>
+		<comment></comment>
+	</resource>
+	<resource path="svg/zoom-in.svg">
+		<author>Oxygen Icon Theme</author>
+		<license>LGPLv3+</license>
+		<source>scalable/actions/small/48x48/zoom-in.png</source>
+		<comment></comment>
+	</resource>
+	<resource path="svg/zoom-question.svg">
+		<author>Faenza Icon Theme</author>
+		<license>GPLv3</license>
+		<comment>Modified by Saeed Rasooli</comment>
+	</resource>
+	<resource path="plugins/iran-ancient-data.txt">
+		<author>Reza Moradi Ghiasabadi (www.ghiasabadi.com)</author>
+		<license>
+			Permission to re-destribute and use as part of StarCalendar was granted by the author.
+			Please contact Reza Moradi Ghiasabadi for terms of use in other programs.
+		</license>
+		<comment></comment>
+	</resource>
+	<resource path="plugins/iran-gregorian-data.txt">
+		<author>Calendar Center Council, Institute of Geophysics, University of Tehran</author>
+		<author>Saeed Rasooli</author>
+		<author>Mola Pahnadayan</author>
+		<license>Public Domain</license>
+		<comment></comment>
+	</resource>
+	<resource path="plugins/iran-gregorian-2-data.txt">
+		<author>Calendar Center Council, Institute of Geophysics, University of Tehran</author>
+		<author>Saeed Rasooli</author>
+		<author>Mola Pahnadayan</author>
+		<license>Public Domain</license>
+		<comment></comment>
+	</resource>
+	<resource path="plugins/iran-jalali-data.txt">
+		<author>Calendar Center Council, Institute of Geophysics, University of Tehran</author>
+		<author>Saeed Rasooli</author>
+		<author>Mola Pahnadayan</author>
+		<license>Public Domain</license>
+		<comment></comment>
+	</resource>
+	<resource path="plugins/pray_times_files/locations.txt">
+		<author email="spapadim+@cs.cmu.edu">Papadimitriou Spiros</author>
+		<author email="danw@gnome.org">Dan Winship</author>
+		<author email="vuntz@gnome.org">Vincent Untz</author>
+		<author email="fsolensky@src.gnome.org">Frank Solensky</author>
+		<author email="saeed.gnu@gmail.com">Saeed Rasooli</author>
+		<license>GNU General Public License v2.0</license>
+		<source>https://github.com/GNOME/libgweather/blob/mainline/data/Locations.xml</source>
+		<comment>https://wiki.gnome.org/Projects/LibGWeather</comment>
+		<comment>
+			I extracted this from LibGWeather a very long time ago.
+			Then re-formatted it and added new cities in Iran.
+			Current file has 249 countries and 3932 cities worldwide
+		</comment>
+	</resource>
+	<resource path="plugins/iran-jalali-2-data.txt">
+		<author>Calendar Center Council, Institute of Geophysics, University of Tehran</author>
+		<author>Saeed Rasooli</author>
+		<author>Mola Pahnadayan</author>
+		<license>Public Domain</license>
+		<comment></comment>
+	</resource>
+	<resource path="plugins/iran-hijri-data.txt">
+		<author>Calendar Center Council, Institute of Geophysics, University of Tehran</author>
+		<author>Saeed Rasooli</author>
+		<author>Mola Pahnadayan</author>
+		<license>Public Domain</license>
+		<comment></comment>
+	</resource>
+	<resource path="plugins/iran-hijri-2-data.txt">
+		<author>Saeed Rasooli</author>
+		<license>Public Domain</license>
+		<comment></comment>
+	</resource>
+</resources>
