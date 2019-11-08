@@ -302,9 +302,9 @@ def dialog_add_button(
 def confirm(msg, **kwargs):
 	win = gtk.MessageDialog(
 		flags=0,
-		type=gtk.MessageType.INFO,
+		message_type=gtk.MessageType.INFO,
 		buttons=gtk.ButtonsType.NONE,
-		message_format=msg,
+		text=msg,
 		**kwargs
 	)
 	dialog_add_button(
