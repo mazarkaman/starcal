@@ -2091,7 +2091,11 @@ msgstr ""
 "‎/usr/share/common-licenses/GPL\n"
 "مشاهده کنید؛ در غیر این‌صورت به آدرس\n"
 "‎http://www.gnu.org/licenses/gpl.txt\n"
-"مراجعه کنید."
+"مراجعه کنید.\n"
+"\n"
+"برای مشاهدهٔ سازندگان و مجوز تصاویر و فایل‌های داده‌ای مورد استفاده در برنامه، به فایل resources.xml موجود در پوشهٔ پروژه یا مسیر\n"
+"/usr/share/starcal3/resources.xml\n"
+"مراجعه کنید"
 
 
 
