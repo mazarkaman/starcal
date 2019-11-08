@@ -71,6 +71,8 @@ class ToolBoxItem(gtk.Button, ConButtonBase, CustomizableCalObj):
 		# self.shortDesc = shortDesc  # FIXME
 		######
 		if not labelOnly and iconName:
+			# render_icon_pixbuf is Deprecated since version 3.10:
+			# Use Gtk.IconTheme.load_icon() instead.
 			self.bigPixbuf = self.render_icon_pixbuf(
 				iconName,
 				gtk.IconSize.DIALOG,

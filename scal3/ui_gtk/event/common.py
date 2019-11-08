@@ -114,7 +114,7 @@ class WidgetClass(gtk.Box):
 		self.descriptionInput = TextFrame()
 		swin = gtk.ScrolledWindow()
 		swin.set_policy(gtk.PolicyType.AUTOMATIC, gtk.PolicyType.AUTOMATIC)
-		swin.add_with_viewport(self.descriptionInput)
+		swin.add(self.descriptionInput)
 		###
 		frame = gtk.Frame()
 		frame.set_label(_("Description"))

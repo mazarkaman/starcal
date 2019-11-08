@@ -24,7 +24,8 @@ from scal3.ui_gtk import *
 class WidgetClass(gtk.FileChooserButton):
 	def __init__(self, notifier):
 		self.notifier = notifier
-		gtk.FileChooserButton.__init__(self, _("Select Sound"))
+		gtk.FileChooserButton.__init__(self)
+		self.set_title(_("Select Sound"))
 		self.set_local_only(True)
 
 	def updateWidget(self):

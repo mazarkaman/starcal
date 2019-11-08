@@ -97,7 +97,7 @@ class EventTagsAndIconSelect(gtk.Box):
 			gtk.PolicyType.ALWAYS,  # horizontal AUTOMATIC or ALWAYS FIXME
 			gtk.PolicyType.NEVER,
 		)
-		self.swin.add_with_viewport(hbox3)
+		self.swin.add(hbox3)
 		pack(self, self.swin, 1, 1)
 		self.customTypeWidgets = (iconLabel, self.iconSelect, tagsLabel, self.swin)
 		#########

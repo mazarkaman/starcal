@@ -59,7 +59,7 @@ class EventEditorDialog(gtk.Dialog):
 		#######
 		hbox = HBox()
 		pack(hbox, gtk.Label(
-			_("Group") + ": " + self._group.title
+			label=_("Group") + ": " + self._group.title
 		))
 		hbox.show_all()
 		pack(self.vbox, hbox)
