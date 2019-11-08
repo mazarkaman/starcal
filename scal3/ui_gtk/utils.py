@@ -99,19 +99,11 @@ def imageFromIconName(
 		return gtk.Image.new_from_icon_name(iconName, size)
 
 
-def imageFromFile(path, size=0):
+def imageFromFile(path, size=0, resize=False):
 	# the file must exist
-	if path.endswith(".svg"):
-		if size <= 0:
-			raise ValueError(f"imageFromFile: size invalid/not-given for {path}")
-		return imageFromSvgFile(path, size)
-	if not isabs(path):
-		path = join(pixDir, path)
 	im = gtk.Image()
-	try:
-		im.set_from_file(path)
-	except Exception:
-		log.exception(f"Error while opening image {path}")
+	pixbuf = pixbufFromFile(path, size=size, resize=resize)
+	im.set_from_pixbuf(pixbuf)
 	return im
 
 
@@ -204,7 +196,7 @@ def labelImageMenuItem(
 ):
 	image = None
 	if imageName:
-		image = imageFromFile(imageName, ui.menuIconSize)
+		image = imageFromFile(imageName, ui.menuIconSize, resize=True)
 	elif pixbuf:
 		image = gtk.Image()
 		image.set_from_pixbuf(pixbuf)
