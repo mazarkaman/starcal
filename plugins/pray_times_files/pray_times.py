@@ -27,7 +27,7 @@ import time
 from time import localtime
 from time import time as now
 
-from os.path import join, isfile, dirname
+from os.path import join, isfile, isdir, dirname
 
 
 #_mypath = __file__
@@ -83,9 +83,13 @@ def getCurrentJd() -> int:
 
 
 def readLocationData():
+	locationsDir = join(rootDir, "data", "locations")
 	cityTransDict = {}
-	for country in ["iran"]:
-		transPath = join(rootDir, "data", "locations", country, f"{langSh}.json")
+	for countryName in os.listdir(locationsDir):
+		countryDir = join(locationsDir, countryName)
+		if not isdir(countryDir):
+			continue
+		transPath = join(countryDir, f"{langSh}.json")
 		if isfile(transPath):
 			log.info(f"------------- reading {transPath}")
 			with open(transPath, encoding="utf8") as fp:
@@ -97,7 +101,7 @@ def readLocationData():
 			return nameTrans
 		return _(name)
 
-	fpath = join(rootDir, "data", "locations", "world.txt.bz2")
+	fpath = join(locationsDir, "world.txt.bz2")
 	log.info(f"------------- reading {fpath}")
 	import bz2
 	with bz2.open(fpath, mode="rt", encoding="utf8") as fp:
