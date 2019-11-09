@@ -1,4 +1,19 @@
 <resources>
+	<resource path="data/locations/world.txt.bz2">
+		<author email="spapadim+@cs.cmu.edu">Papadimitriou Spiros</author>
+		<author email="danw@gnome.org">Dan Winship</author>
+		<author email="vuntz@gnome.org">Vincent Untz</author>
+		<author email="fsolensky@src.gnome.org">Frank Solensky</author>
+		<author email="saeed.gnu@gmail.com">Saeed Rasooli</author>
+		<license>GNU General Public License v2.0</license>
+		<source>https://github.com/GNOME/libgweather/blob/mainline/data/Locations.xml</source>
+		<comment>https://wiki.gnome.org/Projects/LibGWeather</comment>
+		<comment>
+			I extracted this from LibGWeather a very long time ago.
+			Then re-formatted it and added new cities in Iran.
+			Current file has 249 countries and 3932 cities worldwide
+		</comment>
+	</resource>
 	<resource path="pixmaps/empty.png">
 		<author>Saeed Rasooli</author>
 		<license>Public Domain</license>
@@ -92,6 +107,54 @@
 	<resource path="pixmaps/zoom-in.png">
 		<author>Oxygen Icon Theme</author>
 		<license>LGPLv3+</license>
+		<comment></comment>
+	</resource>
+	<resource path="plugins/iran-ancient-data.txt">
+		<author>Reza Moradi Ghiasabadi (www.ghiasabadi.com)</author>
+		<license>
+			Permission to re-destribute and use as part of StarCalendar was granted by the author.
+			Please contact Reza Moradi Ghiasabadi for terms of use in other programs.
+		</license>
+		<comment></comment>
+	</resource>
+	<resource path="plugins/iran-gregorian-data.txt">
+		<author>Calendar Center Council, Institute of Geophysics, University of Tehran</author>
+		<author>Saeed Rasooli</author>
+		<author>Mola Pahnadayan</author>
+		<license>Public Domain</license>
+		<comment></comment>
+	</resource>
+	<resource path="plugins/iran-gregorian-2-data.txt">
+		<author>Calendar Center Council, Institute of Geophysics, University of Tehran</author>
+		<author>Saeed Rasooli</author>
+		<author>Mola Pahnadayan</author>
+		<license>Public Domain</license>
+		<comment></comment>
+	</resource>
+	<resource path="plugins/iran-jalali-data.txt">
+		<author>Calendar Center Council, Institute of Geophysics, University of Tehran</author>
+		<author>Saeed Rasooli</author>
+		<author>Mola Pahnadayan</author>
+		<license>Public Domain</license>
+		<comment></comment>
+	</resource>
+	<resource path="plugins/iran-jalali-2-data.txt">
+		<author>Calendar Center Council, Institute of Geophysics, University of Tehran</author>
+		<author>Saeed Rasooli</author>
+		<author>Mola Pahnadayan</author>
+		<license>Public Domain</license>
+		<comment></comment>
+	</resource>
+	<resource path="plugins/iran-hijri-data.txt">
+		<author>Calendar Center Council, Institute of Geophysics, University of Tehran</author>
+		<author>Saeed Rasooli</author>
+		<author>Mola Pahnadayan</author>
+		<license>Public Domain</license>
+		<comment></comment>
+	</resource>
+	<resource path="plugins/iran-hijri-2-data.txt">
+		<author>Saeed Rasooli</author>
+		<license>Public Domain</license>
 		<comment></comment>
 	</resource>
 	<resource path="svg/application-exit.svg">
@@ -466,68 +529,5 @@
 		<author>Faenza Icon Theme</author>
 		<license>GPLv3</license>
 		<comment>Modified by Saeed Rasooli</comment>
-	</resource>
-	<resource path="plugins/iran-ancient-data.txt">
-		<author>Reza Moradi Ghiasabadi (www.ghiasabadi.com)</author>
-		<license>
-			Permission to re-destribute and use as part of StarCalendar was granted by the author.
-			Please contact Reza Moradi Ghiasabadi for terms of use in other programs.
-		</license>
-		<comment></comment>
-	</resource>
-	<resource path="plugins/iran-gregorian-data.txt">
-		<author>Calendar Center Council, Institute of Geophysics, University of Tehran</author>
-		<author>Saeed Rasooli</author>
-		<author>Mola Pahnadayan</author>
-		<license>Public Domain</license>
-		<comment></comment>
-	</resource>
-	<resource path="plugins/iran-gregorian-2-data.txt">
-		<author>Calendar Center Council, Institute of Geophysics, University of Tehran</author>
-		<author>Saeed Rasooli</author>
-		<author>Mola Pahnadayan</author>
-		<license>Public Domain</license>
-		<comment></comment>
-	</resource>
-	<resource path="plugins/iran-jalali-data.txt">
-		<author>Calendar Center Council, Institute of Geophysics, University of Tehran</author>
-		<author>Saeed Rasooli</author>
-		<author>Mola Pahnadayan</author>
-		<license>Public Domain</license>
-		<comment></comment>
-	</resource>
-	<resource path="data/locations/world.txt.bz2">
-		<author email="spapadim+@cs.cmu.edu">Papadimitriou Spiros</author>
-		<author email="danw@gnome.org">Dan Winship</author>
-		<author email="vuntz@gnome.org">Vincent Untz</author>
-		<author email="fsolensky@src.gnome.org">Frank Solensky</author>
-		<author email="saeed.gnu@gmail.com">Saeed Rasooli</author>
-		<license>GNU General Public License v2.0</license>
-		<source>https://github.com/GNOME/libgweather/blob/mainline/data/Locations.xml</source>
-		<comment>https://wiki.gnome.org/Projects/LibGWeather</comment>
-		<comment>
-			I extracted this from LibGWeather a very long time ago.
-			Then re-formatted it and added new cities in Iran.
-			Current file has 249 countries and 3932 cities worldwide
-		</comment>
-	</resource>
-	<resource path="plugins/iran-jalali-2-data.txt">
-		<author>Calendar Center Council, Institute of Geophysics, University of Tehran</author>
-		<author>Saeed Rasooli</author>
-		<author>Mola Pahnadayan</author>
-		<license>Public Domain</license>
-		<comment></comment>
-	</resource>
-	<resource path="plugins/iran-hijri-data.txt">
-		<author>Calendar Center Council, Institute of Geophysics, University of Tehran</author>
-		<author>Saeed Rasooli</author>
-		<author>Mola Pahnadayan</author>
-		<license>Public Domain</license>
-		<comment></comment>
-	</resource>
-	<resource path="plugins/iran-hijri-2-data.txt">
-		<author>Saeed Rasooli</author>
-		<license>Public Domain</license>
-		<comment></comment>
 	</resource>
 </resources>
