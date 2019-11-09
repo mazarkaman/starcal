@@ -85,11 +85,11 @@ def getCurrentJd() -> int:
 def readLocationData():
 	locationsDir = join(rootDir, "data", "locations")
 	cityTransDict = {}
-	for countryName in os.listdir(locationsDir):
-		countryDir = join(locationsDir, countryName)
-		if not isdir(countryDir):
+	for dirName in os.listdir(locationsDir):
+		dirPath = join(locationsDir, dirName)
+		if not isdir(dirPath):
 			continue
-		transPath = join(countryDir, f"{langSh}.json")
+		transPath = join(dirPath, f"{langSh}.json")
 		if isfile(transPath):
 			log.info(f"------------- reading {transPath}")
 			with open(transPath, encoding="utf8") as fp:
