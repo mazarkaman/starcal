@@ -81,8 +81,9 @@ def getCurrentJd() -> int:
 
 
 def readLocationData():
-	log.info("------------- reading locations.txt")
-	with open(dataDir + "/locations.txt") as fp:
+	log.info("------------- reading locations.txt.bz2")
+	import bz2
+	with bz2.open(dataDir + "/locations.txt.bz2", mode="rt", encoding="utf8") as fp:
 		lines = fp.read().split("\n")
 	cityData = []
 	country = ""
