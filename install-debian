@@ -8,13 +8,20 @@ function getDirTotalSize(){
 }
 
 function installPackage(){
+	# must run `set +e` before running this function
 	pkgFile="$1"
 	if [ -f /usr/bin/apt ] ; then
-		if /usr/bin/apt reinstall "./$pkgFile" 2>/tmp/starcal-apt-error ; then
+		/usr/bin/apt reinstall "./$pkgFile" 2>/tmp/starcal-apt-error
+		aptExitCode="$?"
+		if [[ $aptExitCode == "0" ]] ; then
 			return 0
 		fi
 		cat /tmp/starcal-apt-error
 		rm /tmp/starcal-apt-error
+		if [[ $aptExitCode == "1" ]] ; then
+			# user answered No, abort installation
+			return $aptExitCode
+		fi
 	fi
 	dpkg -i "$pkgFile" || apt-get -f install
 }
@@ -122,6 +129,7 @@ pkgFile=${pkgName}_${version}-1_all.deb
 
 if dpkg-deb -b "$tmpDir" "$pkgFile" ; then
 	echo "Package file $pkgFile created, installing..."
+	set +e
 	installPackage "$pkgFile"
 fi
 
