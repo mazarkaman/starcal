@@ -81,6 +81,7 @@ def getCurrentJd() -> int:
 
 
 def readLocationData():
+	log.info("------------- reading locations.txt")
 	with open(dataDir + "/locations.txt") as fp:
 		lines = fp.read().split("\n")
 	cityData = []
@@ -172,7 +173,7 @@ class TextPlugin(BaseJsonPlugin, TextPluginUI):
 			_file,
 		)
 		self.lastDayMerge = False
-		self.cityData = readLocationData()
+		self._cityData = None
 		##############
 		confNeedsSave = False
 		######
@@ -210,7 +211,7 @@ class TextPlugin(BaseJsonPlugin, TextPluginUI):
 		####
 		if not self.locName:
 			confNeedsSave = True
-			self.locName, self.lat, self.lng = guessLocation(self.cityData)
+			self.locName, self.lat, self.lng = self.guessLocation()
 			self.method = "Tehran"
 			# TODO: guess method from location
 		#######
@@ -235,6 +236,15 @@ class TextPlugin(BaseJsonPlugin, TextPluginUI):
 		#self.doPlayAzan() ## for testing ## FIXME
 		###
 		self.checkShowDisclaimer()
+
+	def getCityData(self):
+		if self._cityData is not None:
+			return self._cityData
+		self._cityData = readLocationData()
+		return self._cityData
+
+	def guessLocation(self):
+		return guessLocation(self.getCityData())
 
 	def checkShowDisclaimer(self):
 		if not self.shouldShowDisclaimer():

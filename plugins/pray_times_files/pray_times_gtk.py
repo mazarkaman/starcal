@@ -297,10 +297,12 @@ class LocationDialog(gtk.Dialog):
 
 
 class LocationButton(gtk.Button):
-	def __init__(self, cityData, locName, lat, lng, window=None):
+	def __init__(self, plugin, locName, lat, lng, window=None):
 		gtk.Button.__init__(self)
 		self.setLocation(locName, lat, lng)
-		self.dialog = LocationDialog(cityData, parent=window)
+		self.plugin = plugin
+		self.parentWindow = window
+		self.dialog = None
 		####
 		self.connect("clicked", self.onClick)
 
@@ -311,6 +313,11 @@ class LocationButton(gtk.Button):
 		self.set_label(self.locName)
 
 	def onClick(self, widget):
+		if self.dialog is None:
+			self.dialog = LocationDialog(
+				self.plugin.getCityData(),
+				parent=self.parentWindow,
+			)
 		res = self.dialog.run()
 		if res:
 			locName, lat, lng = res
@@ -329,7 +336,7 @@ class TextPluginUI:
 		label = newAlignLabel(sgroup=group, label=_("Location"))
 		pack(hbox, label)
 		self.locButton = LocationButton(
-			self.cityData,
+			self,
 			self.locName,
 			self.backend.lat,
 			self.backend.lng,
