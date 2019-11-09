@@ -51,6 +51,7 @@ from pray_times_backend import PrayTimes
 from scal3.json_utils import *
 from scal3.time_utils import floatHourToTime
 from scal3.locale_man import tr as _
+from scal3.locale_man import langSh
 from scal3.cal_types.gregorian import to_jd as gregorian_to_jd
 from scal3.cal_types import hijri
 from scal3.time_utils import (
@@ -80,7 +81,22 @@ def getCurrentJd() -> int:
 	return gregorian_to_jd(y, m, d)
 
 
+
 def readLocationData():
+	cityTransDict = {}
+	for country in ["iran"]:
+		transPath = join(rootDir, "data", "locations", country, f"{langSh}.json")
+		if isfile(transPath):
+			log.info(f"------------- reading {transPath}")
+			with open(transPath, encoding="utf8") as fp:
+				cityTransDict.update(json.load(fp))
+
+	def translateCityName(name: str) -> str:
+		nameTrans = cityTransDict.get(name)
+		if nameTrans:
+			return nameTrans
+		return _(name)
+
 	fpath = join(rootDir, "data", "locations", "world.txt.bz2")
 	log.info(f"------------- reading {fpath}")
 	import bz2
@@ -100,7 +116,7 @@ def readLocationData():
 				if len(p) > 4:
 					cityData.append((
 						country + "/" + city,
-						_(country) + "/" + _(city),
+						_(country) + "/" + translateCityName(city),
 						float(lat),
 						float(lng)
 					))

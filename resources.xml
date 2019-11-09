@@ -14,6 +14,11 @@
 			Current file has 249 countries and 3932 cities worldwide
 		</comment>
 	</resource>
+	<resource path="data/locations/iran/fa.json">
+		<author>Saeed Rasooli</author>
+		<license>Public Domain</license>
+		<comment></comment>
+	</resource>
 	<resource path="locale.d/fa.po">
 		<author>Saeed Rasooli</author>
 		<license>Public Domain</license>
