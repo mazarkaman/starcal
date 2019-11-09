@@ -496,7 +496,7 @@
 		<license>Public Domain</license>
 		<comment></comment>
 	</resource>
-	<resource path="plugins/pray_times_files/locations.txt">
+	<resource path="data/locations/world.txt.bz2">
 		<author email="spapadim+@cs.cmu.edu">Papadimitriou Spiros</author>
 		<author email="danw@gnome.org">Dan Winship</author>
 		<author email="vuntz@gnome.org">Vincent Untz</author>
