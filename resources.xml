@@ -167,6 +167,76 @@
 		<license>Public Domain</license>
 		<comment></comment>
 	</resource>
+	<resource path="status-icons/ambiance-green.svg">
+		<author>Danial Behzadi</author>
+		<license>GPLv3+</license>
+		<comment></comment>
+	</resource>
+	<resource path="status-icons/ambiance-red.svg">
+		<author>Danial Behzadi</author>
+		<license>GPLv3+</license>
+		<comment></comment>
+	</resource>
+	<resource path="status-icons/ambiance.svg">
+		<author>Danial Behzadi</author>
+		<license>GPLv3+</license>
+		<comment></comment>
+	</resource>
+	<resource path="status-icons/black-circle.svg">
+		<author>Saeed Rasooli</author>
+		<license>Public Domain</license>
+		<comment></comment>
+	</resource>
+	<resource path="status-icons/dark-blue.svg">
+		<author>Saeed Rasooli</author>
+		<license>Public Domain</license>
+		<comment></comment>
+	</resource>
+	<resource path="status-icons/dark-green.svg">
+		<author>Saeed Rasooli</author>
+		<license>Public Domain</license>
+		<comment></comment>
+	</resource>
+	<resource path="status-icons/dark-red.svg">
+		<author>Saeed Rasooli</author>
+		<license>Public Domain</license>
+		<comment></comment>
+	</resource>
+	<resource path="status-icons/dark-violet.svg">
+		<author>Saeed Rasooli</author>
+		<license>Public Domain</license>
+		<comment></comment>
+	</resource>
+	<resource path="status-icons/radiance-green.svg">
+		<author>Danial Behzadi</author>
+		<license>GPLv3+</license>
+		<comment></comment>
+	</resource>
+	<resource path="status-icons/radiance-red.svg">
+		<author>Danial Behzadi</author>
+		<license>GPLv3+</license>
+		<comment></comment>
+	</resource>
+	<resource path="status-icons/radiance.svg">
+		<author>Danial Behzadi</author>
+		<license>GPLv3+</license>
+		<comment></comment>
+	</resource>
+	<resource path="status-icons/white-blue.svg">
+		<author>Saeed Rasooli</author>
+		<license>Public Domain</license>
+		<comment></comment>
+	</resource>
+	<resource path="status-icons/white-green.svg">
+		<author>Saeed Rasooli</author>
+		<license>Public Domain</license>
+		<comment></comment>
+	</resource>
+	<resource path="status-icons/white-red.svg">
+		<author>Saeed Rasooli</author>
+		<license>Public Domain</license>
+		<comment></comment>
+	</resource>
 	<resource path="svg/application-exit.svg">
 		<author>>Oxygen Icon Theme</author>
 		<license>LGPLv3+</license>
