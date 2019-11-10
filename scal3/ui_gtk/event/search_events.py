@@ -36,7 +36,6 @@ from gi.repository import GdkPixbuf
 from scal3.ui_gtk import *
 from scal3.ui_gtk.decorators import *
 from scal3.ui_gtk.utils import (
-	pixbufFromFile,
 	labelIconMenuItem,
 	labelImageMenuItem,
 	imageFromIconName,
@@ -54,6 +53,7 @@ from scal3.ui_gtk.event.utils import (
 	confirmEventTrash,
 	eventWriteMenuItem,
 	eventWriteImageMenuItem,
+	eventTreeIconPixbuf
 )
 from scal3.ui_gtk.event.common import SingleGroupComboBox
 
@@ -410,7 +410,7 @@ class EventSearchWindow(gtk.Window, MyDialog, ud.BaseCalObj):
 					group.id,
 					evData["id"],
 					group.title,
-					pixbufFromFile(evData["icon"]),
+					eventTreeIconPixbuf(evData["icon"]),
 					evData["summary"],
 					evData["description"],
 				))
@@ -450,7 +450,7 @@ class EventSearchWindow(gtk.Window, MyDialog, ud.BaseCalObj):
 		ui.eventDiff.add("e", event)
 		###
 		eventIter = self.trees.get_iter(path)
-		self.trees.set_value(eventIter, 3, pixbufFromFile(event.icon))
+		self.trees.set_value(eventIter, 3, eventTreeIconPixbuf(event.icon))
 		self.trees.set_value(eventIter, 4, event.summary)
 		self.trees.set_value(eventIter, 5, event.getShownDescription())
 

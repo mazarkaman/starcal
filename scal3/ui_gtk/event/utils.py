@@ -10,6 +10,7 @@ from scal3.ui_gtk.utils import (
 	showError,
 	labelIconMenuItem,
 	labelImageMenuItem,
+	pixbufFromFile,
 )
 from scal3.ui_gtk.drawing import newColorCheckPixbuf
 
@@ -61,4 +62,11 @@ def menuItemFromEventGroup(group):
 			20,
 			group.enable,
 		),
+	)
+
+def eventTreeIconPixbuf(icon: str) -> GdkPixbuf.Pixbuf:
+	return pixbufFromFile(
+		icon,
+		ui.eventTreeIconSize,
+		resize=True,
 	)
