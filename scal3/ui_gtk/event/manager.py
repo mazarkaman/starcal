@@ -57,8 +57,14 @@ from scal3.ui_gtk import gtk_ud as ud
 from scal3.ui_gtk.mywidgets.dialog import MyDialog
 from scal3.ui_gtk.event import common
 from scal3.ui_gtk.event import setActionFuncs
-from scal3.ui_gtk.event.utils import *
-from scal3.ui_gtk.event.editor import *
+from scal3.ui_gtk.event.utils import (
+	confirmEventTrash,
+	checkEventsReadOnly,
+	eventWriteMenuItem,
+	eventWriteImageMenuItem,
+	eventTreeIconPixbuf,
+)
+from scal3.ui_gtk.event.editor import addNewEvent
 from scal3.ui_gtk.event.trash import TrashEditorDialog
 from scal3.ui_gtk.event.export import (
 	SingleGroupExportDialog,
