@@ -1171,63 +1171,63 @@ class MainWin(gtk.ApplicationWindow, ud.BaseCalObj):
 			labelIconMenuItem(
 				_("Copy _Time"),
 				"gtk-copy",
-				self.copyTime,
+				func=self.copyTime,
 			),
 			labelIconMenuItem(
 				_("Copy _Date"),
 				"gtk-copy",
-				self.copyDateToday,
+				func=self.copyDateToday,
 			),
 			labelIconMenuItem(
 				_("Ad_just System Time"),
 				"gtk-preferences",
-				self.adjustTime,
+				func=self.adjustTime,
 			),
 			#labelIconMenuItem(
 			#	_("_Add Event"),
 			#	"gtk-add",
-			#	ui.addCustomEvent,
+			#	func=ui.addCustomEvent,
 			#),  # FIXME
 			labelIconMenuItem(
 				_("Export to {format}").format(format="HTML"),
 				"gtk-convert",
-				self.onExportClickStatusIcon,
+				func=self.onExportClickStatusIcon,
 			),
 			labelIconMenuItem(
 				_("_Preferences"),
 				"gtk-preferences",
-				self.prefShow,
+				func=self.prefShow,
 			),
 			labelIconMenuItem(
 				_("_Customize"),
 				"gtk-edit",
-				self.customizeShow,
+				func=self.customizeShow,
 			),
 			labelIconMenuItem(
 				_("_Event Manager"),
 				"gtk-add",
-				self.eventManShow,
+				func=self.eventManShow,
 			),
 			labelImageMenuItem(
 				_("Time Line"),
 				"timeline.svg",
-				self.timeLineShow,
+				func=self.timeLineShow,
 			),
 			labelImageMenuItem(
 				_("Year Wheel"),
 				"year-wheel.svg",
-				self.yearWheelShow,
+				func=self.yearWheelShow,
 			),  # icon? FIXME
 			labelIconMenuItem(
 				_("_About"),
 				"gtk-about",
-				self.aboutShow,
+				func=self.aboutShow,
 			),
 			gtk.SeparatorMenuItem(),
 			labelIconMenuItem(
 				_("_Quit"),
 				"gtk-quit",
-				self.quit,
+				func=self.quit,
 			),
 		]
 
