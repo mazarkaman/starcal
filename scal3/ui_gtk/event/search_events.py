@@ -519,7 +519,7 @@ class EventSearchWindow(gtk.Window, MyDialog, ud.BaseCalObj):
 		# returns a MenuItem instance
 		item = labelIconMenuItem(
 			_("Move to {title}").format(title="..."),
-			None,## FIXME
+			iconName=None,## FIXME
 		)
 		subMenu = gtk.Menu()
 		###
@@ -553,7 +553,7 @@ class EventSearchWindow(gtk.Window, MyDialog, ud.BaseCalObj):
 		# returns a MenuItem instance
 		item = labelIconMenuItem(
 			_("Copy to {title}").format(title="..."),
-			None,## FIXME
+			iconName=None,## FIXME
 		)
 		subMenu = gtk.Menu()
 		###

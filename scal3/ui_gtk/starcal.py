@@ -766,7 +766,10 @@ class MainWin(gtk.ApplicationWindow, ud.BaseCalObj):
 				))
 		else:
 			subMenu = gtk.Menu()
-			subMenuItem = labelIconMenuItem("_Edit Event", "gtk-add")
+			subMenuItem = labelIconMenuItem(
+				"_Edit Event",
+				iconName="gtk-add",
+			)
 			for eData in eventsData:
 				groupId, eventId = eData["ids"]
 				subMenu.add(labelImageMenuItem(
@@ -787,7 +790,7 @@ class MainWin(gtk.ApplicationWindow, ud.BaseCalObj):
 		for calType in calTypes.active:
 			menu.add(labelIconMenuItem(
 				_("Copy {calType} Date").format(calType=_(calTypes.getDesc(calType))),
-				"gtk-copy",
+				iconName="gtk-copy",
 				func=self.copyDateGetCallback(calType),
 				args=(calType,)
 			))
@@ -803,12 +806,12 @@ class MainWin(gtk.ApplicationWindow, ud.BaseCalObj):
 		menu.add(gtk.SeparatorMenuItem())
 		menu.add(labelIconMenuItem(
 			_("Select _Today"),
-			"gtk-home",
+			iconName="gtk-home",
 			func=self.goToday,
 		))
 		menu.add(labelIconMenuItem(
 			_("Select _Date..."),
-			"gtk-index",
+			iconName="gtk-index",
 			func=self.selectDateShow,
 		))
 		if calObjName in ("weekCal", "monthCal"):
@@ -830,17 +833,17 @@ class MainWin(gtk.ApplicationWindow, ud.BaseCalObj):
 		moreMenu = gtk.Menu()
 		moreMenu.add(labelIconMenuItem(
 			_("_Customize"),
-			"gtk-edit",
+			iconName="gtk-edit",
 			func=self.customizeShow,
 		))
 		moreMenu.add(labelIconMenuItem(
 			_("_Preferences"),
-			"gtk-preferences",
+			iconName="gtk-preferences",
 			func=self.prefShow,
 		))
 		moreMenu.add(labelIconMenuItem(
 			_("_Event Manager"),
-			"gtk-add",
+			iconName="gtk-add",
 			func=self.eventManShow,
 		))
 		moreMenu.add(labelImageMenuItem(
@@ -855,7 +858,7 @@ class MainWin(gtk.ApplicationWindow, ud.BaseCalObj):
 		))  # icon? FIXME
 		moreMenu.add(labelIconMenuItem(
 			_("Day Calendar (Desktop Widget)"),
-			"", # FIXME: replace with image
+			iconName="", # FIXME: replace with image
 			func=self.dayCalWinShow,
 		))
 		#moreMenu.add(labelImageMenuItem(
@@ -865,17 +868,17 @@ class MainWin(gtk.ApplicationWindow, ud.BaseCalObj):
 		#))
 		moreMenu.add(labelIconMenuItem(
 			_("Export to {format}").format(format="HTML"),
-			"gtk-convert",
+			iconName="gtk-convert",
 			func=self.onExportClick,
 		))
 		moreMenu.add(labelIconMenuItem(
 			_("_About"),
-			"gtk-about",
+			iconName="gtk-about",
 			func=self.aboutShow,
 		))
 		moreMenu.add(labelIconMenuItem(
 			_("_Quit"),
-			"gtk-quit",
+			iconName="gtk-quit",
 			func=self.quit,
 		))
 		##
@@ -928,12 +931,12 @@ class MainWin(gtk.ApplicationWindow, ud.BaseCalObj):
 		#######
 		menu.add(labelIconMenuItem(
 			_("Select _Today"),
-			"gtk-home",
+			iconName="gtk-home",
 			func=self.goToday,
 		))
 		menu.add(labelIconMenuItem(
 			_("Select _Date..."),
-			"gtk-index",
+			iconName="gtk-index",
 			func=self.selectDateShow,
 		))
 		menu.add(labelImageMenuItem(
@@ -943,27 +946,27 @@ class MainWin(gtk.ApplicationWindow, ud.BaseCalObj):
 		))
 		menu.add(labelIconMenuItem(
 			_("_Customize"),
-			"gtk-edit",
+			iconName="gtk-edit",
 			func=self.customizeShow,
 		))
 		menu.add(labelIconMenuItem(
 			_("_Preferences"),
-			"gtk-preferences",
+			iconName="gtk-preferences",
 			func=self.prefShow,
 		))
 		#menu.add(labelIconMenuItem(
 		#	_("_Add Event"),
-		#	"gtk-add",
+		#	iconName="gtk-add",
 		#	func=ui.addCustomEvent,
 		#))
 		#menu.add(labelIconMenuItem(
 		#	_("_Event Manager"),
-		#	"gtk-add",
+		#	iconName="gtk-add",
 		#	func=self.eventManShow,
 		#))
 		menu.add(labelIconMenuItem(
 			_("Day Calendar (Desktop Widget)"),
-			"", # FIXME: replace with image
+			iconName="", # FIXME: replace with image
 			func=self.dayCalWinShow,
 		))
 		menu.add(labelImageMenuItem(
@@ -983,22 +986,22 @@ class MainWin(gtk.ApplicationWindow, ud.BaseCalObj):
 		#))
 		menu.add(labelIconMenuItem(
 			_("Export to {format}").format(format="HTML"),
-			"gtk-convert",
+			iconName="gtk-convert",
 			func=self.onExportClick,
 		))
 		menu.add(labelIconMenuItem(
 			_("Ad_just System Time"),
-			"gtk-preferences",
+			iconName="gtk-preferences",
 			func=self.adjustTime,
 		))
 		menu.add(labelIconMenuItem(
 			_("_About"),
-			"gtk-about",
+			iconName="gtk-about",
 			func=self.aboutShow,
 		))
 		menu.add(labelIconMenuItem(
 			_("_Quit"),
-			"gtk-quit",
+			iconName="gtk-quit",
 			func=self.quit,
 		))
 		menu.show_all()
@@ -1164,48 +1167,48 @@ class MainWin(gtk.ApplicationWindow, ud.BaseCalObj):
 			self.sicon.connect("popup-menu", self.statusIconPopup)
 
 	def getMainWinMenuItem(self):
-		return labelMenuItem("Main Window", self.onStatusIconClick)
+		return labelMenuItem("Main Window", func=self.onStatusIconClick)
 
 	def getStatusIconPopupItems(self):
 		return [
 			labelIconMenuItem(
 				_("Copy _Time"),
-				"gtk-copy",
+				iconName="gtk-copy",
 				func=self.copyTime,
 			),
 			labelIconMenuItem(
 				_("Copy _Date"),
-				"gtk-copy",
+				iconName="gtk-copy",
 				func=self.copyDateToday,
 			),
 			labelIconMenuItem(
 				_("Ad_just System Time"),
-				"gtk-preferences",
+				iconName="gtk-preferences",
 				func=self.adjustTime,
 			),
 			#labelIconMenuItem(
 			#	_("_Add Event"),
-			#	"gtk-add",
+			#	iconName="gtk-add",
 			#	func=ui.addCustomEvent,
 			#),  # FIXME
 			labelIconMenuItem(
 				_("Export to {format}").format(format="HTML"),
-				"gtk-convert",
+				iconName="gtk-convert",
 				func=self.onExportClickStatusIcon,
 			),
 			labelIconMenuItem(
 				_("_Preferences"),
-				"gtk-preferences",
+				iconName="gtk-preferences",
 				func=self.prefShow,
 			),
 			labelIconMenuItem(
 				_("_Customize"),
-				"gtk-edit",
+				iconName="gtk-edit",
 				func=self.customizeShow,
 			),
 			labelIconMenuItem(
 				_("_Event Manager"),
-				"gtk-add",
+				iconName="gtk-add",
 				func=self.eventManShow,
 			),
 			labelImageMenuItem(
@@ -1220,13 +1223,13 @@ class MainWin(gtk.ApplicationWindow, ud.BaseCalObj):
 			),  # icon? FIXME
 			labelIconMenuItem(
 				_("_About"),
-				"gtk-about",
+				iconName="gtk-about",
 				func=self.aboutShow,
 			),
 			gtk.SeparatorMenuItem(),
 			labelIconMenuItem(
 				_("_Quit"),
-				"gtk-quit",
+				iconName="gtk-quit",
 				func=self.quit,
 			),
 		]

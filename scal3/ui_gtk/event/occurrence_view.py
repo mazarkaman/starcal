@@ -236,13 +236,13 @@ class DayOccurrenceView(gtk.TextView, CustomizableCalObj):
 		####
 		menu.add(labelIconMenuItem(
 			_("Copy _All"),
-			"gtk-copy",
+			iconName="gtk-copy",
 			func=self.copyAll,
 		))
 		####
 		itemCopy = labelIconMenuItem(
 			_("_Copy"),
-			"gtk-copy",
+			iconName="gtk-copy",
 			func=self.copy,
 		)
 		if not self.has_selection():
@@ -364,7 +364,7 @@ class DayOccurrenceView(gtk.TextView, CustomizableCalObj):
 		winTitle = _("Edit") + ": " + event.summary
 		menu.add(labelIconMenuItem(
 			label,
-			"gtk-edit",
+			iconName="gtk-edit",
 			func=self.onEditEventClick,
 			args=(
 				winTitle,
@@ -375,7 +375,7 @@ class DayOccurrenceView(gtk.TextView, CustomizableCalObj):
 		###
 		moveToItem = labelIconMenuItem(
 			_("Move to {title}").format(title="..."),
-			None,  # FIXME
+			iconName=None,  # FIXME
 		)
 		moveToMenu = gtk.Menu()
 		disabledGroupsMenu = gtk.Menu()
@@ -413,7 +413,7 @@ class DayOccurrenceView(gtk.TextView, CustomizableCalObj):
 				_("Copy as {eventType} to...").format(
 					eventType=newEventTypeDesc,
 				),
-				None,
+				iconName=None,
 			)
 			copyOccurMenu = gtk.Menu()
 			for newGroup in ui.eventGroups:
@@ -457,7 +457,7 @@ class DayOccurrenceView(gtk.TextView, CustomizableCalObj):
 		####
 		menu.add(labelIconMenuItem(
 			_("Copy Event Text"),
-			"gtk-copy",
+			iconName="gtk-copy",
 			func=self.copyEventText,
 			args=(event,),
 		))

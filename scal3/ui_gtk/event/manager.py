@@ -681,7 +681,7 @@ class EventManagerDialog(gtk.Dialog, MyDialog, ud.BaseCalObj):## FIXME
 				###
 				dupAllItem = labelIconMenuItem(
 					_("Duplicate with All Events"),
-					"gtk-copy",
+					iconName="gtk-copy",
 					func=self.duplicateGroupWithEventsFromMenu,
 					args=(path,)
 				)
@@ -714,14 +714,14 @@ class EventManagerDialog(gtk.Dialog, MyDialog, ud.BaseCalObj):## FIXME
 				##
 				menu.add(labelIconMenuItem(
 					_("Export"),
-					"gtk-convert",
+					iconName="gtk-convert",
 					func=self.groupExportFromMenu,
 					args=(group,),
 				))
 				###
 				sortItem = labelIconMenuItem(
 					_("Sort Events"),
-					"gtk-sort-ascending",
+					iconName="gtk-sort-ascending",
 					func=self.groupSortFromMenu,
 					args=(path,)
 				)
@@ -732,7 +732,7 @@ class EventManagerDialog(gtk.Dialog, MyDialog, ud.BaseCalObj):## FIXME
 				###
 				convertItem = labelIconMenuItem(
 					_("Convert Calendar Type"),
-					"gtk-convert",
+					iconName="gtk-convert",
 					func=self.groupConvertModeFromMenu,
 					args=(group,)
 				)
@@ -757,7 +757,7 @@ class EventManagerDialog(gtk.Dialog, MyDialog, ud.BaseCalObj):## FIXME
 				###
 				bulkItem = labelIconMenuItem(
 					_("Bulk Edit Events"),
-					"gtk-edit",
+					iconName="gtk-edit",
 					func=self.groupBulkEditFromMenu,
 					args=(group, path,)
 				)

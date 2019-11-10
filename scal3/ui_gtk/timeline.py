@@ -292,7 +292,7 @@ class TimeLine(gtk.DrawingArea, ud.BaseCalObj):
 		):
 			menu.add(labelIconMenuItem(
 				title,
-				"",
+				iconName="",
 				func=self.onZoomMenuItemClick,
 				args=(timeWidth,),
 			))
@@ -616,7 +616,7 @@ class TimeLine(gtk.DrawingArea, ud.BaseCalObj):
 					winTitle = _("Edit") + " " + event.desc
 					menu.add(labelIconMenuItem(
 						winTitle,
-						"gtk-edit",
+						iconName="gtk-edit",
 						func=self.onEditEventClick,
 						args=(
 							winTitle,
@@ -628,7 +628,7 @@ class TimeLine(gtk.DrawingArea, ud.BaseCalObj):
 				winTitle = _("Edit") + " " + group.desc
 				menu.add(labelIconMenuItem(
 					winTitle,
-					"gtk-edit",
+					iconName="gtk-edit",
 					func=self.onEditGroupClick,
 					args=(
 						winTitle,

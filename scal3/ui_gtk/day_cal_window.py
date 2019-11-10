@@ -232,7 +232,7 @@ class DayCalWindowWidget(DayCal):
 			items = ui.mainWin.getStatusIconPopupItems()
 			items.insert(5, labelIconMenuItem(
 				_("Customize This Window"),
-				"gtk-edit",
+				iconName="gtk-edit",
 				func=self.openCustomize,
 			))
 			if reverse:

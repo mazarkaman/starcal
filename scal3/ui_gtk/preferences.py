@@ -1376,7 +1376,7 @@ class PreferencesWindow(gtk.Window):
 				##
 				item = labelIconMenuItem(
 					_("_About"),
-					"gtk-about",
+					iconName="gtk-about",
 					func=self.onPlugAboutClick,
 				)
 				item.set_sensitive(bool(plug.about))
@@ -1384,7 +1384,7 @@ class PreferencesWindow(gtk.Window):
 				##
 				item = labelIconMenuItem(
 					_("_Configure"),
-					"gtk-preferences",
+					iconName="gtk-preferences",
 					func=self.onPlugConfClick,
 				)
 				item.set_sensitive(plug.hasConfig)
