@@ -45,20 +45,13 @@ from scal3.ui_gtk.utils import (
 	set_tooltip,
 	dialog_add_button,
 	confirm,
-)
-from scal3.ui_gtk.utils import (
+	showError,
+	showInfo,
 	toolButtonFromIcon,
 	labelImageMenuItem,
 	labelIconMenuItem,
-)
-from scal3.ui_gtk.utils import (
-	pixbufFromFile,
 	rectangleContainsPoint,
 	getStyleColor,
-)
-from scal3.ui_gtk.utils import (
-	showError,
-	showInfo,
 )
 from scal3.ui_gtk.drawing import newColorCheckPixbuf
 from scal3.ui_gtk import gtk_ud as ud
@@ -443,7 +436,7 @@ class EventManagerDialog(gtk.Dialog, MyDialog, ud.BaseCalObj):## FIXME
 	]:
 		return (
 			event.id,
-			pixbufFromFile(event.icon, ui.eventTreeIconSize, resize=True),
+			eventTreeIconPixbuf(event.icon),
 			event.summary,
 			event.getShownDescription(),
 		)
@@ -523,7 +516,7 @@ class EventManagerDialog(gtk.Dialog, MyDialog, ud.BaseCalObj):## FIXME
 	def appendTrash(self) -> None:
 		self.trashIter = self.trees.append(None, (
 			-1,
-			pixbufFromFile(ui.eventTrash.icon, ui.eventTreeIconSize, resize=True),
+			eventTreeIconPixbuf(ui.eventTrash.icon),
 			ui.eventTrash.title,
 			"",
 		))
@@ -1475,7 +1468,7 @@ class EventManagerDialog(gtk.Dialog, MyDialog, ud.BaseCalObj):## FIXME
 		self.trees.set_value(
 			self.trashIter,
 			1,
-			pixbufFromFile(ui.eventTrash.icon, ui.eventTreeIconSize, resize=True),
+			eventTreeIconPixbuf(ui.eventTrash.icon),
 		)
 		self.trees.set_value(
 			self.trashIter,
