@@ -42,7 +42,6 @@ from scal3.ui_gtk.utils import (
 	labelIconButton,
 	newHSep,
 )
-from scal3.ui_gtk.drawing import newColorCheckPixbuf
 from scal3.ui_gtk.mywidgets import TextFrame
 from scal3.ui_gtk.mywidgets.multi_spin.date_time import DateTimeButton
 from scal3.ui_gtk.mywidgets.dialog import MyDialog
@@ -53,7 +52,8 @@ from scal3.ui_gtk.event.utils import (
 	confirmEventTrash,
 	eventWriteMenuItem,
 	eventWriteImageMenuItem,
-	eventTreeIconPixbuf
+	eventTreeIconPixbuf,
+	menuItemFromEventGroup,
 )
 from scal3.ui_gtk.event.common import SingleGroupComboBox
 
@@ -529,14 +529,8 @@ class EventSearchWindow(gtk.Window, MyDialog, ud.BaseCalObj):
 			#if not new_group.enable:## FIXME
 			#	continue
 			if event.name in new_group.acceptsEventTypes:
-				subMenu.add(labelImageMenuItem(
-					new_group.title,
-					"",
-					pixbuf=newColorCheckPixbuf(
-						new_group.color,
-						20,
-						True,
-					),
+				subMenu.add(menuItemFromEventGroup(
+					new_group,
 					func=self.moveEventToGroupFromMenu,
 					args=(
 						path,
@@ -561,10 +555,8 @@ class EventSearchWindow(gtk.Window, MyDialog, ud.BaseCalObj):
 			#if not new_group.enable:## FIXME
 			#	continue
 			if event.name in new_group.acceptsEventTypes:
-				subMenu.add(labelImageMenuItem(
-					new_group.title,
-					"",
-					pixbuf=newColorCheckPixbuf(new_group.color, 20, True),
+				subMenu.add(menuItemFromEventGroup(
+					new_group,
 					func=self.copyEventToGroupFromMenu,
 					args=(
 						path,

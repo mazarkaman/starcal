@@ -1084,6 +1084,8 @@ cursorBgColor = (41, 41, 41, 255)
 # should be compatible with gtk.IconSize.MENU used in labelIconMenuItem
 menuIconSize = 18
 
+menuEventCheckIconSize = 20
+
 # stackIconSize: the size of icons in MyStack pages/buttons, used only for svg icons
 stackIconSize = 22
 eventTreeIconSize = 22

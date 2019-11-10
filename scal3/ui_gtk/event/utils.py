@@ -53,16 +53,18 @@ def eventWriteImageMenuItem(*args, **kwargs):
 	return item
 
 
-def menuItemFromEventGroup(group):
+def menuItemFromEventGroup(group, **kwargs):
 	return labelImageMenuItem(
 		group.title,
 		"",
 		pixbuf=newColorCheckPixbuf(
 			group.color,
-			20,
+			ui.menuEventCheckIconSize,
 			group.enable,
 		),
+		**kwargs
 	)
+
 
 def eventTreeIconPixbuf(icon: str) -> GdkPixbuf.Pixbuf:
 	return pixbufFromFile(

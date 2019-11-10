@@ -52,7 +52,6 @@ from scal3.ui_gtk.utils import (
 	labelIconMenuItem,
 	rectangleContainsPoint,
 )
-from scal3.ui_gtk.drawing import newColorCheckPixbuf
 from scal3.ui_gtk import gtk_ud as ud
 from scal3.ui_gtk.mywidgets.dialog import MyDialog
 from scal3.ui_gtk.event import common
@@ -63,6 +62,7 @@ from scal3.ui_gtk.event.utils import (
 	eventWriteMenuItem,
 	eventWriteImageMenuItem,
 	eventTreeIconPixbuf,
+	menuItemFromEventGroup,
 )
 from scal3.ui_gtk.event.editor import addNewEvent
 from scal3.ui_gtk.event.trash import TrashEditorDialog
@@ -804,10 +804,8 @@ class EventManagerDialog(gtk.Dialog, MyDialog, ud.BaseCalObj):## FIXME
 				#	continue
 				new_groupPath = self.trees.get_path(self.groupIterById[new_group.id])
 				if event.name in new_group.acceptsEventTypes:
-					moveToMenu.add(labelImageMenuItem(
-						new_group.title,
-						"",
-						pixbuf=newColorCheckPixbuf(new_group.color, 20, True),
+					moveToMenu.add(menuItemFromEventGroup(
+						new_group,
 						func=self.moveEventToPathFromMenu,
 						args=(
 							path,
