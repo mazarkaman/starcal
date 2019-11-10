@@ -586,26 +586,26 @@ class EventManagerDialog(gtk.Dialog, MyDialog, ud.BaseCalObj):## FIXME
 				# log.debug("right click on trash", group.title)
 				menu.add(eventWriteMenuItem(
 					_("Edit"),
-					"gtk-edit",
+					iconName="gtk-edit",
 					func=self.editTrash,
 				))
 				# FIXME: _("Empty {title}").format(title=group.title),
 				menu.add(eventWriteMenuItem(
 					_("Empty Trash"),
-					"gtk-clear",
+					iconName="gtk-clear",
 					func=self.emptyTrash,
 				))
 				#menu.add(gtk.SeparatorMenuItem())
 				#menu.add(eventWriteMenuItem(
 				#	"Add New Group",
-				#	"gtk-new",
+				#	iconName="gtk-new",
 				#	func=self.addGroupBeforeSelection,
 				#))## FIXME
 			else:
 				# log.debug("right click on group", group.title)
 				menu.add(eventWriteMenuItem(
 					_("Edit"),
-					"gtk-edit",
+					iconName="gtk-edit",
 					func=self.editGroupFromMenu,
 					args=(path,),
 				))
@@ -615,7 +615,7 @@ class EventManagerDialog(gtk.Dialog, MyDialog, ud.BaseCalObj):## FIXME
 				if len(eventTypes) > 3:
 					menu.add(eventWriteMenuItem(
 						_("Add Event"),
-						"gtk-add",
+						iconName="gtk-add",
 						func=self.addGenericEventToGroupFromMenu,
 						args=(path, group,),
 					))
@@ -627,7 +627,7 @@ class EventManagerDialog(gtk.Dialog, MyDialog, ud.BaseCalObj):## FIXME
 						label = _("Add ") + lib.classes.event.byName[eventType].desc
 						menu.add(eventWriteMenuItem(
 							label,
-							"gtk-add",
+							iconName="gtk-add",
 							func=self.addEventToGroupFromMenu,
 							args=(
 								path,
@@ -638,7 +638,7 @@ class EventManagerDialog(gtk.Dialog, MyDialog, ud.BaseCalObj):## FIXME
 						))
 				pasteItem = eventWriteMenuItem(
 					_("Paste Event"),
-					"gtk-paste",
+					iconName="gtk-paste",
 					func=self.pasteEventFromMenu,
 					args=(path,),
 				)
@@ -656,7 +656,7 @@ class EventManagerDialog(gtk.Dialog, MyDialog, ud.BaseCalObj):## FIXME
 							menu.add(gtk.SeparatorMenuItem())
 							menu.add(eventWriteMenuItem(
 								_("Synchronize"),
-								"gtk-connect", # or gtk-refresh ?
+								iconName="gtk-connect",  # or gtk-refresh ?
 								func=self.syncGroupFromMenu,
 								args=(
 									path,
@@ -668,13 +668,13 @@ class EventManagerDialog(gtk.Dialog, MyDialog, ud.BaseCalObj):## FIXME
 				menu.add(gtk.SeparatorMenuItem())
 				#menu.add(eventWriteMenuItem(
 				#	_("Add New Group"),
-				#	"gtk-new",
+				#	iconName="gtk-new",
 				#	func=self.addGroupBeforeGroup,
 				#	args=(path,),
 				#))## FIXME
 				menu.add(eventWriteMenuItem(
 					_("Duplicate"),
-					"gtk-copy",
+					iconName="gtk-copy",
 					func=self.duplicateGroupFromMenu,
 					args=(path,)
 				))
@@ -693,7 +693,7 @@ class EventManagerDialog(gtk.Dialog, MyDialog, ud.BaseCalObj):## FIXME
 				menu.add(gtk.SeparatorMenuItem())
 				menu.add(eventWriteMenuItem(
 					_("Delete Group"),
-					"gtk-delete",
+					iconName="gtk-delete",
 					func=self.deleteGroupFromMenu,
 					args=(path,)
 				))
@@ -701,13 +701,13 @@ class EventManagerDialog(gtk.Dialog, MyDialog, ud.BaseCalObj):## FIXME
 				##
 				#menu.add(eventWriteMenuItem(
 				#	_("Move Up"),
-				#	"gtk-go-up",
+				#	iconName="gtk-go-up",
 				#	func=self.moveUpFromMenu,
 				#	args=(path,),
 				#))
 				#menu.add(eventWriteMenuItem(
 				#	_("Move Down"),
-				#	"gtk-go-down",
+				#	iconName="gtk-go-down",
 				#	func=self.moveDownFromMenu,
 				#	args=(path,)
 				#))
@@ -747,7 +747,7 @@ class EventManagerDialog(gtk.Dialog, MyDialog, ud.BaseCalObj):## FIXME
 						_("Convert to {groupType}").format(
 							groupType=newGroupTypeDesc,
 						),
-						"", # icon name
+						iconName="", # icon name
 						func=self.groupConvertToFromMenu,
 						args=(
 							group,
@@ -769,7 +769,7 @@ class EventManagerDialog(gtk.Dialog, MyDialog, ud.BaseCalObj):## FIXME
 				for actionName, actionFuncName in group.actions:
 					menu.add(eventWriteMenuItem(
 						_(actionName),
-						"", # icon name
+						iconName="", # icon name
 						func=self.onGroupActionClick,
 						args=(
 							group,
@@ -782,7 +782,7 @@ class EventManagerDialog(gtk.Dialog, MyDialog, ud.BaseCalObj):## FIXME
 			if group.name != "trash":
 				menu.add(eventWriteMenuItem(
 					_("Edit"),
-					"gtk-edit",
+					iconName="gtk-edit",
 					func=self.editEventFromMenu,
 					args=(path,)
 				))
@@ -796,7 +796,7 @@ class EventManagerDialog(gtk.Dialog, MyDialog, ud.BaseCalObj):## FIXME
 			####
 			moveToItem = eventWriteMenuItem(
 				_("Move to {title}").format(title="..."),
-				"",  # FIXME: icon name
+				iconName="",  # FIXME: icon name
 			)
 			moveToMenu = gtk.Menu()
 			for new_group in ui.eventGroups:
@@ -823,13 +823,13 @@ class EventManagerDialog(gtk.Dialog, MyDialog, ud.BaseCalObj):## FIXME
 			####
 			menu.add(eventWriteMenuItem(
 				_("Cut"),
-				"gtk-cut",
+				iconName="gtk-cut",
 				func=self.cutEvent,
 				args=(path,),
 			))
 			menu.add(eventWriteMenuItem(
 				_("Copy"),
-				"gtk-copy",
+				iconName="gtk-copy",
 				func=self.copyEvent,
 				args=(path,)
 			))
@@ -838,14 +838,14 @@ class EventManagerDialog(gtk.Dialog, MyDialog, ud.BaseCalObj):## FIXME
 				menu.add(gtk.SeparatorMenuItem())
 				menu.add(eventWriteMenuItem(
 					_("Delete"),
-					"gtk-delete",
+					iconName="gtk-delete",
 					func=self.deleteEventFromTrash,
 					args=(path,),
 				))
 			else:
 				pasteItem = eventWriteMenuItem(
 					_("Paste"),
-					"gtk-paste",
+					iconName="gtk-paste",
 					func=self.pasteEventFromMenu,
 					args=(path,),
 				)

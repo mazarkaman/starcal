@@ -594,7 +594,7 @@ class EventSearchWindow(gtk.Window, MyDialog, ud.BaseCalObj):
 		##
 		menu.add(eventWriteMenuItem(
 			_("Edit"),
-			"gtk-edit",
+			iconName="gtk-edit",
 			func=self.editEventFromMenu,
 			args=(path,),
 		))
