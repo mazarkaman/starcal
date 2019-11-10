@@ -51,7 +51,6 @@ from scal3.ui_gtk.utils import (
 	labelImageMenuItem,
 	labelIconMenuItem,
 	rectangleContainsPoint,
-	getStyleColor,
 )
 from scal3.ui_gtk.drawing import newColorCheckPixbuf
 from scal3.ui_gtk import gtk_ud as ud
