@@ -9,6 +9,7 @@ from scal3.ui_gtk import *
 from scal3.ui_gtk.utils import (
 	setClipboard,
 	imageFromIconName,
+	labelIconMenuItem,
 )
 
 
