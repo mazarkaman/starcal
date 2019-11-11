@@ -44,14 +44,14 @@ from scal3.ui_gtk.log_pref import LogLevelPrefItem
 from scal3.ui_gtk.stack import MyStack, StackPage
 from scal3.ui_gtk.mywidgets.buttonbox import MyHButtonBox
 from scal3.ui_gtk.toolbox import (
-	ToolBoxItem as ToolbarItem,
-	CustomizableToolBox as CustomizableToolbar,
+	ToolBoxItem,
+	CustomizableToolBox,
 )
 
 
-class PreferencesPluginsToolbar(CustomizableToolbar):
+class PreferencesPluginsToolbar(CustomizableToolBox):
 	def __init__(self, parent):
-		CustomizableToolbar.__init__(
+		CustomizableToolBox.__init__(
 			self,
 			parent,
 			vertical=True,
@@ -59,7 +59,7 @@ class PreferencesPluginsToolbar(CustomizableToolbar):
 		)
 		# with iconSize < 20, the button would not become smaller
 		# so 20 is the best size
-		self.buttonAdd = ToolbarItem(
+		self.buttonAdd = ToolBoxItem(
 			"add",
 			"gtk-add",
 			"onPlugAddClick",
@@ -68,28 +68,28 @@ class PreferencesPluginsToolbar(CustomizableToolbar):
 		)
 		self.buttonAdd.set_sensitive(False)
 		self.defaultItems = [
-			ToolbarItem(
+			ToolBoxItem(
 				"goto-top",
 				"gtk-goto-top",
 				"plugTreeviewTop",
 				_("Move to top"),
 				continuousClick=False,
 			),
-			ToolbarItem(
+			ToolBoxItem(
 				"go-up",
 				"gtk-go-up",
 				"plugTreeviewUp",
 				_("Move up"),
 				continuousClick=False,
 			),
-			ToolbarItem(
+			ToolBoxItem(
 				"go-down",
 				"gtk-go-down",
 				"plugTreeviewDown",
 				_("Move down"),
 				continuousClick=False,
 			),
-			ToolbarItem(
+			ToolBoxItem(
 				"goto-bottom",
 				"gtk-goto-bottom",
 				"plugTreeviewBottom",
@@ -97,7 +97,7 @@ class PreferencesPluginsToolbar(CustomizableToolbar):
 				continuousClick=False,
 			),
 			self.buttonAdd,
-			ToolbarItem(
+			ToolBoxItem(
 				"delete",
 				"gtk-delete",
 				"onPlugDeleteClick",
