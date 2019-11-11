@@ -264,10 +264,13 @@ class FontFamilyPrefItem(PrefItem):
 
 
 # TODO: can we support get/set font style (Bold and Italic) properties?
-# perhaps a FontFamilyStylePrefItem, that is compatible with
+# perhaps a FontStylePrefItem, that is compatible with
 # FontFamilyPrefItem
 # meaning get() returns string, and set() takes string, but that string also
 # may contain Bold or Italic (or equavalent words)
+# or maybe return a CSS style="..." string instead
+# or maybe get() returns a dict, with keys and values being compatible
+# with svg and css?
 
 
 class ComboEntryTextPrefItem(PrefItem):
