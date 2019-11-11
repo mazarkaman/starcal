@@ -453,7 +453,9 @@ class ColorPrefItem(PrefItem):
 	def get(self) -> ColorType:
 		return self._widget.get_rgba()
 
-	def set(self, color: ColorType) -> None:
+	def set(self, color: Optional[ColorType]) -> None:
+		if color is None:
+			return
 		self._widget.set_rgba(color)
 
 	def onColorSet(self, w: gtk.Widget):

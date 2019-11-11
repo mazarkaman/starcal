@@ -2655,6 +2655,10 @@ msgid "Holidays Font"
 msgstr ""
 "فونت روز‌ تعطیل"
 
+msgid "Holiday font color"
+msgstr ""
+"رنگ فونت روز تعظیل"
+
 
 msgid "Inactive Day"
 msgstr ""

@@ -93,6 +93,8 @@ confParams = (
 	"statusIconImageHoli",
 	"statusIconFontFamilyEnable",
 	"statusIconFontFamily",
+	"statusIconHolidayFontColorEnable",
+	"statusIconHolidayFontColor",
 	"statusIconFixedSizeEnable",
 	"statusIconFixedSizeWH",
 	"maxDayCacheSize",
@@ -1251,6 +1253,8 @@ statusIconImageHoli = join(rootDir, "status-icons", "dark-red.svg")
 ) = statusIconImage, statusIconImageHoli
 statusIconFontFamilyEnable = False
 statusIconFontFamily = None
+statusIconHolidayFontColorEnable = False
+statusIconHolidayFontColor = None
 statusIconFixedSizeEnable = False
 statusIconFixedSizeWH = (24, 24)
 ####################

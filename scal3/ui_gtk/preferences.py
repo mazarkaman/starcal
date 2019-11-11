@@ -478,6 +478,22 @@ class PreferencesWindow(gtk.Window):
 		pack(pageVBox, hbox)
 		####
 		hbox = HBox(spacing=1)
+		item = CheckColorPrefItem(
+			CheckPrefItem(
+				ui,
+				"statusIconHolidayFontColorEnable",
+				label=_("Holiday font color"),
+			),
+			ColorPrefItem(
+				ui,
+				"statusIconHolidayFontColor",
+			),
+		)
+		self.uiPrefItems.append(item)
+		pack(hbox, item.getWidget(), 1, 1)
+		pack(pageVBox, hbox)
+		####
+		hbox = HBox(spacing=1)
 		pack(hbox, gtk.Label(label=" "))
 		checkItem = CheckPrefItem(
 			ui,

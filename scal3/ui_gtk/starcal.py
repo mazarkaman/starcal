@@ -1325,6 +1325,9 @@ class MainWin(gtk.ApplicationWindow, ud.BaseCalObj):
 				else:
 					family = ui.getFont()[0]
 				style.append(("font-family", family))
+			if ui.statusIconHolidayFontColorEnable and ui.statusIconHolidayFontColor:
+				if ui.todayCell.holiday:
+					style.append(("fill", rgbToHtmlColor(ui.statusIconHolidayFontColor)))
 			if style:
 				styleStr = "".join([f"{key}:{value};" for key, value in style])
 				dayNum = f"<tspan style=\"{styleStr}\">{dayNum}</tspan>"
