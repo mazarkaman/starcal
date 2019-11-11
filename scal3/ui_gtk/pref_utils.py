@@ -33,7 +33,7 @@ from gi.repository import GdkPixbuf
 
 from scal3.ui_gtk import *
 from scal3.ui_gtk.utils import set_tooltip, dialog_add_button, newAlignLabel
-from scal3.ui_gtk.font_utils import gfontEncode
+from scal3.ui_gtk.font_utils import gfontEncode, gfontDecode
 
 
 from scal3.ui_gtk.mywidgets.multi_spin.integer import IntSpinButton
@@ -205,13 +205,15 @@ class FontFamilyPrefItem(PrefItem):
 		label: str = "",
 		onChangeFunc: Optional[Callable] = None,
 	):
-		from scal3.ui_gtk.mywidgets.font_family_button import FontFamilyButton
 		self.obj = obj
 		self.attrName = attrName
 		self.hasAuto = hasAuto
 		self._onChangeFunc = onChangeFunc
 		###
-		self.fontButton = FontFamilyButton()
+		self.fontButton = gtk.FontButton()
+		self.fontButton.set_show_size(False)
+		self.fontButton.set_level(gtk.FontChooserLevel.FAMILY)
+		# set_level: FAMILY, STYLE, SIZE
 		self.fontButton.connect("font-set", self.onChange)
 		###
 		hbox = HBox(spacing=5)
@@ -242,7 +244,8 @@ class FontFamilyPrefItem(PrefItem):
 	def get(self) -> Optional[str]:
 		if self.hasAuto and self.autoRadio.get_active():
 			return None
-		return self.fontButton.get_value()
+		font = gfontDecode(self.fontButton.get_font_name())
+		return font[0]
 
 	def set(self, value: Optional[str]) -> None:
 		if value is None:
@@ -252,7 +255,7 @@ class FontFamilyPrefItem(PrefItem):
 		# now value is not None
 		if self.hasAuto:
 			self.fontRadio.set_active(True)
-		self.fontButton.set_value(value)
+		self.fontButton.set_font(gfontEncode((value, False, False, 15)))
 
 	def onChange(self, w: gtk.Widget) -> None:
 		self.updateVar()
