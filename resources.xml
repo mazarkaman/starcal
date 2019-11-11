@@ -169,17 +169,17 @@
 	</resource>
 	<resource path="status-icons/ambiance-green.svg">
 		<author>Danial Behzadi</author>
-		<license>GPLv3+</license>
+		<license>Public Domain</license>
 		<comment></comment>
 	</resource>
 	<resource path="status-icons/ambiance-red.svg">
 		<author>Danial Behzadi</author>
-		<license>GPLv3+</license>
+		<license>Public Domain</license>
 		<comment></comment>
 	</resource>
 	<resource path="status-icons/ambiance.svg">
 		<author>Danial Behzadi</author>
-		<license>GPLv3+</license>
+		<license>Public Domain</license>
 		<comment></comment>
 	</resource>
 	<resource path="status-icons/black-circle.svg">
@@ -209,17 +209,17 @@
 	</resource>
 	<resource path="status-icons/radiance-green.svg">
 		<author>Danial Behzadi</author>
-		<license>GPLv3+</license>
+		<license>Public Domain</license>
 		<comment></comment>
 	</resource>
 	<resource path="status-icons/radiance-red.svg">
 		<author>Danial Behzadi</author>
-		<license>GPLv3+</license>
+		<license>Public Domain</license>
 		<comment></comment>
 	</resource>
 	<resource path="status-icons/radiance.svg">
 		<author>Danial Behzadi</author>
-		<license>GPLv3+</license>
+		<license>Public Domain</license>
 		<comment></comment>
 	</resource>
 	<resource path="status-icons/ubuntu-dark.svg">
