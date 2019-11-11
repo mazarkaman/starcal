@@ -50,10 +50,10 @@ from scal3.ui_gtk.event import makeWidget
 from scal3.ui_gtk.event.utils import *
 
 
-def getGroupPixbuf(group):
+def getTreeGroupPixbuf(group):
 	return newColorCheckPixbuf(
 		group.color,
-		20,
+		ui.treeIconSize,
 		group.enable,
 	)
 
@@ -61,7 +61,7 @@ def getGroupPixbuf(group):
 def getGroupRow(group):
 	return (
 		group.id,
-		getGroupPixbuf(group),
+		getTreeGroupPixbuf(group),
 		group.title
 	)
 

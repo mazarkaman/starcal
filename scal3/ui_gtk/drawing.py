@@ -223,6 +223,7 @@ def newColorCheckPixbuf(color, size, checked):
 	)
 	data = toBytes(data)
 	loader = GdkPixbuf.PixbufLoader.new_with_type("svg")
+	loader.set_size(size, size)
 	try:
 		loader.write(data)
 	finally:

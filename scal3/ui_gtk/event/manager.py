@@ -1092,7 +1092,7 @@ class EventManagerDialog(gtk.Dialog, MyDialog, ud.BaseCalObj):## FIXME
 		self.trees.set_value(
 			groupIter,
 			1,
-			common.getGroupPixbuf(group),
+			common.getTreeGroupPixbuf(group),
 		)
 		ui.eventGroups.save()
 		#group.save()
