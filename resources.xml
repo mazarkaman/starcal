@@ -222,6 +222,16 @@
 		<license>GPLv3+</license>
 		<comment></comment>
 	</resource>
+	<resource path="status-icons/ubuntu-dark.svg">
+		<author>Saeed Rasooli</author>
+		<license>Public Domain</license>
+		<comment></comment>
+	</resource>
+	<resource path="status-icons/ubuntu-light.svg">
+		<author>Saeed Rasooli</author>
+		<license>Public Domain</license>
+		<comment></comment>
+	</resource>
 	<resource path="status-icons/white-blue.svg">
 		<author>Saeed Rasooli</author>
 		<license>Public Domain</license>
