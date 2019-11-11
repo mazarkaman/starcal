@@ -1318,12 +1318,16 @@ class MainWin(gtk.ApplicationWindow, ud.BaseCalObj):
 				ddate[2],
 				localeMode=calTypes.primary,  # FIXME
 			)
+			style = []  # type: List[Tuple[str, Any]]
 			if ui.statusIconFontFamilyEnable:
 				if ui.statusIconFontFamily:
 					family = ui.statusIconFontFamily
 				else:
 					family = ui.getFont()[0]
-				dayNum = f"<tspan style=\"font-family:{family}\">{dayNum}</tspan>"
+				style.append(("font-family", family))
+			if style:
+				styleStr = "".join([f"{key}:{value};" for key, value in style])
+				dayNum = f"<tspan style=\"{styleStr}\">{dayNum}</tspan>"
 			data = data.replace(
 				b"TX",
 				toBytes(dayNum),
