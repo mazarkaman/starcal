@@ -263,14 +263,27 @@ class FontFamilyPrefItem(PrefItem):
 			self._onChangeFunc()
 
 
-# TODO: can we support get/set font style (Bold and Italic) properties?
-# perhaps a FontStylePrefItem, that is compatible with
-# FontFamilyPrefItem
-# meaning get() returns string, and set() takes string, but that string also
-# may contain Bold or Italic (or equavalent words)
-# or maybe return a CSS style="..." string instead
-# or maybe get() returns a dict, with keys and values being compatible
-# with svg and css?
+# TODO: FontStylePrefItem
+# get() should return a dict, with keys and values being compatible
+# with svg and gtk+css, these keys and values
+# 	"font-family"
+# 	"font-size"
+# 	"font-weight"
+# 	"font-style": normal | oblique | italic
+# 	"font-variant": normal | small-caps
+# 	"font-stretch": ultra-condensed | extra-condensed | condensed |
+#		semi-condensed | normal | semi-expanded | expanded |
+#		extra-expanded | ultra-expanded
+
+# Constructor can accept argument `attrNameDict: Dict[str, str]`
+# with keys being a subset these 6 style keys, and values
+# being the attribute/variable names for reading (in updateWidget)
+# and storing (in updateVar) the style values
+# or maybe we should leave that to the user of class, and just accept
+# a `attrName: str` argument like other classes
+
+
+
 
 
 class ComboEntryTextPrefItem(PrefItem):
