@@ -188,7 +188,7 @@ def labelIconMenuItem(
 
 def labelImageMenuItem(
 	label: str,
-	imageName: str,
+	imageName: str = "",
 	pixbuf: Optional[GdkPixbuf.Pixbuf] = None,
 	spacing: int = 3,
 	func: Optional[Callable] = None,
