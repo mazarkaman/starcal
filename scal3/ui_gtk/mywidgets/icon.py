@@ -64,7 +64,7 @@ class IconSelectButton(gtk.Button):
 				continue
 			menu.add(labelImageMenuItem(
 				_(item.desc),
-				icon,
+				imageName=icon,
 				func=self.menuItemActivate,
 				args=(icon,),
 			))

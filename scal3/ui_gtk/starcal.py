@@ -705,7 +705,7 @@ class MainWin(gtk.ApplicationWindow, ud.BaseCalObj):
 					eventClass = event_lib.classes.event.byName[eventType]
 					menu3.add(labelImageMenuItem(
 						eventClass.desc,
-						eventClass.getDefaultIcon(),
+						imageName=eventClass.getDefaultIcon(),
 						func=self.addToGroupFromMenu,
 						args=(group, eventType),
 					))
@@ -758,7 +758,7 @@ class MainWin(gtk.ApplicationWindow, ud.BaseCalObj):
 				groupId, eventId = eData["ids"]
 				menu.add(labelImageMenuItem(
 					_("Edit") + ": " + self.trimMenuItemLabel(eData["text"][0], 25),
-					eData["icon"],
+					imageName=eData["icon"],
 					func=self.editEventFromMenu,
 					args=(groupId, eventId,),
 				))
@@ -772,7 +772,7 @@ class MainWin(gtk.ApplicationWindow, ud.BaseCalObj):
 				groupId, eventId = eData["ids"]
 				subMenu.add(labelImageMenuItem(
 					eData["text"][0],
-					eData["icon"],
+					imageName=eData["icon"],
 					func=self.editEventFromMenu,
 					args=(groupId, eventId,),
 				))
@@ -794,7 +794,7 @@ class MainWin(gtk.ApplicationWindow, ud.BaseCalObj):
 			))
 		menu.add(labelImageMenuItem(
 			_("Day Info"),
-			"gtk-info.svg",
+			imageName="gtk-info.svg",
 			func=self.dayInfoShow,
 		))
 		addToItem = self.getEventAddToMenuItem()
@@ -818,13 +818,13 @@ class MainWin(gtk.ApplicationWindow, ud.BaseCalObj):
 				_("Switch to " + (
 					"Month Calendar" if isWeek else "Week Calendar"
 				)),
-				"" if isWeek else "week-calendar.svg",
+				imageName="" if isWeek else "week-calendar.svg",
 				func=self.switchWcalMcal,
 			))
 		if os.path.isfile("/usr/bin/evolution"):  # FIXME
 			menu.add(labelImageMenuItem(
 				_("In E_volution"),
-				"evolution.svg",
+				imageName="evolution.svg",
 				func=ui.dayOpenEvolution,
 			))
 		####
@@ -846,12 +846,12 @@ class MainWin(gtk.ApplicationWindow, ud.BaseCalObj):
 		))
 		moreMenu.add(labelImageMenuItem(
 			_("Time Line"),
-			"timeline.svg",
+			imageName="timeline.svg",
 			func=self.timeLineShow,
 		))
 		moreMenu.add(labelImageMenuItem(
 			_("Year Wheel"),
-			"year-wheel.svg",
+			imageName="year-wheel.svg",
 			func=self.yearWheelShow,
 		))  # icon? FIXME
 		moreMenu.add(labelIconMenuItem(
@@ -861,7 +861,7 @@ class MainWin(gtk.ApplicationWindow, ud.BaseCalObj):
 		))
 		#moreMenu.add(labelImageMenuItem(
 		#	"Week Calendar",
-		#	"week-calendar.svg",
+		#	imageName="week-calendar.svg",
 		#	func=self.weekCalShow,
 		#))
 		moreMenu.add(labelIconMenuItem(
@@ -939,7 +939,7 @@ class MainWin(gtk.ApplicationWindow, ud.BaseCalObj):
 		))
 		menu.add(labelImageMenuItem(
 			_("Day Info"),
-			"gtk-info.svg",
+			imageName="gtk-info.svg",
 			func=self.dayInfoShow,
 		))
 		menu.add(labelIconMenuItem(
@@ -969,17 +969,17 @@ class MainWin(gtk.ApplicationWindow, ud.BaseCalObj):
 		))
 		menu.add(labelImageMenuItem(
 			_("Time Line"),
-			"timeline.svg",
+			imageName="timeline.svg",
 			func=self.timeLineShow,
 		))
 		menu.add(labelImageMenuItem(
 			_("Year Wheel"),
-			"year-wheel.svg",
+			imageName="year-wheel.svg",
 			func=self.yearWheelShow,
 		))  # icon? FIXME
 		#menu.add(labelImageMenuItem(
 		#	_("Week Calendar"),
-		#	"week-calendar.svg",
+		#	imageName="week-calendar.svg",
 		#	func=self.weekCalShow,
 		#))
 		menu.add(labelIconMenuItem(
@@ -1211,12 +1211,12 @@ class MainWin(gtk.ApplicationWindow, ud.BaseCalObj):
 			),
 			labelImageMenuItem(
 				_("Time Line"),
-				"timeline.svg",
+				imageName="timeline.svg",
 				func=self.timeLineShow,
 			),
 			labelImageMenuItem(
 				_("Year Wheel"),
-				"year-wheel.svg",
+				imageName="year-wheel.svg",
 				func=self.yearWheelShow,
 			),  # icon? FIXME
 			labelIconMenuItem(

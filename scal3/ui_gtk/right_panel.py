@@ -26,7 +26,7 @@ class RightPanelDayOccurrenceView(DayOccurrenceView):
 		menu.add(gtk.SeparatorMenuItem())
 		menu.add(labelImageMenuItem(
 			_("Swap with Plugins Text"),
-			"switch-vertical.svg",
+			imageName="switch-vertical.svg",
 			func=self.onSwapClick,
 		))
 

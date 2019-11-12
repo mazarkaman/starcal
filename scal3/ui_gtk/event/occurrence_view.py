@@ -437,7 +437,7 @@ class DayOccurrenceView(gtk.TextView, CustomizableCalObj):
 		###
 		menu.add(labelImageMenuItem(
 			_("Move to {title}").format(title=ui.eventTrash.title),
-			ui.eventTrash.icon,
+			imageName=ui.eventTrash.icon,
 			func=self.moveEventToTrash,
 			args=(
 				event,

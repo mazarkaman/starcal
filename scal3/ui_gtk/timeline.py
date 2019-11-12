@@ -640,7 +640,7 @@ class TimeLine(gtk.DrawingArea, ud.BaseCalObj):
 				##
 				menu.add(labelImageMenuItem(
 					_("Move to {title}").format(title=ui.eventTrash.title),
-					ui.eventTrash.icon,
+					imageName=ui.eventTrash.icon,
 					func=self.moveEventToTrash,
 					args=(
 						group,

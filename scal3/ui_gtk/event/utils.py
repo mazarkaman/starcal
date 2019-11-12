@@ -56,7 +56,6 @@ def eventWriteImageMenuItem(*args, **kwargs):
 def menuItemFromEventGroup(group, **kwargs):
 	return labelImageMenuItem(
 		group.title,
-		"",
 		pixbuf=newColorCheckPixbuf(
 			group.color,
 			ui.menuEventCheckIconSize,

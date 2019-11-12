@@ -851,7 +851,7 @@ class EventManagerDialog(gtk.Dialog, MyDialog, ud.BaseCalObj):## FIXME
 				menu.add(gtk.SeparatorMenuItem())
 				menu.add(labelImageMenuItem(
 					_("Move to {title}").format(title=ui.eventTrash.title),
-					ui.eventTrash.icon,
+					imageName=ui.eventTrash.icon,
 					func=self.moveEventToTrashFromMenu,
 					args=(path,),
 				))

@@ -1408,7 +1408,7 @@ class PreferencesWindow(gtk.Window):
 				##
 				menu.add(labelImageMenuItem(
 					_("Export to {format}").format(format="iCalendar"),
-					"text-calendar-ics.svg",
+					imageName="text-calendar-ics.svg",
 					func=self.onPlugExportToIcsClick,
 					args=(plug,),
 				))
