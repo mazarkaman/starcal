@@ -93,6 +93,17 @@ class ToolBoxItem(gtk.Button, ConButtonBase, CustomizableCalObj):
 		if enableTooltip:
 			set_tooltip(self, desc)
 
+	def setIconName(self, iconName: str) -> None:
+		if not iconName:
+			self.bigPixbuf = None
+			self.image.clear()
+			return
+		self.bigPixbuf = self.render_icon_pixbuf(
+			iconName,
+			gtk.IconSize.DIALOG,
+		)
+		self._setIconSizeImage(self.iconSize)
+
 	def setIconFile(self, fname: str) -> None:
 		self.filename = fname
 		if not fname:
