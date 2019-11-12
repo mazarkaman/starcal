@@ -695,7 +695,6 @@ class MainWin(gtk.ApplicationWindow, ud.BaseCalObj):
 			if len(eventTypes) == 1:
 				menu2.add(labelImageMenuItem(
 					group.title,
-					"",
 					func=self.addToGroupFromMenu,
 					args=(group, eventTypes[0]),
 					**item2_kwargs
@@ -713,7 +712,6 @@ class MainWin(gtk.ApplicationWindow, ud.BaseCalObj):
 				menu3.show_all()
 				item2 = labelImageMenuItem(
 					group.title,
-					"",
 					**item2_kwargs
 				)
 				item2.set_submenu(menu3)
