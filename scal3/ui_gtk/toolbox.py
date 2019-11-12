@@ -54,6 +54,8 @@ class ToolBoxItem(gtk.Button, ConButtonBase, CustomizableCalObj):
 		# this lines removes the background shadow of button
 		# and makes it look like a standard Gtk.ToolButton on a Gtk.ToolBar
 		self.set_relief(gtk.ReliefStyle.NONE)
+		##
+		self.set_focus_on_click(False)
 		######
 		self._name = name
 		self.filename = ""
