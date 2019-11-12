@@ -155,51 +155,51 @@ class TimeLine(gtk.DrawingArea, ud.BaseCalObj):
 		space = size + tl.basicButtonsSpacing
 		self.basicButtons = [
 			Button(
-				"go-home.svg",  # maybe iconName="gtk-home",
-				self.onCenterToNowClick,
-				1,  # x
-				1,  # y
-				False,
+				imageName="go-home.svg",  # maybe iconName="gtk-home",
+				onPress=self.onCenterToNowClick,
+				x=1,  # x
+				y=1,  # y
+				autoDir=False,
 				iconSize=size,
 				xalign="left",
 				yalign="buttom",
 			),
 			Button(
-				"zoom-question.svg",
-				self.zoomMenuOpen,
-				1 + space,  # x
-				1,  # y
-				False,
+				imageName="zoom-question.svg",
+				onPress=self.zoomMenuOpen,
+				x=1 + space,  # x
+				y=1,  # y
+				autoDir=False,
 				iconSize=size,
 				xalign="left",
 				yalign="buttom",
 			),
 			Button(
-				"configure.svg",
-				self.openPreferences,
-				1 + space * 2,  # x
-				1,  # y
-				False,
+				imageName="configure.svg",
+				onPress=self.openPreferences,
+				x=1 + space * 2,  # x
+				y=1,  # y
+				autoDir=False,
 				iconSize=size,
 				xalign="left",
 				yalign="buttom",
 			),
 			Button(
-				"application-exit.svg",  # maybe iconName="gtk-exit"
-				self.closeFunc,
-				1 + space * 3,  # x
-				1,  # y
-				False,
+				imageName="application-exit.svg",  # maybe iconName="gtk-exit"
+				onPress=self.closeFunc,
+				x=1 + space * 3,  # x
+				y=1,  # y
+				autoDir=False,
 				iconSize=size,
 				xalign="left",
 				yalign="buttom",
 			),
 			Button(
-				"resize-small.svg",  # maybe iconName="sw-resize"
-				self.startResize,
-				1,  # x
-				1,  # y
-				False,
+				imageName="resize-small.svg",  # maybe iconName="sw-resize"
+				onPress=self.startResize,
+				x=1,  # x
+				y=1,  # y
+				autoDir=False,
 				iconSize=size,
 				xalign="right",
 				yalign="buttom",
@@ -214,11 +214,11 @@ class TimeLine(gtk.DrawingArea, ud.BaseCalObj):
 		size = tl.movementButtonsSize
 		self.movementButtons = [
 			Button(
-				"go-previous.svg",
-				self.onMoveLeftClick,
-				- size * 1.5,  # x
-				0,  # y
-				False,
+				imageName="go-previous.svg",
+				onPress=self.onMoveLeftClick,
+				x=- size * 1.5,  # x
+				y=0,  # y
+				autoDir=False,
 				iconSize=size,
 				xalign="center",
 				yalign="buttom",
@@ -226,11 +226,11 @@ class TimeLine(gtk.DrawingArea, ud.BaseCalObj):
 				onRelease=self.arrowButtonReleased,
 			),
 			Button(
-				"",
-				self.onMoveStopClick,
-				0,  # x
-				0,  # y
-				False,
+				imageName="",
+				onPress=self.onMoveStopClick,
+				x=0,  # x
+				y=0,  # y
+				autoDir=False,
 				iconName="gtk-stop",
 				iconSize=size,
 				xalign="center",
@@ -238,11 +238,11 @@ class TimeLine(gtk.DrawingArea, ud.BaseCalObj):
 				opacity=tl.movementButtonsOpacity,
 			),
 			Button(
-				"go-next.svg",
-				self.onMoveRightClick,
-				size * 1.5,  # x
-				0,  # y
-				False,
+				imageName="go-next.svg",
+				onPress=self.onMoveRightClick,
+				x=size * 1.5,  # x
+				y=0,  # y
+				autoDir=False,
 				iconSize=size,
 				xalign="center",
 				yalign="buttom",

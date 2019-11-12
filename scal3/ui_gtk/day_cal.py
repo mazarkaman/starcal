@@ -115,9 +115,10 @@ class DayCal(gtk.DrawingArea, CalBase):
 	def getButtons(self):
 		return [
 			Button(
-				d.get("imageName", ""),
-				getattr(self, d["onClick"]),
-				d["pos"][0], d["pos"][1],
+				imageName=d.get("imageName", ""),
+				onPress=getattr(self, d["onClick"]),
+				x=d["pos"][0],
+				y=d["pos"][1],
 				autoDir=d["autoDir"],
 				iconName=d.get("iconName", ""),
 				iconSize=d.get("iconSize", 16),

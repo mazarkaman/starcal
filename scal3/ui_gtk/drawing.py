@@ -528,13 +528,51 @@ def drawArcOutline(cr, xc, yc, r, d, a0, a1):
 	cr.close_path()
 
 
-class Button(object):
+class BaseButton(object):
+	def opposite(self, align):
+		if align == "left":
+			return "right"
+		if align == "right":
+			return "left"
+		if align == "top":
+			return "buttom"
+		if align == "buttom":
+			return "top"
+		return align
+
+	def getAbsPos(self, w, h):
+		x = self.x
+		y = self.y
+		xalign = self.xalign
+		yalign = self.yalign
+		if self.autoDir and rtl:
+			xalign = self.opposite(xalign)
+		if xalign == "right":
+			x = w - self.width - x
+		elif xalign == "center":
+			x = (w - self.width) / 2.0 + x
+		if yalign == "buttom":
+			y = h - self.height - y
+		elif yalign == "center":
+			y = (h - self.height) / 2.0 + y
+		return (x, y)
+
+	def contains(self, px, py, w, h):
+		x, y = self.getAbsPos(w, h)
+		return (
+			x <= px < x + self.width
+			and
+			y <= py < y + self.height
+		)
+
+
+class Button(BaseButton):
 	def __init__(
 		self,
-		imageName,
-		onPress,
-		x,
-		y,
+		imageName="",
+		onPress=None,
+		x=None,
+		y=None,
 		autoDir=True,
 		iconName="",
 		iconSize=0,
@@ -543,6 +581,11 @@ class Button(object):
 		opacity=1.0,  # earase the background drawing, only preserving bgColor
 		onRelease=None,
 	):
+		if x is None:
+			raise ValueError("x is not given")
+		if y is None:
+			raise ValueError("y is not given")
+
 		if x < 0 and xalign != "center":
 			raise ValueError(f"invalid x={x}, xalign={xalign}")
 		if y < 0 and yalign != "center":
@@ -567,6 +610,8 @@ class Button(object):
 				0, # Gtk.IconLookupFlags
 			)
 		else:
+			if not imageName:
+				raise ValueError("no imageName nor iconName were given")
 			self.imageName = imageName
 			if imageName.endswith(".svg"):
 				if iconSize == 0:
@@ -635,38 +680,4 @@ class Button(object):
 			f"{self.x!r}, {self.y!r}, {self.autoDir!r})"
 		)
 
-	def opposite(self, align):
-		if align == "left":
-			return "right"
-		if align == "right":
-			return "left"
-		if align == "top":
-			return "buttom"
-		if align == "buttom":
-			return "top"
-		return align
 
-	def getAbsPos(self, w, h):
-		x = self.x
-		y = self.y
-		xalign = self.xalign
-		yalign = self.yalign
-		if self.autoDir and rtl:
-			xalign = self.opposite(xalign)
-		if xalign == "right":
-			x = w - self.width - x
-		elif xalign == "center":
-			x = (w - self.width) / 2.0 + x
-		if yalign == "buttom":
-			y = h - self.height - y
-		elif yalign == "center":
-			y = (h - self.height) / 2.0 + y
-		return (x, y)
-
-	def contains(self, px, py, w, h):
-		x, y = self.getAbsPos(w, h)
-		return (
-			x <= px < x + self.width
-			and
-			y <= py < y + self.height
-		)
