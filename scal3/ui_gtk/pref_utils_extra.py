@@ -42,7 +42,10 @@ from scal3.ui_gtk.utils import (
 	imageFromIconName,
 	pixbufFromFile,
 )
-
+from scal3.ui_gtk.toolbox import (
+	ToolBoxItem,
+	CustomizableToolBox,
+)
 
 from scal3.ui_gtk.pref_utils import PrefItem
 
@@ -457,13 +460,75 @@ class InactiveCalsTreeView(AICalsTreeview):
 	dragId = 101
 
 
+class AICalsPrefItemToolbar(CustomizableToolBox):
+	def __init__(self, parent):
+		CustomizableToolBox.__init__(
+			self,
+			parent,
+			vertical=True,
+			iconSize=20,
+		)
+		# with iconSize < 20, the button would not become smaller
+		# so 20 is the best size
+
+		# _leftRightAction: "" | "activate" | "inactivate"
+		self._leftRightAction = ""
+
+		self.leftRightItem = ToolBoxItem(
+			"left-right",
+			"",  # changes
+			"onLeftRightClick",
+			_("Activate/Inactivate"),
+			continuousClick=False,
+		)
+		self.defaultItems = [
+			self.leftRightItem,
+			ToolBoxItem(
+				"go-up",
+				"gtk-go-up",
+				"onUpClick",
+				_("Move up"),
+				continuousClick=False,
+			),
+			ToolBoxItem(
+				"go-down",
+				"gtk-go-down",
+				"onDownClick",
+				_("Move down"),
+				continuousClick=False,
+			),
+		]
+		self.defaultItemsDict = {
+			item._name: item for item in self.defaultItems
+		}
+		self.setData({
+			"items": [
+				("left-right", True),
+				("go-up", True),
+				("go-down", True),
+			],
+		})
+
+	def getLeftRightAction(self):
+		return self._leftRightAction
+
+	def setLeftRight(self, isRight: Optional[bool]) -> None:
+		tb = self.leftRightItem
+		if isRight is None:
+			tb.setIconName("")
+			self._leftRightAction = ""
+		else:
+			tb.setIconName(
+				"gtk-go-forward" if isRight ^ rtl
+				else "gtk-go-back"
+			)
+			self._leftRightAction = "inactivate" if isRight else "activate"
+		tb.show_all()
+
+
 class AICalsPrefItem(PrefItem):
 	def __init__(self) -> None:
 		self._widget = HBox()
-		size = gtk.IconSize.SMALL_TOOLBAR
-		######
-		toolbar = gtk.Toolbar()
-		toolbar.set_orientation(gtk.Orientation.VERTICAL)
 		########
 		treev = ActiveCalsTreeView()
 		treev.connect("row-activated", self.activeTreevRActivate)
@@ -478,27 +543,9 @@ class AICalsPrefItem(PrefItem):
 		self.activeTreev = treev
 		self.activeTrees = treev.get_model()
 		########
-		toolbar = gtk.Toolbar()
-		toolbar.set_orientation(gtk.Orientation.VERTICAL)
-		####
-		tb = gtk.ToolButton()
-		tb.set_direction(gtk.TextDirection.LTR)
-		tb.action = ""
-		self.leftRightButton = tb
-		set_tooltip(tb, _("Activate/Inactivate"))
-		tb.connect("clicked", self.onLeftRightClick)
-		toolbar.insert(tb, -1)
-		####
-		tb = toolButtonFromIcon("gtk-go-up", size)
-		set_tooltip(tb, _("Move up"))
-		tb.connect("clicked", self.onUpClick)
-		toolbar.insert(tb, -1)
-		##
-		tb = toolButtonFromIcon("gtk-go-down", size)
-		set_tooltip(tb, _("Move down"))
-		tb.connect("clicked", self.onDownClick)
-		toolbar.insert(tb, -1)
-		##
+		toolbar = AICalsPrefItemToolbar(self)
+		toolbar.show_all()
+		self.toolbar = toolbar
 		pack(self._widget, toolbar)
 		########
 		treev = InactiveCalsTreeView()
@@ -515,55 +562,37 @@ class AICalsPrefItem(PrefItem):
 		self.inactiveTrees = treev.get_model()
 		########
 
-	def setLeftRight(self, isRight: Optional[bool]) -> None:
-		tb = self.leftRightButton
-		if isRight is None:
-			tb.set_label_widget(None)
-			tb.action = ""
-		else:
-			tb.set_label_widget(
-				imageFromIconName(
-					(
-						"gtk-go-forward" if isRight ^ rtl
-						else "gtk-go-back"
-					),
-					gtk.IconSize.SMALL_TOOLBAR,
-				)
-			)
-			tb.action = "inactivate" if isRight else "activate"
-		tb.show_all()
-
 	def activeTreevFocus(
 		self,
 		treev: gtk.TreeView,
 		gevent: Optional[gdk.EventFocus] = None,
 	) -> None:
-		self.setLeftRight(True)
+		self.toolbar.setLeftRight(True)
 
 	def inactiveTreevFocus(
 		self,
 		treev: gtk.TreeView,
 		gevent: Optional[gdk.EventFocus] = None,
 	) -> None:
-		self.setLeftRight(False)
+		self.toolbar.setLeftRight(False)
 
 	def onLeftRightClick(self, obj: Optional[gtk.ToolButton] = None) -> None:
-		tb = self.leftRightButton
-		if tb.action == "activate":
+		action = self.toolbar.getLeftRightAction()
+		if action == "activate":
 			path, col = self.inactiveTreev.get_cursor()
 			if path:
 				self.activateIndex(path[0])
-		elif tb.action == "inactivate":
+		elif action == "inactivate":
 			if len(self.activeTrees) > 1:
 				path, col = self.activeTreev.get_cursor()
 				if path:
 					self.inactivateIndex(path[0])
 
 	def getCurrentTreeview(self) -> gtk.TreeView:
-		tb = self.leftRightButton
-		if tb.action == "inactivate":
+		action = self.toolbar.getLeftRightAction()
+		if action == "inactivate":
 			return self.activeTreev
-		elif tb.action == "activate":
+		elif action == "activate":
 			return self.inactiveTreev
 		else:
 			return
@@ -621,15 +650,15 @@ class AICalsPrefItem(PrefItem):
 
 	def activeTreevSelectionChanged(self, selection: gtk.TreeSelection) -> None:
 		if selection.count_selected_rows() > 0:
-			self.setLeftRight(True)
+			self.toolbar.setLeftRight(True)
 		else:
-			self.setLeftRight(None)
+			self.toolbar.setLeftRight(None)
 
 	def inactiveTreevSelectionChanged(self, selection: gtk.TreeSelection) -> None:
 		if selection.count_selected_rows() > 0:
-			self.setLeftRight(False)
+			self.toolbar.setLeftRight(False)
 		else:
-			self.setLeftRight(None)
+			self.toolbar.setLeftRight(None)
 
 	def activeTreevRActivate(
 		self,
