@@ -770,6 +770,8 @@ def loadPlugin(_file=None, **kwargs):
 	if ext == ".ics":
 		return IcsTextPlugin(_file, **kwargs)
 	####
+	if ext == ".md":
+		return
 	if ext != ".json":
 		log.error(
 			f"unsupported plugin extention {ext}" +
