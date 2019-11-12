@@ -6,61 +6,73 @@ from scal3 import ui
 from scal3.ui_gtk import *
 from scal3.ui_gtk.decorators import *
 from scal3.ui_gtk import gtk_ud as ud
-from scal3.ui_gtk.toolbar import ToolbarItem, CustomizableToolbar
+from scal3.ui_gtk.toolbox import (
+	ToolBoxItem,
+	CustomizableToolBox,
+)
+
 
 
 @registerSignals
-class CalObj(CustomizableToolbar):
+class CalObj(CustomizableToolBox):
 	defaultItems = [
-		ToolbarItem(
+		ToolBoxItem(
 			"today",
 			"gtk-home",
 			"goToday",
 			"Select Today",
 			"Today",
+			continuousClick=False,
 		),
-		ToolbarItem(
+		ToolBoxItem(
 			"date",
 			"gtk-index",
 			"selectDateShow",
 			"Select Date...",
 			"Date",
+			continuousClick=False,
 		),
-		ToolbarItem(
+		ToolBoxItem(
 			"customize",
 			"gtk-edit",
 			"customizeShow",
+			continuousClick=False,
 		),
-		ToolbarItem(
+		ToolBoxItem(
 			"preferences",
 			"gtk-preferences",
 			"prefShow",
+			continuousClick=False,
 		),
-		ToolbarItem(
+		ToolBoxItem(
 			"add",
 			"gtk-add",
 			"eventManShow",
 			"Event Manager",
 			"Event",
+			continuousClick=False,
 		),
-		ToolbarItem(
+		ToolBoxItem(
 			"export",
 			"gtk-convert",
 			"onExportClick",
 			_("Export to {format}").format(format="HTML"),
 			"Export",
+			continuousClick=False,
 		),
-		ToolbarItem(
+		ToolBoxItem(
 			"about",
 			"gtk-about",
 			"aboutShow",
 			_("About ") + core.APP_DESC,
 			"About",
+			continuousClick=False,
 		),
-		ToolbarItem(
+		ToolBoxItem(
 			"quit",
 			"gtk-quit",
 			"quit",
+			continuousClick=False,
 		),
 	]
 	defaultItemsDict = {
@@ -69,7 +81,7 @@ class CalObj(CustomizableToolbar):
 	}
 
 	def __init__(self):
-		CustomizableToolbar.__init__(
+		CustomizableToolBox.__init__(
 			self,
 			ui.mainWin,
 			vertical=False,
@@ -84,5 +96,5 @@ class CalObj(CustomizableToolbar):
 			self.connect("button-press-event", ui.mainWin.childButtonPress)
 
 	def updateVars(self):
-		CustomizableToolbar.updateVars(self)
+		CustomizableToolBox.updateVars(self)
 		ud.mainToolbarData = self.getData()

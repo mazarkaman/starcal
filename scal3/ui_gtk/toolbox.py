@@ -178,7 +178,7 @@ class ToolBoxItem(gtk.Button, ConButtonBase, CustomizableCalObj):
 
 
 #@registerSignals
-class CustomizableToolBox(gtk.Box, CustomizableCalObj):
+class CustomizableToolBox(gtk.EventBox, CustomizableCalObj):
 	_name = "toolbar"
 	desc = _("Toolbar")
 	#signals = CustomizableCalObj.signals + [
@@ -203,13 +203,16 @@ class CustomizableToolBox(gtk.Box, CustomizableCalObj):
 		continuousClick: bool = True,
 	) -> None:
 		self.vertical = vertical
-		gtk.Box.__init__(self, orientation=self.get_orientation())
+		gtk.EventBox.__init__(self)
+		self.box = gtk.Box(self, orientation=self.get_orientation())
+		self.add(self.box)
+		self.box.show()
+		###
 		self.funcOwner = funcOwner
 		self.iconSize = iconSize
 		self.continuousClick = continuousClick
 		self.buttonBorder = 0
 		self.buttonPadding = 3
-		#self.add_events(gdk.EventMask.POINTER_MOTION_MASK)
 		self.initVars()
 
 		# set on setData(), used in getData() to keep compatibility
@@ -292,25 +295,25 @@ class CustomizableToolBox(gtk.Box, CustomizableCalObj):
 	def onButtonPaddingChange(self) -> None:
 		padding = self.buttonPadding
 		for item in self.items:
-			self.set_child_packing(
-				item,
-				False,
-				False,
-				padding,
-				gtk.PackType.START,
+			self.box.set_child_packing(
+				child=item,
+				expand=False,
+				fill=False,
+				padding=padding,
+				pack_type=gtk.PackType.START,
 			)
 
 	def moveItemUp(self, i: int) -> None:
 		button = self.items[i]
-		self.remove(button)
-		self.insert(button, i - 1)
+		self.box.remove(button)
+		self.box.insert(button, i - 1)
 		self.items.insert(i - 1, self.items.pop(i))
 
 	def appendItem(self, item: ud.CalObjType) -> None:
 		CustomizableCalObj.appendItem(self, item)
 		item.setIconSize(self.iconSize)
 		item.onConfigChange(toParent=False)
-		pack(self, item, padding=self.buttonPadding)
+		pack(self.box, item, padding=self.buttonPadding)
 		if item.enable:
 			item.show()
 
