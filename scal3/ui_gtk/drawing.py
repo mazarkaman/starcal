@@ -529,6 +529,47 @@ def drawArcOutline(cr, xc, yc, r, d, a0, a1):
 
 
 class BaseButton(object):
+	def __init__(
+		self,
+		onPress=None,
+		onRelease=None,
+		x=None,
+		y=None,
+		xalign="left",
+		yalign="top",
+		autoDir=True,
+		opacity=1.0,  # earase the background drawing, only preserving bgColor
+	):
+		if x is None:
+			raise ValueError("x is not given")
+		if y is None:
+			raise ValueError("y is not given")
+
+		if x < 0 and xalign != "center":
+			raise ValueError(f"invalid x={x}, xalign={xalign}")
+		if y < 0 and yalign != "center":
+			raise ValueError(f"invalid y={y}, yalign={yalign}")
+		if xalign not in ("left", "right", "center"):
+			raise ValueError(f"invalid xalign={xalign}")
+		if yalign not in ("top", "buttom", "center"):
+			raise ValueError(f"invalid yalign={yalign}")
+
+		self.onPress = onPress
+		self.onRelease = onRelease
+		self.x = x
+		self.y = y
+		self.xalign = xalign
+		self.yalign = yalign
+		self.autoDir = autoDir
+		self.opacity = opacity
+
+		self.width = None
+		self.height = None
+
+	def setSize(self, width, height):
+		self.width = width
+		self.height = height
+
 	def opposite(self, align):
 		if align == "left":
 			return "right"
@@ -570,30 +611,11 @@ class Button(BaseButton):
 	def __init__(
 		self,
 		imageName="",
-		onPress=None,
-		x=None,
-		y=None,
-		autoDir=True,
 		iconName="",
 		iconSize=0,
-		xalign="left",
-		yalign="top",
-		opacity=1.0,  # earase the background drawing, only preserving bgColor
-		onRelease=None,
+		**kwargs
 	):
-		if x is None:
-			raise ValueError("x is not given")
-		if y is None:
-			raise ValueError("y is not given")
-
-		if x < 0 and xalign != "center":
-			raise ValueError(f"invalid x={x}, xalign={xalign}")
-		if y < 0 and yalign != "center":
-			raise ValueError(f"invalid y={y}, yalign={yalign}")
-		if xalign not in ("left", "right", "center"):
-			raise ValueError(f"invalid xalign={xalign}")
-		if yalign not in ("top", "buttom", "center"):
-			raise ValueError(f"invalid yalign={yalign}")
+		BaseButton.__init__(self, **kwargs)
 
 		shouldResize = True
 
@@ -631,18 +653,10 @@ class Button(BaseButton):
 		# the actual/final width and height of pixbuf/button
 		width, height = pixbuf.get_width(), pixbuf.get_height()
 		# width, height = iconSize, iconSize
+		self.setSize(width, height)
 
+		self.iconSize = iconSize
 		self.pixbuf = pixbuf
-		self.width = width
-		self.height = height
-		self.onPress = onPress
-		self.onRelease = onRelease
-		self.x = x
-		self.y = y
-		self.xalign = xalign
-		self.yalign = yalign
-		self.autoDir = autoDir
-		self.opacity = opacity
 
 	def getPixbuf(self, bgColor: Optional[Tuple[int, int, int]]):
 		if self.opacity == 1.0:
