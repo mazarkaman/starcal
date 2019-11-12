@@ -96,7 +96,8 @@ class ToolBoxItem(gtk.Button, ConButtonBase, CustomizableCalObj):
 	def setIconName(self, iconName: str) -> None:
 		if not iconName:
 			self.bigPixbuf = None
-			self.image.clear()
+			if self.image is not None:
+				self.image.clear()
 			return
 		self.bigPixbuf = self.render_icon_pixbuf(
 			iconName,
@@ -108,6 +109,8 @@ class ToolBoxItem(gtk.Button, ConButtonBase, CustomizableCalObj):
 		self.filename = fname
 		if not fname:
 			self.bigPixbuf = None
+			if self.image is not None:
+				self.image.clear()
 			return
 		self.bigPixbuf = pixbufFromFile(fname, size=self.iconSize)
 		if fname.endswith(".svg"):

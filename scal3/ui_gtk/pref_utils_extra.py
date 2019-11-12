@@ -628,6 +628,9 @@ class AICalsPrefItem(PrefItem):
 				treev.set_cursor(i + 1)
 
 	def inactivateIndex(self, index: int) -> None:
+		if len(self.activeTrees) < 2:
+			log.warning("You need at least one active calendar type!")
+			return
 		self.inactiveTrees.prepend(list(self.activeTrees[index]))
 		del self.activeTrees[index]
 		self.inactiveTreev.set_cursor(0)
@@ -636,17 +639,18 @@ class AICalsPrefItem(PrefItem):
 			len(self.activeTrees) - 1
 		))
 		# set_cursor does not seem to raise exception anymore on invalid index
-		self.inactiveTreev.grab_focus()  # FIXME
+		self.inactiveTreev.grab_focus()
 
 	def activateIndex(self, index: int) -> None:
 		self.activeTrees.append(list(self.inactiveTrees[index]))
 		del self.inactiveTrees[index]
-		self.activeTreev.set_cursor(len(self.activeTrees) - 1)  # FIXME
-		self.inactiveTreev.set_cursor(min(
-			index,
-			len(self.inactiveTrees) - 1,
-		))
-		self.activeTreev.grab_focus()  # FIXME
+		self.activeTreev.set_cursor(len(self.activeTrees) - 1)
+		if len(self.inactiveTrees) > 0:
+			self.inactiveTreev.set_cursor(min(
+				index,
+				len(self.inactiveTrees) - 1,
+			))
+		self.activeTreev.grab_focus()
 
 	def activeTreevSelectionChanged(self, selection: gtk.TreeSelection) -> None:
 		if selection.count_selected_rows() > 0:
