@@ -105,7 +105,8 @@ class CustomizeDialog(gtk.Dialog):
 		return None
 
 	def newItemList(
-		self, pageName: str,
+		self,
+		parentPageName: str,
 		parentItem: "CustomizableCalObj",
 		scrolled=False,
 	) -> Tuple[gtk.TreeView, gtk.Box]:
@@ -116,9 +117,9 @@ class CustomizeDialog(gtk.Dialog):
 		model = gtk.ListStore(bool, str, str, GdkPixbuf.Pixbuf)
 		treev = gtk.TreeView(model=model)
 		if parentItem.itemsPageEnable:
-			treev.pageName = pageName + ".items"
+			treev.pageName = parentPageName + ".items"
 		else:
-			treev.pageName = pageName
+			treev.pageName = parentPageName
 		self.itemByPageName[treev.pageName] = parentItem
 		##
 		treev.set_headers_visible(False)
@@ -155,10 +156,9 @@ class CustomizeDialog(gtk.Dialog):
 				anyItemHasOptions = True
 			if not item._name:
 				raise ValueError(f"item._name = {item._name}")
-			pageName = parentItem._name + "." + item._name
 			model.append([
 				item.enable,
-				pageName,
+				parentPageName + "." + item._name,
 				item.desc,
 				self.itemPixbuf(item),
 			])
