@@ -463,6 +463,12 @@
 		<license>LGPLv3+</license>
 		<comment></comment>
 	</resource>
+	<resource path="svg/process-stop.svg">
+		<author>Tango Icon Library</author>
+		<source>tango-icon-theme/scalable/actions/process-stop.svg</source>
+		<license>Public Domain</license>
+		<comment></comment>
+	</resource>
 	<resource path="svg/resize-small.svg">
 		<author>Saeed Rasooli</author>
 		<license>Public Domain</license>

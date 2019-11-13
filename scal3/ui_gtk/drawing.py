@@ -606,6 +606,71 @@ class BaseButton(object):
 			y <= py < y + self.height
 		)
 
+	def draw(self, cr, w, h, bgColor=None):
+		raise NotImplementedError
+
+
+class SVGButton(BaseButton):
+	def __init__(
+		self,
+		imageName="",
+		iconSize=0,
+		**kwargs
+	):
+		BaseButton.__init__(self, **kwargs)
+
+		if not imageName:
+			raise ValueError("imageName is given")
+		self.imageName = imageName
+		if iconSize == 0:
+			iconSize = 16
+		pixbuf = pixbufFromSvgFile(imageName, iconSize)
+
+		# the actual/final width and height of pixbuf/button
+		width, height = pixbuf.get_width(), pixbuf.get_height()
+		# width, height = iconSize, iconSize
+		self.setSize(width, height)
+
+		self.iconSize = iconSize
+		self.pixbuf = pixbuf
+
+	def getPixbuf(self, bgColor: Optional[Tuple[int, int, int]]):
+		if self.opacity == 1.0:
+			return self.pixbuf
+		# now we have transparency
+		if bgColor is None:
+			log.info(f"Button.getPixbuf: opacity={opacity}, but no bgColor")
+			return self.pixbuf
+
+		r, g, b = bgColor[:3]
+		bgColorInt = rgbToInt(r, g, b)
+		return self.pixbuf.composite_color_simple(
+			self.width, self.height,  # dest_width, dest_height
+			GdkPixbuf.InterpType.BILINEAR,  # interp_type
+			round(self.opacity * 255),  # overall_alpha: int: 0..255
+			8,
+			bgColorInt,
+			bgColorInt,
+		)
+
+	def draw(self, cr, w, h, bgColor=None):
+		x, y = self.getAbsPos(w, h)
+		gdk.cairo_set_source_pixbuf(
+			cr,
+			self.getPixbuf(bgColor),
+			x,
+			y,
+		)
+		cr.rectangle(x, y, self.width, self.height)
+		cr.fill()
+
+	def __repr__(self):
+		return (
+			f"SVGButton({self.imageName!r}, {self.onPress.__name__!r}, " +
+			f"{self.x!r}, {self.y!r}, {self.autoDir!r})"
+		)
+
+
 
 class Button(BaseButton):
 	def __init__(
