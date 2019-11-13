@@ -614,7 +614,7 @@ class SVGButton(BaseButton):
 	def __init__(
 		self,
 		imageName="",
-		iconSize=0,
+		iconSize=16,
 		**kwargs
 	):
 		BaseButton.__init__(self, **kwargs)
@@ -622,14 +622,10 @@ class SVGButton(BaseButton):
 		if not imageName:
 			raise ValueError("imageName is given")
 		self.imageName = imageName
-		if iconSize == 0:
-			iconSize = 16
 		pixbuf = pixbufFromSvgFile(imageName, iconSize)
 
-		# the actual/final width and height of pixbuf/button
-		width, height = pixbuf.get_width(), pixbuf.get_height()
-		# width, height = iconSize, iconSize
-		self.setSize(width, height)
+		# we assume that svg image is square
+		self.setSize(iconSize, iconSize)
 
 		self.iconSize = iconSize
 		self.pixbuf = pixbuf
