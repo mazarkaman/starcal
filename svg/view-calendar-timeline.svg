@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!-- Created with Inkscape (http://www.inkscape.org/) -->
+
 <svg
    xmlns:dc="http://purl.org/dc/elements/1.1/"
-   xmlns:cc="http://web.resource.org/cc/"
+   xmlns:cc="http://creativecommons.org/ns#"
    xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
    xmlns:svg="http://www.w3.org/2000/svg"
    xmlns="http://www.w3.org/2000/svg"
@@ -13,10 +14,9 @@
    height="128"
    id="svg2"
    sodipodi:version="0.32"
-   inkscape:version="0.45.1"
+   inkscape:version="0.92.4 (5da689c313, 2019-01-14)"
    version="1.0"
-   sodipodi:docbase="/home/david/Oxygen/trunk/scalable/actions"
-   sodipodi:docname="view-calendar-timeline.svgz"
+   sodipodi:docname="view-calendar-timeline.svg"
    inkscape:output_extension="org.inkscape.output.svgz.inkscape"
    inkscape:export-filename="/home/david/view-calendar-timeline.png"
    inkscape:export-xdpi="22.5"
@@ -388,15 +388,26 @@
      width="128px"
      height="128px"
      showgrid="false"
-     gridspacingx="4px"
-     gridspacingy="4px"
-     gridempspacing="2"
      showborder="false"
-     inkscape:window-width="794"
-     inkscape:window-height="734"
-     inkscape:window-x="0"
+     inkscape:window-width="1890"
+     inkscape:window-height="1026"
+     inkscape:window-x="30"
      inkscape:window-y="0"
-     inkscape:grid-bbox="true" />
+     inkscape:grid-bbox="true"
+     inkscape:window-maximized="1">
+    <inkscape:grid
+       id="GridFromPre046Settings"
+       type="xygrid"
+       originx="0"
+       originy="0"
+       spacingx="4"
+       spacingy="4"
+       color="#3f3fff"
+       empcolor="#3f3fff"
+       opacity="0.15"
+       empopacity="0.38"
+       empspacing="2" />
+  </sodipodi:namedview>
   <metadata
      id="metadata7">
     <rdf:RDF>

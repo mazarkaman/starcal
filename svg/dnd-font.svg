@@ -13,7 +13,7 @@
    width="150"
    height="32"
    id="svg2"
-   inkscape:version="0.48.4 r9939"
+   inkscape:version="0.92.4 (5da689c313, 2019-01-14)"
    sodipodi:docname="dnd-font.svg">
   <sodipodi:namedview
      pagecolor="#ffffff"
@@ -59,13 +59,12 @@
      height="32"
      width="150" />
   <text
-     sodipodi:linespacing="125%"
-     style="font-size:75.68305206px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans;-inkscape-font-specification:Sans"
+     style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:75.68305206px;line-height:0%;font-family:sans-serif;-inkscape-font-specification:Sans;text-align:start;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none"
      xml:space="preserve"
      id="text3755"
      y="20.923817"
      x="74.764397"><tspan
-       style="font-size:14.19056988px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:center;text-anchor:middle;fill:#ffffff;fill-opacity:1;font-family:Sans;-inkscape-font-specification:Sans"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:14.19056988px;font-family:sans-serif;-inkscape-font-specification:Sans;text-align:center;text-anchor:middle;fill:#ffffff;fill-opacity:1"
        id="tspan3757"
        y="20.923817"
        x="74.764397">FONTNAME</tspan></text>

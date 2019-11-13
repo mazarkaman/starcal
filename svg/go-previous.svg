@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!-- Created with Inkscape (http://www.inkscape.org/) -->
+
 <svg
    xmlns:dc="http://purl.org/dc/elements/1.1/"
    xmlns:cc="http://creativecommons.org/ns#"
@@ -13,11 +14,10 @@
    height="128"
    id="svg2606"
    sodipodi:version="0.32"
-   inkscape:version="0.45+devel"
+   inkscape:version="0.92.4 (5da689c313, 2019-01-14)"
    version="1.0"
-   sodipodi:docname="go-previous.svgz"
+   sodipodi:docname="go-previous.svg"
    inkscape:output_extension="org.inkscape.output.svgz.inkscape"
-   sodipodi:docbase="/home/pinheiro/artwork/Oxygen/scribus/scalable"
    inkscape:export-filename="/home/pinheiro/pics/oxygen/scalable/actions/go-next.png"
    inkscape:export-xdpi="180"
    inkscape:export-ydpi="180">
@@ -847,15 +847,12 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="1.8671875"
-     inkscape:cx="157.79223"
+     inkscape:cx="60.051644"
      inkscape:cy="8.6239481"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      width="128px"
      height="128px"
-     gridspacingx="4px"
-     gridspacingy="4px"
-     gridempspacing="2"
      showgrid="false"
      inkscape:grid-points="true"
      showguides="true"
@@ -863,12 +860,27 @@
      inkscape:window-width="1016"
      inkscape:window-height="692"
      inkscape:window-x="360"
-     inkscape:window-y="67">
+     inkscape:window-y="67"
+     inkscape:window-maximized="0">
     <inkscape:grid
        type="xygrid"
        id="grid2576"
-       spacingx="4px"
-       spacingy="4px"
+       spacingx="4"
+       spacingy="4"
+       empspacing="2"
+       originx="0"
+       originy="0" />
+    <inkscape:grid
+       id="GridFromPre046Settings"
+       type="xygrid"
+       originx="0"
+       originy="0"
+       spacingx="4"
+       spacingy="4"
+       color="#3f3fff"
+       empcolor="#3f3fff"
+       opacity="0.15"
+       empopacity="0.38"
        empspacing="2" />
   </sodipodi:namedview>
   <metadata

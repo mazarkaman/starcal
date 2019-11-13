@@ -14,7 +14,7 @@
    viewBox="0 0 999.99996 999.99996"
    id="svg2"
    version="1.1"
-   inkscape:version="0.91 r13725"
+   inkscape:version="0.92.4 (5da689c313, 2019-01-14)"
    sodipodi:docname="year-wheel.svg"
    inkscape:export-xdpi="2.8800001"
    inkscape:export-ydpi="2.8800001">
@@ -33,10 +33,10 @@
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="false"
-     inkscape:window-width="1908"
-     inkscape:window-height="965"
-     inkscape:window-x="0"
-     inkscape:window-y="35"
+     inkscape:window-width="1890"
+     inkscape:window-height="1026"
+     inkscape:window-x="30"
+     inkscape:window-y="0"
      inkscape:window-maximized="1"
      showguides="true"
      inkscape:guide-bbox="true"
@@ -46,13 +46,15 @@
        orientation="0,1"
        id="guide4151"
        inkscape:label=""
-       inkscape:color="rgb(0,0,255)" />
+       inkscape:color="rgb(0,0,255)"
+       inkscape:locked="false" />
     <sodipodi:guide
        position="499.99998,499.99998"
        orientation="1,0"
        id="guide4153"
        inkscape:label=""
-       inkscape:color="rgb(0,0,255)" />
+       inkscape:color="rgb(0,0,255)"
+       inkscape:locked="false" />
   </sodipodi:namedview>
   <metadata
      id="metadata7">

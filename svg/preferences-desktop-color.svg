@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!-- Created with Inkscape (http://www.inkscape.org/) -->
+
 <svg
    xmlns:dc="http://purl.org/dc/elements/1.1/"
-   xmlns:cc="http://web.resource.org/cc/"
+   xmlns:cc="http://creativecommons.org/ns#"
    xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
    xmlns:svg="http://www.w3.org/2000/svg"
    xmlns="http://www.w3.org/2000/svg"
@@ -13,10 +14,9 @@
    height="128"
    id="svg1307"
    sodipodi:version="0.32"
-   inkscape:version="0.44"
+   inkscape:version="0.92.4 (5da689c313, 2019-01-14)"
    version="1.0"
-   sodipodi:docbase="/home/pinheiro/artwork/Oxygen/theme/svg/actions"
-   sodipodi:docname="color_fill.svg">
+   sodipodi:docname="preferences-desktop-color.svg">
   <defs
      id="defs1309">
     <linearGradient
@@ -859,11 +859,13 @@
      inkscape:window-width="1270"
      inkscape:window-height="731"
      inkscape:window-x="54"
-     inkscape:window-y="283">
+     inkscape:window-y="283"
+     inkscape:window-maximized="0">
     <sodipodi:guide
        orientation="horizontal"
        position="88.703233"
-       id="guide3188" />
+       id="guide3188"
+       inkscape:locked="false" />
   </sodipodi:namedview>
   <metadata
      id="metadata1312">

@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!-- Created with Inkscape (http://www.inkscape.org/) -->
+
 <svg
    xmlns:dc="http://purl.org/dc/elements/1.1/"
-   xmlns:cc="http://web.resource.org/cc/"
+   xmlns:cc="http://creativecommons.org/ns#"
    xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
    xmlns:svg="http://www.w3.org/2000/svg"
    xmlns="http://www.w3.org/2000/svg"
@@ -13,9 +14,8 @@
    height="128"
    id="svg2537"
    sodipodi:version="0.32"
-   inkscape:version="0.45+devel"
+   inkscape:version="0.92.4 (5da689c313, 2019-01-14)"
    version="1.0"
-   sodipodi:docbase="/home/david/Progetti/sandbox"
    sodipodi:docname="go-home.svg"
    inkscape:output_extension="org.inkscape.output.svg.inkscape">
   <defs
@@ -854,15 +854,26 @@
      width="128px"
      height="128px"
      inkscape:showpageshadow="false"
-     inkscape:window-width="762"
+     inkscape:window-width="769"
      inkscape:window-height="612"
      inkscape:window-x="253"
      inkscape:window-y="79"
-     gridspacingx="4px"
-     gridspacingy="4px"
-     gridempspacing="0"
      showgrid="true"
-     inkscape:grid-points="true" />
+     inkscape:grid-points="true"
+     inkscape:window-maximized="0">
+    <inkscape:grid
+       id="GridFromPre046Settings"
+       type="xygrid"
+       originx="0"
+       originy="0"
+       spacingx="4"
+       spacingy="4"
+       color="#3f3fff"
+       empcolor="#3f3fff"
+       opacity="0.15"
+       empopacity="0.38"
+       empspacing="0" />
+  </sodipodi:namedview>
   <metadata
      id="metadata2542">
     <rdf:RDF>

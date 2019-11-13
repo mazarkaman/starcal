@@ -14,9 +14,9 @@
    height="128"
    id="svg2606"
    sodipodi:version="0.32"
-   inkscape:version="0.48.0 r9654"
+   inkscape:version="0.92.4 (5da689c313, 2019-01-14)"
    version="1.0"
-   sodipodi:docname="text-calendar.svgz"
+   sodipodi:docname="text-calendar.svg"
    inkscape:output_extension="org.inkscape.output.svgz.inkscape"
    inkscape:export-filename="/home/pinheiro/pics/oxygen-icons/scalable/mimetypes/text-calendar.png"
    inkscape:export-xdpi="360"
@@ -118,30 +118,6 @@
          d="M 17.000001,8 17,120 l 57.5,0 c 1.675283,0 3.914297,-0.56468 7,-3.6 8.870045,-8.72523 20.24047,-19.851805 27.49904,-27.175957 C 111.4396,86.761431 112,84.752873 112,82.5 L 112,8 z"
          style="fill:#ffffff;fill-opacity:1" />
     </clipPath>
-    <filter
-       inkscape:collect="always"
-       id="filter6118"
-       x="-0.1126375"
-       width="1.225275"
-       y="-0.12064722"
-       height="1.2412944">
-      <feGaussianBlur
-         inkscape:collect="always"
-         stdDeviation="2.3860572"
-         id="feGaussianBlur6120" />
-    </filter>
-    <filter
-       inkscape:collect="always"
-       id="filter6171"
-       x="-0.47870938"
-       width="1.9574188"
-       y="-0.51275067"
-       height="2.0255013">
-      <feGaussianBlur
-         inkscape:collect="always"
-         stdDeviation="10.140743"
-         id="feGaussianBlur6173" />
-    </filter>
     <clipPath
        clipPathUnits="userSpaceOnUse"
        id="clipPath3889">
@@ -162,14 +138,6 @@
        y1="93.621468"
        x2="95.460213"
        y2="102.34375" />
-    <filter
-       inkscape:collect="always"
-       id="filter3909">
-      <feGaussianBlur
-         inkscape:collect="always"
-         stdDeviation="0.43040059"
-         id="feGaussianBlur3911" />
-    </filter>
     <radialGradient
        inkscape:collect="always"
        xlink:href="#linearGradient3913"
@@ -568,10 +536,10 @@
     <inkscape:grid
        id="GridFromPre046Settings"
        type="xygrid"
-       originx="0px"
-       originy="0px"
-       spacingx="0.5px"
-       spacingy="0.5px"
+       originx="0"
+       originy="0"
+       spacingx="0.5"
+       spacingy="0.5"
        color="#0000ff"
        empcolor="#0000ff"
        opacity="0.2"
@@ -582,11 +550,13 @@
     <sodipodi:guide
        orientation="1,0"
        position="-68,29.325902"
-       id="guide4564" />
+       id="guide4564"
+       inkscape:locked="false" />
     <sodipodi:guide
        orientation="1,0"
        position="-51.972348,130.81475"
-       id="guide3859" />
+       id="guide3859"
+       inkscape:locked="false" />
   </sodipodi:namedview>
   <metadata
      id="metadata2611">
@@ -596,7 +566,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
+        <dc:title />
       </cc:Work>
     </rdf:RDF>
   </metadata>

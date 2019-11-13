@@ -2,7 +2,6 @@
 <!-- Created with Inkscape (http://www.inkscape.org/) -->
 
 <svg
-   xmlns:i="http://ns.adobe.com/AdobeIllustrator/10.0/"
    xmlns:dc="http://purl.org/dc/elements/1.1/"
    xmlns:cc="http://creativecommons.org/ns#"
    xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
@@ -15,9 +14,9 @@
    height="128"
    id="svg3408"
    sodipodi:version="0.32"
-   inkscape:version="0.48.1 r9760"
+   inkscape:version="0.92.4 (5da689c313, 2019-01-14)"
    version="1.0"
-   sodipodi:docname="zoom-in.svgz"
+   sodipodi:docname="zoom-in.svg"
    inkscape:output_extension="org.inkscape.output.svgz.inkscape"
    inkscape:export-filename="/home/pinheiro/pics/oxygen-icons/scalable/actions/small/48x48/zoom-in.png"
    inkscape:export-xdpi="90"
@@ -790,18 +789,6 @@
        fx="71.998199"
        fy="40.002201"
        r="5.3332" />
-    <filter
-       height="1.408259"
-       y="-0.2041295"
-       width="1.3293014"
-       x="-0.16465071"
-       id="filter4087"
-       inkscape:collect="always">
-      <feGaussianBlur
-         id="feGaussianBlur4089"
-         stdDeviation="4.2234282"
-         inkscape:collect="always" />
-    </filter>
     <linearGradient
        id="linearGradient4518-3">
       <stop
@@ -817,19 +804,6 @@
          offset="1"
          style="stop-color:#f6f5f5;stop-opacity:1" />
     </linearGradient>
-    <filter
-       height="2.0255013"
-       y="-0.51275069"
-       width="1.9574188"
-       x="-0.47870937"
-       id="filter6171-8"
-       inkscape:collect="always"
-       color-interpolation-filters="sRGB">
-      <feGaussianBlur
-         id="feGaussianBlur6173-8"
-         stdDeviation="10.140743"
-         inkscape:collect="always" />
-    </filter>
     <clipPath
        id="clipPath6093-7"
        clipPathUnits="userSpaceOnUse">
@@ -863,15 +837,6 @@
          offset="1"
          style="stop-color:#cecbcb;stop-opacity:1" />
     </linearGradient>
-    <filter
-       id="filter3909-6"
-       inkscape:collect="always"
-       color-interpolation-filters="sRGB">
-      <feGaussianBlur
-         id="feGaussianBlur3911-9"
-         stdDeviation="0.43040059"
-         inkscape:collect="always" />
-    </filter>
     <clipPath
        id="clipPath3889-6"
        clipPathUnits="userSpaceOnUse">
@@ -1482,10 +1447,7 @@
        width="1"
        y="0"
        x="0"
-       requiredExtensions="http://ns.adobe.com/AdobeIllustrator/10.0/">
-      <i:pgfRef
-         xlink:href="#adobe_illustrator_pgf" />
-    </foreignObject>
+       requiredExtensions="http://ns.adobe.com/AdobeIllustrator/10.0/" />
     <radialGradient
        r="139.55859"
        cy="112.3047"
@@ -2156,16 +2118,19 @@
     <inkscape:grid
        type="xygrid"
        id="grid2445"
-       spacingx="4px"
-       spacingy="4px"
+       spacingx="4"
+       spacingy="4"
        empspacing="2"
        visible="true"
        enabled="true"
-       snapvisiblegridlinesonly="true" />
+       snapvisiblegridlinesonly="true"
+       originx="0"
+       originy="0" />
     <sodipodi:guide
        orientation="1,0"
        position="60,128"
-       id="guide3472" />
+       id="guide3472"
+       inkscape:locked="false" />
   </sodipodi:namedview>
   <metadata
      id="metadata3413">
@@ -2175,7 +2140,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
+        <dc:title />
       </cc:Work>
     </rdf:RDF>
   </metadata>

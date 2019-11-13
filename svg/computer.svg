@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!-- Created with Inkscape (http://www.inkscape.org/) -->
+
 <svg
    xmlns:dc="http://purl.org/dc/elements/1.1/"
    xmlns:cc="http://creativecommons.org/ns#"
@@ -11,12 +12,11 @@
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    id="svg2"
    sodipodi:version="0.32"
-   inkscape:version="0.46"
+   inkscape:version="0.92.4 (5da689c313, 2019-01-14)"
    width="128"
    height="128"
    version="1.0"
-   sodipodi:docbase="/home/david"
-   sodipodi:docname="computer.svgz"
+   sodipodi:docname="computer.svg"
    inkscape:output_extension="org.inkscape.output.svgz.inkscape"
    inkscape:export-filename="computer.png"
    inkscape:export-xdpi="33.75"
@@ -2811,20 +2811,21 @@
      width="128px"
      height="128px"
      showgrid="true"
-     inkscape:zoom="14.053747"
-     inkscape:cx="59.07559"
-     inkscape:cy="46.461154"
+     inkscape:zoom="2.484375"
+     inkscape:cx="15.609459"
+     inkscape:cy="108.2971"
      inkscape:window-x="83"
      inkscape:window-y="73"
      inkscape:current-layer="svg2"
-     inkscape:grid-points="true">
+     inkscape:grid-points="true"
+     inkscape:window-maximized="0">
     <inkscape:grid
        id="GridFromPre046Settings"
        type="xygrid"
-       originx="0px"
-       originy="0px"
-       spacingx="2px"
-       spacingy="2px"
+       originx="0"
+       originy="0"
+       spacingx="2"
+       spacingy="2"
        color="#0000ff"
        empcolor="#0000ff"
        opacity="0.2"
@@ -2882,7 +2883,7 @@
      style="fill:url(#radialGradient3526);fill-opacity:1;stroke:none;stroke-width:2;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:1.08779998;stroke-opacity:1" />
   <text
      xml:space="preserve"
-     style="font-size:1.91842496px;font-style:normal;font-weight:bold;fill:url(#linearGradient3523);fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;font-family:Bitstream Vera Sans"
+     style="font-style:normal;font-weight:bold;line-height:0%;font-family:'Bitstream Vera Sans';fill:url(#linearGradient3523);fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
      x="5.5982084"
      y="94.433609"
      id="text3658"
@@ -2891,7 +2892,7 @@
        id="tspan3660"
        x="5.5982084"
        y="94.433609"
-       style="fill:url(#linearGradient3523);fill-opacity:1">OXYGEN</tspan></text>
+       style="font-size:1.91842496px;line-height:1.25;fill:url(#linearGradient3523);fill-opacity:1">OXYGEN</tspan></text>
   <rect
      style="opacity:0.73260073;fill:url(#radialGradient3519);fill-opacity:1;stroke:none;stroke-width:0.5;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:1.08779998;stroke-opacity:1"
      id="rect3870"

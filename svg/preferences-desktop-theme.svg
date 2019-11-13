@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!-- Created with Inkscape (http://www.inkscape.org/) -->
+
 <svg
    xmlns:dc="http://purl.org/dc/elements/1.1/"
    xmlns:cc="http://creativecommons.org/ns#"
@@ -13,9 +14,8 @@
    height="128"
    id="svg1307"
    sodipodi:version="0.32"
-   inkscape:version="0.45+devel"
-   sodipodi:docbase="/home/pinheiro/Documents/pics/estilo"
-   sodipodi:docname="preferences-desktop-theme.svgz"
+   inkscape:version="0.92.4 (5da689c313, 2019-01-14)"
+   sodipodi:docname="preferences-desktop-theme.svg"
    inkscape:output_extension="org.inkscape.output.svgz.inkscape"
    version="1.0"
    inkscape:export-filename="/home/pinheiro/pics/oxygen/scalable/apps/preferences-desktop-theme.png"
@@ -40,25 +40,31 @@
      inkscape:window-x="94"
      inkscape:window-y="33"
      showgrid="true"
-     width="128px">
+     width="128px"
+     inkscape:window-maximized="0">
     <sodipodi:guide
        orientation="horizontal"
        position="1552"
-       id="guide19385" />
+       id="guide19385"
+       inkscape:locked="false" />
     <sodipodi:guide
        orientation="horizontal"
        position="960"
-       id="guide9355" />
+       id="guide9355"
+       inkscape:locked="false" />
     <sodipodi:guide
        orientation="horizontal"
        position="584.5"
-       id="guide9357" />
+       id="guide9357"
+       inkscape:locked="false" />
     <inkscape:grid
        type="xygrid"
        id="grid4116"
-       spacingx="4px"
-       spacingy="4px"
-       empspacing="2" />
+       spacingx="4"
+       spacingy="4"
+       empspacing="2"
+       originx="0"
+       originy="0" />
   </sodipodi:namedview>
   <defs
      id="defs1309">
@@ -1674,12 +1680,13 @@
            id="text5146"
            y="-130.61234"
            x="-367.814"
-           style="font-size:3.36004543000000000px;font-style:normal;font-weight:normal;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;font-family:Liberation Sans"
+           style="font-style:normal;font-weight:normal;line-height:0%;font-family:'Liberation Sans';fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
            xml:space="preserve"><tspan
              y="-130.61234"
              x="-367.814"
              id="tspan5148"
-             sodipodi:role="line">OK</tspan></text>
+             sodipodi:role="line"
+             style="font-size:3.36004496px;line-height:1.25">OK</tspan></text>
         <g
            inkscape:export-ydpi="90"
            inkscape:export-xdpi="90"
@@ -1784,12 +1791,13 @@
            id="text5170"
            y="-49.365551"
            x="-321.04126"
-           style="font-size:4.12132597000000001px;font-style:normal;font-weight:normal;text-align:justify;text-anchor:start;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;font-family:Liberation Sans"
+           style="font-style:normal;font-weight:normal;line-height:0%;font-family:'Liberation Sans';text-align:justify;text-anchor:start;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
            xml:space="preserve"><tspan
              y="-49.365551"
              x="-321.04126"
              id="tspan5172"
-             sodipodi:role="line">22%</tspan></text>
+             sodipodi:role="line"
+             style="font-size:4.12132597px;line-height:1.25">22%</tspan></text>
       </g>
     </g>
     <rect
@@ -2307,7 +2315,7 @@
            inkscape:export-ydpi="90" />
         <text
            xml:space="preserve"
-           style="font-size:3.36004543px;font-style:normal;font-weight:normal;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;font-family:Liberation Sans"
+           style="font-style:normal;font-weight:normal;line-height:0%;font-family:'Liberation Sans';fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
            x="-367.814"
            y="-130.61234"
            id="text9413"
@@ -2318,7 +2326,8 @@
              sodipodi:role="line"
              id="tspan9415"
              x="-367.814"
-             y="-130.61234">OK</tspan></text>
+             y="-130.61234"
+             style="font-size:3.36004496px;line-height:1.25">OK</tspan></text>
         <g
            id="g9441"
            transform="matrix(0.2461976,0,0,0.2508445,-519.9212,-309.54465)"
@@ -2417,7 +2426,7 @@
            inkscape:export-ydpi="90" />
         <text
            xml:space="preserve"
-           style="font-size:4.12132597px;font-style:normal;font-weight:normal;text-align:justify;text-anchor:start;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;font-family:Liberation Sans"
+           style="font-style:normal;font-weight:normal;line-height:0%;font-family:'Liberation Sans';text-align:justify;text-anchor:start;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
            x="-321.04126"
            y="-49.365551"
            id="text4271"
@@ -2428,7 +2437,8 @@
              sodipodi:role="line"
              id="tspan4273"
              x="-321.04126"
-             y="-49.365551">22%</tspan></text>
+             y="-49.365551"
+             style="font-size:4.12132597px;line-height:1.25">22%</tspan></text>
       </g>
     </g>
     <path

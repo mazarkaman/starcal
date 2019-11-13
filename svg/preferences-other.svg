@@ -14,8 +14,8 @@
    height="128"
    id="svg5676"
    sodipodi:version="0.32"
-   inkscape:version="0.46+devel"
-   sodipodi:docname="preferences-other.svgz"
+   inkscape:version="0.92.4 (5da689c313, 2019-01-14)"
+   sodipodi:docname="preferences-other.svg"
    inkscape:output_extension="org.inkscape.output.svgz.inkscape"
    version="1.0"
    inkscape:export-filename="/home/pinheiro/pics/oxygen-icons/scalable/categories/preferences-other.png"
@@ -155,14 +155,6 @@
        fx="4.7494926"
        fy="132.25244"
        r="5.3222656" />
-    <filter
-       inkscape:collect="always"
-       id="filter4584">
-      <feGaussianBlur
-         inkscape:collect="always"
-         stdDeviation="1.0829419"
-         id="feGaussianBlur4586" />
-    </filter>
     <clipPath
        clipPathUnits="userSpaceOnUse"
        id="clipPath4588">
@@ -172,14 +164,6 @@
          d="M 13.037731,82.09273 L 18.342123,87.397123 C 21.331352,87.817882 24.407038,89.18508 26.895219,91.673261 C 29.411177,94.189215 30.893289,97.328601 31.294715,100.34972 L 56.289372,125.34436 C 62.090282,131.14528 77.301422,116.01036 71.462392,110.17133 L 46.467742,85.176682 C 43.446635,84.775254 40.307258,83.29314 37.791293,80.777186 C 35.303111,78.289007 33.935917,75.213314 33.515156,72.22409 L 28.210762,66.919697 L 13.037731,82.09273 z"
          style="opacity:1;fill:url(#linearGradient4592);fill-opacity:1;stroke:none;stroke-width:0.37;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:1.08779998;stroke-opacity:1" />
     </clipPath>
-    <filter
-       inkscape:collect="always"
-       id="filter4551">
-      <feGaussianBlur
-         inkscape:collect="always"
-         stdDeviation="0.15501048"
-         id="feGaussianBlur4553" />
-    </filter>
     <linearGradient
        inkscape:collect="always"
        id="linearGradient4529">
@@ -232,14 +216,6 @@
        x2="89.453125"
        y2="79.224266"
        gradientUnits="userSpaceOnUse" />
-    <filter
-       inkscape:collect="always"
-       id="filter4501">
-      <feGaussianBlur
-         inkscape:collect="always"
-         stdDeviation="0.48665741"
-         id="feGaussianBlur4503" />
-    </filter>
     <linearGradient
        inkscape:collect="always"
        id="linearGradient4465">
@@ -285,14 +261,6 @@
        r="5.3222656"
        gradientTransform="matrix(1,0,0,0.3939752,-7.0710881e-2,74.137847)"
        gradientUnits="userSpaceOnUse" />
-    <filter
-       inkscape:collect="always"
-       id="filter4404">
-      <feGaussianBlur
-         inkscape:collect="always"
-         stdDeviation="0.15249406"
-         id="feGaussianBlur4406" />
-    </filter>
     <linearGradient
        inkscape:collect="always"
        xlink:href="#linearGradient4322"
@@ -325,18 +293,6 @@
        y1="103.9544"
        x2="5.1348171"
        y2="115.65614" />
-    <filter
-       inkscape:collect="always"
-       x="-0.074906364"
-       width="1.1498127"
-       y="-0.11235955"
-       height="1.224719"
-       id="filter4238">
-      <feGaussianBlur
-         inkscape:collect="always"
-         stdDeviation="1.1235955"
-         id="feGaussianBlur4240" />
-    </filter>
     <clipPath
        clipPathUnits="userSpaceOnUse"
        id="clipPath4242">
@@ -423,30 +379,6 @@
        y1="104.49192"
        x2="36.460194"
        y2="17.509802" />
-    <filter
-       inkscape:collect="always"
-       x="-0.26177245"
-       width="1.5235449"
-       y="-0.075698018"
-       height="1.151396"
-       id="filter3838">
-      <feGaussianBlur
-         inkscape:collect="always"
-         stdDeviation="0.41890191"
-         id="feGaussianBlur3840" />
-    </filter>
-    <filter
-       inkscape:collect="always"
-       x="-0.26177242"
-       width="1.5235448"
-       y="-0.075698018"
-       height="1.151396"
-       id="filter3834">
-      <feGaussianBlur
-         inkscape:collect="always"
-         stdDeviation="0.41890191"
-         id="feGaussianBlur3836" />
-    </filter>
     <clipPath
        clipPathUnits="userSpaceOnUse"
        id="clipPath3850">
@@ -1232,14 +1164,6 @@
        y1="133.25163"
        x2="-5.8540711"
        y2="130.59308" />
-    <filter
-       inkscape:collect="always"
-       id="filter11957">
-      <feGaussianBlur
-         inkscape:collect="always"
-         stdDeviation="2.339831"
-         id="feGaussianBlur11959" />
-    </filter>
     <linearGradient
        inkscape:collect="always"
        xlink:href="#XMLID_4_"
@@ -1464,7 +1388,8 @@
      inkscape:window-y="0"
      height="128px"
      width="128px"
-     showgrid="true">
+     showgrid="true"
+     inkscape:window-maximized="0">
     <inkscape:grid
        type="xygrid"
        id="grid3150" />
@@ -1477,7 +1402,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
+        <dc:title />
       </cc:Work>
     </rdf:RDF>
   </metadata>
