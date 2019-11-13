@@ -16,6 +16,6 @@ if __name__ == "__main__":
 	zoneTree = getZoneInfoTree(
 		["usr", "share", "zoneinfo"]
 	)
-	#open("zoneinfo-tree.json", "w").write(
+	#open("data/zoneinfo-tree.json", "w").write(
 	#	dataToPrettyJson(zoneTree).replace(" \n", "\n")
 	#)
