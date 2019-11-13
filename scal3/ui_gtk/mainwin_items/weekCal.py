@@ -429,7 +429,7 @@ class MainMenuToolbarItem(ToolbarItem):
 
 	def updateImage(self):
 		self.setIconFile(ui.wcal_toolbar_mainMenu_icon)
-		self.show_all()
+		self.showHide()
 
 	def getMenuPos(self):
 		wcal = self.get_parent().get_parent()
