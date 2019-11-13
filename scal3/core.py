@@ -339,7 +339,7 @@ def initPlugins() -> None:
 		for fname in os.listdir(direc):
 			if fname in names + [
 				"__init__.py",
-				"README",
+				"README.md",
 			]:
 				continue
 			if fname.startswith("."):
