@@ -538,7 +538,7 @@ class BaseButton(object):
 		xalign="left",
 		yalign="top",
 		autoDir=True,
-		opacity=1.0,  # earase the background drawing, only preserving bgColor
+		opacity=1.0,
 	):
 		if x is None:
 			raise ValueError("x is not given")
@@ -630,35 +630,39 @@ class SVGButton(BaseButton):
 		self.iconSize = iconSize
 		self.pixbuf = pixbuf
 
-	def getPixbuf(self, bgColor: Optional[Tuple[int, int, int]]):
-		if self.opacity == 1.0:
-			return self.pixbuf
-		# now we have transparency
-		if bgColor is None:
-			log.info(f"Button.getPixbuf: opacity={opacity}, but no bgColor")
-			return self.pixbuf
+	def getImagePath(self) -> None:
+		from os.path import isabs
+		path = self.imageName
+		if not isabs(path):
+			path = join(svgDir, path)
+		return path
 
-		r, g, b = bgColor[:3]
-		bgColorInt = rgbToInt(r, g, b)
-		return self.pixbuf.composite_color_simple(
-			self.width, self.height,  # dest_width, dest_height
-			GdkPixbuf.InterpType.BILINEAR,  # interp_type
-			round(self.opacity * 255),  # overall_alpha: int: 0..255
-			8,
-			bgColorInt,
-			bgColorInt,
-		)
-
-	def draw(self, cr, w, h, bgColor=None):
+	def draw(
+		self,
+		cr: "cairo.Context",
+		w: float,
+		h: float,
+		bgColor=None,
+	):
+		# from gi.repository import Rsvg as rsvg
+		# handle = rsvg.Handle.new_from_file(self.getImagePath())
+		# dim = handle.get_dimensions()
+		# cr.save()
+		# try:
+		# 	cr.translate(*self.getAbsPos(w, h))
+		# 	cr.scale(self.width / dim.width, self.height / dim.height)
+		# 	handle.render_cairo(cr)
+		# finally:
+		#	cr.restore()
+		#	handle.close()
 		x, y = self.getAbsPos(w, h)
 		gdk.cairo_set_source_pixbuf(
 			cr,
-			self.getPixbuf(bgColor),
+			self.pixbuf,
 			x,
 			y,
 		)
-		cr.rectangle(x, y, self.width, self.height)
-		cr.fill()
+		cr.paint_with_alpha(self.opacity)
 
 	def __repr__(self):
 		return (
@@ -719,35 +723,16 @@ class Button(BaseButton):
 		self.iconSize = iconSize
 		self.pixbuf = pixbuf
 
-	def getPixbuf(self, bgColor: Optional[Tuple[int, int, int]]):
-		if self.opacity == 1.0:
-			return self.pixbuf
-		# now we have transparency
-		if bgColor is None:
-			log.info(f"Button.getPixbuf: opacity={opacity}, but no bgColor")
-			return self.pixbuf
-
-		r, g, b = bgColor[:3]
-		bgColorInt = rgbToInt(r, g, b)
-		return self.pixbuf.composite_color_simple(
-			self.width, self.height,  # dest_width, dest_height
-			GdkPixbuf.InterpType.BILINEAR,  # interp_type
-			round(self.opacity * 255),  # overall_alpha: int: 0..255
-			8,
-			bgColorInt,
-			bgColorInt,
-		)
 
 	def draw(self, cr, w, h, bgColor=None):
 		x, y = self.getAbsPos(w, h)
 		gdk.cairo_set_source_pixbuf(
 			cr,
-			self.getPixbuf(bgColor),
+			self.pixbuf,
 			x,
 			y,
 		)
-		cr.rectangle(x, y, self.width, self.height)
-		cr.fill()
+		cr.paint_with_alpha(self.opacity)
 
 	def __repr__(self):
 		return (
