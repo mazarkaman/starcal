@@ -47,7 +47,7 @@ from gi.repository.PangoCairo import show_layout
 if not ui.fontCustom:
 	ui.fontCustom = ui.fontDefault[:]
 
-with open(join(rootDir, "svg", "color-check.svg")) as fp:
+with open(join(rootDir, "svg", "special", "color-check.svg")) as fp:
 	colorCheckSvgTextChecked = fp.read()
 colorCheckSvgTextUnchecked = re.sub(
 	"<path[^<>]*?id=\"check\"[^<>]*?/>",
