@@ -233,7 +233,7 @@ def newColorCheckPixbuf(color, size, checked):
 
 
 def newDndDatePixbuf(ymd):
-	imagePath = join(rootDir, "svg", "non-icon", "dnd-date.svg")
+	imagePath = join(rootDir, "svg", "special", "dnd-date.svg")
 	with open(imagePath) as fp:
 		data = fp.read()
 	data = data.replace("YYYY", f"{ymd[0]:04d}")
@@ -250,7 +250,7 @@ def newDndDatePixbuf(ymd):
 
 
 def newDndFontNamePixbuf(name):
-	imagePath = join(rootDir, "svg", "non-icon", "dnd-font.svg")
+	imagePath = join(rootDir, "svg", "special", "dnd-font.svg")
 	with open(imagePath) as fp:
 		data = fp.read()
 	data = data.replace("FONTNAME", name)
