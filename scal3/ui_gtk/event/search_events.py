@@ -523,7 +523,7 @@ class EventSearchWindow(gtk.Window, MyDialog, ud.BaseCalObj):
 			_("Move to {title}").format(title="..."),
 			iconName=None,## FIXME
 		)
-		subMenu = gtk.Menu()
+		subMenu = Menu()
 		###
 		for new_group in ui.eventGroups:
 			if new_group.id == group.id:
@@ -551,7 +551,7 @@ class EventSearchWindow(gtk.Window, MyDialog, ud.BaseCalObj):
 			_("Copy to {title}").format(title="..."),
 			iconName=None,## FIXME
 		)
-		subMenu = gtk.Menu()
+		subMenu = Menu()
 		###
 		for new_group in ui.eventGroups:
 			#if not new_group.enable:## FIXME
@@ -584,7 +584,7 @@ class EventSearchWindow(gtk.Window, MyDialog, ud.BaseCalObj):
 		group = ui.eventGroups[gid]
 		event = group[eid]
 		##
-		menu = gtk.Menu()
+		menu = Menu()
 		##
 		menu.add(eventWriteMenuItem(
 			_("Edit"),

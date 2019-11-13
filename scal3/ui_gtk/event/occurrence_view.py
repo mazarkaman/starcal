@@ -230,7 +230,7 @@ class DayOccurrenceView(gtk.TextView, CustomizableCalObj):
 		log.debug("DayOccurrenceView: onButtonPress: button={gevent.button}")
 		if gevent.button != 3:
 			return False
-		menu = gtk.Menu()
+		menu = Menu()
 		####
 		occurData = self.findEventByY(gevent.y)
 		if occurData is not None:
@@ -379,8 +379,8 @@ class DayOccurrenceView(gtk.TextView, CustomizableCalObj):
 			_("Move to {title}").format(title="..."),
 			iconName=None,  # FIXME
 		)
-		moveToMenu = gtk.Menu()
-		disabledGroupsMenu = gtk.Menu()
+		moveToMenu = Menu()
+		disabledGroupsMenu = Menu()
 		for newGroup in ui.eventGroups:
 			if newGroup.id == group.id:
 				continue
@@ -417,7 +417,7 @@ class DayOccurrenceView(gtk.TextView, CustomizableCalObj):
 				),
 				iconName=None,
 			)
-			copyOccurMenu = gtk.Menu()
+			copyOccurMenu = Menu()
 			for newGroup in ui.eventGroups:
 				if not newGroup.enable:
 					continue

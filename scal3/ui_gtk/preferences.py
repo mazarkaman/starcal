@@ -1392,7 +1392,7 @@ class PreferencesWindow(gtk.Window):
 				i = cur[0]
 				j = self.plugTreestore[i][0]
 				plug = core.allPlugList[j]
-				menu = gtk.Menu()
+				menu = Menu()
 				##
 				item = labelIconMenuItem(
 					_("_About"),
@@ -1687,7 +1687,7 @@ class PreferencesWindow(gtk.Window):
 				index = cur[0]
 				accountId = self.accountsTreestore[index][0]
 				account = ui.eventAccounts[accountId]
-				menu = gtk.Menu()
+				menu = Menu()
 				##
 				# FIXME
 				##

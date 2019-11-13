@@ -28,6 +28,7 @@ from gi.repository import GdkPixbuf
 from scal3 import ui
 from scal3.ui_gtk import *
 from scal3.ui_gtk.utils import imageFromFile, imageFromIconName
+from scal3.ui_gtk.svg_utils import pixbufFromSvgFile
 
 
 def labelIconMenuItem(
@@ -51,7 +52,6 @@ def labelImageMenuItem(
 	label: str,
 	imageName: str = "",
 	pixbuf: Optional[GdkPixbuf.Pixbuf] = None,
-	spacing: int = 3,
 	func: Optional[Callable] = None,
 	args: Optional[Tuple] = None,
 ):
@@ -64,7 +64,6 @@ def labelImageMenuItem(
 	return labelImageObjMenuItem(
 		label,
 		image=image,
-		spacing=spacing,
 		func=func,
 		args=args,
 	)
@@ -73,13 +72,11 @@ def labelImageMenuItem(
 def labelImageObjMenuItem(
 	label: str,
 	image: Optional[gtk.Image] = None,
-	spacing=3,
 	func=None,
 	args=None,
 ):
 	if args is not None and not isinstance(args, tuple):
 		raise TypeError("args must be None or tuple")
-	item = gtk.ImageMenuItem()
 	"""
 	Documentation says:
 		Gtk.ImageMenuItem has been deprecated since GTK+ 3.10. If you want to
@@ -93,16 +90,23 @@ def labelImageObjMenuItem(
 
 	The problem is, using a Box does not get along with gtk.CheckMenuItem
 	"""
-	if image:
-		item.set_label(label)
-		item.set_image(image)
-		# hbox = HBox(spacing=spacing)
-		# pack(hbox, image)
-		# pack(hbox, gtk.Label(label=label))
-		# item.add(hbox)
-	else:
-		item.set_label(label)
-	item.set_use_underline(True)
+	item = gtk.MenuItem()
+	if not image:
+		image = gtk.Image()
+		image.set_pixel_size(ui.menuIconSize)
+	hbox = HBox()
+	pack(hbox, image, padding=ui.menuIconEdgePadding)
+	labelWidget = gtk.Label(label=label)
+	labelWidget.set_xalign(0)
+	labelWidget.set_use_underline(True)
+	pack(
+		hbox,
+		labelWidget,
+		expand=True,
+		fill=True,
+		padding=ui.menuIconPadding,
+	)
+	item.add(hbox)
 	if func:
 		if args is None:
 			args = ()
@@ -115,4 +119,52 @@ def labelMenuItem(label, func=None, *args):
 	if func:
 		item.connect("activate", func, *args)
 	return item
+
+
+class CheckMenuItem(gtk.MenuItem):
+	def __init__(
+		self,
+		label="",
+		active=False,
+		func=None,
+		args=None,
+	):
+		gtk.MenuItem.__init__(self)
+		self._image = gtk.Image()
+		self._box = gtk.Box(orientation=gtk.Orientation.HORIZONTAL)
+		pack(self._box, self._image, padding=ui.menuIconEdgePadding)
+		labelWidget = gtk.Label(label=label)
+		labelWidget.set_xalign(0)
+		labelWidget.set_use_underline(True)
+		pack(
+			self._box,
+			labelWidget,
+			expand=True,
+			fill=True,
+			padding=ui.menuIconPadding,
+		)
+		self._box.show_all()
+		self.add(self._box)
+		###
+		self.set_active(active)
+		###
+		self._func = func
+		if args is None:
+			args = ()
+		self._args = args
+		self.connect("activate", self._onActivate)
+
+	def _onActivate(self, menuItem):
+		self.set_active(not self._active)
+		self._func(menuItem, *self._args)
+
+	def set_active(self, active: bool) -> None:
+		self._active = active
+		imageName = "check-true.svg" if active else "check-false.svg"
+		self._image.set_from_pixbuf(pixbufFromSvgFile(imageName, ui.menuCheckSize))
+
+	def get_active(self) -> bool:
+		return self._active
+
+
 

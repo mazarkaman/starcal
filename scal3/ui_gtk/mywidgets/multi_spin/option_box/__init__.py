@@ -41,7 +41,7 @@ class MultiSpinOptionBox(gtk.Box):
 			MultiSpinButton.buttonSize,
 		)
 		pack(self, self.option, 1, 1)
-		self.menu = gtk.Menu()
+		self.menu = Menu()
 		#self.menu.show()
 		self.option.connect("button-press-event", self.option_pressed)
 		self.menuItems = []

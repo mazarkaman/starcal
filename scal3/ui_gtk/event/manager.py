@@ -209,7 +209,7 @@ class EventManagerDialog(gtk.Dialog, MyDialog, ud.BaseCalObj):## FIXME
 		menubar = gtk.MenuBar()
 		####
 		fileItem = MenuItem(_("_File"))
-		fileMenu = gtk.Menu()
+		fileMenu = Menu()
 		fileItem.set_submenu(fileMenu)
 		menubar.append(fileItem)
 		##
@@ -242,7 +242,7 @@ class EventManagerDialog(gtk.Dialog, MyDialog, ud.BaseCalObj):## FIXME
 		if lib.allReadOnly:
 			editItem.set_sensitive(False)
 		else:
-			editMenu = gtk.Menu()
+			editMenu = Menu()
 			editItem.set_submenu(editMenu)
 			menubar.append(editItem)
 			##
@@ -289,7 +289,7 @@ class EventManagerDialog(gtk.Dialog, MyDialog, ud.BaseCalObj):## FIXME
 			self.mbarDisableAllItem = disableAllItem
 		####
 		viewItem = MenuItem(_("_View"))
-		viewMenu = gtk.Menu()
+		viewMenu = Menu()
 		viewItem.set_submenu(viewMenu)
 		menubar.append(viewItem)
 		##
@@ -310,7 +310,7 @@ class EventManagerDialog(gtk.Dialog, MyDialog, ud.BaseCalObj):## FIXME
 		viewMenu.append(self.showDescItem)
 		####
 		#testItem = MenuItem(_("Test"))
-		#testMenu = gtk.Menu()
+		#testMenu = Menu()
 		#testItem.set_submenu(testMenu)
 		#menubar.append(testItem)
 		###
@@ -579,7 +579,7 @@ class EventManagerDialog(gtk.Dialog, MyDialog, ud.BaseCalObj):## FIXME
 		# and Select _All menu item
 		obj_list = self.getObjsByPath(path)
 		# log.debug(len(obj_list))
-		menu = gtk.Menu()
+		menu = Menu()
 		if len(obj_list) == 1:
 			group = obj_list[0]
 			if group.name == "trash":
@@ -798,7 +798,7 @@ class EventManagerDialog(gtk.Dialog, MyDialog, ud.BaseCalObj):## FIXME
 				_("Move to {title}").format(title="..."),
 				iconName="",  # FIXME: icon name
 			)
-			moveToMenu = gtk.Menu()
+			moveToMenu = Menu()
 			for new_group in ui.eventGroups:
 				if new_group.id == group.id:
 					continue

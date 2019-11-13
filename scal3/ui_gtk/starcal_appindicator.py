@@ -63,7 +63,7 @@ class IndicatorStatusIconWrapper:
 
 	"""
 	def create_menu_simple(self):
-		menu = gtk.Menu()
+		menu = Menu()
 		###
 		for item in [
 			self.mainWin.getMainWinMenuItem(),
@@ -77,7 +77,7 @@ class IndicatorStatusIconWrapper:
 	"""
 
 	def create_menu(self):
-		menu = gtk.Menu()
+		menu = Menu()
 		self.menuItems = []
 		# ^ just to prevent GC from removing custom objects for items
 		####
@@ -92,7 +92,7 @@ class IndicatorStatusIconWrapper:
 		item.show()
 		menu.append(item)
 		####
-		submenu = gtk.Menu()
+		submenu = Menu()
 		for item in self.mainWin.getStatusIconPopupItems():
 			self.menuItems.append(item)
 			item.show()

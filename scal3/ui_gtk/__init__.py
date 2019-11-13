@@ -9,6 +9,7 @@ __all__ = [
 	"Box",
 	"VBox",
 	"HBox",
+	"Menu",
 	"TWO_BUTTON_PRESS",
 	"MenuItem",
 	"getScrollValue",
@@ -83,6 +84,12 @@ def VBox(**kwargs):
 
 def HBox(**kwargs):
 	return gtk.Box(orientation=gtk.Orientation.HORIZONTAL, **kwargs)
+
+
+def Menu(**kwargs):
+	menu = gtk.Menu(**kwargs)
+	menu.set_reserve_toggle_size(0)
+	return menu
 
 
 """

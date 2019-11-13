@@ -272,6 +272,16 @@
 		<license>Public Domain</license>
 		<comment></comment>
 	</resource>
+	<resource path="svg/check-false.svg">
+		<author>Saeed Rasooli</author>
+		<license>Public Domain</license>
+		<comment></comment>
+	</resource>
+	<resource path="svg/check-true.svg">
+		<author>Saeed Rasooli</author>
+		<license>Public Domain</license>
+		<comment></comment>
+	</resource>
 	<resource path="svg/computer.svg">
 		<author>>Oxygen Icon Theme</author>
 		<license>LGPLv3+</license>

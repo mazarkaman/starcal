@@ -89,7 +89,7 @@ class MonthLabel(BaseLabel, ud.BaseCalObj):
 		self.label = gtk.Label()
 		self.label.set_use_markup(True)
 		self.add(self.label)
-		self.menu = gtk.Menu()
+		self.menu = Menu()
 		self.menu.set_border_width(0)
 		self.menuLabels = []
 		self.connect("button-press-event", self.onButtonPress)
@@ -235,7 +235,7 @@ class IntLabel(BaseLabel):
 	def createMenu(self):
 		if self.menu:
 			return
-		self.menu = gtk.Menu()
+		self.menu = Menu()
 		self.menu.set_direction(gtk.TextDirection.LTR)
 		self.menuLabels = []
 		self.menu.connect("scroll-event", self.menuScroll)

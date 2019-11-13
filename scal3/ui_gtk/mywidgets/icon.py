@@ -52,7 +52,7 @@ class IconSelectButton(gtk.Button):
 				gtk.IconSize.BUTTON,
 			))
 		###
-		menu = gtk.Menu()
+		menu = Menu()
 		self.menu = menu
 		menu.add(labelIconMenuItem(
 			_("None"),

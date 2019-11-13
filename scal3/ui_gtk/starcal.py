@@ -72,6 +72,7 @@ from scal3.ui_gtk.menuitems import (
 	labelIconMenuItem,
 	labelImageMenuItem,
 	labelMenuItem,
+	CheckMenuItem,
 )
 from scal3.ui_gtk import listener
 from scal3.ui_gtk import gtk_ud as ud
@@ -429,20 +430,20 @@ class MainWin(gtk.ApplicationWindow, ud.BaseCalObj):
 		###############
 		self.menuMain = None
 		#####
-		check = gtk.CheckMenuItem(label=_("_On Top"))
-		check.set_use_underline(True)
-		check.connect("activate", self.onKeepAboveClick)
-		check.set_active(ui.winKeepAbove)
+		self.checkAbove = CheckMenuItem(
+			label=_("_On Top"),
+			func=self.onKeepAboveClick,
+			active=ui.winKeepAbove,
+		)
 		self.set_keep_above(ui.winKeepAbove)
-		self.checkAbove = check
 		#####
-		check = gtk.CheckMenuItem(label=_("_Sticky"))
-		check.set_use_underline(True)
-		check.connect("activate", self.onStickyClick)
-		check.set_active(ui.winSticky)
+		self.checkSticky = CheckMenuItem(
+			label=_("_Sticky"),
+			func=self.onStickyClick,
+			active=ui.winSticky,
+		)
 		if ui.winSticky:
 			self.stick()
-		self.checkSticky = check
 		############################################################
 		self.statusIconInit()
 		listener.dateChange.add(self)
@@ -681,7 +682,7 @@ class MainWin(gtk.ApplicationWindow, ud.BaseCalObj):
 		from scal3.ui_gtk.drawing import newColorCheckPixbuf
 		if event_lib.allReadOnly:
 			return None
-		menu2 = gtk.Menu()
+		menu2 = Menu()
 		##
 		for group in ui.eventGroups:
 			if not group.enable:
@@ -705,7 +706,7 @@ class MainWin(gtk.ApplicationWindow, ud.BaseCalObj):
 					**item2_kwargs
 				))
 			else:
-				menu3 = gtk.Menu()
+				menu3 = Menu()
 				for eventType in eventTypes:
 					eventClass = event_lib.classes.event.byName[eventType]
 					menu3.add(labelImageMenuItem(
@@ -768,7 +769,7 @@ class MainWin(gtk.ApplicationWindow, ud.BaseCalObj):
 					args=(groupId, eventId,),
 				))
 		else:
-			subMenu = gtk.Menu()
+			subMenu = Menu()
 			subMenuItem = labelIconMenuItem(
 				"_Edit Event",
 				iconName="gtk-add",
@@ -788,7 +789,7 @@ class MainWin(gtk.ApplicationWindow, ud.BaseCalObj):
 	def menuCellPopup(self, widget, etime, x, y):
 		calObjName = widget._name  # why private? FIXME
 		# calObjName is in ("weekCal", "monthCal", ...)
-		menu = gtk.Menu()
+		menu = Menu()
 		####
 		for calType in calTypes.active:
 			menu.add(labelIconMenuItem(
@@ -833,7 +834,7 @@ class MainWin(gtk.ApplicationWindow, ud.BaseCalObj):
 				func=ui.dayOpenEvolution,
 			))
 		####
-		moreMenu = gtk.Menu()
+		moreMenu = Menu()
 		moreMenu.add(labelIconMenuItem(
 			_("_Customize"),
 			iconName="gtk-edit",
@@ -923,7 +924,7 @@ class MainWin(gtk.ApplicationWindow, ud.BaseCalObj):
 	def menuMainCreate(self):
 		if self.menuMain:
 			return
-		menu = gtk.Menu()
+		menu = gtk.Menu(reserve_toggle_size=0)
 		####
 		item = labelImageMenuItem(_("Resize"), "resize.svg")
 		item.connect("button-press-event", self.onResizeFromMenu)
@@ -1238,7 +1239,7 @@ class MainWin(gtk.ApplicationWindow, ud.BaseCalObj):
 		]
 
 	def statusIconPopup(self, sicon, button, etime):
-		menu = gtk.Menu()
+		menu = Menu()
 		if os.sep == "\\":
 			from scal3.ui_gtk.windows import setupMenuHideOnLeave
 			setupMenuHideOnLeave(menu)

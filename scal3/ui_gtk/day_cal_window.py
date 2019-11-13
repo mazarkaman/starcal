@@ -227,7 +227,7 @@ class DayCalWindowWidget(DayCal):
 
 		menu = self.menu
 		if menu is None:
-			menu = gtk.Menu()
+			menu = Menu()
 			if os.sep == "\\":
 				from scal3.ui_gtk.windows import setupMenuHideOnLeave
 				setupMenuHideOnLeave(menu)

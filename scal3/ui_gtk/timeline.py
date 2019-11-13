@@ -289,7 +289,7 @@ class TimeLine(gtk.DrawingArea, ud.BaseCalObj):
 	def zoomMenuOpen(self, button: gdk.EventButton):
 		avgYearLen = dayLen * calTypes.primaryModule().avgYearLen
 		etime = gtk.get_current_event_time()
-		menu = gtk.Menu()
+		menu = Menu()
 		for title, timeWidth in (
 			(_("1 day"), dayLen),
 			(_("1 week"), dayLen * 7),
@@ -618,7 +618,7 @@ class TimeLine(gtk.DrawingArea, ud.BaseCalObj):
 				group = ui.eventGroups[gid]
 				event = group[eid]
 				####
-				menu = gtk.Menu()
+				menu = Menu()
 				##
 				if not event.readOnly:
 					winTitle = _("Edit") + " " + event.desc
