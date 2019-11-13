@@ -293,11 +293,11 @@ class CustomizableToolBox(gtk.Box, CustomizableCalObj):
 		padding = self.buttonPadding
 		for item in self.items:
 			self.set_child_packing(
-				item,
-				False,
-				False,
-				padding,
-				gtk.PackType.START,
+				child=item,
+				expand=False,
+				fill=False,
+				padding=padding,
+				pack_type=gtk.PackType.START,
 			)
 
 	def moveItemUp(self, i: int) -> None:
