@@ -56,6 +56,8 @@ class ToolBoxItem(gtk.Button, ConButtonBase, CustomizableCalObj):
 		self.set_relief(gtk.ReliefStyle.NONE)
 		##
 		self.set_focus_on_click(False)
+		# self.set_can_default(False)
+		# self.set_can_focus(False)
 		######
 		self._name = name
 		self.filename = ""
