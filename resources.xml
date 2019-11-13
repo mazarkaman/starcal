@@ -267,7 +267,7 @@
 		<license>LGPLv3+</license>
 		<comment></comment>
 	</resource>
-	<resource path="svg/color-check.svg">
+	<resource path="svg/special/color-check.svg">
 		<author>Saeed Rasooli</author>
 		<license>Public Domain</license>
 		<comment></comment>
@@ -287,12 +287,12 @@
 		<license>LGPLv3+</license>
 		<comment></comment>
 	</resource>
-	<resource path="svg/dnd-date.svg">
+	<resource path="svg/special/dnd-date.svg">
 		<author>Saeed Rasooli</author>
 		<license>Public Domain</license>
 		<comment></comment>
 	</resource>
-	<resource path="svg/dnd-font.svg">
+	<resource path="svg/special/dnd-font.svg">
 		<author>Saeed Rasooli</author>
 		<license>Public Domain</license>
 		<comment></comment>
