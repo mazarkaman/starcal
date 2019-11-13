@@ -4,6 +4,7 @@ __all__ = [
 	"gdk",
 	"GdkPixbuf",
 	"pango",
+	"rsvg",
 	"pack",
 	"Box",
 	"VBox",
@@ -27,11 +28,13 @@ import gi
 gi.require_version("Gtk", "3.0")
 gi.require_version("GdkPixbuf", "2.0")
 gi.require_version("PangoCairo", "1.0")
+gi.require_version('Rsvg', '2.0')
 
 from gi.repository import Gtk as gtk
 from gi.repository import Gdk as gdk
 from gi.repository import GdkPixbuf
 from gi.repository import Pango as pango
+from gi.repository import Rsvg as rsvg
 
 try:
 	from gi.repository.GLib import (
