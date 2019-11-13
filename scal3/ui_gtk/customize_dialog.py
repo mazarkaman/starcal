@@ -68,6 +68,7 @@ class CustomizeDialog(gtk.Dialog):
 		)
 		# should we save on Escape? or when clicking the X (close) button?
 		###
+		self.itemByPageName = {}
 		self.rootItem = item
 		###
 		rootPageName = "mainWin"
@@ -114,11 +115,11 @@ class CustomizeDialog(gtk.Dialog):
 		# column 3: Pixbuf: settings icon
 		model = gtk.ListStore(bool, str, str, GdkPixbuf.Pixbuf)
 		treev = gtk.TreeView(model=model)
-		treev.scalItem = parentItem
 		if parentItem.itemsPageEnable:
 			treev.pageName = pageName + ".items"
 		else:
 			treev.pageName = pageName
+		self.itemByPageName[treev.pageName] = parentItem
 		##
 		treev.set_headers_visible(False)
 		treev.connect("button-press-event", self.onTreeviewButtonPress)
@@ -210,7 +211,7 @@ class CustomizeDialog(gtk.Dialog):
 		self.resize(self.get_size()[0], 1)
 
 	def onUpClick(self, button, treev):
-		item = treev.scalItem
+		item = self.itemByPageName[treev.pageName]
 		model = treev.get_model()
 		index_list = treev.get_cursor()[0]
 		if not index_list:
@@ -229,7 +230,7 @@ class CustomizeDialog(gtk.Dialog):
 		treev.set_cursor(i - 1)
 
 	def onDownClick(self, button, treev):
-		item = treev.scalItem
+		item = self.itemByPageName[treev.pageName]
 		model = treev.get_model()
 		index_list = treev.get_cursor()[0]
 		if not index_list:
@@ -353,7 +354,8 @@ class CustomizeDialog(gtk.Dialog):
 		path: gtk.TreePath,
 		col: gtk.TreeViewColumn,
 	):
-		parentItem = treev.scalItem
+		parentPageName = treev.pageName
+		parentItem = self.itemByPageName[treev.pageName]
 		model = treev.get_model()
 		itemIter = model.get_iter(path)
 		pageName = model.get_value(itemIter, 1)
@@ -366,7 +368,6 @@ class CustomizeDialog(gtk.Dialog):
 			).format(item=item.desc)
 			showInfo(msg, transient_for=self)
 			return
-		parentPageName = treev.pageName
 		log.debug(f"rowActivated: pageName={pageName}, itemIndex={itemIndex}, parentPageName={parentPageName}")
 		if parentItem.isWrapper:
 			parentItem = parentItem.getWidget()
@@ -390,7 +391,7 @@ class CustomizeDialog(gtk.Dialog):
 		active = not cell.get_active()
 		itr = model.get_iter(path)
 		model.set_value(itr, 0, active)
-		parentItem = treev.scalItem
+		parentItem = self.itemByPageName[treev.pageName]
 		itemIndex = tree_path_split(path)[0]
 		item = parentItem.items[itemIndex]
 		assert parentItem.items[itemIndex] == item
