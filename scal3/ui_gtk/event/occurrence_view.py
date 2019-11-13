@@ -494,6 +494,7 @@ class DayOccurrenceView(gtk.TextView, CustomizableCalObj):
 class LimitedHeightDayOccurrenceView(gtk.ScrolledWindow, CustomizableCalObj):
 	itemListCustomizable = False
 	optionsPageSpacing = 20
+	_name = DayOccurrenceView._name
 	desc = DayOccurrenceView.desc
 
 	def __init__(self, **kwargs):
