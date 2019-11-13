@@ -39,6 +39,8 @@ from scal3.ui_gtk.utils import (
 	get_menu_height,
 	dialog_add_button,
 	openWindow,
+)
+from scal3.ui_gtk.menuitems import (
 	labelIconMenuItem,
 )
 

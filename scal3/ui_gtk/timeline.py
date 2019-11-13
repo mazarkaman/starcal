@@ -55,7 +55,7 @@ from gi.repository.PangoCairo import show_layout
 
 from scal3.ui_gtk.decorators import *
 from scal3.ui_gtk.font_utils import pfontEncode
-from scal3.ui_gtk.utils import (
+from scal3.ui_gtk.menuitems import (
 	labelIconMenuItem,
 	labelImageMenuItem,
 )

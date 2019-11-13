@@ -68,6 +68,11 @@ from scal3.color_utils import rgbToHtmlColor
 from scal3.ui_gtk import *
 from scal3.ui_gtk.decorators import registerSignals
 from scal3.ui_gtk.utils import *
+from scal3.ui_gtk.menuitems import (
+	labelIconMenuItem,
+	labelImageMenuItem,
+	labelMenuItem,
+)
 from scal3.ui_gtk import listener
 from scal3.ui_gtk import gtk_ud as ud
 from scal3.ui_gtk.customize import (

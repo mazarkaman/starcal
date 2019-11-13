@@ -48,9 +48,11 @@ from scal3.ui_gtk.utils import (
 	showError,
 	showInfo,
 	toolButtonFromIcon,
+	rectangleContainsPoint,
+)
+from scal3.ui_gtk.menuitems import (
 	labelImageMenuItem,
 	labelIconMenuItem,
-	rectangleContainsPoint,
 )
 from scal3.ui_gtk import gtk_ud as ud
 from scal3.ui_gtk.mywidgets.dialog import MyDialog

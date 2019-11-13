@@ -8,7 +8,7 @@ from scal3 import ui
 
 from scal3.ui_gtk import *
 from scal3.ui_gtk.decorators import registerSignals
-from scal3.ui_gtk.utils import labelImageMenuItem
+from scal3.ui_gtk.menuitems import labelImageMenuItem
 from scal3.ui_gtk.event.occurrence_view import DayOccurrenceView
 
 from scal3.ui_gtk.customize import (

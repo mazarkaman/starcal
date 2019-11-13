@@ -6,9 +6,11 @@ from scal3 import ui
 
 from scal3.ui_gtk import *
 from scal3.ui_gtk.utils import (
-	labelIconMenuItem,
 	setClipboard,
 	buffer_get_text,
+)
+from scal3.ui_gtk.menuitems import (
+	labelIconMenuItem,
 )
 
 

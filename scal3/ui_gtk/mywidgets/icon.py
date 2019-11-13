@@ -9,10 +9,12 @@ from scal3 import ui
 from scal3.ui_gtk import *
 from scal3.ui_gtk.decorators import *
 from scal3.ui_gtk.utils import (
-	labelIconMenuItem,
-	labelImageMenuItem,
 	imageFromIconName,
 	pixbufFromFile,
+)
+from scal3.ui_gtk.menuitems import (
+	labelIconMenuItem,
+	labelImageMenuItem,
 )
 
 

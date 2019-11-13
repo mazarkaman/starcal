@@ -8,9 +8,11 @@ from scal3.ui_gtk import *
 from scal3.ui_gtk.utils import (
 	confirm,
 	showError,
+	pixbufFromFile,
+)
+from scal3.ui_gtk.menuitems import (
 	labelIconMenuItem,
 	labelImageMenuItem,
-	pixbufFromFile,
 )
 from scal3.ui_gtk.drawing import newColorCheckPixbuf
 

@@ -36,11 +36,13 @@ from gi.repository import GdkPixbuf
 from scal3.ui_gtk import *
 from scal3.ui_gtk.decorators import *
 from scal3.ui_gtk.utils import (
-	labelIconMenuItem,
-	labelImageMenuItem,
 	imageFromIconName,
 	labelIconButton,
 	newHSep,
+)
+from scal3.ui_gtk.menuitems import (
+	labelIconMenuItem,
+	labelImageMenuItem,
 )
 from scal3.ui_gtk.mywidgets import TextFrame
 from scal3.ui_gtk.mywidgets.multi_spin.date_time import DateTimeButton
