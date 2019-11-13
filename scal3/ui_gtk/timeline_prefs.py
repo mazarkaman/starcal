@@ -225,8 +225,33 @@ class TimeLinePreferencesWindow(gtk.Window):
 		pack(hbox, prefItem.getWidget())
 		pack(hbox, gtk.Label(label=_("pixels")))
 		pack(vbox, hbox)
-		#####
-		# TODO: movementButtonsOpacity
+
+		########
+		hbox = HBox(spacing=5)
+		prefItem = SpinPrefItem(
+			tl,
+			"basicButtonsOpacity",
+			0.0, 1.0,
+			digits=2, step=0.1,
+			label=_("Opacity of main buttons"),
+			live=True,
+			onChangeFunc=updateBasicButtons,
+		)
+		pack(hbox, prefItem.getWidget())
+		pack(vbox, hbox)
+		###
+		hbox = HBox(spacing=5)
+		prefItem = SpinPrefItem(
+			tl,
+			"movementButtonsOpacity",
+			0.0, 1.0,
+			digits=2, step=0.1,
+			label=_("Opacity of movement buttons"),
+			live=True,
+			onChangeFunc=updateMovementButtons,
+		)
+		pack(hbox, prefItem.getWidget())
+		pack(vbox, hbox)
 		####################################################
 		vboxIndicators = vbox = VBox(spacing=5)
 		vbox.set_border_width(5)

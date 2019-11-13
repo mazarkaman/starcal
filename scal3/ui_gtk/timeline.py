@@ -164,6 +164,7 @@ class TimeLine(gtk.DrawingArea, ud.BaseCalObj):
 				iconSize=size,
 				xalign="left",
 				yalign="buttom",
+				opacity=tl.basicButtonsOpacity,
 			),
 			SVGButton(
 				imageName="zoom-question.svg",
@@ -174,6 +175,7 @@ class TimeLine(gtk.DrawingArea, ud.BaseCalObj):
 				iconSize=size,
 				xalign="left",
 				yalign="buttom",
+				opacity=tl.basicButtonsOpacity,
 			),
 			SVGButton(
 				imageName="configure.svg",
@@ -184,6 +186,7 @@ class TimeLine(gtk.DrawingArea, ud.BaseCalObj):
 				iconSize=size,
 				xalign="left",
 				yalign="buttom",
+				opacity=tl.basicButtonsOpacity,
 			),
 			SVGButton(
 				imageName="application-exit.svg",
@@ -195,6 +198,7 @@ class TimeLine(gtk.DrawingArea, ud.BaseCalObj):
 				iconSize=size,
 				xalign="left",
 				yalign="buttom",
+				opacity=tl.basicButtonsOpacity,
 			),
 			SVGButton(
 				imageName="resize-small.svg",
@@ -206,6 +210,7 @@ class TimeLine(gtk.DrawingArea, ud.BaseCalObj):
 				iconSize=size,
 				xalign="right",
 				yalign="buttom",
+				opacity=tl.basicButtonsOpacity,
 			),
 		]
 

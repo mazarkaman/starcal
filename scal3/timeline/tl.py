@@ -40,6 +40,7 @@ confParams = (
 	#####################
 	"basicButtonsSize",
 	"basicButtonsSpacing",
+	"basicButtonsOpacity",
 	"movementButtonsEnable",
 	"movementButtonsSize",
 	"movementButtonsOpacity",
@@ -114,6 +115,7 @@ holidayBgBolor = (60, 35, 35)
 
 basicButtonsSize = 22
 basicButtonsSpacing = 3
+basicButtonsOpacity = 1.0  # 0.0 <= value <= 1.0
 
 movementButtonsEnable = True
 movementButtonsSize = 22

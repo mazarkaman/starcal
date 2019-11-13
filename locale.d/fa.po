@@ -1795,6 +1795,14 @@ msgid "Movement Buttons Size"
 msgstr ""
 "اندازهٔ دکمه‌های حرکت"
 
+msgid "Opacity of main buttons"
+msgstr ""
+"ماتی دکمه‌های اصلی"
+
+msgid "Opacity of movement buttons"
+msgstr ""
+"ماتی دکمه‌های حرکت"
+
 
 msgid "Indicators"
 msgstr ""
