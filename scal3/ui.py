@@ -91,8 +91,10 @@ confParams = (
 	"borderTextColor",
 	"statusIconImage",
 	"statusIconImageHoli",
-	"statusIconFontFamilyEnable",
-	"statusIconFontFamily",
+	"statusIconFontFamilyEnable",  # for compatibilty
+	"statusIconFontFamily",  # for compatibilty
+	"statusIconFontStyleEnable",
+	"statusIconFontStyle",
 	"statusIconHolidayFontColorEnable",
 	"statusIconHolidayFontColor",
 	"statusIconFixedSizeEnable",
@@ -1255,8 +1257,14 @@ statusIconImageHoli = join(rootDir, "status-icons", "dark-red.svg")
 	statusIconImageDefault,
 	statusIconImageHoliDefault,
 ) = statusIconImage, statusIconImageHoli
-statusIconFontFamilyEnable = False
-statusIconFontFamily = None
+
+
+statusIconFontFamilyEnable = False  # for compatibilty
+statusIconFontFamily = None  # for compatibilty
+
+statusIconFontStyleEnable = False
+statusIconFontStyle = None
+
 statusIconHolidayFontColorEnable = False
 statusIconHolidayFontColor = None
 statusIconFixedSizeEnable = False

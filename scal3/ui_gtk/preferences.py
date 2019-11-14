@@ -459,16 +459,16 @@ class PreferencesWindow(gtk.Window):
 		hbox = HBox(spacing=1)
 		checkItem = CheckPrefItem(
 			ui,
-			"statusIconFontFamilyEnable",
+			"statusIconFontStyleEnable",
 			label=_("Change font family to"),
 			#tooltip=_("In SVG files"),
 		)
 		self.uiPrefItems.append(checkItem)
 		#sgroup.add_widget(checkItem.getWidget())
 		pack(hbox, checkItem.getWidget())
-		item = FontFamilyPrefItem(
+		item = FontStylePrefItem(
 			ui,
-			"statusIconFontFamily",
+			"statusIconFontStyle",
 		)
 		self.uiPrefItems.append(item)
 		pack(hbox, item.getWidget(), 1, 1)

@@ -22,7 +22,7 @@ import sys
 import os
 from os.path import join, isabs
 
-from typing import Optional, Callable, Any, Union, Tuple, List
+from typing import Optional, Callable, Any, Union, Tuple, List, Dict
 
 from scal3.path import *
 from scal3 import core
@@ -263,24 +263,131 @@ class FontFamilyPrefItem(PrefItem):
 			self._onChangeFunc()
 
 
-# TODO: FontStylePrefItem
-# get() should return a dict, with keys and values being compatible
-# with svg and gtk+css, these keys and values
-# 	"font-family"
-# 	"font-size"
-# 	"font-weight"
-# 	"font-style": normal | oblique | italic
-# 	"font-variant": normal | small-caps
-# 	"font-stretch": ultra-condensed | extra-condensed | condensed |
-#		semi-condensed | normal | semi-expanded | expanded |
-#		extra-expanded | ultra-expanded
+# FIXME: Segmentation fault
+class FontStylePrefItem(PrefItem):
+	# keys and values are compatible with svg and gtk+css, these keys and values
+	# 	"font-family"
+	# 	"font-size" is skipped
+	# 	"font-weight"
+	# 	"font-style": normal | oblique | italic
+	# 	"font-variant": normal | small-caps
+	# 	"font-stretch": ultra-condensed | extra-condensed | condensed |
+	#		semi-condensed | normal | semi-expanded | expanded |
+	#		extra-expanded | ultra-expanded
+	def __init__(
+		self,
+		obj: Any,
+		attrName: str,
+		hasAuto: bool = False,
+		label: str = "",
+		onChangeFunc: Optional[Callable] = None,
+	):
+		self.obj = obj
+		self.attrName = attrName
+		self.hasAuto = hasAuto
+		self._onChangeFunc = onChangeFunc
+		###
+		self.fontButton = gtk.FontButton()
+		self.fontButton.set_show_size(False)
+		self.fontButton.set_level(gtk.FontChooserLevel.STYLE)
+		# set_level: FAMILY, STYLE, SIZE
+		self.fontButton.connect("font-set", self.onChange)
+		###
+		hbox = HBox(spacing=5)
+		if label:
+			pack(hbox, gtk.Label(label=label))
+		if hasAuto:
+			self.fontRadio = gtk.RadioButton()
+			self.autoRadio = gtk.RadioButton(
+				label=_("Auto"),
+				group=self.fontRadio,
+			)
+			pack(hbox, self.fontRadio)
+			pack(hbox, self.fontButton)
+			pack(hbox, self.autoRadio, padding=5)
+			self.fontButton.connect("clicked", self.onFontButtonClick)
+			self.fontRadio.connect("clicked", self.onChange)
+			self.autoRadio.connect("clicked", self.onChange)
+		else:
+			pack(hbox, self.fontButton)
+		hbox.show_all()
+		self._widget = hbox
 
-# Constructor can accept argument `attrNameDict: Dict[str, str]`
-# with keys being a subset these 6 style keys, and values
-# being the attribute/variable names for reading (in updateWidget)
-# and storing (in updateVar) the style values
-# or maybe we should leave that to the user of class, and just accept
-# a `attrName: str` argument like other classes
+	def onFontButtonClick(self, w: gtk.Widget) -> None:
+		if not self.hasAuto:
+			return
+		self.fontRadio.set_active(True)
+
+	def pfontToDict(self, pfont: pango.FontDescription) -> Dict[str, Any]:
+		weight = pfont.get_weight()
+		style = pfont.get_style()
+		variant = pfont.get_variant()
+		stretch = pfont.get_stretch()
+
+		return {
+			"font-family": pfont.get_family(),
+			"font-weight": weight.real,
+			"font-style": style.value_nick,
+			"font-variant": variant.value_nick,
+			"font-stretch": stretch.value_nick,
+		}
+
+	def pfontSetFromDict(self, pfont: pango.FontDescription, value: Dict[str, Any]) -> None:
+		pfont.set_family(value["font-family"])
+		pfont.set_weight(pango.Weight(value["font-weight"]))
+
+		ok, style = pango.parse_style(value["font-style"], False)
+		if ok:
+			pfont.set_style(style)
+		else:
+			log.error(f'invalid font-style: {value["font-style"]}')
+
+		ok, variant = pango.parse_variant(value["font-variant"], False)
+		if ok:
+			pfont.set_variant(variant)
+		else:
+			log.error(f'invalid font-variant: {value["font-variant"]}')
+
+		ok, stretch = pango.parse_stretch(value["font-stretch"], False)
+		if ok:
+			pfont.set_stretch(stretch)
+		else:
+			log.error(f'invalid font-stretch: {value["font-stretch"]}')
+
+	def get(self) -> Optional[Dict[str, Any]]:
+		if self.hasAuto and self.autoRadio.get_active():
+			return None
+
+		fontName = self.fontButton.get_font_name()
+		pfont = pango.FontDescription(fontName)
+		try:
+			return self.pfontToDict(pfont)
+		finally:
+			pass
+			#pfont.free()
+
+	def set(self, value: Optional[Dict[str, Any]]) -> None:
+		if value is None:
+			if self.hasAuto:
+				self.autoRadio.set_active(True)
+			return
+		# now value is not None
+		if self.hasAuto:
+			self.fontRadio.set_active(True)
+
+		pfont = pango.FontDescription()
+		try:
+			self.pfontSetFromDict(pfont, value)
+			fontName = pfont.to_string()
+			self.fontButton.set_font(fontName)
+		finally:
+			pass
+			# pfont.free()
+
+	def onChange(self, w: gtk.Widget) -> None:
+		self.updateVar()
+		if self._onChangeFunc:
+			self._onChangeFunc()
 
 
 
