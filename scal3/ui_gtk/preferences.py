@@ -424,8 +424,6 @@ class PreferencesWindow(gtk.Window):
 		#####
 		appearanceSubPages = [page]
 		###################
-		# the header label of gtk.Expander in gtk3 is always on
-		# the left (even in RTL mode), that's why we use gtk.Frame instead
 		pageVBox = VBox(spacing=10)
 		pageVBox.set_border_width(10)
 		sgroup = gtk.SizeGroup(mode=gtk.SizeGroupMode.HORIZONTAL)

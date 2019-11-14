@@ -10,6 +10,7 @@ from scal3.locale_man import tr as _
 from scal3 import ui
 
 from scal3.ui_gtk import *
+from scal3.ui_gtk.mywidgets.expander import ExpanderFrame
 from scal3.ui_gtk import gtk_ud as ud
 from scal3.ui_gtk.decorators import *
 from scal3.ui_gtk.customize import CustomizableCalObj
@@ -63,14 +64,14 @@ class PluginsTextBox(gtk.Box, CustomizableCalObj):
 			self.textview.set_justification(gtk.Justification.CENTER)
 		###
 		if insideExpanderParam:
-			self.expander = gtk.Expander()
+			self.expander = ExpanderFrame(label=self.desc)
 			self.expander.connect("activate", self.expanderExpanded)
 			self.expanderEnable = getattr(ui, insideExpanderParam)
 			if self.expanderEnable:
+				self.textview.show()
 				self.expander.add(self.textview)
 				pack(self, self.expander)
 				self.expander.set_expanded(ui.pluginsTextIsExpanded)
-				self.textview.show()
 			else:
 				pack(self, self.textview, 1, 1)
 		else:

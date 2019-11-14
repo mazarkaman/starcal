@@ -46,6 +46,7 @@ from scal3.ui_gtk.mywidgets import TextFrame
 from scal3.ui_gtk.mywidgets.icon import IconSelectButton
 from scal3.ui_gtk.mywidgets.multi_spin.integer import IntSpinButton
 from scal3.ui_gtk.mywidgets.multi_spin.float_num import FloatSpinButton
+from scal3.ui_gtk.mywidgets.expander import ExpanderFrame
 from scal3.ui_gtk.event import makeWidget
 from scal3.ui_gtk.event.utils import *
 
@@ -269,10 +270,9 @@ class FilesBox(gtk.Box):
 		pass
 
 
-class NotificationBox(gtk.Expander):## or NotificationBox FIXME
+class NotificationBox(ExpanderFrame):## or NotificationBox FIXME
 	def __init__(self, event):
-		gtk.Expander.__init__(self)
-		self.set_label(_("Notification"))
+		ExpanderFrame.__init__(self, label=_("Notification"))
 		self.event = event
 		self.hboxDict = {}
 		totalVbox = VBox()

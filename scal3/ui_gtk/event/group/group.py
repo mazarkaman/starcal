@@ -7,6 +7,7 @@ from scal3.locale_man import tr as _
 from scal3.ui_gtk import *
 from scal3.ui_gtk.mywidgets import MyColorButton
 from scal3.ui_gtk.mywidgets.multi_spin.date import DateButton
+from scal3.ui_gtk.mywidgets.expander import ExpanderFrame
 from scal3.ui_gtk.event import common
 from scal3.ui_gtk.event.group.base import BaseWidgetClass
 from scal3.ui_gtk.event.account import AccountCombo, AccountGroupBox
@@ -34,8 +35,9 @@ class WidgetClass(BaseWidgetClass):
 		pack(hbox, self.endDateInput)
 		pack(self, hbox)
 		######
-		exp = gtk.Expander()
-		exp.set_label(_("Online Service"))
+		exp = ExpanderFrame(
+			label=_("Online Service"),
+		)
 		vbox = VBox()
 		exp.add(vbox)
 		sizeGroup = gtk.SizeGroup(mode=gtk.SizeGroupMode.HORIZONTAL)
