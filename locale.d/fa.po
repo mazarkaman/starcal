@@ -2665,7 +2665,7 @@ msgstr ""
 
 msgid "Holiday font color"
 msgstr ""
-"رنگ فونت روز تعظیل"
+"رنگ فونت روز تعطیل"
 
 
 msgid "Inactive Day"

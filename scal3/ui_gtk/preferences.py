@@ -431,9 +431,7 @@ class PreferencesWindow(gtk.Window):
 		sgroup = gtk.SizeGroup(mode=gtk.SizeGroupMode.HORIZONTAL)
 		####
 		hbox = HBox(spacing=1)
-		pack(hbox, gtk.Label(label=" "))
-		label = gtk.Label(label=_("Normal Days"))
-		sgroup.add_widget(label)
+		label = newAlignLabel(sgroup=sgroup, label=_("Normal Days"))
 		pack(hbox, label)
 		item = ImageFileChooserPrefItem(
 			ui,
@@ -447,9 +445,7 @@ class PreferencesWindow(gtk.Window):
 		pack(pageVBox, hbox)
 		####
 		hbox = HBox(spacing=1)
-		pack(hbox, gtk.Label(label=" "))
-		label = gtk.Label(label=_("Holidays"))
-		sgroup.add_widget(label)
+		label = newAlignLabel(sgroup=sgroup, label=_("Holidays"))
 		pack(hbox, label)
 		item = ImageFileChooserPrefItem(
 			ui,
@@ -463,7 +459,6 @@ class PreferencesWindow(gtk.Window):
 		pack(pageVBox, hbox)
 		####
 		hbox = HBox(spacing=1)
-		pack(hbox, gtk.Label(label=" "))
 		checkItem = CheckPrefItem(
 			ui,
 			"statusIconFontFamilyEnable",
@@ -498,7 +493,6 @@ class PreferencesWindow(gtk.Window):
 		pack(pageVBox, hbox)
 		####
 		hbox = HBox(spacing=1)
-		pack(hbox, gtk.Label(label=" "))
 		checkItem = CheckPrefItem(
 			ui,
 			"statusIconFixedSizeEnable",
