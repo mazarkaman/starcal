@@ -48,6 +48,7 @@ from scal3.ui_gtk.stack import StackPage
 
 from scal3.ui_gtk import gtk_ud as ud
 
+from scal3.ui_gtk.utils import pixbufFromFile
 from scal3.ui_gtk.cal_base import CalBase
 from scal3.ui_gtk.customize import (
 	CustomizableCalObj,
@@ -570,8 +571,7 @@ class PluginsTextColumn(Column):
 class EventsIconColumn(Column):
 	_name = "eventsIcon"
 	desc = _("Events Icon")
-	maxPixH = 26.0
-	maxPixW = 26.0
+	maxIconSize = 26.0
 	customizeWidth = True
 
 	def __init__(self, wcal):
@@ -594,22 +594,22 @@ class EventsIconColumn(Column):
 			n = len(iconList)
 			scaleFact = min(
 				1.0,
-				h / self.maxPixH,
-				w / (n * self.maxPixW),
+				h / self.maxIconSize,
+				w / (n * self.maxIconSize),
 			)
-			x0 = (w / scaleFact - (n - 1) * self.maxPixW) / 2
+			x0 = (w / scaleFact - (n - 1) * self.maxIconSize) / 2
 			y0 = (2 * i + 1) * h / (14 * scaleFact)
 			if rtl:
-				iconList.reverse()## FIXME
+				iconList.reverse()  # FIXME
 			for iconIndex, icon in enumerate(iconList):
 				try:
-					pix = GdkPixbuf.Pixbuf.new_from_file(icon)
+					pix = pixbufFromFile(icon, size=self.maxIconSize, resize=True)
 				except GLibError:
 					log.exception("")
 					continue
 				pix_w = pix.get_width()
 				pix_h = pix.get_height()
-				x1 = x0 + iconIndex * self.maxPixW - pix_w / 2
+				x1 = x0 + iconIndex * self.maxIconSize - pix_w / 2
 				y1 = y0 - pix_h / 2
 				cr.scale(scaleFact, scaleFact)
 				gdk.cairo_set_source_pixbuf(cr, pix, x1, y1)
