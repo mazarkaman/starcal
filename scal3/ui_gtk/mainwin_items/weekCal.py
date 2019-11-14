@@ -971,6 +971,14 @@ class DaysOfMonthColumnGroup(gtk.Box, CustomizableCalBox, ColumnBase):
 		columns = self.get_children()
 		n = len(columns)
 		n2 = len(calTypes.active)
+
+		if len(ui.wcalTypeParams) < n2:
+			while len(ui.wcalTypeParams) < n2:
+				log.info("appending to wcalTypeParams")
+				ui.wcalTypeParams.append({
+					"font": None,
+				})
+
 		width = self.getWidthValue()
 		if n > n2:
 			for i in range(n2, n):
