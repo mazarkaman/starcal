@@ -316,7 +316,7 @@ class EventManagerDialog(gtk.Dialog, MyDialog, ud.BaseCalObj):## FIXME
 		###
 		#self.treev.set_search_column(2)## or 3
 		###
-		self.toPasteEvent = None ## (path, bool move)
+		self.toPasteEvent = None ## (treeIter, bool move)
 		#####
 		self.sbar = gtk.Statusbar()
 		self.sbar.set_direction(gtk.TEXT_DIR_LTR)
@@ -788,13 +788,13 @@ class EventManagerDialog(gtk.Dialog, MyDialog, ud.BaseCalObj):## FIXME
 		if not path:
 			return
 		if len(path)==2:
-			self.toPasteEvent = (path, True)
+			self.toPasteEvent = (self.trees.get_iter(path), True)
 	def mbarCopyClicked(self, obj):
 		path = self.treev.get_cursor()[0]
 		if not path:
 			return
 		if len(path)==2:
-			self.toPasteEvent = (path, False)
+			self.toPasteEvent = (self.trees.get_iter(path), False)
 	def mbarPasteClicked(self, obj):
 		path = self.treev.get_cursor()[0]
 		if not path:
@@ -1005,7 +1005,7 @@ class EventManagerDialog(gtk.Dialog, MyDialog, ud.BaseCalObj):## FIXME
 		if len(path)==1:
 			self.duplicateGroup(path)
 		elif len(path)==2:## FIXME
-			self.toPasteEvent = (path, False)
+			self.toPasteEvent = (self.trees.get_iter(path), False)
 			self.pasteEventToPath(path)
 	def editGroupByPath(self, path):
 		from scal2.ui_gtk.event.group.editor import GroupEditorDialog
@@ -1091,7 +1091,7 @@ class EventManagerDialog(gtk.Dialog, MyDialog, ud.BaseCalObj):## FIXME
 		self.updateEventRow(event)
 	editEventFromMenu = lambda self, menu, path: self.editEventByPath(path)
 	def moveEventToPathFromMenu(self, menu, path, tarPath):
-		self.toPasteEvent = (path, True)
+		self.toPasteEvent = (self.trees.get_iter(path), True)
 		self.pasteEventToPath(tarPath, False)
 	def moveEventToTrash(self, path):
 		group, event = self.getObjsByPath(path)
@@ -1289,14 +1289,15 @@ class EventManagerDialog(gtk.Dialog, MyDialog, ud.BaseCalObj):## FIXME
 		func = getattr(group, actionFuncName)
 		self.waitingDo(func, parentWin=self)
 	def cutEvent(self, menu, path):
-		self.toPasteEvent = (path, True)
+		self.toPasteEvent = (self.trees.get_iter(path), True)
 	def copyEvent(self, menu, path):
-		self.toPasteEvent = (path, False)
+		self.toPasteEvent = (self.trees.get_iter(path), False)
 	pasteEventFromMenu = lambda self, menu, tarPath: self.pasteEventToPath(tarPath)
 	def pasteEventToPath(self, tarPath, doScroll=True):
 		if not self.toPasteEvent:
 			return
-		srcPath, move = self.toPasteEvent
+		srcIter, move = self.toPasteEvent
+		srcPath = self.trees.get_path(srcIter)
 		srcGroup, srcEvent = self.getObjsByPath(srcPath)
 		tarGroup = self.getObjsByPath(tarPath)[0]
 		self.checkEventToAdd(tarGroup, srcEvent)
