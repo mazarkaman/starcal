@@ -10,11 +10,17 @@ def registerType(cls):
 def registerSignals(cls):
 	GObject.type_register(cls)
 	for name, args in cls.signals:
-		GObject.signal_new(
-			name,
-			cls,
-			GObject.SignalFlags.RUN_LAST,
-			None,
-			args,
-		)
+		try:
+			GObject.signal_new(
+				name,
+				cls,
+				GObject.SignalFlags.RUN_LAST,
+				None,
+				args,
+			)
+		except RuntimeError as e:
+			raise RuntimeError(
+				f"Failed to create signal {name} " +
+				f"for class {cls.__name__} in {cls.__module__}",
+			)
 	return cls
