@@ -23,7 +23,7 @@ log = logger.get()
 
 import os
 import os.path
-from os.path import join, split, dirname, splitext
+from os.path import join, split, dirname, splitext, isabs
 from os import listdir
 import math
 from time import time as now
@@ -1971,25 +1971,29 @@ class RuleContainer:
 		return getEpochFromJhms(jd, h, m, s, tz=self.getTimeZoneObj())
 
 
-def fixIconInData(data):
+def iconAbsToRelativelnData(data):
 	icon = data["icon"]
 	iconDir, iconName = split(icon)
 	if iconName == "obituary.png":
 		iconName = "green_clover.svg"
-	if iconDir == join(svgDir, "event"):
+	if iconDir == "event":
+		icon = iconName
+	elif iconDir == join(svgDir, "event"):
 		icon = iconName
 	elif iconDir == join(pixDir, "event"):
 		icon = iconName
 	data["icon"] = icon
 
 
-def fixIconInObj(self):
+def iconRelativeToAbsInObj(self):
 	icon = self.icon
-	if icon and "/" not in icon:
+	if icon and not isabs(icon):
+		if not "/" in icon:
+			icon = join("event", icon)
 		if icon.endswith(".png"):
-			icon = join(pixDir, "event", icon)
+			icon = join(pixDir, icon)
 		else:
-			icon = join(svgDir, "event", icon)
+			icon = join(svgDir, icon)
 	self.icon = icon
 
 ###########################################################################
@@ -2300,7 +2304,7 @@ class Event(BsonHistEventObj, RuleContainer, WithIcon):
 			"notifiers": self.getNotifiersData(),
 			"notifyBefore": durationEncode(*self.notifyBefore),
 		})
-		fixIconInData(data)
+		iconAbsToRelativelnData(data)
 		return data
 
 	def setData(self, data) -> None:
@@ -2326,7 +2330,7 @@ class Event(BsonHistEventObj, RuleContainer, WithIcon):
 				self.notifiers.append(notifier)
 		if "notifyBefore" in data:
 			self.notifyBefore = durationDecode(data["notifyBefore"])
-		fixIconInObj(self)
+		iconRelativeToAbsInObj(self)
 
 	def getNotifiersData(self):
 		return [(notifier.name, notifier.getData()) for notifier in self.notifiers]
@@ -2479,7 +2483,7 @@ class Event(BsonHistEventObj, RuleContainer, WithIcon):
 			"timeZone": self.timeZone,
 			"timeZoneEnable": self.timeZoneEnable,
 		}
-		fixIconInData(data)
+		iconAbsToRelativelnData(data)
 		return data
 
 	def createPatchByHash(self, oldHash):
@@ -3739,7 +3743,7 @@ class EventContainer(BsonHistEventObj):
 	def getData(self):
 		data = BsonHistEventObj.getData(self)
 		data["calType"] = calTypes.names[self.calType]
-		fixIconInData(data)
+		iconAbsToRelativelnData(data)
 		return data
 
 	def setData(self, data) -> None:
@@ -3751,7 +3755,7 @@ class EventContainer(BsonHistEventObj):
 			except ValueError:
 				raise ValueError(f"Invalid calType: '{calType}'")
 		###
-		fixIconInObj(self)
+		iconRelativeToAbsInObj(self)
 
 
 class EventGroupsImportResult:
@@ -5858,7 +5862,7 @@ class EventTrash(EventContainer, WithIcon):
 	file = join(confDir, "event", "trash.json")  # FIXME
 	skipLoadNoFile = True
 	id = -1  # FIXME
-	defaultIcon = "user-trash.svg"
+	defaultIcon = "./user-trash.svg"
 
 	@classmethod
 	def iterFiles(cls, fs: FileSystem):
@@ -5871,11 +5875,10 @@ class EventTrash(EventContainer, WithIcon):
 		self.enable = False
 
 	def setData(self, data):
-		icon = data.get("icon")
-		if icon and not os.path.isfile(icon):
-			log.info(f"Trash icon {icon} does not exist, using {self.defaultIcon}")
-			data["icon"] = self.defaultIcon
 		EventContainer.setData(self, data)
+		if not os.path.isfile(self.icon):
+			log.info(f"Trash icon {self.icon} does not exist, using {self.defaultIcon}")
+			self.icon = self.defaultIcon
 
 	def delete(self, eid):
 		from shutil import rmtree
