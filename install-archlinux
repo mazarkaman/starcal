@@ -19,9 +19,6 @@ sourceDir="`dirname \"$myPath\"`"
 #"$sourceDir/scripts/assert_python3"
 version=`"$sourceDir/scripts/version" | sed 's/\-/_/g'`
 
-#echo "myPath=$myPath"
-#echo "sourceDir=$sourceDir"
-#echo version=$version
 
 outDir="$HOME/.${pkgName}/pkgs/archlinux/`/bin/date +%F-%H%M%S`"
 mkdir -p "$outDir"

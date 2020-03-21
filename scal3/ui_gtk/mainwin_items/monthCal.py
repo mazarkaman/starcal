@@ -474,7 +474,7 @@ class CalObj(gtk.DrawingArea, CalBase):
 		wm = 0 ## max width
 		for i in range(7):
 			wday = core.weekDayName[i]
-			lay.set_markup(text=wday, length=len(wday.encode("utf8")))
+			lay.set_markup(text=wday, length=-1))
 			w = lay.get_pixel_size()[0] ## ????????
 			#w = lay.get_pixel_extents()[0] ## ????????
 			# log.debug(w,)
