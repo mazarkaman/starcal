@@ -22,7 +22,7 @@ iconName=starcal32.png
 
 sourceDir="`dirname \"$myPath\"`"
 
-PY_SUPPORTED=(3.7 3.6)
+PY_SUPPORTED=(3.8 3.7 3.6)
 
 #"$sourceDir/scripts/assert_python3"
 
