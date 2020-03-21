@@ -42,7 +42,7 @@ class CalBase(CustomizableCalObj):
 	signals = CustomizableCalObj.signals + [
 		("popup-cell-menu", [int, int, int]),
 		("popup-main-menu", [int, int, int]),
-		("2button-press", []),
+		("double-button-press", []),
 		("pref-update-bg-color", []),
 		("day-info", []),
 	]
@@ -52,6 +52,12 @@ class CalBase(CustomizableCalObj):
 		"i",
 	)
 
+	def connect(self, sigName, *a, **ka):
+		try:
+			CustomizableCalObj.connect(self, sigName, *a, **ka)
+		except Exception:
+			log.exception(f"sigName={sigName}")
+
 	def initCal(self):
 		self.initVars()
 		listener.dateChange.add(self)
@@ -59,7 +65,7 @@ class CalBase(CustomizableCalObj):
 		if self.dragAndDropEnable:
 			self.defineDragAndDrop()
 		if self.doubleClickEnable:
-			self.connect("2button-press", ui.dayOpenEvolution)
+			self.connect("double-button-press", ui.dayOpenEvolution)
 		if ui.mainWin:
 			self.connect("popup-cell-menu", ui.mainWin.menuCellPopup)
 			self.connect("popup-main-menu", ui.mainWin.menuMainPopup)

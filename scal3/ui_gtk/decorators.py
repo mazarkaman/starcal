@@ -1,4 +1,7 @@
 #!/usr/bin/env python3
+from scal3 import logger
+log = logger.get()
+
 from gi.repository import GObject
 
 
@@ -18,8 +21,8 @@ def registerSignals(cls):
 				None,
 				args,
 			)
-		except RuntimeError as e:
-			raise RuntimeError(
+		except Exception as e:
+			log.error(
 				f"Failed to create signal {name} " +
 				f"for class {cls.__name__} in {cls.__module__}",
 			)

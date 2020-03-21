@@ -549,7 +549,7 @@ class DayCal(gtk.DrawingArea, CalBase):
 		x, y = gevent.x, gevent.y
 		###
 		if gevent.type == TWO_BUTTON_PRESS:
-			self.emit("2button-press")
+			self.emit("double-button-press")
 		if b == 1 and self.getButtonsEnable():
 			w = self.get_allocation().width
 			h = self.get_allocation().height
