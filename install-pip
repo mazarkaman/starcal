@@ -23,7 +23,7 @@ $PIP install python-dateutil
 $PIP install psutil
 $PIP install requests
 
-$PIP install igraph
+pip3 install python-igraph
 $PIP install pygit2
 
 ./install "$@"
