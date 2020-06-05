@@ -30,7 +30,7 @@ fi
 
 
 pyCmd=
-for minor in 7 6 ; do
+for minor in 8 7 6 ; do
 	cmd="/usr/bin/python3.$minor"
 	if [ -f "$cmd" ] ; then
 		pyCmd="$cmd"
@@ -38,7 +38,7 @@ for minor in 7 6 ; do
 	fi
 done
 if [ -z "$pyCmd" ] ; then
-	echo "Please install python3.7 and try again (or python3.6)" >&2
+	echo "Please install python3.6 or later and try again" >&2
 	exit 1
 fi
 echo "Using python: \"$pyCmd\""
