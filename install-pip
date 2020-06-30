@@ -21,6 +21,7 @@ $PIP install pygobject
 $PIP install httplib2
 $PIP install python-dateutil
 $PIP install psutil
+$PIP install cachetools
 $PIP install requests
 
 pip3 install python-igraph
