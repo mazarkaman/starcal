@@ -4613,6 +4613,9 @@ class EventGroup(EventContainer):
 				# FIXME: is this check really useful?
 			except KeyError:
 				continue
+			except Exception:
+				log.exception("")
+				continue
 			for key, value in conds.items():
 				func = self.simpleFilters[key]
 				if not func(event, value):
