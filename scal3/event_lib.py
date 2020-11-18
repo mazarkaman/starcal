@@ -4618,9 +4618,6 @@ class EventGroup(EventContainer):
 		for eid in self._searchTimeFilter(conds):
 			try:
 				event = self[eid]
-				# FIXME: is this check really useful?
-			except KeyError:
-				continue
 			except Exception:
 				log.exception("")
 				continue
@@ -4629,12 +4626,7 @@ class EventGroup(EventContainer):
 				if not func(event, value):
 					break
 			else:
-				yield {
-					"id": eid,
-					"icon": event.getIcon(),
-					"summary": event.summary,
-					"description": event.getShownDescription(),
-				}
+				yield event
 
 	def createPatchList(self, sinceEpoch: int) -> "List[Dict[str, Any]]":
 		patchList = []
