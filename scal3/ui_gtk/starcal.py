@@ -1499,13 +1499,22 @@ class MainWin(gtk.ApplicationWindow, ud.BaseCalObj):
 
 	def eventManCreate(self):
 		checkEventsReadOnly()  # FIXME
-		if not ui.eventManDialog:
+		if ui.eventManDialog is None:
 			from scal3.ui_gtk.event.manager import EventManagerDialog
 			ui.eventManDialog = EventManagerDialog(transient_for=self)
 
 	def eventManShow(self, obj=None, data=None):
 		self.eventManCreate()
 		openWindow(ui.eventManDialog)
+
+	def eventSearchCreate(self):
+		if ui.eventSearchWin is None:
+			from scal3.ui_gtk.event.search_events import EventSearchWindow
+			ui.eventSearchWin = EventSearchWindow()
+
+	def eventSearchShow(self, obj=None, data=None):
+		self.eventSearchCreate()
+		openWindow(ui.eventSearchWin)
 
 	def addCustomEvent(self, obj=None):
 		self.eventManCreate()

@@ -79,7 +79,6 @@ from scal3.ui_gtk.event.group_op import (
 	GroupConvertCalTypeDialog,
 )
 from scal3.ui_gtk.event.account_op import FetchRemoteGroupsDialog
-from scal3.ui_gtk.event.search_events import EventSearchWindow
 from scal3.ui_gtk.event.history import EventHistoryDialog
 
 # log.debug("Testing translator", __file__, _("About"))
@@ -259,8 +258,6 @@ class EventManagerDialog(gtk.Dialog, MyDialog, ud.BaseCalObj):  # FIXME
 		# self.connect("response", lambda w, e: self.hide())
 		self.connect("response", self.onResponse)
 		self.connect("show", self.onShow)
-		#######
-		self.searchWin = EventSearchWindow()
 		#######
 		menubar = gtk.MenuBar()
 		####
@@ -985,7 +982,7 @@ class EventManagerDialog(gtk.Dialog, MyDialog, ud.BaseCalObj):  # FIXME
 		EventsImportWindow(self).present()
 
 	def onMenuBarSearchClick(self, menuItem: gtk.MenuItem) -> None:
-		self.searchWin.present()
+		ui.mainWin.eventSearchShow()
 
 	def _do_checkForOrphans(self) -> None:
 		newGroup = ui.eventGroups.checkForOrphans()

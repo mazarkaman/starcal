@@ -105,6 +105,15 @@ class CalObj(CustomizableToolbar):
 			continuousClick=False,
 		),
 		ToolbarItem(
+			name="search",
+			iconName="gtk-find",
+			imageName="",
+			onClick="eventSearchShow",
+			desc="Search Events",
+			shortDesc="Search",
+			continuousClick=False,
+		),
+		ToolbarItem(
 			name="export",
 			iconName="gtk-convert",
 			imageName="export-to-html.svg",
@@ -146,6 +155,12 @@ class CalObj(CustomizableToolbar):
 			ud.mainToolbarData["items"] = [
 				(item._name, True) for item in self.defaultItems
 			]
+		else:
+			currentNames = {item[0] for item in ud.mainToolbarData["items"]}
+			for name, item in self.defaultItemsDict.items():
+				if name not in currentNames:
+					ud.mainToolbarData["items"].append((name, False))
+
 		self.setData(ud.mainToolbarData)
 		if ui.mainWin:
 			self.connect("button-press-event", ui.mainWin.childButtonPress)
