@@ -752,6 +752,65 @@ class IcsTextPlugin(BasePlugin):
 # class RandomTextPlugin(BaseJsonPlugin):
 
 
+class EventsPlugin(BaseJsonPlugin):
+	def __init__(
+		self,
+		_file,
+	):
+		BaseJsonPlugin.__init__(self, _file)
+		self.lastDayMerge = False
+		self.groupsData = None
+
+	# def getData(self):
+
+	def setData(self, data):
+		# if "enable" not in data:
+		# 	data["enable"] = data.get("default_enable", self.default_enable)
+		###
+		about = data.get("about")
+		if about:
+			data["about"] = _(about)
+		###
+		authors = data.get("authors")
+		if authors:
+			data["authors"] = [_(author) for author in authors]
+		####
+		self.groupsData = data.pop("groups")
+		#####
+		JsonSObj.setData(self, data)
+
+	# def clear(self):
+
+	def load(self):
+		if not self.groupsData:
+			return
+		groups = []
+		# new fs inside cacheDir
+		fs = ... 
+		res = EventGroupsImportResult()
+		for gdata in self.groupsData:
+			guuid = gdata.get("uuid")
+			if not guuid:
+				log.error(f"missing uuid: {gdata}")
+				continue
+			group = classes.group.byName[gdata["type"]]()
+			group.fs = fs
+			group.setId()
+			group.importData(gdata)
+			# DO NOT group.save()
+			groups.append(group)
+
+
+	def getText(self, year, month, day):
+		pass
+
+
+
+
+def loadEventsPlugin(_file: str, data: "Dict[str, Any]"):
+	pass
+
+
 def loadPlugin(_file=None, **kwargs):
 	if not _file:
 		log.error("plugin file is empty!")
@@ -791,6 +850,9 @@ def loadPlugin(_file=None, **kwargs):
 		return
 	####
 	data.update(kwargs)  # FIXME
+	####
+	if "groups" in data:
+		return loadEventsPlugin(_file, data)
 	####
 	name = data.get("type")
 	if not name:
