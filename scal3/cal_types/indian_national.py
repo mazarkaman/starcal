@@ -27,23 +27,23 @@ origLang = "hi"  # or "en" FIXME
 
 monthName = (
 	"Chaitra",
-	"Vaishākh",
-	"Jyaishtha",
+	"Vaisākha",
+	"Jyēshtha",
 	"Āshādha",
 	"Shrāvana",
-	"Bhādrapad",
+	"Bhādra",
 	"Āshwin",
-	"Kārtik",
+	"Kārtika",
 	"Agrahayana",
-	"Paush",
-	"Māgh",
-	"Phālgun",
+	"Pausha",
+	"Māgha",
+	"Phālguna",
 )
 
 monthNameAb = (
 	"Cha",
 	"Vai",
-	"Jya",
+	"Jyē",
 	"Āsh",
 	"Shr",
 	"Bhā",
