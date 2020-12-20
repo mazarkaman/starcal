@@ -45,7 +45,7 @@ monthNameAb = (
 	"Vai",
 	"Jyē",
 	"Āsh",
-	"Shr",
+	"Shrā",
 	"Bhā",
 	"Āsw",
 	"Kār",
